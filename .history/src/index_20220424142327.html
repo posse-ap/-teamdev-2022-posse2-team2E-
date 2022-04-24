@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/user/reset.css">
+    <link rel="stylesheet" href="css/user/style.css">
+    <title>CRAFT</title>
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header>
+        <img src="img/user/logo.png" alt="">
+        <nav>
+            <ul>
+                <li><a href="">就活サイト</a></li>
+                <li><a href="">就活支援サービス</a></li>
+                <li><a href="">自己分析診断ツール</a></li>
+                <li><a href="">ES添削サービス</a></li>
+                <li><a href="">就活エージェント</a></li>
+                <li><a href="">就活の教科書とは</a></li>
+                <li><a href="">お問い合わせ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <wrapper>
+        <div class="first_message">
+            <h1>CRAFT</h1>
+            <h2>失敗しないエージェント選びを</h2>
+            <p>就活ドットコムだからこそできる、フラットな視点から比較、一括問い合わせまで</p>
+        </div>
+
+        <div class="process">
+            <p>絞り込む</p>
+            <div class="arrow"></div>
+            <p>比較する</p>
+            <div class="arrow"></div>
+            <p>キープする</p>
+            <div class="arrow"></div>
+            <p>お問い合わせる</p>
+        </div>
+        
+        <div class="q_and_a">
+            <p>Q.いくつのエージェントを問い合わせればいいの？</p>
+            <br>
+            <p>A. <span class="multiples">複数</span>のエージェントに問い合わせることをおすすめします。</p>
+            <p>理由としては、以下のようなものが挙げられます。</p>
+            <br>
+            <br>
+            <div class="reason">
+            <p>・目的に合わせてエージェントを使い分けられる</p>
+            <p>・様々な視点からアドバイスをもらえる</p>
+            <p>・応募できる求人の幅を広げることができる</p>
+            </div>
+        </div>
+        
+            <container class="filter" id="js-filter">
+                <div class="filter-cond">
+                    <div class="agents_type">
+                        <p>エージェントのタイプ</p>
+                            <label><input type="checkbox" value="総合型" class="checks" id="form">総合型</label>
+                    </div>
+
+                    <div class="agents_scale">
+                        <p>規模</p>
+                            <label><input type="checkbox" value="大手志望" class="checks" id="form">大手志望</label>
+                    </div>
+
+                <button class="all_btn" id="check-btn" type="button">全選択</button>
+                <button class="reset_btn" id="uncheck-btn" type="button" >リセット</button>
+                </div>
+                
+                <ul class="filter-items">
+                    <li class="agent_box" data-filter-key="総合型">
+                        <img class="agent_img" src="img/user/logo.png" alt="">
+                        <div class="agent_article">
+                            <div class="agent_article_header">
+                                <h1 class="agent_name">エージェント名</h1>
+                                <p class="num_company">取扱企業数</p>
+                            </div>
+                            <p class="recommend_points">おすすめポイント</p>
+                                <div class="recommend_points_box">
+                                    <p>ここに文章 <br><br><br><br><br><br><br>
+                                    </p>
+                                </div>
+                            <p class="span_published">掲載期間</p>
+                            <div class="agent_article_header">
+                                <p class="agent_type">総合型</p>
+                                <button>キープする</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="agent_box" data-filter-key="大手志望">大手志望</li>
+                    <li class="agent_box" data-filter-key="総合型">総合型2</li>
+                    <li class="agent_box" data-filter-key="総合型">総合型3</li>
+                </ul>
+
+                <btn class="keep_btn">
+                    <button>キープ:0件<br>確認する</button>
+                </btn>
+            </container>
+
+    </wrapper>
+
+    <footer></footer>
+
+    <script src="/src/js/user/main.js"></script>
+</body>
+</html>

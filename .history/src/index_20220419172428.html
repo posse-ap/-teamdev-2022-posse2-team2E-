@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/user/reset.css">
+    <link rel="stylesheet" href="css/user/style.css">
+    <title>CRAFT</title>
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header>
+        <img src="img/user/logo.png" alt="">
+        <nav>
+            <ul>
+                <li><a href="">就活サイト</a></li>
+                <li><a href="">就活支援サービス</a></li>
+                <li><a href="">自己分析診断ツール</a></li>
+                <li><a href="">ES添削サービス</a></li>
+                <li><a href="">就活エージェント</a></li>
+                <li><a href="">就活の教科書とは</a></li>
+                <li><a href="">お問い合わせ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <wrapper>
+        <div class="first_message">
+            <h1>CRAFT</h1>
+            <h2>失敗しないエージェント選びを</h2>
+            <p>就活ドットコムだからこそできる、フラットな視点から比較、一括問い合わせまで</p>
+        </div>
+
+        <div class="process">
+            <p>絞り込む</p>
+            <div class="arrow"></div>
+            <p>比較する</p>
+            <div class="arrow"></div>
+            <p>キープする</p>
+            <div class="arrow"></div>
+            <p>お問い合わせる</p>
+        </div>
+        
+        <div class="q_and_a">
+            <p>Q.いくつのエージェントを問い合わせればいいの？</p>
+            <br>
+            <p>A. <span class="multiples">複数</span>のエージェントに問い合わせることをおすすめします。</p>
+            <p>理由としては、以下のようなものが挙げられます。</p>
+            <br>
+            <br>
+            <div class="reason">
+            <p>・目的に合わせてエージェントを使い分けられる</p>
+            <p>・様々な視点からアドバイスをもらえる</p>
+            <p>・応募できる求人の幅を広げることができる</p>
+            </div>
+        </div>
+        
+        <container>
+            <aside class="filtering">
+                <div class="agents_type">
+                    <p>エージェントのタイプ</p>
+                    <ul class="filter-cond" id="js-filter"> 
+                        <li><label><input type="checkbox" value="貝類">貝類</label></li>
+                        <li><label><input type="checkbox" value="光物">光物</label></li>
+                        <!-- /.filter-cond --></ul>
+                </div>
+                <div class="agents_scale">
+                    <p>規模</p>
+                </div>
+                <button class="reset_btn">リセット</button>
+                <button class="filter_btn">絞り込む</button>
+                
+                <div class="filter" id="js-filter">
+                    <ul class="filter-cond">
+                    <li><label><input type="checkbox" value="貝類">貝類</label></li>
+                    <li><label><input type="checkbox" value="光物">光物</label></li>
+                    <!-- /.filter-cond --></ul>
+                    
+                    <ul class="filter-items">
+                    <li data-filter-key="貝類">つぶ貝</li>
+                    <li data-filter-key="光物">コハダ</li>
+                    <li data-filter-key="貝類">バイ貝</li>
+                    <li data-filter-key="貝類">サザエ</li>
+                    <!-- /.filter-items --></ul>
+                    <!-- /#js-filter--></div>
+    
+            </ul>
+            </aside>
+            <div class="agent_box"></div>
+            <btn class="keep_btn"></btn>
+        </container>
+    </wrapper>
+
+    <footer></footer>
+
+    <script src="/src/js/user/main.js"></script>
+</body>
+</html>
