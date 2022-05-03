@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AgentList</title>
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <script src="./js/script.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <div class="header-inner">
+        <div class="header-title">クラフト管理者画面</div>
+        <nav class="header-nav">
+          <ul class="header-nav-list">
+            <a href="./agentList.html"
+              ><li class="header-nav-item select">エージェント一覧</li></a
+            >
+            <a href="./agentAdd.html"><li class="header-nav-item">エージェント追加</li></a>
+            <a href="#"><li class="header-nav-item">タグ追加</li></a>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main class="main">
+      <section class="agent-list" >
+    <table>
+
+      <tr>
+        <th>エージェント名</th> <th>契約期間</th> <th colspan="3">操作</th>
+      </tr>
+    
+      <tr>
+        <td>リクルートエージェント</td> <td>2022/08/03 ~ 2024/03/31</td> <td><a href="#">詳細</a></td><td><a href="#">問い合わせ一覧</a></td><td><button>掲載停止</button></td>
+      </tr>
+      <tr>
+        <td>株式会社リクルートエージェント＆リンクあんどホールディングスカンパニーエージェント</td> <td>2022/08/03 ~ 2024/03/31</td> <td>詳細</td><td>問い合わせ一覧</td><td>掲載停止</td>
+      </tr>
+      <tr>
+        <td>リクルートエージェント</td> <td>2022/08/03 ~ 2024/03/31</td> <td>詳細</td><td>問い合わせ一覧</td><td>掲載停止</td>
+      </tr>
+      <tr>
+        <td>リクルートエージェント</td> <td>2022/08/03 ~ 2024/03/31</td> <td>詳細</td><td>問い合わせ一覧</td><td>掲載停止</td>
+      </tr>
+    
+    </table>
+  </section>
+  <section class="agent-not-listed">
+    <div id="js-open" onclick="js-open">掲載終了した企業▼</div>
+  </section>
+  </main>
+  </body>
+</html>
