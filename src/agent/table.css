@@ -41,7 +41,14 @@ h1 p span {
 .welcome_agent {
     margin: 0 0 0 auto;
        color: #fff;
+}
 
+.agent_login {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    /* margin: 0 auto; */
+    color: #fff;
 }
 
 a {	
@@ -225,4 +232,5 @@ td {
     line-height: 1.8;
     background-color: #4FA49A;
     text-align: center;
+    color: #fff;
     }
