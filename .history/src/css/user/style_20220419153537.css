@@ -1,0 +1,26 @@
+html{
+    font-size: 6.25%;
+}
+
+
+header{
+    background-color: #4fa49a;
+    height: 100rem;
+    width: 100%;
+    font-size: 20rem;
+    text-align: center;
+    padding-bottom: 20rem;
+}
+
+header nav ul {
+    display: flex;
+    justify-content: center;
+    padding-top: 10rem;
+}
+
+header nav ul li a {
+    color: white;
+    padding-right: 15rem;
+    font-weight: bold;
+    text-decoration: none;
+}
