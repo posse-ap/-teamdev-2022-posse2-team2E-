@@ -1,17 +1,13 @@
-<?php
-$user = "posse_user";
-$password = "password";
-// try {
-//     $dbh = new PDO("mysql:host=db; dbname=shukatsu; charset=utf8", "$user", "$password");
-// } catch (PDOException $e) {
-//     $msg = $e->getMessage();
-// }
+<?php require($_SERVER['DOCUMENT_ROOT'] . "/db_connect.php");
 
-// // ログイン済みかを確認
-// if (isset($_SESSION['USER'])) {
-//     header('Location: agent_students_all.php'); // ログインしていればresult-index.phpへリダイレクトする
-//     exit; // 処理終了
-// }
+
+// ログイン済みかを確認
+if (isset($_SESSION['USER'])) {
+    header('Location: agent_students_all.php'); // ログインしていればresult-index.phpへリダイレクトする
+    exit; // 処理終了
+}
+
+if (isset($_POST["submit"])) {
 
 try {
     $dbh = new PDO("mysql:host=db; dbname=shukatsu; charset=utf8", "$user", "$password");
@@ -23,26 +19,22 @@ try {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (password_verify($_POST['pass'], $result['password'])) {
-    // $_SESSION['id'] = $result['id'];
-    // $_SESSION['name'] = $result['name'];
         header('Location: agent_students_all.php');
-    // $msg = 'ログインしました。';
-    // $link = '<a href="agent_students_all.php">ホーム</a>';
-        // exit;
     } else {
         $msg = 'メールアドレスもしくはパスワードが間違っています。';
-        var_dump(password_hash("password", PASSWORD_DEFAULT));
-        var_dump($result['password']);
-        var_dump($_POST['pass']);
-        var_dump($_POST['email']);
-        var_dump($result['email']);
+        // var_dump(password_hash("password", PASSWORD_DEFAULT));
+        // var_dump($result['password']);
+        // var_dump($_POST['pass']);
+        // var_dump($_POST['email']);
+        // var_dump($result['email']);
         
 
     }
 } catch (PDOException $e) {
-    echo "クソワロタ";
+    echo "もう一回";
     $msg = $e->getMessage();
     // die();
+}
 }
 ?>
 <!DOCTYPE html>
@@ -61,19 +53,11 @@ try {
 </head>
 
 <body>
-    <!-- <header> -->
+    <header>
         <h1>
             <p><span>CRAFT</span>by boozer</p>
         </h1>
         <p class="agent_login">エージェント企業ログイン画面</p>
-        <!-- <nav class="nav">
-            <ul>
-                <li><a href="agent_students_all.php">学生情報一覧</a></li>
-                <li><a href="#">登録情報</a></li>
-                <li><a href="#">ユーザー画面</a></li>
-                <li><a href="#">ログアウト</a></li>
-            </ul>
-        </nav> -->
     </header>
     <div class="agent_login_info">
         <h2 class="agent_login_title">エージェント企業用画面</h2>
@@ -81,7 +65,7 @@ try {
         <h3 class="pass_wrong"><?php echo $msg; ?></h3>
             <p>
                 <p class="agent_login_label">メールアドレス</p>
-                <input type="text" name="email" placeholder="craft@boozer.com" required>
+                <input type="text" name="email" required>
             </p>
             <p>
                 <p class="agent_login_label">パスワード</p>

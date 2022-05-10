@@ -1,0 +1,268 @@
+html{
+    font-size: 6.25%;
+}
+
+/* ヘッダー */
+header{
+    background-color: #4fa49a;
+    height: 100rem;
+    width: 100%;
+    font-size: 18rem;
+    text-align: center;
+    padding-bottom: 20rem;
+}
+
+header nav ul {
+    display: flex;
+    justify-content: center;
+    padding-top: 10rem;
+}
+
+header nav ul li a {
+    color: white;
+    padding-right: 15rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.first_message{
+    text-align: center;
+    margin: 30rem auto;
+    margin-top: 100rem;
+}
+
+.first_message h1{
+    font-size: 60rem;
+    margin: 10rem auto;
+    font-weight: bold;
+}
+
+.first_message h2{
+    font-size: 30rem;
+    margin: 18rem auto;
+}
+
+.first_message p{
+    font-size: 20rem;
+    margin: 15rem auto;
+}
+
+.process{
+    height: 80rem;
+    width: 80%;
+    /* display: flex; */
+    justify-content: center;
+    display:table;
+    text-align: center;
+    margin: auto;
+    margin-top: 140rem;
+    margin-bottom: 140rem;
+}
+
+.process p{
+    height: 50rem;
+    width: 13%;
+    background-color: #4FA49A;
+    color: white;
+    text-align: center;
+    font-size: 20rem;
+    display: table-cell;
+    vertical-align: middle;
+    border-radius: 20rem;
+}
+
+.arrow {
+    display:inline-block;
+    height:30px;
+    width:80px;
+    background-color:#5bc0de;
+    position:relative;
+    margin: 0 55rem;
+    margin-top: 22rem;
+  }
+  
+  .arrow:before {
+    position:absolute;
+    content:"";
+    width:0;
+    height:0;
+    border:40rem solid transparent;
+    border-left:40rem solid #5bc0de;
+    left:60rem;
+    top:-27rem;
+    margin-top: 2rem;
+  }
+
+.q_and_a{
+    margin: 0 auto;
+    text-align: center;
+    height: 250rem;
+    width: 60%;
+    background-color: #4FA49A;
+    border-radius: 20rem;
+    color: white;
+    font-size: 20rem;
+    padding: 30rem ;
+}
+
+.q_and_a p{
+    margin-top: 10rem;
+}
+
+.q_and_a .reason{
+    margin-top: 10rem;
+    text-align: left;
+    margin-left:200rem;
+}
+
+.multiples{
+    font-size: 25rem;
+    text-decoration: underline;
+}
+
+
+
+
+/* 絞り込み */
+[data-filter-view]:not([data-filter-view=""]) [data-filter-key] {
+    display: none;
+}
+[data-filter-view][data-filter-view~="総合型"] [data-filter-key="総合型"],
+[data-filter-view][data-filter-view~="大手志望"] [data-filter-key="大手志望"] {
+    display: block;
+}
+
+container{
+    margin-top: 200rem;
+    display: flex;
+    justify-content: center;
+}
+.filter{
+    display: flex;
+    flex-direction: row;
+}
+.filter_items{
+    display: flex;
+    justify-content: center;
+    
+}
+
+.agents_type p{
+    font-size: 25rem;
+}
+
+.agents_type p label{
+    font-size: 20rem;
+}
+
+.agents_scale p{
+    margin-top: 15rem;
+    font-size: 25rem;
+}
+
+.filter_btn{
+    display: flex;
+    justify-content: space-between;
+    font-size: 25rem;
+}
+
+.filter_btn button{
+    width: 120rem;
+    height: 50rem;
+    border-radius: 20rem;
+}
+
+
+
+.agent_box{
+    /* display: flex; */
+    /* justify-content: center; */
+    margin: 2rem auto;
+    padding: 1em;
+    width: 700rem;
+    color: #666666; /*文字色*/
+    border: 2px solid #996633; /*線の太さ・色*/
+    background-color: #fff; /*背景色*/
+    box-shadow: -2px 5px 5px #e8d3c7; /*影*/
+    border-radius: 20px; /*角の丸み*/
+    height: 500rem;
+    margin-bottom: 150rem;
+    margin-left: 80rem;
+    margin-right: 80rem;
+}
+
+.agent_article{
+    padding: 15rem;
+}
+
+.agent_article_header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.agent_img{
+    display: flex;
+    justify-content: center;
+    width:700rem;
+    height: 150rem;
+}
+
+.agent_name{
+    font-size: 30rem;
+    margin-bottom: 15rem;
+}
+
+.num_company{
+    font-size: 20rem;
+}
+
+.agent_article_main{
+    margin-left: 15rem;
+}
+
+.recommend_points{
+    font-size: 20rem;
+    margin-bottom: 5rem;
+}
+
+.recommend_points_box{
+    padding: 0.5em 1em;
+    margin: 2em 0;
+    color: #5d627b;
+    background: white;
+    border-top: solid 5px #4fa49a;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
+    height: 150rem;
+}
+
+.recommend_points_box p{
+    margin: 0; 
+    padding: 0;
+}
+
+.span_published{
+    font-size: 20rem;
+    margin-top: 20rem;
+}
+
+.agent_article_footer{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15rem;
+}
+
+.agent_type{
+    font-size: 20rem;
+}
+
+.agent_article_footer button{
+    background-color: #FFA628;
+    font-size: 20rem;
+    width: 200rem;
+    border-radius: 20rem;
+    
+}
+
+.keep_btn button{
+    font-size: 30rem;
+}
