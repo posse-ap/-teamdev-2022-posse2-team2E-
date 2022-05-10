@@ -30,3 +30,44 @@ services:
       - ./mysql/sql:/docker-entrypoint-initdb.d
       - ./mysql/data:/var/lib/mysql
       - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+
+  # mysql:
+  #   image: mysql:latest
+  #   volumes:
+  #     - ./mysql/sql:/docker-entrypoint-initdb.d
+  #     - ./mysql/data:/var/lib/mysql
+  #     - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+  #   environment:
+  #     - MYSQL_DATABASE=shukatsu
+  #     - MYSQL_USER=posse_user
+  #     - MYSQL_PASSWORD=password
+  #     - MYSQL_ROOT_PASSWORD=password
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - db
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=db
+      - PMA_USER=posse_user
+      - PMA_PASSWORD=password
+    ports:
+      - "4040:80"
+    volumes:
+      - ./docker/phpmyadmin/sessions:/sessions
+      
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   environment:
+  #     - PMA_ARBITRARY=1
+  #     - PMA_HOST=mysql #mysqlサービス名を指定
+  #     - PMA_USER=root
+  #     - PMA_PASSWORD=password
+  #   links:
+  #     - mysql
+  #   ports:
+  #     - 4040:80
+  #   volumes:
+  #     - ./phpmyadmin/sessions:/sessions
+  

@@ -58,6 +58,9 @@ input[type="password"] {
 input[type="text"]::placeholder {
     color: #cdd;
 }
+input[type="password"]::placeholder {
+    color: #cdd;
+}
 
 input[type="submit"] {
     color: white;

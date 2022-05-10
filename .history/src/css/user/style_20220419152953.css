@@ -1,0 +1,21 @@
+html{
+    font-size: 6.25%;
+}
+
+header{
+    background-color: #4fa49a;
+    height: 100rem;
+    width: 100%;
+    font-size: 20rem;
+    text-align: center;
+}
+
+header nav ul {
+    display: flex;
+    justify-content: center;
+}
+
+header nav ul li {
+    color: white;
+    padding-right: 1rem;
+}

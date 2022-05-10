@@ -1,0 +1,9 @@
+body{
+    size: 0.625%;
+}
+
+header{
+    background-color: #4fa49a;
+    height: 8rem;
+    font-size: 10rem;
+}
