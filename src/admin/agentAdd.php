@@ -1,3 +1,11 @@
+<?php 
+require('../db_connect.php');
+// try{
+
+// }catch(){
+
+// }
+?>
 <!DOCTYPE html>
 <html lang="ja">
   <head>
@@ -16,7 +24,7 @@
         <div class="header-title">クラフト管理者画面</div>
         <nav class="header-nav">
           <ul class="header-nav-list">
-            <a href="./agentList.html"
+            <a href="./agentList.php"
               ><li class="header-nav-item">エージェント一覧</li></a
             >
             <a href="#"
