@@ -63,14 +63,14 @@ try {
             <td><?php echo $listed_agent['started_at'] ?> ~ <?php echo $listed_agent['ended_at'] ?></td>
             <td><a href="detail.php?id=<?php echo $listed_agent['id']; ?>">詳細</a></td>
             <td><a href="contact.php?id=<?php echo $listed_agent['id']; ?>">問い合わせ一覧</a></td>
-            <td><a href="stop.php?id=<?php echo $listed_agent['id']; ?>">掲載停止</a></td>
+            <td><a href="stop.php?id=<?php echo $listed_agent['id']; ?>"  onclick="return confirm('本当に掲載停止しますか? 掲載停止しても詳細情報は保持されます。')">掲載停止</a></td>
           <?php endforeach; ?>
           </tr>
 
       </table>
     </section>
     <section class="agent-not-listed">
-      <div id="js-open" onclick="js-open">掲載終了した企業▼</div>
+      <div id="js-open" onclick="js-open">掲載停止中の企業▼</div>
       <table>
         <?php foreach ($non_listed_agents as $non_listed_agent) :
         ?>
@@ -78,8 +78,9 @@ try {
             <td><?php echo $non_listed_agent['corporate_name'] ?></td>
             <td><?php echo $non_listed_agent['started_at'] ?> ~ <?php echo $non_listed_agent['ended_at'] ?></td>
             <td><a href="detail.php?id=<?php echo $non_listed_agent['id']; ?>">詳細</a></td>
-            <td><a href="contact.php?id=<?php echo $non_listed_agent['id']; ?>">問い合わせ一覧</a></td>
-            <td><a href="delete.php?id=<?php echo $non_listed_agent['id']; ?>">削除</a></td>
+            <td><a href="contact.php?id=<?php echo $non_listed_agent['id']; ?> " >問い合わせ一覧</a></td>
+            <td><a href="restart.php?id=<?php echo $non_listed_agent['id']; ?>" onclick="return confirm('本当に掲載再開しますか?')">再開</a></td>
+            <td><a href="delete.php?id=<?php echo $non_listed_agent['id']; ?>" onclick="return confirm('本当に削除しますか? 一度削除すると復元できません。')">削除</a></td>
           <?php endforeach; ?>
       </table>
     </section>

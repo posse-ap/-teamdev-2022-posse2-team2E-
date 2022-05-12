@@ -12,15 +12,20 @@ $stmt->execute();
 $agent = $stmt->fetch(PDO::FETCH_ASSOC);
 
 //タグ情報
-$stmt = $db->query('select * from filter_sorts, filter_tags where filter_tags.sort_id=filter_sorts.id;');
+// $stmt = $db->query('select * from filter_sorts, filter_tags where filter_tags.sort_id=filter_sorts.id;');
+// $filter_sorts_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// $stmt = $db->prepare('select * from agents_tags where agent_id=:id');
+// $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
+// $stmt->execute();
+// $agents_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// var_dump($agents_tags);
+
+
+// タグの取り出し
+$stmt = $db->query("select filter_sorts.sort_name, GROUP_CONCAT(filter_tags.tag_name SEPARATOR ',') FROM filter_sorts LEFT OUTER JOIN filter_tags ON filter_sorts.id = filter_tags.sort_id GROUP BY filter_sorts.id ORDER BY filter_sorts.id;");
 $filter_sorts_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-$stmt = $db->prepare('select * from agents_tags where agent_id=:id');
-$stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
-$stmt->execute();
-$agents_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
-var_dump($agents_tags);
-
+var_dump($filter_sorts_tags);
 
 // var_dump($filter_sorts_tags);
 
@@ -60,7 +65,7 @@ function set_list_status($list_status)
           <a href="./agentList.php">
             <li class="header-nav-item select">エージェント一覧</li>
           </a>
-          <a href="#">
+          <a href="./agentAdd.php">
             <li class="header-nav-item">エージェント追加</li>
           </a>
           <a href="#">
