@@ -5,14 +5,8 @@ use LDAP\Result;
 require('../db_connect.php');
 $id = $_GET['id'];
 
-//エージェント情報
-$stmt = $db->prepare('select * from agents where id = :id');
-$stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
-$stmt->execute();
-$agent = $stmt->fetch(PDO::FETCH_ASSOC);
-
 //タグ情報
-// $stmt = $db->query('select * from filter_sorts, filter_tags where filter_tags.sort_id=filter_sorts.id;');
+// $stmt = $db->query('select * from filter_sorts, filter_tags where filter_tags.filter_sort_id=filter_sorts.id;');
 // $filter_sorts_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // $stmt = $db->prepare('select * from agents_tags where agent_id=:id');
@@ -22,12 +16,59 @@ $agent = $stmt->fetch(PDO::FETCH_ASSOC);
 // var_dump($agents_tags);
 
 
-// タグの取り出し
-$stmt = $db->query("select filter_sorts.sort_name, GROUP_CONCAT(filter_tags.tag_name SEPARATOR ',') FROM filter_sorts LEFT OUTER JOIN filter_tags ON filter_sorts.id = filter_tags.sort_id GROUP BY filter_sorts.id ORDER BY filter_sorts.id;");
+// タグの取り出し filter_sortsをベースにしてfilter_tagsを結合するだけ
+$stmt = $db->query("
+  select
+    fs.id, sort_name,
+    filter_sort_id,
+    tag_name 
+  from
+    filter_sorts fs
+  inner join
+    filter_tags ft on fs.id = ft.filter_sort_id;
+");
 $filter_sorts_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
-var_dump($filter_sorts_tags);
 
-// var_dump($filter_sorts_tags);
+$t_list = [];
+// 絞り込みの種類毎に配列に突っ込む [idが1 => [], idが2 => []];
+// $t_list[XX][] = AAA; のやっていることは キーがXXの中身にAAAを追加するって感じです
+// var_dump($t_list[XX]); ｰ> [1,2]だとすると
+// $t_list[XX][] = AAA; は var_dump($t_list[XX])の結果が[1,2,AAA]になります
+foreach ($filter_sorts_tags as $f) {
+  $t_list[(int)$f['id']][] = $f;
+}
+
+// $t_listの中身はこんな感じ
+// [
+//   [1] => [
+//     [0] => [
+//       ["id"]=> 1,
+//       ["sort_name"]=> "エージェントのタイプ",
+//       ["filter_sort_id"]=> 1,
+//       ["tag_name"]=> "特化型",
+//     ],
+//     [1] => [
+//       ["id"]=> 1,
+//       ["sort_name"]=> "エージェントのタイプ",
+//       ["filter_sort_id"]=> 1,
+//       ["tag_name"]=> "総合型",
+//     ],
+//   ],
+//   [2]=> [
+//     [0] => [
+//       ["id"]=> 2,
+//       ["sort_name"]=> "志望会社",
+//       ["filter_sort_id"]=> 2,
+//       ["tag_name"]=> "大手志望",
+//     ],
+//     [1] => [
+//       ["id"]=> 2,
+//       ["sort_name"]=> "志望会社",
+//       ["filter_sort_id"]=> 2,
+//       ["tag_name"]=> "ベンチャー志望",
+//     ],
+//   ],
+// ]
 
 
 
@@ -77,104 +118,28 @@ function set_list_status($list_status)
   </header>
   <a href="./agentList.php">エージェント一覧へ戻る＞</a>
   <main class="main">
-    <h1 class="main-title"><?php echo h($agent['insert_company_name']); ?>詳細 (<?php echo set_list_status($agent['list_status']); ?>)</h1>
-    <div class="operations">
-      <button>編集する</button>
-      <button>ユーザー画面を確認</button>
-    </div>
-    <div class="agent-add-table">
-      <table class="main-info-talbe">
+    <table class="tags-add">
+      <tr>
+        <td class="sub-th">絞り込みの種類</td>
+        <td class="sub-th">タグ</td>
+      </tr>
+      <?php foreach ($t_list as $filter_sorts) : ?>
         <tr>
-          <th>法人名</th>
-          <td><?php echo h($agent['corporate_name']) ?></td>
-        </tr>
-
-        <tr>
-          <th>掲載期間</th>
-          <td>
-            <?php echo h($agent['started_at']) ?> ～
-            <?php echo h($agent['ended_at']) ?>
-          </td>
-        </tr>
-
-        <tr class="login-info">
-          <th>ログイン情報</th>
-          <td>
-            email:<?php echo h($agent['login_email']) ?>　　　pass:<?php echo h($agent['login_pass']) ?>
-          </td>
-        </tr>
-
-        <tr>
-          <th>学生情報送信先</th>
-          <td><?php echo h($agent['to_send_email']) ?></td>
-        </tr>
-      </table>
-      <table class="contact-info-talbe">
-        <tr>
-          <th>担当者情報</th>
-        </tr>
-        <tr>
-          <td class="sub-th">氏名</td>
-          <td><?php echo h($agent['client_name']) ?></td>
-        </tr>
-        <tr>
-          <td class="sub-th">部署名</td>
-          <td><?php echo h($agent['client_department']) ?></td>
-        </tr>
-        <tr class="contact-number">
-          <td class="sub-th">連絡先</td>
-          <td>
-            email:<?php echo h($agent['client_email']) ?>　　　tel:<?php echo h($agent['client_tel']) ?>
-          </td>
-        </tr>
-      </table>
-      <table class="post-info-table">
-        <tr>
-          <th>掲載情報</th>
-        </tr>
-        <tr>
-          <td class="sub-th">掲載企業名</td>
-          <td><?php echo h($agent['insert_company_name']) ?></td>
-        </tr>
-        <tr>
-          <td class="sub-th">企業ロゴ</td>
-          <td><?php echo h($agent['insert_logo']) ?></td>
-        </tr>
-        <tr>
-          <td class="sub-th">オススメポイント</td>
-          <td>
-            <ul>
-              <li>・<?php echo h($agent['insert_recommend_1']) ?></li>
-              <li>・<?php echo h($agent['insert_recommend_2']) ?></li>
-              <li>・<?php echo h($agent['insert_recommend_3']) ?></li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td class="sub-th">取扱い企業数</td>
-          <td><?php echo h($agent['insert_handled_number']) ?></td>
-        </tr>
-        <tr>
-          <td class="sub-th">詳細欄</td>
-          <td><?php echo h($agent['insert_detail']) ?></td>
-        </tr>
-      </table>
-      <table class="tags-add">
-        <tr>
-          <td class="sub-th">絞り込みの種類</td>
-          <td class="sub-th">タグ</td>
-        </tr>
-        <?php foreach($filter_sorts_tags as $filter_sort_tag): ?>
-        <tr>
-          <td><?php echo $filter_sort_tag['sort_name']; ?></td>
+          <!-- 絞り込みの種類は必ず -->
+          <!-- currentは配列の要素を1つ抽出してくるメソッド, filter_sort_tags[0]['sort_name'] と同じです -->
+          <td><?= current($filter_sorts)['sort_name']; ?></td>
           <td>
             <label class="added-tag">
-              <input type="checkbox" name="" disabled <?php if($filter_sort_tag[$id] === $agents_tags['tag_id']): ?>checked <?php endif; ?>/><span><?php echo $filter_sort_tag['tag_name']; ?></span>
+              <!-- オプションの分だけここのforeachを追加してあげればOK -->
+              <?php foreach ($filter_sorts as $index => $filter_sort_tag) : ?>
+                <input type="checkbox" name="" disabled <?php if ($filter_sort_tag[$id] === $agents_tags['tag_id']) : ?>checked <?php endif; ?> />
+                <span><?= $filter_sort_tag['tag_name']; ?></span>
+              <?php endforeach; ?>
             </label>
           </td>
         </tr>
-        <?php endforeach; ?>
-      </table>
+      <?php endforeach; ?>
+    </table>
     </div>
   </main>
 </body>
