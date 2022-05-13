@@ -52,7 +52,8 @@ table th {
   background-color: #4fa49a;
   color: white;
 }
-table th:nth-child(1), table td:nth-child(1) {
+table th:nth-child(1),
+table td:nth-child(1) {
   width: 40%;
 }
 

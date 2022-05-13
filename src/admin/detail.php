@@ -1,6 +1,4 @@
 <?php
-//タグのチェックが上手くいかない
-use LDAP\Result;
 
 require('../db_connect.php');
 $id = $_GET['id'];
@@ -12,24 +10,58 @@ $stmt->execute();
 $agent = $stmt->fetch(PDO::FETCH_ASSOC);
 
 //タグ情報
-// $stmt = $db->query('select * from filter_sorts, filter_tags where filter_tags.sort_id=filter_sorts.id;');
-// $filter_sorts_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// $stmt = $db->prepare('select * from agents_tags where agent_id=:id');
-// $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
-// $stmt->execute();
-// $agents_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
-// var_dump($agents_tags);
-
-
-// タグの取り出し
-$stmt = $db->query("select filter_sorts.sort_name, GROUP_CONCAT(filter_tags.tag_name SEPARATOR ',') FROM filter_sorts LEFT OUTER JOIN filter_tags ON filter_sorts.id = filter_tags.sort_id GROUP BY filter_sorts.id ORDER BY filter_sorts.id;");
+$stmt = $db->query('select fs.id, sort_name, tag_id, tag_name from filter_sorts fs inner join filter_tags ft on fs.id = ft.sort_id;
+');
 $filter_sorts_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
-var_dump($filter_sorts_tags);
+$t_list = [];
+// 絞り込みの種類毎に配列に突っ込む [idが1 => [], idが2 => []];
+// $t_list[XX][] = AAA; のやっていることは キーがXXの中身にAAAを追加するって感じです
+// var_dump($t_list[XX]); ｰ> [1,2]だとすると
+// $t_list[XX][] = AAA; は var_dump($t_list[XX])の結果が[1,2,AAA]になります
+foreach ($filter_sorts_tags as $f) {
+  $t_list[(int)$f['id']][] = $f;
+}
+//  $t_list[1][] = $f
 
-// var_dump($filter_sorts_tags);
 
+// $t_listの中身はこんな感じ
+// [
+//   [1] => [
+//     [0] => [
+//       ["id"]=> 1,
+//       ["sort_name"]=> "エージェントのタイプ",
+//       ["tag_id"]=> 1,
+//       ["tag_name"]=> "特化型",
+//     ],
+//     [1] => [
+//       ["id"]=> 1,
+//       ["sort_name"]=> "エージェントのタイプ",
+//       ["tag_id"]=> 2,
+//       ["tag_name"]=> "総合型",
+//     ],
+//   ],
+//   [2]=> [
+//     [0] => [
+//       ["id"]=> 2,
+//       ["sort_name"]=> "志望会社",
+//       ["tag_id"]=> 3,
+//       ["tag_name"]=> "大手志望",
+//     ],
+//     [1] => [
+//       ["id"]=> 2,
+//       ["sort_name"]=> "志望会社",
+//       ["tag_id"]=> 4,
+//       ["tag_name"]=> "ベンチャー志望",
+//     ],
+//   ],
+// ]
 
+// エージェントタグ
+$stmt = $db->prepare('select * from agents_tags where agent_id=:id');
+$stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
+$stmt->execute();
+$agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// var_dump($agent_tags);
 
 function set_list_status($list_status)
 {
@@ -88,6 +120,16 @@ function set_list_status($list_status)
           <th>法人名</th>
           <td><?php echo h($agent['corporate_name']) ?></td>
         </tr>
+        <tr>
+            <th>掲載状態</th>
+            <td><label class="list-status">
+                <input type="radio" name="list-status" value="1" <?php if($agent['list_status'] === 1):?>checked <?php endif; ?> disabled/><span>掲載中</span>
+              </label>
+              <label class="list-status">
+                <input type="radio" name="list-status" value="2" <?php if($agent['list_status'] === 2):?>checked <?php endif; ?> disabled/><span>掲載停止中</span>
+              </label>
+            </td>
+          </tr>
 
         <tr>
           <th>掲載期間</th>
@@ -164,15 +206,22 @@ function set_list_status($list_status)
           <td class="sub-th">絞り込みの種類</td>
           <td class="sub-th">タグ</td>
         </tr>
-        <?php foreach($filter_sorts_tags as $filter_sort_tag): ?>
-        <tr>
-          <td><?php echo $filter_sort_tag['sort_name']; ?></td>
-          <td>
-            <label class="added-tag">
-              <input type="checkbox" name="" disabled <?php if($filter_sort_tag[$id] === $agents_tags['tag_id']): ?>checked <?php endif; ?>/><span><?php echo $filter_sort_tag['tag_name']; ?></span>
-            </label>
-          </td>
-        </tr>
+        <?php foreach ($t_list as $filter_sort) : ?>
+          <tr>
+            <!-- 絞り込みの種類は必ず -->
+            <!-- currentは配列の要素を1つ抽出してくるメソッド, filter_sort_tags[0]['sort_name'] と同じです -->
+            <td><?= current($filter_sort)['sort_name']; ?></td>
+            <td>
+              <!-- オプションの分だけここのforeachを追加してあげればOK -->
+              <?php foreach ($filter_sort as $filter_tag) : ?>
+                <label class="added-tag">
+
+                  <input type="checkbox" name="filter_tag" disabled <?php foreach ($agent_tags as $agent_tag) : if ($filter_tag['tag_id'] === $agent_tag['tag_id']) : ?>checked <?php endif;endforeach; ?> />
+                  <span><?= $filter_tag['tag_name']; ?></span> </label>
+              <?php endforeach; ?>
+
+            </td>
+          </tr>
         <?php endforeach; ?>
       </table>
     </div>

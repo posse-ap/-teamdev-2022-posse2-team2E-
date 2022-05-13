@@ -71,14 +71,15 @@ table {
     color: white;
   }
 
-  th:nth-child(1), td:nth-child(1){
+  th:nth-child(1),
+  td:nth-child(1) {
     width: 40%;
   }
 } //.table
 
-  .sub-th{
-    background-color: $background-color;
-  }
+.sub-th {
+  background-color: $background-color;
+}
 
 // input デザイン
 input {
@@ -89,7 +90,6 @@ input {
   box-sizing: border-box;
 }
 
-
 // エージェント一覧画面------------------------
 
 .agent-not-listed {
@@ -99,8 +99,8 @@ input {
 // エージェント追加画面------------------------
 
 // 編集ボタン
-.operations{
-  button{
+.operations {
+  button {
     margin-left: auto;
   }
 }
@@ -151,11 +151,11 @@ input {
 .added-tag {
   display: block;
 
-  & + &{
+  & + & {
     margin-top: 10px;
   }
 
-  span{
+  span {
     margin-left: 5px;
   }
 }
