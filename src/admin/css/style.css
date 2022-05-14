@@ -110,6 +110,17 @@ input {
 .agent-add-table .contact-number input {
   width: 30%;
 }
+.agent-add-table .required {
+  background-color: #BB1850;
+  color: #fff;
+  font-size: 90%;
+  padding: 2px;
+  margin-left: 10px;
+}
+.agent-add-table .error {
+  font-size: 90%;
+  color: #BB1850;
+}
 
 .added-tag {
   display: block;

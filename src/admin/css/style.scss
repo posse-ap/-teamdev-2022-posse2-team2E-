@@ -146,6 +146,20 @@ input {
   .contact-number input {
     width: 30%;
   }
+
+  .required {
+    background-color: #BB1850;
+    color: #fff;
+    font-size: 90%;
+    padding: 2px;
+    margin-left: 10px;
+  }
+
+  .error {
+    font-size: 90%;
+    color: #BB1850;
+  }
+
 } //.agent-add-table
 
 .added-tag {
