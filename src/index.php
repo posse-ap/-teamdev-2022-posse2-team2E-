@@ -1,23 +1,16 @@
 
 <?php 
 require('db_connect.php');
-var_dump('接続成功');
-?>  
-
-<?php $stmt = $db->prepare('select id, started_at, ended_at, insert_company_name, insert_logo, insert_recommend_1, insert_recommend_2, insert_recommend_3, insert_handled_number from agents where list_status=1 order by id DESC;');
-                if (!$stmt) {
-                    die($db->error);
-                }
-                $success = $stmt->execute();
-                if (!$success) {
-                    die($db->error);
-                }
-                $stmt->bind_result($id, $started_at, $ended_at, $insert_company_name, $insert_logo, $insert_recommend_1, $insert_recommend_2, $insert_recommend_3, $insert_handled_number);
-    
-                while($stmt->fetch())://    繰り返しはじめ
-                ?>
-             
-                <?php endwhile; ?> 
+try {
+  $stmt = $db->prepare('select * from agents where list_status=?');
+  $stmt->execute([1]);
+  $listed_agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+  echo '接続失敗';
+  $e->getMessage();
+  exit();
+};
+?> 
 
 
 <!DOCTYPE html>
@@ -106,26 +99,27 @@ crossorigin="anonymous"></script>
 
                 <ul class="filter-items">
                     <a href=""><button class="all_keep">全てをキープ</button></a>
-                   
+                
+                <?php foreach($listed_agents as $listed_agent): ?>
                     <li class="agent_box" data-filter-key="総合型">
                         <img class="agent_img" src="logo.png" alt="">
                         <div class="agent_article">
                             <div class="agent_article_header">
-                                <h1 class="agent_name">エージェント名</h1>
-                                <p class="num_company">取扱企業数：6000社</p>
+                                <h1 class="agent_name"><?php echo $listed_agent['corporate_name'] ?></h1>
+                                <p class="num_company">取扱企業数：<?php echo $listed_agent['insert_handled_number'] ?></p>
                             </div>
                             <div class="agent_article_main">
                                 <p class="recommend_points">おすすめポイント</p>
                                     <div class="recommend_points_box">
-                                        <p>ここに文章 </p>
+                                        <p><?php echo $listed_agent['insert_recommend_1'] ?></p>
                                     </div>
                                     <div class="recommend_points_box">
-                                        <p>ここに文章 </p>
+                                        <p><?php echo $listed_agent['insert_recommend_2'] ?></p>
                                     </div>
                                     <div class="recommend_points_box">
-                                        <p>ここに文章 </p>
+                                        <p><?php echo $listed_agent['insert_recommend_3'] ?></p>
                                     </div>
-                                <p class="span_published">掲載期間：2022/04/14~2022/06/10</p>
+                                <p class="span_published">掲載期間：<?php echo date("Y/m/d",strtotime($listed_agent['started_at'])); ?>〜<?php echo date("Y/m/d",strtotime($listed_agent['ended_at'])); ?></p>
                             </div>
                             <div class="agent_article_footer">
                                 <p class="agent_type">#総合型</p>
@@ -140,16 +134,16 @@ crossorigin="anonymous"></script>
                                     <label for="trigger" class="modal_trigger"></label>
                                     <div class="modal_content">
                                         <label for="trigger" class="close_button">✖️</label>
-                                        <p class="modal_title2">エージェント名</p>
+                                        <p class="modal_title2"><?php echo $listed_agent['corporate_name'] ?></p>
                                         <p>詳細：</p>
-                                        <p>あいああああああああ</p>
+                                        <p><?php echo $listed_agent['insert_detail'] ?></p>
                                     </div>
                                 </div>
                         </div>
                     </li>
+                <?php endforeach; ?>
                     
-                    
-                    <li class="agent_box" data-filter-key="大手志望">
+                    <!-- <li class="agent_box" data-filter-key="大手志望">
                         <img class="agent_img" src="logo.png" alt="">
                         <div class="agent_article">
                             <div class="agent_article_header">
@@ -182,7 +176,7 @@ crossorigin="anonymous"></script>
                                     </div>
                                 </div>
                         </div>
-                    </li>
+                    </li> -->
 
                     
                 </ul>
@@ -216,11 +210,12 @@ crossorigin="anonymous"></script>
 
                                 <div class="modal-filter-items">
                                     <ul class="filter-items">
+                                    <?php foreach($listed_agents as $listed_agent): ?>
                                         <li class="agent_box" id="keep_agent_box" data-filter-key="総合型">
                                             <img class="agent_img" src="logo.png" alt="">
                                             <div class="agent_article">
                                                 <div class="agent_article_header">
-                                                    <h1 class="agent_name">エージェント名</h1>
+                                                    <h1 class="agent_name"><?php echo $listed_agent['corporate_name'] ?></h1>
                                                     <p class="num_company">取扱企業数：6000社</p>
                                                 </div>
                                                 <div class="agent_article_main">
@@ -236,6 +231,7 @@ crossorigin="anonymous"></script>
                                             </div>
                                             <label onclick="buttonDelete()" class="delete_btn">取り消す</label>
                                         </li>
+                                    <?php endforeach; ?>
                                     </ul>
                                 </div>
                             
@@ -246,7 +242,6 @@ crossorigin="anonymous"></script>
                                         </div>
                                     </btn>
                                 </div>
-                            
                             </container>
                     <!-- ここまでモーダルの中身 -->
                         </div>

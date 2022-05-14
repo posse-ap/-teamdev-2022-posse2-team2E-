@@ -1,0 +1,175 @@
+// 共通部分--------------------------------------
+// 配色、ヘッダー、表デザイン
+
+// カラー
+$main-color: #4fa49a;
+$background-color: #ccc;
+$border-color: #aaa;
+
+// ヘッダー
+header {
+  width: 100%;
+  border-bottom: $border-color solid;
+
+  .header-inner {
+    display: flex;
+    margin: 0 80px;
+    align-items: center;
+    height: 80px;
+  }
+
+  .header-title {
+    font-size: 20px;
+    font-weight: bold;
+    padding-right: 40px;
+  }
+
+  .header-nav-list {
+    display: flex;
+
+    a {
+      text-decoration: none;
+    }
+  } //.header-nav-list
+
+  .header-nav-item {
+    float: left;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    color: $background-color;
+  }
+
+  .select {
+    color: #000;
+  }
+} //header
+
+// ページ構成
+.main {
+  width: 70%;
+  margin: 20px auto;
+}
+
+section {
+  margin: 20px 0;
+}
+
+// 表デザイン
+table {
+  width: 100%;
+
+  th,
+  td {
+    padding: 20px 10px;
+    border: solid 1px $border-color;
+    vertical-align: middle;
+  }
+
+  th {
+    background-color: $main-color;
+    color: white;
+  }
+
+  th:nth-child(1),
+  td:nth-child(1) {
+    width: 40%;
+  }
+} //.table
+
+.sub-th {
+  background-color: $background-color;
+}
+
+// input デザイン
+input {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// エージェント一覧画面------------------------
+
+.agent-not-listed {
+  margin-top: 70px;
+}
+
+// エージェント追加画面------------------------
+
+// 編集ボタン
+.operations {
+  button {
+    margin-left: auto;
+  }
+}
+
+// 入力欄
+.main-title {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.operations {
+  button {
+    display: block;
+    width: 150px;
+    height: 40px;
+  }
+}
+
+.agent-add-table {
+  & > table {
+    margin: 30px 0;
+  }
+
+  input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid $border-color;
+    width: auto;
+    height: auto;
+    // max-width: 400px;
+  }
+
+  input[type="text"] {
+    width: 100%;
+  }
+  input[type="date"] {
+    width: 40%;
+  }
+
+  .login-info input,
+  .contact-number input {
+    width: 30%;
+  }
+
+  .required {
+    background-color: #BB1850;
+    color: #fff;
+    font-size: 90%;
+    padding: 2px;
+    margin-left: 10px;
+  }
+
+  .error {
+    font-size: 90%;
+    color: #BB1850;
+  }
+
+} //.agent-add-table
+
+.added-tag {
+  display: block;
+
+  & + & {
+    margin-top: 10px;
+  }
+
+  span {
+    margin-left: 5px;
+  }
+}

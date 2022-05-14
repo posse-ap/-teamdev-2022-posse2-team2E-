@@ -1,3 +1,39 @@
+<?php require($_SERVER['DOCUMENT_ROOT'] . "/db_connect.php");
+
+// $dbh = new PDO("mysql:host=db; dbname=shukatsu; charset=utf8", "$user", "$password",
+//     array(
+//             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+
+try{
+    $db = new PDO($dsn, $user, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_EMULATE_PREPARES => false,
+    ]);
+} catch (PDOException $e) {
+  echo '接続失敗: ' . $e->getMessage();
+  exit();
+}
+
+$id = $_GET['id'];
+// echo $id;
+
+if (empty($id)) {
+ exit('IDが不正です。');
+}
+
+$stmt = $db->prepare('SELECT * FROM students where id = :id');
+$stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
+//SQL実行
+$stmt->execute();
+//結果を取得
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if(!$result) {
+    exit('データがありません。');
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -45,40 +81,37 @@
             <table class="students_detail" border="1" width="90%">
                 　<tr bgcolor="white">
                     　　<th bgcolor="#4FA49A">問い合わせID</th>
-                    <td>210414</td>
+                    <td><?php echo $result['id'] ?></td>
                     　
                 </tr>
                 　<tr bgcolor="white">
                     　　<th bgcolor="#4FA49A">申込日時</th>
-                    <td>2022/04/34 05:13</td>
+                    <td><?php echo $result['created'] ?></td>
                     　
                 </tr>
                 　<tr bgcolor="white">
                     　　<th bgcolor="#4FA49A">氏名</th>
-                    <td>かしけん</td>
+                    <td><?php echo $result['name'] ?></td>
                     　
                 </tr>
                 　<tr bgcolor="white">
                     　　<th bgcolor="#4FA49A">メールアドレス</th>
-                    <td>jinjan@starbucks.com</td>
+                    <td><?php echo $result['email'] ?></td>
                     　
                 </tr>
                 　<tr bgcolor="white">
                     　　<th bgcolor="#4FA49A">電話番号</th>
-                    <td>08011438448</td>
+                    <td><?php echo $result['tel'] ?></td>
                     　
                 </tr>
                 　<tr bgcolor="white">
                     　　<th bgcolor="#4FA49A">住所</th>
-                    <td>東京都港区南青山３丁目１５−９ MINOWA表参道 3階</td>
+                    <td><?php echo $result['address'] ?></td>
                     　
                 </tr>
                 　<tr bgcolor="white">
                     　　<th bgcolor="#4FA49A">悩み</th>
-                    <td>なおきが3日前に自分が極貧状態であるということに気づいたことに関して、とてもびっくりしたとともに、
-                        <br>春休み生き生きとしていたなおきを思い出すと笑いが止まりません🤣🤣🤣🤣🤣🤣🤣🤣
-                        <br>って言って最近黒髪にしたかれんが笑っててかれんの素が見えた気がしました。以上です。
-                    </td>
+                    <td><?php echo $result['memo'] ?>
                     　
                 </tr>
             </table>
