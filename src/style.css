@@ -144,7 +144,7 @@ container{
 .filter{
     display: flex;
     flex-direction: row;
-    padding-top: 150rem;
+    padding-top: 300rem;
 }
 
 .filter_num{
@@ -203,6 +203,20 @@ container{
     top: 50rem;
 }
 
+.filter_left_wrapper{
+    width: 275rem;
+    padding-left: 52rem;
+    /* margin-right: 25rem; */
+    padding-top: 150rem;
+    background-color: #4FA49A;
+}
+
+.filter_right_wrapper{
+    width: 250rem;
+    margin-top: 50rem;
+}
+
+
 .all_keep{
     background-color: #E75515;
     color: white;
@@ -225,14 +239,15 @@ container{
     padding: 1em;
     width: 700rem;
     color: #666666; /*文字色*/
-    border: 3px solid #4fa49a; /*線の太さ・色*/
+    /* border: 3px solid #4fa49a;  */
     background-color: #fff; /*背景色*/
-    box-shadow: -2px 5px 5px #e8d3c7; /*影*/
+    box-shadow: 0 4px 20px 0 rgba(0,0,0,0.25); /*影*/
     border-radius: 20px; /*角の丸み*/
     height: 500rem;
     margin-bottom: 150rem;
     margin-left: 80rem;
     margin-right: 80rem;
+    transform: scale(0.9, 0.9);
 }
 
 .agent_article{
@@ -277,7 +292,8 @@ container{
     background: white;
     border-top: solid 5px #4fa49a;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
-    height: 150rem;
+    height: 30rem;
+    margin-bottom: 15rem;
 }
 
 .recommend_points_box p{
@@ -352,51 +368,20 @@ container{
       #fa7199,
       #e85a19
     );
-    box-shadow: 0 4px 15px 0 rgba(229, 66, 10, 0.75);
+    box-shadow: 0 4px 15px 0 rgba(0,0,0,0.25);
   }
 
-
-/* .button05 a {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 auto;
-    padding: 1em 2em;
-    width: 100rem;
-    color: white;
-    font-size: 18rem;
-    font-weight: 700;
-    background-color: #eb6100;
-    box-shadow: 0 5px 0 #b84c00;
-    transition: 0.3s;
-    border-radius: 20rem;
-    text-decoration: none;
-    margin-top: 410rem;
-  }
-  
-  .button05 a::after {
-    content: '';
-    width: 5rem;
-    height: 5rem;
-    border-top: 3rem solid white;
-    border-right: 3rem solid white;
-    transform: rotate(45deg);
-  }
-  
-  .button05 a:hover {
-    transform: translateY(3px);
-    text-decoration: none;
-    box-shadow: 0 2px 0 rgba(0, 0, 0, .3);
+  .cursor{
+    cursor: pointer;
   }
 
-  .button05 span{
-  
-  } */
 
   #keep_btn.fixed {
     right: 63rem;
     position: fixed;
     top: 0;
+    /* margin-top: 55rem; */
+    margin-left: 20rem;
 }
 
   .keep_btn .bn632-hover{
@@ -410,7 +395,8 @@ container{
       font-size: 25rem;
   }
 
-  /* モーダル */
+
+  /* 詳細のモーダル */
 
   .modal_wrap input {
     display: none;
@@ -539,8 +525,114 @@ container{
       border-bottom: 4px solid #EEEEEE;
       width: 100%;
   }
-.modal-filter-items .filter-items{
-      margin-right: 200rem;
-      display: flex;
-      justify-content: center;
+
+
+
+
+  /* キープ一覧 */
+  .keep_view{
+      font-size: 50rem;
+      text-align: center;
+      margin-top: 20rem;
   }
+
+  .keep_container{
+      margin-top: 0;
+      padding-top: 0;
+  }
+
+  .keep_btn .keep_inquiry_btn{
+      margin-top: 80rem;
+  }
+
+  .keep_left{
+      font-size: 50rem;
+  }
+
+
+
+
+  /* キープ一覧のモーダル */
+  /* .modal_wrap input {
+    display: none;
+  } */
+  
+  .modal_overlay {
+    display: flex;
+    justify-content: center;
+    overflow: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    transition: opacity 0.5s, transform 0s 0.5s;
+    transform: scale(0);
+  }
+  
+  .modal_trigger {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .modal_keep .modal_content {
+      border-radius: 20rem;
+      font-size: 20rem;
+      align-self: center;
+      width: 95%;
+      padding: 30px 30px 15px;
+      box-sizing: border-box;
+      background: #fff;
+      line-height: 1.4em;
+      transition: 0.5s;
+  }
+  
+  .modal_content p {
+    padding-top: 0;
+  }
+  
+  .close_button {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  .modal_wrap input:checked ~ .modal_overlay {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.5s;
+  }
+  
+  .modal_wrap input:checked ~ .modal_overlay .modal_content {
+    transform: translateY(20px);
+  }
+
+  .modal-filter-items{
+    transform: scale(0.7, 0.7);
+  }
+
+  .delete_btn {
+    color: white;
+     background-color: #FF3366;
+     font-weight: bold;
+     text-align: center;
+     cursor :pointer;
+     transition: all 0.3s;
+     display: block;
+     /* margin-top: 40px; */
+     margin-bottom: 1px;
+     padding: 12px 2px;
+     max-width:300px;
+     text-decoration: none;
+     width: 150rem;
+     border-radius: 20rem;
+     font-size: 20rem;
+     margin-left: 500rem;
+     height: 20rem;
+ }

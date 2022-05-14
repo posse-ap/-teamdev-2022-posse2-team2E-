@@ -1,8 +1,23 @@
 
-<!-- <?php 
-// require('db_connect.php');
-// var_dump('接続成功');
-?>  -->
+<?php 
+require('db_connect.php');
+var_dump('接続成功');
+?>  
+
+<?php $stmt = $db->prepare('select id, started_at, ended_at, insert_company_name, insert_logo, insert_recommend_1, insert_recommend_2, insert_recommend_3, insert_handled_number from agents where list_status=1 order by id DESC;');
+                if (!$stmt) {
+                    die($db->error);
+                }
+                $success = $stmt->execute();
+                if (!$success) {
+                    die($db->error);
+                }
+                $stmt->bind_result($id, $started_at, $ended_at, $insert_company_name, $insert_logo, $insert_recommend_1, $insert_recommend_2, $insert_recommend_3, $insert_handled_number);
+    
+                while($stmt->fetch())://    繰り返しはじめ
+                ?>
+             
+                <?php endwhile; ?> 
 
 
 <!DOCTYPE html>
@@ -11,8 +26,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/src/user/reset.css">
-    <link rel="stylesheet" href="/src/user/style.css">
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>CRAFT</title>
     <script
 src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -22,7 +37,7 @@ crossorigin="anonymous"></script>
 <body>
     <!-- ヘッダー -->
     <header>
-        <img src="/src/user/logo.png" alt="">
+        <img src="logo.png" alt="">
         <nav>
             <ul>
                 <li><a href="">就活サイト</a></li>
@@ -89,30 +104,11 @@ crossorigin="anonymous"></script>
                 </div>
 
 
-
-                <!-- <?php $stmt = $db->prepare('select id, started_at, ended_at, insert_company_name, insert_logo, insert_recommend_1, insert_recommend_2, insert_recommend_3, insert_handled_number from agents where list_status=1 order by id DESC;');
-                if (!$stmt) {
-                    die($db->error);
-                }
-                $success = $stmt->execute();
-                if (!$success) {
-                    die($db->error);
-                }
-                $stmt->bind_result($id, $started_at, $ended_at, $insert_company_name, $insert_logo, $insert_recommend_1, $insert_recommend_2, $insert_recommend_3, $insert_handled_number);
-    
-                while($stmt->fetch())://    繰り返しはじめ
-                ?>
-             
-                <?php endwhile; ?> -->
-
-
-
-
                 <ul class="filter-items">
                     <a href=""><button class="all_keep">全てをキープ</button></a>
                    
                     <li class="agent_box" data-filter-key="総合型">
-                        <img class="agent_img" src="/src/user/logo.png" alt="">
+                        <img class="agent_img" src="logo.png" alt="">
                         <div class="agent_article">
                             <div class="agent_article_header">
                                 <h1 class="agent_name">エージェント名</h1>
@@ -154,7 +150,7 @@ crossorigin="anonymous"></script>
                     
                     
                     <li class="agent_box" data-filter-key="大手志望">
-                        <img class="agent_img" src="/src/user/logo.png" alt="">
+                        <img class="agent_img" src="logo.png" alt="">
                         <div class="agent_article">
                             <div class="agent_article_header">
                                 <h1 class="agent_name">エージェント名</h1>
@@ -221,7 +217,7 @@ crossorigin="anonymous"></script>
                                 <div class="modal-filter-items">
                                     <ul class="filter-items">
                                         <li class="agent_box" id="keep_agent_box" data-filter-key="総合型">
-                                            <img class="agent_img" src="/src/user/logo.png" alt="">
+                                            <img class="agent_img" src="logo.png" alt="">
                                             <div class="agent_article">
                                                 <div class="agent_article_header">
                                                     <h1 class="agent_name">エージェント名</h1>
@@ -246,7 +242,7 @@ crossorigin="anonymous"></script>
                                 <div class="filter_right_wrapper modal-filter_right_wrapper">
                                     <btn class="keep_btn" >
                                         <div class="button05">
-                                            <a href="/src/user/inquiry.html"><button class="bn632-hover bn19 keep_inquiry_btn " >キープ：<span id="keep_counter">０</span>件<br>問い合わせる</button></a>
+                                            <button class="bn632-hover bn19 keep_inquiry_btn " >キープ：<span id="keep_counter">０</span>件<br>問い合わせる</button>
                                         </div>
                                     </btn>
                                 </div>
@@ -264,6 +260,6 @@ crossorigin="anonymous"></script>
 
     <footer></footer>
 
-    <script src="/src/user/main.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
