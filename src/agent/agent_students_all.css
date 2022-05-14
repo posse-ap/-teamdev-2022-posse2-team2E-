@@ -1,0 +1,9 @@
+.to_students_detail {
+    color: blue;
+    border-bottom: 1px solid black;
+}
+
+.students_all_title {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
