@@ -637,3 +637,15 @@ container{
      margin-left: 500rem;
      height: 20rem;
  }
+
+ .modal_recommend_points_box{
+    padding: 0.5em 1em;
+    margin: 2em 0;
+    color: #5d627b;
+    background: white;
+    border-top: solid 5px #4fa49a;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
+    height: 30rem;
+    margin-bottom: 15rem;
+    /* transform: scale(0.7, 0.7); */
+ }

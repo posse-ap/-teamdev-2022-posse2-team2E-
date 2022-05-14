@@ -75,13 +75,15 @@ $(window).scroll(function () {
 });
 
 
+// キープ一覧にあるエージェントを最初は非表示
+    for (let i = 1; i < 4; i++) {
+    let keep_agent_box = document.getElementById("keep_agent_box_" + i);
+    keep_agent_box.style.display ="none";
+    }
 
+function check(id) {
+    let keep = document.getElementById("keep_" + id);
 
-// キープボタン押した時
-document.getElementById("keep_agent_box").style.display ="none";　// キープ押されるまで非表示
-
-function OnButtonClick() {
-    let keep = document.getElementById("keep");
     keep.innerHTML = "キープを外す";
     keep.style.backgroundColor = "#C0C0C0";
     keep.classList.remove("bn632-hover");
@@ -90,28 +92,37 @@ function OnButtonClick() {
     keep.style.borderWidth = "0px";
     keep.classList.add("cursor");
 
+    
+    let keep_agent_box = document.getElementById("keep_agent_box_" + id);
+
     // キープ押されたら表示
-    if(document.getElementById("keep_agent_box").style.display=="block"){
+    if(keep_agent_box.style.display=="block"){
 		// noneで非表示
-		document.getElementById("keep_agent_box").style.display ="none";
+		keep_agent_box.style.display ="none";
         keep.innerHTML = "キープする";
         keep.classList.add("bn632-hover");
-        keep.classList.add("bn19")
+        keep.classList.add("bn19");
         keep.classList.add("cursor");
 	}else{
 		// blockで表示
-		document.getElementById("keep_agent_box").style.display ="block";
+		keep_agent_box.style.display ="block";
 	}
+    
 }
 
+
+
 // キープしたやつを取り消す
-function buttonDelete(){
-        document.getElementById("keep_agent_box").style.display ="none";
+function buttonDelete(id){
+    let keep = document.getElementById("keep_" + id);
+    let keep_agent_box = document.getElementById("keep_agent_box_" + id);
+        keep_agent_box.style.display ="none";
         keep.innerHTML = "キープする";
         keep.classList.add("bn632-hover");
         keep.classList.add("bn19")
         keep.classList.add("cursor");        
 }
+
 
 
 // キープの数をカウント

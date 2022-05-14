@@ -13,6 +13,7 @@ try {
 ?> 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -106,7 +107,7 @@ crossorigin="anonymous"></script>
                         <div class="agent_article">
                             <div class="agent_article_header">
                                 <h1 class="agent_name"><?php echo $listed_agent['corporate_name'] ?></h1>
-                                <p class="num_company">取扱企業数：<?php echo $listed_agent['insert_handled_number'] ?></p>
+                                <p class="num_company">取扱企業数：<?php echo $listed_agent['insert_handled_number'] ?>社</p>
                             </div>
                             <div class="agent_article_main">
                                 <p class="recommend_points">おすすめポイント</p>
@@ -124,7 +125,7 @@ crossorigin="anonymous"></script>
                             <div class="agent_article_footer">
                                 <p class="agent_type">#総合型</p>
                                 <label for="trigger" class="open_button">詳細を表示</label>
-                                <button class="bn632-hover bn19" id="keep" onclick="OnButtonClick();">キープする</button>
+                                <button class="bn632-hover bn19" id="keep_<?php echo $listed_agent['id'] ?>" onclick="check(<?php echo $listed_agent['id'] ?>)">キープする</button>
                             </div>
                         </div>
 
@@ -142,43 +143,6 @@ crossorigin="anonymous"></script>
                         </div>
                     </li>
                 <?php endforeach; ?>
-                    
-                    <!-- <li class="agent_box" data-filter-key="大手志望">
-                        <img class="agent_img" src="logo.png" alt="">
-                        <div class="agent_article">
-                            <div class="agent_article_header">
-                                <h1 class="agent_name">エージェント名</h1>
-                                <p class="num_company">取扱企業数：6000社</p>
-                            </div>
-                            <div class="agent_article_main">
-                                <p class="recommend_points">おすすめポイント</p>
-                                    <div class="recommend_points_box">
-                                        <p>ここに文章 </p>
-                                    </div>
-                                <p class="span_published">掲載期間：2022/04/14~2022/06/10</p>
-                            </div>
-                            <div class="agent_article_footer">
-                                <p class="agent_type">#大手志望</p>
-                                <label for="trigger2" class="open_button">詳細を表示</label>
-                                <button  class="bn632-hover bn19"　id="keep" onclick="OnButtonClick();">キープする</button>
-                            </div>
-                        </div>
-
-                        <div class="modal_wrap">
-                            <input id="trigger2" type="checkbox">
-                                <div class="modal_overlay">
-                                    <label for="trigger2" class="modal_trigger"></label>
-                                    <div class="modal_content">
-                                        <label for="trigger2" class="close_button">✖️</label>
-                                        <p class="modal_title2">エージェント名</p>
-                                        <p>詳細：</p>
-                                        <p>良い良いいいい</p>
-                                    </div>
-                                </div>
-                        </div>
-                    </li> -->
-
-                    
                 </ul>
 
                 <div class="filter_right_wrapper">
@@ -211,25 +175,31 @@ crossorigin="anonymous"></script>
                                 <div class="modal-filter-items">
                                     <ul class="filter-items">
                                     <?php foreach($listed_agents as $listed_agent): ?>
-                                        <li class="agent_box" id="keep_agent_box" data-filter-key="総合型">
+                                        <li class="agent_box" id="keep_agent_box_<?php echo $listed_agent['id'] ?>" data-filter-key="総合型">
                                             <img class="agent_img" src="logo.png" alt="">
                                             <div class="agent_article">
                                                 <div class="agent_article_header">
                                                     <h1 class="agent_name"><?php echo $listed_agent['corporate_name'] ?></h1>
-                                                    <p class="num_company">取扱企業数：6000社</p>
+                                                    <p class="num_company">取扱企業数：<?php echo $listed_agent['insert_handled_number'] ?>社</p>
                                                 </div>
                                                 <div class="agent_article_main">
                                                     <p class="recommend_points">おすすめポイント</p>
-                                                        <div class="recommend_points_box">
-                                                            <p>ここに文章 </p>
+                                                        <div class="recommend_points_box modal_recommend_points_box">
+                                                            <p><?php echo $listed_agent['insert_recommend_1'] ?></p>
                                                         </div>
-                                                    <p class="span_published">掲載期間：2022/04/14~2022/06/10</p>
+                                                        <div class="recommend_points_box modal_recommend_points_box">
+                                                            <p><?php echo $listed_agent['insert_recommend_2'] ?></p>
+                                                        </div>
+                                                        <div class="recommend_points_box modal_recommend_points_box">
+                                                            <p><?php echo $listed_agent['insert_recommend_3'] ?></p>
+                                                        </div>
+                                                    <p class="span_published">掲載期間：<?php echo date("Y/m/d",strtotime($listed_agent['started_at'])); ?>〜<?php echo date("Y/m/d",strtotime($listed_agent['ended_at'])); ?></p>
                                                 </div>
                                                 <div class="agent_article_footer">
                                                     <p class="agent_type">#総合型</p>
                                                 </div>
                                             </div>
-                                            <label onclick="buttonDelete()" class="delete_btn">取り消す</label>
+                                            <label onclick="buttonDelete(<?php echo $listed_agent['id'] ?>)" class="delete_btn">取り消す</label>
                                         </li>
                                     <?php endforeach; ?>
                                     </ul>
