@@ -73,10 +73,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!$form['list_status']) {
     $error['list_status'] = 'blank';
   }
-  if (!$form['started_at']) {
+  if ($form['started_at'] === '') {
     $error['started_at'] = 'blank';
   }
-  if (!$form['ended_at']) {
+  if ($form['ended_at'] === '') {
     $error['ended_at'] = 'blank';
   }
 
@@ -135,8 +135,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <a href="#">
             <li class="header-nav-item select">エージェント追加</li>
           </a>
-          <a href="#">
-            <li class="header-nav-item">タグ追加</li>
+          <a href="./tagsEdit.php">
+            <li class="header-nav-item">タグ一覧</li>
           </a>
         </ul>
       </nav>

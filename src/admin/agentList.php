@@ -90,8 +90,8 @@ try {
           <a href="./agentAdd.php">
             <li class="header-nav-item">エージェント追加</li>
           </a>
-          <a href="#">
-            <li class="header-nav-item">タグ追加</li>
+          <a href="./tagsEdit.php">
+            <li class="header-nav-item">タグ一覧</li>
           </a>
         </ul>
       </nav>
