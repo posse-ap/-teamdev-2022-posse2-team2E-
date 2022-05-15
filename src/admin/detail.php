@@ -1,6 +1,8 @@
 <?php
-
+session_start();//sessionじゃなくて、POSTでデータを受け取れるのでは？
 require('../db_connect.php');
+?>
+<?
 $id = $_GET['id'];
 
 //エージェント情報
@@ -8,6 +10,9 @@ $stmt = $db->prepare('select * from agents where id = :id');
 $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
 $stmt->execute();
 $agent = $stmt->fetch(PDO::FETCH_ASSOC);
+$_SESSION['form'] = $agent;
+// var_dump($_SESSION['form']);
+
 
 //タグ情報
 $stmt = $db->query('select fs.id, sort_name, tag_id, tag_name from filter_sorts fs inner join filter_tags ft on fs.id = ft.sort_id;
@@ -101,7 +106,7 @@ function set_list_status($list_status)
             <li class="header-nav-item">エージェント追加</li>
           </a>
           <a href="#">
-            <li class="header-nav-item">タグ追加</li>
+            <li class="header-nav-item">タグ編集</li>
           </a>
         </ul>
       </nav>
@@ -111,11 +116,11 @@ function set_list_status($list_status)
   <main class="main">
     <h1 class="main-title"><?php echo h($agent['insert_company_name']); ?>詳細 (<?php echo set_list_status($agent['list_status']); ?>)</h1>
     <div class="operations">
-      <button>編集する</button>
       <button>ユーザー画面を確認</button>
     </div>
+    <form action="update.php" method="post" enctype="multipart/form-data">
     <div class="agent-add-table">
-      <table class="main-info-talbe">
+      <table class="main-info-table">
         <tr>
           <th>法人名</th>
           <td><?php echo h($agent['corporate_name']) ?></td>
@@ -142,7 +147,8 @@ function set_list_status($list_status)
         <tr class="login-info">
           <th>ログイン情報</th>
           <td>
-            email:<?php echo h($agent['login_email']) ?>　　　pass:<?php echo h($agent['login_pass']) ?>
+            email:<?php echo h($agent['login_email']) ?>　　　pass: 【表示されません】
+
           </td>
         </tr>
 
@@ -180,7 +186,7 @@ function set_list_status($list_status)
         </tr>
         <tr>
           <td class="sub-th">企業ロゴ</td>
-          <td><?php echo h($agent['insert_logo']) ?></td>
+          <td><img src="../img/insert_logo/<?php echo h($agent['insert_logo']); ?>" width="300" alt="" /></td>
         </tr>
         <tr>
           <td class="sub-th">オススメポイント</td>
@@ -225,6 +231,8 @@ function set_list_status($list_status)
         <?php endforeach; ?>
       </table>
     </div>
+    <input type="submit" value="編集する" />
+    </form>
   </main>
 </body>
 

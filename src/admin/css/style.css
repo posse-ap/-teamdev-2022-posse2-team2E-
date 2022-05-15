@@ -90,7 +90,7 @@ input {
   height: 40px;
 }
 
-.agent-add-table > table {
+.agent-add-table > table, .agent-add-table form > table {
   margin: 30px 0;
 }
 .agent-add-table input {

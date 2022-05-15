@@ -1,32 +1,8 @@
 <?php
 session_start();
 require('../db_connect.php');
-if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['form'])) {
-  $form = $_SESSION['form'];
+$form = $_SESSION['form'];
 
-} else {
-  $form = [ //エラーで使うものだけで良いかも
-    'corporate_name' => '',
-    'started_at' => '',
-    'ended_at' => '',
-    'login_email' => '',
-    'login_pass' => '',
-    'to_send_email' => '',
-    'client_name' => '',
-    'client_department' => '',
-    'client_email' => '',
-    'client_tel' => '',
-    'insert_company_name' => '',
-    // 'insert_logo' => '',写真は別で
-    'insert_recommend_1' => '',
-    'insert_recommend_2' => '',
-    'insert_recommend_3' => '',
-    'insert_handled_number' => '',
-    'list_status' => '',
-    'insert_detail' => '',
-    'agent_tags' => [],
-  ];
-}
 
 //タグ情報
 $stmt = $db->query('select fs.id, sort_name, tag_id, tag_name from filter_sorts fs inner join filter_tags ft on fs.id = ft.sort_id;
@@ -36,8 +12,8 @@ $t_list = [];
 foreach ($filter_sorts_tags as $f) {
   $t_list[(int)$f['id']][] = $f;
 }
-
 $error = [];
+// checkからのPOSTとupdateからのPOSTが一緒になってるから問題が起きていると思う。。
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $args = array(
     'corporate_name' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
@@ -63,20 +39,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       'flags'     => FILTER_REQUIRE_ARRAY,
     ),
   ); // タグについては配列？
-
-  $form = filter_input_array(INPUT_POST, $args);
+  $form2 = filter_input_array(INPUT_POST, $args);
+  // var_dump($form2);
 
   // エラー判定
-  if ($form['insert_company_name'] === '') {
+  if ($form2['insert_company_name'] === '') {
     $error['insert_company_name'] = 'blank';
   }
-  if (!$form['list_status']) {
-    $error['list_status'] = 'blank';
+  if (!$form2['list_status']){
+    // $error['list_status'] = 'blank';
   }
-  if ($form['started_at'] === '') {
+  if ($form2['started_at'] === '') {
     $error['started_at'] = 'blank';
   }
-  if ($form['ended_at'] === '') {
+  if (!$form2['ended_at'] === '') {
     $error['ended_at'] = 'blank';
   }
 
@@ -91,23 +67,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   // エラーがなければ送信
   if (empty($error)) {
-    $_SESSION['form'] = $form;
+    $_SESSION['form'] = $form2;
 
-    if ($insert_logo['name'] !== '') {
-      //画像のアップロード
-      $filename = date('YmdHis') . '_' . $insert_logo['name'];
-      if (!move_uploaded_file($insert_logo['tmp_name'], '../img/insert_logo/' . $filename)) {
-        die('ファイルのアップロードに失敗しました');
-      }
-      $_SESSION['form']['insert_logo'] = $filename;
-    } else {
-      $_SESSION['form']['insert_logo'] = '';
-    }
+    // if ($insert_logo['name'] !== '') {
+    //   //画像のアップロード
+    //   $filename = date('YmdHis') . '_' . $insert_logo['name'];
+    //   if (!move_uploaded_file($insert_logo['tmp_name'], '../img/insert_logo/' . $filename)) {
+    //     die('ファイルのアップロードに失敗しました');
+    //   }
+    //   $_SESSION['form']['insert_logo'] = $filename;
+    // } else {
+    //   $_SESSION['form']['insert_logo'] = '';
+    // }
 
-    header('location: check.php');
+    header('location: updateCheck.php');
     exit();
   }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -116,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AgentList</title>
+  <title>編集</title>
   <link rel="stylesheet" href="./css/reset.css" />
   <link rel="stylesheet" href="./css/style.css" />
   <script src="./js/jquery-3.6.0.min.js"></script>
@@ -130,20 +107,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <nav class="header-nav">
         <ul class="header-nav-list">
           <a href="./agentList.php">
-            <li class="header-nav-item">エージェント一覧</li>
+            <li class="header-nav-item select">エージェント一覧</li>
           </a>
           <a href="#">
-            <li class="header-nav-item select">エージェント追加</li>
+            <li class="header-nav-item">エージェント追加</li>
           </a>
-          <a href="./tagsEdit.php">
-            <li class="header-nav-item">タグ一覧</li>
+          <a href="#">
+            <li class="header-nav-item">タグ追加</li>
           </a>
         </ul>
       </nav>
     </div>
   </header>
   <main class="main">
-    <h1 class="main-title">エージェント追加画面</h1>
+    <h1 class="main-title"><?php echo h($form["insert_company_name"]); ?>編集画面</h1>
     <div class="agent-add-table">
       <form action="" method="post" enctype="multipart/form-data">
         <table class="main-info-table">
@@ -155,12 +132,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <th>掲載状態<span class="required">必須</span></th>
             <td>
               <label class="list-status">
-                <input type="radio" name="list_status" value=1 <?php if ($form['list_status'] === "1") : ?>checked<?php endif; ?> /><span>掲載する</span>
+                <input type="radio" name="list_status" value=1 <?php if ($form['list_status'] === 1) : ?>checked<?php endif; ?> /><span>掲載する</span>
               </label>
               <label class="list_status">
-                <input type="radio" name="list_status" value=2 <?php if ($form['list_status'] === "2") : ?>checked<?php endif; ?> /><span>まだ掲載しない</span><?php if (isset($error['list_status']) && $error['list_status'] === 'blank') : ?>
-                  <p class="error">* 掲載状態を選択してください</p>
-                <?php endif; ?>
+                <input type="radio" name="list_status" value=2 <?php if ($form['list_status'] === 2) : ?>checked<?php endif; ?> /><span>まだ掲載しない</span>
               </label>
             </td>
           </tr>
@@ -220,10 +195,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </tr>
           <tr>
             <td class="sub-th">企業ロゴ</td>
-            <td><input type="file" name="insert_logo" />
+            <td><input type="file" name="insert_logo" value=""/>
               <?php if (isset($error['insert_logo']) && $error['insert_logo'] === 'type') : ?>
                 <p class="error">* 写真などは「.png」または「.jpg」の画像を指定してください</p>
               <?php endif; ?>
+              <p class="error">* 画像を改めて指定してください</p>
             </td>
           </tr>
           <tr>
@@ -262,7 +238,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <?php endforeach; ?>
         </table>
 
-        <div><input type="submit" value="入力内容を確認する" /></div>
+        <div><input type="submit" value="編集内容を確認する" /></div>
       </form>
     </div>
   </main>

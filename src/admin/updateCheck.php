@@ -5,13 +5,13 @@ require('../db_connect.php');
 <?
 if (isset($_SESSION['form'])) {
   $form = $_SESSION['form'];
-  // var_dump($form);
+  var_dump($form);
 } else {
   header('location: agentList.php');
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $login_pass = password_hash($form['login_pass'], PASSWORD_DEFAULT);
-  $stmt = $db->prepare('insert into agents (corporate_name, started_at, ended_at, login_email, login_pass, to_send_email, client_name, client_department, client_email, client_tel, insert_company_name, insert_logo, insert_recommend_1, insert_recommend_2,insert_recommend_3, insert_handled_number, insert_detail, list_status) VALUES (:corporate_name,:started_at, :ended_at, :login_email, :login_pass, :to_send_email, :client_name, :client_department, :client_email, :client_tel, :insert_company_name, :insert_logo, :insert_recommend_1, :insert_recommend_2, :insert_recommend_3, :insert_handled_number, :insert_detail, :list_status)');
+  $stmt = $db->prepare('update agents set corporate_name = :corporate_name, started_at = :started_at, ended_at = :ended_at, login_email = :login_email, login_pass = :login_pass, to_send_email = :to_send_email, client_name = :client_name, client_department = :client_department, client_email = :client_email, client_tel = :client_tel, insert_company_name = :insert_company_name, insert_logo = :insert_logo, insert_recommend_1 = :insert_recommend_1, insert_recommend_2 = :insert_recommend_2, insert_recommend_3 = :insert_recommend_3, insert_handled_number = :insert_handled_number, insert_detail = :insert_detail, list_status = :list_status');
   $stmt->bindValue('corporate_name', $form['corporate_name'], PDO::PARAM_STR);
   $started_at = new DateTime( $form['started_at']);
   $stmt->bindValue('started_at', $started_at->format('Y-m-d'), PDO::PARAM_STR);
@@ -40,25 +40,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     die($db->error);
   }
 
-  $stmt = $db->query('select id from agents where id = LAST_INSERT_ID()');
-  $agent_id = $stmt->fetch(PDO::FETCH_ASSOC);
+  // タグ未解決
+  // $stmt = $db->prepare('insert into agents_tags (agent_id, tag_id) VALUES (LAST_INSERT_ID(), :tag_id)');
+  // foreach($form['agent_tags'] as $agent_tag):
+  // $stmt->bindValue('tag_id', $agent_tag, PDO::PARAM_STR);//いくつかあるから、配列？for文？
+  // endforeach;
 
-
-  $stmt = $db->prepare('insert into agents_tags (agent_id, tag_id) VALUES (:agent_id, :tag_id)');
-  foreach($form['agent_tags'] as $agent_tag):
-  $stmt->bindValue('agent_id', $agent_id['id'], PDO::PARAM_INT);
-  $stmt->bindValue('tag_id', $agent_tag, PDO::PARAM_INT);
-  if (!$stmt) {
-    die($db->error);
-  }
-  $success = $stmt->execute();
-  if (!$success) {
-    die($db->error);
-  }
-  endforeach;
+  // if (!$stmt) {
+  //   die($db->error);
+  // }
+  // $success = $stmt->execute();
+  // if (!$success) {
+  //   die($db->error);
+  // }
 
   unset($_SESSION['form']);
-  header('location: thanks.php');
+  header('location: updateThanks.php');
 }
 
 //タグ情報
@@ -71,11 +68,11 @@ foreach ($filter_sorts_tags as $f) {
 }
 
 // エージェントタグ
-// $stmt = $db->prepare('select * from agents_tags where agent_id=:id');
-// $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
-// $stmt->execute();
-// $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
-// var_dump($agent_tags);
+$stmt = $db->prepare('select * from agents_tags where agent_id=:id');
+$stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
+$stmt->execute();
+$agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+var_dump($agent_tags);
 function set_list_status($list_status)
 {
   if ($list_status === "1") {
