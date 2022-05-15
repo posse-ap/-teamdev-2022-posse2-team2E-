@@ -1,9 +1,8 @@
 <?php
 session_start();
 require('../db_connect.php');
-if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['form'])) {
+if (isset($_GET['action']) && $_GET['action'] === 'update' && isset($_SESSION['form'])) {
   $form = $_SESSION['form'];
-
 } else {
   $form = [ //エラーで使うものだけで良いかも
     'corporate_name' => '',
@@ -104,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $_SESSION['form']['insert_logo'] = '';
     }
 
-    header('location: check.php');
+    header('location: updateCheck.php');
     exit();
   }
 }
@@ -116,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AgentList</title>
+  <title>編集</title>
   <link rel="stylesheet" href="./css/reset.css" />
   <link rel="stylesheet" href="./css/style.css" />
   <script src="./js/jquery-3.6.0.min.js"></script>
@@ -262,7 +261,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <?php endforeach; ?>
         </table>
 
-        <div><input type="submit" value="入力内容を確認する" /></div>
+        <div><input type="submit" value="編集内容を確認する" /></div>
       </form>
     </div>
   </main>

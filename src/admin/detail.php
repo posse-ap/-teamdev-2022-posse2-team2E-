@@ -142,7 +142,8 @@ function set_list_status($list_status)
         <tr class="login-info">
           <th>ログイン情報</th>
           <td>
-            email:<?php echo h($agent['login_email']) ?>　　　pass:<?php echo h($agent['login_pass']) ?>
+            email:<?php echo h($agent['login_email']) ?>　　　pass: 【表示されません】
+
           </td>
         </tr>
 
@@ -180,7 +181,7 @@ function set_list_status($list_status)
         </tr>
         <tr>
           <td class="sub-th">企業ロゴ</td>
-          <td><?php echo h($agent['insert_logo']) ?></td>
+          <td><img src="../img/insert_logo/<?php echo h($agent['insert_logo']); ?>" width="300" alt="" /></td>
         </tr>
         <tr>
           <td class="sub-th">オススメポイント</td>

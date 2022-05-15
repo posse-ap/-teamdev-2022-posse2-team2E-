@@ -6,6 +6,56 @@ try {
   $listed_agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
   $stmt->execute([2]);
   $non_listed_agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  // タグ表示テスト
+
+  $stmt = $db->query('select agent_id, at.tag_id, tag_name from agents_tags at, filter_tags ft where at.tag_id = ft.tag_id');
+  $agents_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $at_list = [];
+  foreach ($agents_tags as $a) {
+    $at_list[(int)$a['agent_id']][] = $a;
+  }
+
+  // var_dump($at_list);
+  // $at_listの中身はこんな感じ 
+  //[1]=> { 
+  //   [0]=>  { 
+  //    ["agent_id"]=> int(1) 
+  //    ["tag_id"]=> int(1) 
+  //    ["tag_name"]=> string(9) "特化型" 
+  // }
+  //    [1]=>  { 
+  //    ["agent_id"]=> int(1)   
+  //    ["tag_id"]=> int(2)  
+  //    ["tag_name"]=> string(9) "総合型" 
+  // } 
+  // } 
+  //[2]=>  { 
+  //   [0]=>  { 
+    // ["agent_id"]=> int(2) 
+    // ["tag_id"]=> int(1) 
+    // ["tag_name"]=> string(9) "特化型" } 
+  //} 
+  //[16]=>  { 
+    // [0]=>  { 
+      // ["agent_id"]=> int(16) 
+      // ["tag_id"]=> int(4) 
+      // ["tag_name"]=> string(6) "小型" } 
+    // } 
+  // [3]=> { 
+    // [0]=>  {
+      //  ["agent_id"]=> int(3) 
+      // ["tag_id"]=> int(4) 
+      // ["tag_name"]=> string(6) "小型" 
+    // } 
+  // } 
+// }
+
+
+  // ここまで
+
+
+
 } catch (PDOException $e) {
   echo '接続失敗';
   $e->getMessage();
@@ -55,16 +105,28 @@ try {
           <th>エージェント名</th>
           <th>契約期間</th>
           <th colspan="3">操作</th>
+          <th>登録タグ</th>
         </tr>
         <?php foreach ($listed_agents as $listed_agent) :
         ?>
           <tr>
-            <td><?php echo $listed_agent['corporate_name'] ?></td>
-            <td><?php echo $listed_agent['started_at'] ?> ~ <?php echo $listed_agent['ended_at'] ?></td>
+            <td><?php echo $listed_agent['insert_company_name'] ?></td>
+            <td><?php echo date("Y/m/d", strtotime($listed_agent['started_at'])) . '~' . date("Y/m/d", strtotime($listed_agent['ended_at'])) ?></td>
             <td><a href="detail.php?id=<?php echo $listed_agent['id']; ?>">詳細</a></td>
             <td><a href="contact.php?id=<?php echo $listed_agent['id']; ?>">問い合わせ一覧</a></td>
-            <td><a href="stop.php?id=<?php echo $listed_agent['id']; ?>"  onclick="return confirm('本当に掲載停止しますか? 掲載停止しても詳細情報は保持されます。')">掲載停止</a></td>
-          <?php endforeach; ?>
+            <td><a href="stop.php?id=<?php echo $listed_agent['id']; ?>" onclick="return confirm('本当に掲載停止しますか? 掲載停止しても詳細情報は保持されます。')">掲載停止</a></td>
+            <!--  タグ表示テスト↓ -->
+            <td>
+              <?php foreach ($at_list as $agent_tags) : ?>
+                <?php if ($listed_agent['id'] === current($agent_tags)['agent_id']) : ?>
+                  <?php foreach ($agent_tags as $agent_tag) : ?>
+                    <?= $agent_tag['tag_name']; ?>
+                  <?php endforeach; ?></td>
+          <?php endif; ?>
+        <?php endforeach; ?>
+        </td>
+        <!-- タグ表示テスト ↑-->
+      <?php endforeach; ?>
           </tr>
 
       </table>
@@ -75,10 +137,10 @@ try {
         <?php foreach ($non_listed_agents as $non_listed_agent) :
         ?>
           <tr>
-            <td><?php echo $non_listed_agent['corporate_name'] ?></td>
-            <td><?php echo $non_listed_agent['started_at'] ?> ~ <?php echo $non_listed_agent['ended_at'] ?></td>
+            <td><?php echo $non_listed_agent['insert_company_name'] ?></td>
+            <td><?php echo date("Y/m/d", strtotime($non_listed_agent['started_at'])) . '~' . date("Y/m/d", strtotime($non_listed_agent['ended_at'])) ?></td>
             <td><a href="detail.php?id=<?php echo $non_listed_agent['id']; ?>">詳細</a></td>
-            <td><a href="contact.php?id=<?php echo $non_listed_agent['id']; ?> " >問い合わせ一覧</a></td>
+            <td><a href="contact.php?id=<?php echo $non_listed_agent['id']; ?> ">問い合わせ一覧</a></td>
             <td><a href="restart.php?id=<?php echo $non_listed_agent['id']; ?>" onclick="return confirm('本当に掲載再開しますか?')">再開</a></td>
             <td><a href="delete.php?id=<?php echo $non_listed_agent['id']; ?>" onclick="return confirm('本当に削除しますか? 一度削除すると復元できません。')">削除</a></td>
           <?php endforeach; ?>

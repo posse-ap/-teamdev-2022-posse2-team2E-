@@ -122,7 +122,7 @@ input {
 }
 
 .agent-add-table {
-  & > table {
+  & > table, form > table {
     margin: 30px 0;
   }
 
