@@ -13,27 +13,38 @@ if (isset($_POST["submit"])) {
     try {
         $db = new PDO("mysql:host=db; dbname=shukatsu; charset=utf8", "$user", "$password");
 
-        $stmt = $db->prepare('SELECT * FROM agents WHERE login_email = ?');
+        $stmt = $db->prepare('SELECT id, corporate_name, login_pass FROM agents WHERE login_email = :login_email');
         // $stmt = $db->prepare('SELECT * FROM agents WHERE login_email = :email limit 1');
         // $stmt->execute(array(':email' => $_POST['email']));
         // $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $stmt->bindParam(1, $_POST['email'], PDO::PARAM_STR);
+        $login_email = $_POST['email'];
+        $stmt->bindValue(':login_email', $login_email, PDO::PARAM_STR);
+        // $stmt->bindParam(1, $_POST['email'], PDO::PARAM_STR);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (password_verify($_POST['pass'], $result['login_pass'])) {
-            // $redirect[1] = "agent_students_all.php?id=1";
-            // if( isset($_GET['id']) ){
-            //     $id = intval($_GET['id']);
-            //     header("Location:$redirect[$id]");
+
             // }
             session_regenerate_id(TRUE); //セッションidを再発行
+            $_SESSION['id'] = $result['id'];
+            $_SESSION['corporate_name'] = $result['corporate_name'];
             $_SESSION["login"] = $_POST['email']; //セッションにログイン情報を登録
+                //         $redirect[1] = "agent_students_all.php?id=1";
+                //         $redirect[2] = "agent_students_all.php?id=2";
+                //         $redirect[3] = "agent_students_all.php?id=3";
+                // // $id = ($_GET['id']);
+                // $id = ($_SESSION['id']);
+                // header("Location:$redirect[$id]");
             header('Location: agent_students_all.php');
         } else {
             $msg = 'メールアドレスもしくはパスワードが間違っています。';
-            var_dump(password_hash("miyuki", PASSWORD_DEFAULT));
+            var_dump($result['corporate_name']);
+
+            echo "わあああああああああああ";
+
+            // var_dump(password_hash("miyuki", PASSWORD_DEFAULT));
 
             echo "わあああああああああああ";
 
@@ -132,10 +143,10 @@ if (isset($_POST["submit"])) {
 
 <body>
     <!-- <header> -->
-        <h1>
-            <p><span>CRAFT</span>by boozer</p>
-        </h1>
-        <p class="agent_login">エージェント企業ログイン画面</p>
+    <h1>
+        <p><span>CRAFT</span>by boozer</p>
+    </h1>
+    <p class="agent_login">エージェント企業ログイン画面</p>
     </header>
     <div class="agent_login_info">
         <h2 class="agent_login_title">エージェント企業用画面</h2>
@@ -154,11 +165,11 @@ if (isset($_POST["submit"])) {
         <!-- <a href="inquiry.php" class="pass_forget">パスワードをお忘れの方はこちら</a> -->
     </div>
     <!-- <div class="inquiry"> -->
-        <p>お問い合わせは下記の連絡先にお願いいたします。
-            <br>craft運営 boozer株式会社事務局
-            <br>TEL:080-3434-2435
-            <br>Email:craft@boozer.com
-        </p>
+    <p>お問い合わせは下記の連絡先にお願いいたします。
+        <br>craft運営 boozer株式会社事務局
+        <br>TEL:080-3434-2435
+        <br>Email:craft@boozer.com
+    </p>
     </div>
 </body>
 
