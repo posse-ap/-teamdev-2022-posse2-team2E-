@@ -2,14 +2,14 @@
 session_start();
 require($_SERVER['DOCUMENT_ROOT'] . "/db_connect.php");
 
-$db = new PDO(
-    "mysql:host=db; dbname=shukatsu; charset=utf8",
-    "$user",
-    "$password",
-    array(
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-    )
-);
+// $db = new PDO(
+//     "mysql:host=db; dbname=shukatsu; charset=utf8",
+//     "$user",
+//     "$password",
+//     array(
+//         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+//     )
+// );
 
 // $id = $_GET['id'];
 
@@ -52,7 +52,27 @@ try {
 
     // $sql = 'SELECT * from `students` where id = :id';
     // $stmt = $db->prepare('SELECT * FROM agents WHERE id = :id  INNER JOIN agents as T2 ON T1.agent_id = $id ');
-    $stmt = $db->prepare('SELECT * FROM student_contact AS T1 INNER JOIN agents as T2 ON T1.agent_id = T2.id WHERE T1.agent_id = :agent_id ');
+    // $stmt = $db->prepare('SELECT * FROM student_contact AS T1 INNER JOIN agents as T2 ON T1.agent_id = T2.id WHERE T1.agent_id = :agent_id ');
+
+     $stmt = $db->prepare('SELECT 
+    S.id AS id,
+	S.created AS 申込日時, 
+	S.name AS 氏名, 
+	S.email AS メールアドレス, 
+	S.tel AS 電話番号,
+    A.id AS 問い合わせID
+    FROM
+    students AS S, student_contact AS SC, agents AS A
+    WHERE 
+    S.id = SC.student_id
+    AND
+    SC.agent_id = A.id
+    AND
+    SC.agent_id = :agent_id
+    
+    ');
+
+
     $stmt->bindValue(':agent_id', $id, PDO::PARAM_INT);
     // $stmt->bindValue(':agent_id', $_SESSION['id'], PDO::PARAM_INT);
     $stmt->execute();
@@ -75,12 +95,12 @@ try {
     /////
 
 //     $stmt = $db->prepare('SELECT 
-//     students.id AS id,
-// 	students.created AS 申込日時, 
-// 	students.name AS 氏名, 
-// 	students.email AS メールアドレス, 
-// 	students.tel AS 電話番号,
-//     agents.id AS 問い合わせID
+    // students.id AS id,
+	// students.created AS 申込日時, 
+	// students.name AS 氏名, 
+	// students.email AS メールアドレス, 
+	// students.tel AS 電話番号,
+    // agents.id AS 問い合わせID
 // FROM 
 // 	students LEFT OUTER JOIN student_contact ON students.id  = student_contact.student_id 
 //              LEFT OUTER JOIN agents ON student_contact.agent_id    = agents.id 

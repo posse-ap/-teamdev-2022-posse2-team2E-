@@ -158,7 +158,7 @@ if (isset($_POST["submit"])) {
             </p>
             <p>
             <p class="agent_login_label">パスワード</p>
-            <input type="password" name="pass" value="<?php echo h($password); ?>" required>
+            <input type="text" name="pass" value="<?php echo h($password); ?>" required>
             </p>
             <input type="submit" name="submit" value="ログイン">
         </form>
