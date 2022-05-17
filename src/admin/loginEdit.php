@@ -25,7 +25,7 @@ foreach ($filter_sorts_tags as $f) {
 </head>
 
 <body>
-<header>
+  <header>
     <div class="header-inner">
       <div class="header-title">クラフト管理者画面</div>
       <nav class="header-nav">
@@ -37,40 +37,34 @@ foreach ($filter_sorts_tags as $f) {
             <li class="header-nav-item">エージェント追加</li>
           </a>
           <a href="./tagsEdit.php">
-            <li class="header-nav-item select">タグ一覧</li>
+            <li class="header-nav-item">タグ一覧</li>
           </a>
           <a href="./loginEdit.php">
-            <li class="header-nav-item">管理者ログイン情報</li>
+            <li class="header-nav-item select">管理者ログイン情報</li>
           </a>
         </ul>
       </nav>
     </div>
   </header>
   <main class="main">
-      <div class="agent-add-table">
-        <table class="tags-add">
-          <tr>
-            <td class="sub-th">絞り込みの種類</td>
-            <td class="sub-th">タグ</td>
-          </tr>
-          <?php foreach ($t_list as $filter_sort) : ?>
-            <tr>
-              <td><?= current($filter_sort)['sort_name']; ?></td>
-              <td>
-                <?php foreach ($filter_sort as $filter_tag) : ?>
-                  <label class="added-tag">
-                    <span><?= $filter_tag['tag_name']; ?></span> </label>
-                <?php endforeach; ?>
-
-              </td>
-            </tr>
-          <?php endforeach; ?>
-        </table>
-      </div>
-      <button><a href="tagsUpdate.php">編集</a></button>
-      <button><a href="sortsAdd.php">絞り込みの種類追加</a></button>
-      <button><a href="tagsAdd.php">タグ追加</a></button>
-      <button><a href="tagsDelete.php">選択して削除</a></button>
+    <div class="agent-add-table">
+      <table class="tags-add">
+        <tr>
+          <td class="sub-th">email</td>
+          <td class="sub-th">pass</td>
+        </tr>
+        <tr>
+          <td>
+            <!-- email -->
+          </td>
+          </td>
+          <td>
+            <!-- ここにパスワード -->
+          </td>
+        </tr>
+      </table>
+    </div>
+    <button><a href="tagsUpdate.php">編集する</a></button>
   </main>
 </body>
 
