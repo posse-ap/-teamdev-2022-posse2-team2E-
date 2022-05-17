@@ -1,11 +1,35 @@
 <?php
 require('../db_connect.php');
-// 絞り込みの種類情報
+// 絞り込みの種類
 $stmt = $db->query('select * from filter_sorts;');
 $filter_sorts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+// タグ
 $stmt = $db->query('select * from filter_tags;');
 $filter_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// 削除機能
+// 絞り込みの種類
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+if($_POST['filter_sorts'] != ''){
+$stmt = $db->prepare('delete from filter_sorts where id = :id');
+foreach($_POST['filter_sorts'] as $filter_sort):
+$stmt->bindValue(':id', $filter_sort, PDO::PARAM_INT);
+$stmt->execute();
+endforeach;
+}
+
+// タグ
+if($_POST['filter_tags'] != ''){
+$stmt = $db->prepare('delete from filter_tags where tag_id = :tag_id');
+foreach($_POST['filter_tags'] as $filter_tag):
+$stmt->bindValue(':tag_id', $filter_tag, PDO::PARAM_INT);
+$stmt->execute();
+endforeach;
+}
+
+header('location: tagEditThanks.php');
+}
 ?>
 
 
@@ -60,7 +84,6 @@ $filter_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <?php echo $filter_sort['id'] ?>
             </td>
             <td>
-
               <label class="filter-sort">
                 <input type="checkbox" name="filter_sorts[]" value="<?= $filter_sort['id']; ?>" />
                 <span><?= $filter_sort['sort_name']; ?></span></label>
@@ -84,7 +107,7 @@ $filter_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </td>
             <td>
               <label class="filter-tag">
-                <input type="checkbox" name="filter_tags[]" value="<?= $filter_tag['tag_name']; ?>" />
+                <input type="checkbox" name="filter_tags[]" value="<?= $filter_tag['tag_id']; ?>" />
                 <span><?= $filter_tag['tag_name']; ?></span></label>
             </td>
           </tr>

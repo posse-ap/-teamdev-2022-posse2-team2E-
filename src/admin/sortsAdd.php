@@ -6,6 +6,14 @@ $filter_sorts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $stmt = $db->query('select * from filter_tags;');
 $filter_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// 絞り込みの種類追加
+$stmt = $db->prepare('insert into filter_sorts (sort_name) VALUES (:sort_name)');
+$stmt->bindValue(':sort_name', $_POST['tag_name'], PDO::PARAM_STR);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$stmt->execute();
+header('location: tagEditThanks.php');
+}
 ?>
 
 <!DOCTYPE html>
@@ -43,10 +51,11 @@ $filter_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
   </header>
   <p>
   <main class="main">
+  <form action="" method="post" enctype="multipart/form-data">
     <div class="agent-add-table">
 
       <table class="tags-add">
-      ※タグ選択がなければ、ユーザー画面に反映されません。
+      ※タグのない「絞り込みの種類」は、ユーザー画面に反映されません。
         <tr>
           <th>絞り込みの種類</th>
         </tr>
@@ -73,8 +82,9 @@ $filter_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
           </td>
         </tr>
       </table>
-    </div>
     <input type="submit" value="追加する" />
+    </div>
+  </form>
   </main>
 </body>
 

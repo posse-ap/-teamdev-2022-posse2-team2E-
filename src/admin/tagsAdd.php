@@ -6,6 +6,15 @@ $filter_sorts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $stmt = $db->query('select * from filter_tags;');
 $filter_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// 絞り込みの種類追加
+$stmt = $db->prepare('insert into filter_tags (sort_id, tag_name) VALUES (:sort_id, :tag_name)');
+$stmt->bindValue(':sort_id', $_POST['sort_id'], PDO::PARAM_STR);
+$stmt->bindValue(':tag_name', $_POST['tag_name'], PDO::PARAM_STR);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $stmt->execute();
+  header('location: tagEditThanks.php');
+}
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +32,7 @@ $filter_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-<header>
+  <header>
     <div class="header-inner">
       <div class="header-title">クラフト管理者画面</div>
       <nav class="header-nav">
@@ -43,6 +52,7 @@ $filter_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
   </header>
   <p>
   <main class="main">
+  <form action="" method="post" enctype="multipart/form-data">
     <div class="agent-add-table">
 
       <table class="tags-add">
@@ -84,15 +94,17 @@ $filter_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php endforeach; ?>
         <tr>
           <td>
-          <input type="text" name="tag_name" value="" />※絞り込みの種類の番号を英数字で入力してください。
+            <input type="number" name="sort_id" value="" />
           </td>
           <td>
             <input type="text" name="tag_name" value="" />
           </td>
         </tr>
       </table>
+      <input type="submit" value="追加する" />
     </div>
-    <input type="submit" value="タグを追加する" />
+    </form>
+
   </main>
 </body>
 
