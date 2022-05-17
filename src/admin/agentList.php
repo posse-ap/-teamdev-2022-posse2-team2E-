@@ -93,6 +93,9 @@ try {
           <a href="./tagsEdit.php">
             <li class="header-nav-item">タグ一覧</li>
           </a>
+          <a href="./loginEdit.php">
+            <li class="header-nav-item">管理者ログイン情報</li>
+          </a>
         </ul>
       </nav>
     </div>

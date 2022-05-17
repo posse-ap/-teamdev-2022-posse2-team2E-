@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       'filter' => FILTER_SANITIZE_NUMBER_INT,
       'flags'     => FILTER_REQUIRE_ARRAY,
     ),
-  ); // タグについては配列？
+  ); // タグは配列
 
   $form = filter_input_array(INPUT_POST, $args);
 
@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-  <header>
+<header>
     <div class="header-inner">
       <div class="header-title">クラフト管理者画面</div>
       <nav class="header-nav">
@@ -132,11 +132,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <a href="./agentList.php">
             <li class="header-nav-item">エージェント一覧</li>
           </a>
-          <a href="#">
+          <a href="./agentAdd.php">
             <li class="header-nav-item select">エージェント追加</li>
           </a>
           <a href="./tagsEdit.php">
             <li class="header-nav-item">タグ一覧</li>
+          </a>
+          <a href="./loginEdit.php">
+            <li class="header-nav-item">管理者ログイン情報</li>
           </a>
         </ul>
       </nav>

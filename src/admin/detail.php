@@ -157,7 +157,7 @@ function set_list_status($list_status)
           <td><?php echo h($agent['to_send_email']) ?></td>
         </tr>
       </table>
-      <table class="contact-info-talbe">
+      <table class="contact-info-table">
         <tr>
           <th>担当者情報</th>
         </tr>
@@ -230,8 +230,9 @@ function set_list_status($list_status)
           </tr>
         <?php endforeach; ?>
       </table>
-    </div>
+    
     <input type="submit" value="編集する" />
+    </div>
     </form>
   </main>
 </body>
