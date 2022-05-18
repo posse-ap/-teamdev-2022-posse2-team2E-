@@ -25,6 +25,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!$success) {
     die($db->error);
   }
+
+  // students_contactsへ一斉送信
+  $stmt = $db->query('select id from students where id = LAST_INSERT_ID()');
+  $student_id = $stmt->fetch(PDO::FETCH_ASSOC);
+  $stmt = $db->prepare('insert into students_contacts (student_id, agent_id) VALUES (:student_id, :agent_id)');
+  foreach ($form['student_contacts'] as $student_contact) :
+    $stmt->bindValue('student_id', $student_id['id'], PDO::PARAM_INT);
+    $stmt->bindValue('agent_id', $student_contact, PDO::PARAM_INT);
+    if (!$stmt) {
+      die($db->error);
+    }
+    $success = $stmt->execute();
+    if (!$success) {
+      die($db->error);
+    }
+  endforeach;
+
   unset($_SESSION['form']);
   header('location: thanks.html');
 }
@@ -107,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </tr>
         </table>
         <p class="btn">
-        <a href="entry.php?action=rewrite">&laquo;&nbsp;書き直す</a> | <span><input type="submit" value="　 送信 　" /></span>
+          <a href="entry.php?action=rewrite">&laquo;&nbsp;書き直す</a> | <span><input type="submit" value="　 送信 　" /></span>
         </p>
       </form>
     </div>

@@ -79,6 +79,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $error['ended_at'] = 'blank';
   }
 
+  // login_emailの重複チェック
+  if ($form['login_email'] != '') {
+    $stmt = $db->prepare('select count(*) from agents where login_email=:login_email');
+    if (!$stmt) {
+        die($db->error);
+    }
+    $stmt->bindValue('login_email', $form['login_email'], PDO::PARAM_STR);
+    $success = $stmt->execute();
+    $cnt = (int)$stmt->fetchColumn();
+    if ($cnt > 0) {
+        $error['login_email'] = 'duplicate';
+    }
+}
+
   // 画像のチェック
   $insert_logo = $_FILES['insert_logo'];
   if ($insert_logo['name'] !== '' && $insert_logo['error'] === 0) {
@@ -123,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-<header>
+  <header>
     <div class="header-inner">
       <div class="header-title">クラフト管理者画面</div>
       <nav class="header-nav">
@@ -181,6 +195,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <th>ログイン情報</th>
             <td>
               email:<input type="email" name="login_email" value="<?php echo h($form["login_email"]); ?>" />　　　pass:<input type="password" name="login_pass" value="<?php echo h($form["login_pass"]); ?>" />
+              <?php if (isset($error['login_email']) && $error['login_email'] === 'duplicate') : ?>
+                <p class="error">* 指定されたメールアドレスはすでに登録されています</p><?php endif; ?>
             </td>
           </tr>
 
@@ -255,8 +271,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <td>
                 <?php foreach ($filter_sort as $filter_tag) : ?>
                   <label class="added-tag">
-                    <input type="checkbox" name="agent_tags[]" value="<?= $filter_tag['tag_id'] ?>" <?php if($form['agent_tags']):foreach ($form['agent_tags'] as $agent_tag) : if (h($filter_tag['tag_id']) === $agent_tag) : ?>checked <?php endif;
-                                                                                                                                                                                                        endforeach; endif;?> />
+                    <input type="checkbox" name="agent_tags[]" value="<?= $filter_tag['tag_id'] ?>" <?php if ($form['agent_tags']) : foreach ($form['agent_tags'] as $agent_tag) : if (h($filter_tag['tag_id']) === $agent_tag) : ?>checked <?php endif;
+                                                                                                                                                                                                                                      endforeach;
+                                                                                                                                                                                                                                    endif; ?> />
                     <span><?= $filter_tag['tag_name']; ?></span> </label>
                 <?php endforeach; ?>
               </td>
