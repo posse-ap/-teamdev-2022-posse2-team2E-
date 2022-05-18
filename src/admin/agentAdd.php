@@ -3,13 +3,12 @@ session_start();
 require('../db_connect.php');
 if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['form'])) {
   $form = $_SESSION['form'];
-
 } else {
   $form = [ //エラーで使うものだけで良いかも
     'corporate_name' => '',
     'started_at' => '',
     'ended_at' => '',
-    'login_email' => '',
+    'class_of' => '',
     'login_pass' => '',
     'to_send_email' => '',
     'client_name' => '',

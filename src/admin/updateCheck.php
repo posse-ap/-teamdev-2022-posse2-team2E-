@@ -1,8 +1,7 @@
 <?php
 session_start();
 require('../db_connect.php');
-?>
-<?
+$id = $_GET['id'];
 if (isset($_SESSION['form'])) {
   $form = $_SESSION['form'];
   var_dump($form);
@@ -11,7 +10,7 @@ if (isset($_SESSION['form'])) {
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $login_pass = password_hash($form['login_pass'], PASSWORD_DEFAULT);
-  $stmt = $db->prepare('update agents set corporate_name = :corporate_name, started_at = :started_at, ended_at = :ended_at, login_email = :login_email, login_pass = :login_pass, to_send_email = :to_send_email, client_name = :client_name, client_department = :client_department, client_email = :client_email, client_tel = :client_tel, insert_company_name = :insert_company_name, insert_logo = :insert_logo, insert_recommend_1 = :insert_recommend_1, insert_recommend_2 = :insert_recommend_2, insert_recommend_3 = :insert_recommend_3, insert_handled_number = :insert_handled_number, insert_detail = :insert_detail, list_status = :list_status');
+  $stmt = $db->prepare('update agents set corporate_name = :corporate_name, started_at = :started_at, ended_at = :ended_at, login_email = :login_email, login_pass = :login_pass, to_send_email = :to_send_email, client_name = :client_name, client_department = :client_department, client_email = :client_email, client_tel = :client_tel, insert_company_name = :insert_company_name, insert_logo = :insert_logo, insert_recommend_1 = :insert_recommend_1, insert_recommend_2 = :insert_recommend_2, insert_recommend_3 = :insert_recommend_3, insert_handled_number = :insert_handled_number, insert_detail = :insert_detail, list_status = :list_status where id = :id');
   $stmt->bindValue('corporate_name', $form['corporate_name'], PDO::PARAM_STR);
   $started_at = new DateTime( $form['started_at']);
   $stmt->bindValue('started_at', $started_at->format('Y-m-d'), PDO::PARAM_STR);
@@ -32,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $stmt->bindValue('insert_handled_number', $form['insert_handled_number'], PDO::PARAM_STR);
   $stmt->bindValue('insert_detail', $form['insert_detail'], PDO::PARAM_STR);
   $stmt->bindValue('list_status', $form['list_status'], PDO::PARAM_INT);
+  $stmt->bindValue('id', (int)$id, PDO::PARAM_INT);
   if (!$stmt) {
     die($db->error);
   }
@@ -40,19 +40,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     die($db->error);
   }
 
-  // タグ未解決
-  // $stmt = $db->prepare('insert into agents_tags (agent_id, tag_id) VALUES (LAST_INSERT_ID(), :tag_id)');
-  // foreach($form['agent_tags'] as $agent_tag):
-  // $stmt->bindValue('tag_id', $agent_tag, PDO::PARAM_STR);//いくつかあるから、配列？for文？
-  // endforeach;
 
-  // if (!$stmt) {
-  //   die($db->error);
-  // }
-  // $success = $stmt->execute();
-  // if (!$success) {
-  //   die($db->error);
-  // }
+  // タグについて、全て削除した後、改めてinsert
+  // 削除
+  $stmt = $db->prepare('delete from agents_tags where agent_id = :agent_id');
+$stmt->bindValue(':agent_id', (int)$id, PDO::PARAM_INT);
+$success = $stmt->execute();
+if (!$success) {
+  die($db->error);
+}
+
+$stmt = $db->prepare('insert into agents_tags (agent_id, tag_id) VALUES (:agent_id, :tag_id)');
+foreach($form['agent_tags'] as $agent_tag):
+$stmt->bindValue('agent_id', (int)$id, PDO::PARAM_INT);
+$stmt->bindValue('tag_id', $agent_tag, PDO::PARAM_INT);
+if (!$stmt) {
+  die($db->error);
+}
+$success = $stmt->execute();
+if (!$success) {
+  die($db->error);
+}
+endforeach;
 
   unset($_SESSION['form']);
   header('location: updateThanks.php');
@@ -72,7 +81,7 @@ $stmt = $db->prepare('select * from agents_tags where agent_id=:id');
 $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
 $stmt->execute();
 $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
-var_dump($agent_tags);
+// var_dump($agent_tags);
 function set_list_status($list_status)
 {
   if ($list_status === "1") {
@@ -216,7 +225,7 @@ function set_list_status($list_status)
             <tr>
               <td><?= current($filter_sort)['sort_name']; ?></td>
               <td>
-                <?php foreach ($filter_sort as $filter_tag) : ?>
+              <?php foreach ($filter_sort as $filter_tag) : ?>
                   <label class="added-tag">
                     <input type="checkbox" name="agent_tags[]" value="<?= $filter_tag['tag_id'] ?>" disabled <?php if($form['agent_tags']):foreach ($form['agent_tags'] as $agent_tag) : if (h($filter_tag['tag_id']) === $agent_tag) : ?>checked <?php endif;
                                                                                                                                                                               endforeach;endif;?> />
@@ -226,7 +235,7 @@ function set_list_status($list_status)
             </tr>
           <?php endforeach; ?>
         </table>
-        <div><a href="agentAdd.php?action=rewrite">&laquo;&nbsp;書き直す</a> | <input type="submit" value="登録する" /></div>
+        <div><a href="update.php?id=<?=$id?>?action=rewrite">&laquo;&nbsp;書き直す</a> | <input type="submit" value="登録する" /></div>
       </form>
     </div>
   </main>

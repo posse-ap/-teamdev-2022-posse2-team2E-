@@ -1,0 +1,228 @@
+<?php
+// var_dump('これは表示される？');
+session_start();
+require('../../db_connect.php');
+if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['form'])) {
+  $form = $_SESSION['form'];
+} else {
+  $form = [ //エラーで使うものだけで良いかも
+    'name' => '',
+    'collage' => '',
+    'department' => '',
+    'class_of' => '',
+    'email' => '',
+    'tel' => '',
+    'address' => '',
+    // 'memo' => '',//追加
+    'acceptance' => '',//プライバシーポリシー
+    'student_contact' => [], //agent_idをinsertするときに使う？
+  ];
+}
+
+$error = [];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $args = array(
+    'name' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    'collage' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    'department' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    'class_of' => FILTER_SANITIZE_NUMBER_INT,
+    'email' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    'tel' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    'address' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    'memo' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    'acceptance' => FILTER_SANITIZE_NUMBER_INT,
+    'student_contact' => array(
+      'filter' => FILTER_SANITIZE_NUMBER_INT,
+      'flags'     => FILTER_REQUIRE_ARRAY,
+    ),
+  );
+
+  $form = filter_input_array(INPUT_POST, $args);
+
+  // エラー判定
+  if ($form['name'] === '') {
+    $error['name'] = 'blank';
+  }
+  if (!$form['collage']) {
+    $error['collage'] = 'blank';
+  }
+  if ($form['department'] === '') {
+    $error['department'] = 'blank';
+  }
+  if ($form['class_of'] === '') {
+    $error['class_of'] = 'blank';
+  }
+  if ($form['email'] === '') {
+    $error['email'] = 'blank';
+  }
+  if ($form['tel'] === '') {
+    $error['tel'] = 'blank';
+  }
+  if ($form['address'] === '') {
+    $error['address'] = 'blank';
+  }
+  if (!$form['acceptance']) {
+    $error['acceptance'] = 'blank';
+  }
+
+  // エラーがなければ送信
+  if (empty($error)) {
+    $_SESSION['form'] = $form;
+    header('location: userCheck.php');
+    exit();
+  }
+}
+
+
+?>
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>userEntry</title>
+  <link rel="stylesheet" href="./style.css" />
+  <!-- <script src="./js/jquery-3.6.0.min.js"></script>
+  <script src="./js/script.js" defer></script> -->
+</head>
+
+<body>
+  <main>
+    <!-- フォーム -->
+    <div class="box_con">
+      <form action="" method="post" enctype="multipart/form-data">
+        <table class="formTable">
+          <!-- <tr>
+          <th>問い合わせるエージェント　※問い合わせないエージェントはチェックボックスを外してください</th>
+          <td>
+            <div class="box_br">
+              <label>
+                <input name="contact_type" type="radio" value="1" class="radio02-input in_top" id="radio02-01">
+                <label for="radio02-01">テキスト1</label>
+              </label>
+            </div>
+            <div class="box_br">
+              <label>
+                <input name="contact_type" type="radio" value="1" class="radio02-input in_top" id="radio02-02">
+                <label for="radio02-02">テキスト2</label>
+              </label>
+            </div>
+          </td>
+        </tr> -->
+          <!-- <tr>
+          <th>ご用件</th>
+          <td><select name="ご用件">
+              <option value="">選択してください</option>
+              <option value="ご質問・お問い合わせ">ご質問・お問い合わせ</option>
+              <option value="リンクについて">リンクについて</option>
+            </select></td>
+        </tr> -->
+          <tr>
+            <th>お名前<span>必須</span></th>
+            <td><input size="20" type="text" name="name" value="<?php echo h($form["name"]); ?>" /><?php if (isset($error['name']) && $error['name'] === 'blank') : ?><p class="error">* 氏名は必須項目です</p>
+              <?php endif; ?>
+            </td>
+          </tr>
+          <tr>
+            <th>電話番号（半角）<span>必須</span></th>
+            <td><input size="30" type="tel" name="tel" value="<?php echo h($form["tel"]); ?>" /><?php if (isset($error['tel']) && $error['tel'] === 'blank') : ?>
+                <p class="error">* 電話番号は必須項目です</p>
+              <?php endif; ?>
+            </td>
+          </tr>
+          <tr>
+            <th>Mail（半角）<span>必須</span></th>
+            <td><input size="30" type="email" name="email" value="<?php echo h($form["email"]); ?>" />連絡が必ずとれるアドレスを記載ください。<?php if (isset($error['email']) && $error['email'] === 'blank') : ?><p class="error">* アドレスは必須項目です</p>
+            <?php endif; ?>
+            </td>
+          </tr>
+          <th>学校名 <span>必須</span></th>
+          <td><input size="30" type="text" name="collage" value="<?php echo h($form["collage"]); ?>" /><?php if (isset($error['collage']) && $error['collage'] === 'blank') : ?>
+              <p class="error">* 学校名は必須項目です</p>
+            <?php endif; ?>
+          </td>
+          </tr>
+          <tr>
+            <th>学部/学科 <span>必須</span></th>
+            <td><input size="30" type="text" name="department" value="<?php echo h($form["department"]); ?>" /><?php if (isset($error['department']) && $error['department'] === 'blank') : ?>ない方はなしと記載ください<p class="error">* 学部/学科は必須項目です</p>
+            <?php endif; ?>
+            </td>
+          </tr>
+          <tr>
+            <th>卒業年度 <span>必須</span></th>
+            <td><input size="30" type="number" name="class_of" value="<?php echo h($form["class_of"]); ?>" /><?php if (isset($error['class_of']) && $error['class_of'] === 'blank') : ?>半角数字で記載ください<p class="error">* 卒業年度は必須項目です</p>
+            <?php endif; ?>
+            </td>
+          </tr>
+          <tr>
+            <th>住所 <span>必須</span></th>
+            <td><input size="30" type="text" name="address" value="<?php echo h($form["address"]); ?>" /><?php if (isset($error['address']) && $error['address'] === 'blank') : ?>
+                <p class="error">* 住所は必須項目です</p>
+              <?php endif; ?>
+            </td>
+          </tr>
+          <tr>
+            <th>自由記入欄<br /></th>
+            <td><textarea name="memo" cols="50" rows="5" value="<?php echo h($form["memo"]); ?>"><?php echo h($form["memo"]); ?></textarea>エージェントにお伝えたいことがあればご記入ください。</td>
+          </tr>
+
+        </table>
+        <div class="con_pri">
+          <div class="box_pri">
+            <div class="box_tori">
+              <h4>プライバシーポリシー</h4>
+              <p class="txt">当社は、当社が取得した個人情報の取扱いに関し、個人情報の保護に関する法律、個人情報保護に関するガイドライン等の指針、その他個人情報保護に関する関係法令を遵守します。</p>
+            </div>
+            <div class="box_num">
+              <h4>２.個人情報の安全管理</h4>
+              <p class="txt">当社は、個人情報の保護に関して、組織的、物理的、人的、技術的に適切な対策を実施し、当社の取り扱う個人情報の漏えい、滅失又はき損の防止その他の個人情報の安全管理のために必要かつ適切な措置を講ずるものとします。</p>
+            </div>
+            <div class="box_num">
+              <h4>３.個人情報の取得等の遵守事項</h4>
+              <p class="txt">当社による個人情報の取得、利用、提供については、以下の事項を遵守します。</p>
+            </div>
+            <div class="box_num">
+              <h4>(1)個人情報の取得</h4>
+              <p class="txt">当社は、当社が管理するインターネットによる情報提供サイト（以下「本サイト」といいます。）の運営に必要な範囲で、本サイトの一般利用者（以下「ユーザー」といいます。）又は本サイトに広告掲載を行う者（以下「掲載主」といいます。）から、ユーザー又は掲載主に係る個人情報を取得することがあります。</p>
+            </div>
+            <div class="box_num">
+              <h4>(2)個人情報の利用目的</h4>
+              <p class="txt">当社は、当社が取得した個人情報について、法令に定める場合又は本人の同意を得た場合を除き、以下に定める利用目的の達成に必要な範囲を超えて利用することはありません。
+                </br>①　本サイトの運営、維持、管理
+                </br>②　本サイトを通じたサービスの提供及び紹介
+                </br>③　本サイトの品質向上のためのアンケート</p>
+            </div>
+            <div class="box_num">
+              <h4>(3)個人情報の提供等</h4>
+              <p class="txt">当社は、法令で定める場合を除き、本人の同意に基づき取得した個人情報を、本人の事前の同意なく第三者に提供することはありません。なお、本人の求めによる個人情報の開示、訂正、追加若しくは削除又は利用目的の通知については、法令に従いこれを行うとともに、ご意見、ご相談に関して適切に対応します。</p>
+            </div>
+            <div class="box_num">
+              <h4>4 .個人情報の利用目的の変更</h4>
+              <p class="txt">当社は、前項で特定した利用目的は、予め本人の同意を得た場合を除くほかは、原則として変更しません。但し、変更前の利用目的と相当の関連性を有すると合理的に認められる範囲において、予め変更後の利用目的を公表の上で変更を行う場合はこの限りではありません。</p>
+            </div>
+            <div class="box_num">
+              <h4>５.個人情報の第三者提供</h4>
+              <p class="txt">当社は、個人情報の取扱いの全部又は一部を第三者に委託する場合、その適格性を十分に審査し、その取扱いを委託された個人情報の安全管理が図られるよう、委託を受けた者に対する必要かつ適切な監督を行うこととします。</p>
+            </div>
+          </div>
+        </div>
+        <div class="box_check">
+          <label>
+            <input type="checkbox" name="acceptance" value="1" aria-invalid="false" class="agree" <?php if ($form['acceptance'] === "1") : ?>checked <?php endif;?>/><span class="check">プライバシーポリシーに同意する</span>
+          </label>
+          <?php if (isset($error['acceptance']) && $error['acceptance'] === 'blank') : ?>
+            <p class="error">*ご同意いただけない場合は送信ができません。</p>
+          <?php endif; ?>
+        </div>
+        <p class="btn">
+          <span><input type="submit" value="　 確認 　" /></span>
+        </p>
+      </form>
+    </div>
+    <!-- ここまで -->
+  </main>
+</body>
+
+</html>

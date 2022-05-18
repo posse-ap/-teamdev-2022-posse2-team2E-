@@ -7,10 +7,6 @@ $filter_sorts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $stmt = $db->query('select * from filter_tags;');
 $filter_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$form = [ //英数字が入力されているか、判定
-  'selected_sorts_id' => [],
-];
-$error = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $args = array(
     'filter_sorts' => array(
@@ -182,7 +178,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <?php endforeach; ?>
         </table>
         <p class="error">
-        入力した番号にあう絞り込みの種類がなければ、ユーザー画面に表示されません。</p>
+        * 入力した番号にあう絞り込みの種類がなければ、ユーザー画面に表示されません。</br>
+        * 絞り込みの種類と番号が一致しないタグは手動で削除してください。
+      </p>
 
         <input type="submit" value="編集を完了する" />
       </div>

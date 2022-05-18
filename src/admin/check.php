@@ -1,8 +1,6 @@
 <?php
 session_start();
 require('../db_connect.php');
-?>
-<?
 if (isset($_SESSION['form'])) {
   $form = $_SESSION['form'];
   // var_dump($form);

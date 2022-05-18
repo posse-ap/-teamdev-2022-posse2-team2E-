@@ -1,8 +1,5 @@
 <?php
-session_start();//sessionじゃなくて、POSTでデータを受け取れるのでは？
 require('../db_connect.php');
-?>
-<?
 $id = $_GET['id'];
 
 //エージェント情報
@@ -10,9 +7,6 @@ $stmt = $db->prepare('select * from agents where id = :id');
 $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
 $stmt->execute();
 $agent = $stmt->fetch(PDO::FETCH_ASSOC);
-$_SESSION['form'] = $agent;
-// var_dump($_SESSION['form']);
-
 
 //タグ情報
 $stmt = $db->query('select fs.id, sort_name, tag_id, tag_name from filter_sorts fs inner join filter_tags ft on fs.id = ft.sort_id;
@@ -118,7 +112,6 @@ function set_list_status($list_status)
     <div class="operations">
       <button>ユーザー画面を確認</button>
     </div>
-    <form action="update.php" method="post" enctype="multipart/form-data">
     <div class="agent-add-table">
       <table class="main-info-table">
         <tr>
@@ -230,10 +223,8 @@ function set_list_status($list_status)
           </tr>
         <?php endforeach; ?>
       </table>
-    
-    <input type="submit" value="編集する" />
     </div>
-    </form>
+    <button><a href="update.php?id=<?= $id ?>">編集</a></button>
   </main>
 </body>
 

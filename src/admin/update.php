@@ -1,8 +1,27 @@
 <?php
 session_start();
 require('../db_connect.php');
-$form = $_SESSION['form'];
+$id = $_GET['id'];
 
+if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['form'])) {
+  $agent = $_SESSION['form'];
+  var_dump('何も出ない？');
+  
+  // 表示されず
+  $agent_tags= $agent['agent_tags'];
+}else{
+  //エージェント情報
+$stmt = $db->prepare('select * from agents where id = :id');
+$stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
+$stmt->execute();
+$agent = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// エージェントタグ
+$stmt = $db->prepare('select * from agents_tags where agent_id=:id');
+$stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
+$stmt->execute();
+$agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 //タグ情報
 $stmt = $db->query('select fs.id, sort_name, tag_id, tag_name from filter_sorts fs inner join filter_tags ft on fs.id = ft.sort_id;
@@ -12,8 +31,9 @@ $t_list = [];
 foreach ($filter_sorts_tags as $f) {
   $t_list[(int)$f['id']][] = $f;
 }
+
 $error = [];
-// checkからのPOSTとupdateからのPOSTが一緒になってるから問題が起きていると思う。。
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $args = array(
     'corporate_name' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
@@ -39,20 +59,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       'flags'     => FILTER_REQUIRE_ARRAY,
     ),
   ); // タグについては配列？
-  $form2 = filter_input_array(INPUT_POST, $args);
+  $form = filter_input_array(INPUT_POST, $args);
   // var_dump($form2);
 
   // エラー判定
-  if ($form2['insert_company_name'] === '') {
+  if ($form['insert_company_name'] === '') {
     $error['insert_company_name'] = 'blank';
   }
-  if (!$form2['list_status']){
+  if (!$form['list_status']){
     // $error['list_status'] = 'blank';
   }
-  if ($form2['started_at'] === '') {
+  if ($form['started_at'] === '') {
     $error['started_at'] = 'blank';
   }
-  if (!$form2['ended_at'] === '') {
+  if (!$form['ended_at'] === '') {
     $error['ended_at'] = 'blank';
   }
 
@@ -65,22 +85,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
   }
 
-  // エラーがなければ送信
+  // エラーがなければ確認画面へ
   if (empty($error)) {
-    $_SESSION['form'] = $form2;
+    $_SESSION['form'] = $form;
 
-    // if ($insert_logo['name'] !== '') {
-    //   //画像のアップロード
-    //   $filename = date('YmdHis') . '_' . $insert_logo['name'];
-    //   if (!move_uploaded_file($insert_logo['tmp_name'], '../img/insert_logo/' . $filename)) {
-    //     die('ファイルのアップロードに失敗しました');
-    //   }
-    //   $_SESSION['form']['insert_logo'] = $filename;
-    // } else {
-    //   $_SESSION['form']['insert_logo'] = '';
-    // }
+    if ($insert_logo['name'] !== '') {
+      //画像のアップロード
+      $filename = date('YmdHis') . '_' . $insert_logo['name'];
+      if (!move_uploaded_file($insert_logo['tmp_name'], '../img/insert_logo/' . $filename)) {
+        die('ファイルのアップロードに失敗しました');
+      }
+      $_SESSION['form']['insert_logo'] = $filename;
+    } else {
+      $_SESSION['form']['insert_logo'] = '';
+    }
 
-    header('location: updateCheck.php');
+    header("location: updateCheck.php?id=$id");
     exit();
   }
 }
@@ -120,22 +140,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
   </header>
   <main class="main">
-    <h1 class="main-title"><?php echo h($form["insert_company_name"]); ?>編集画面</h1>
+    <h1 class="main-title"><?php echo h($agent["insert_company_name"]); ?>編集画面</h1>
     <div class="agent-add-table">
       <form action="" method="post" enctype="multipart/form-data">
         <table class="main-info-table">
           <tr>
             <th>法人名</th>
-            <td><input type="text" name="corporate_name" value="<?php echo h($form["corporate_name"]); ?>" /></td>
+            <td><input type="text" name="corporate_name" value="<?php echo h($agent["corporate_name"]); ?>" /></td>
           </tr>
           <tr>
             <th>掲載状態<span class="required">必須</span></th>
             <td>
               <label class="list-status">
-                <input type="radio" name="list_status" value=1 <?php if ($form['list_status'] === 1) : ?>checked<?php endif; ?> /><span>掲載する</span>
+                <input type="radio" name="list_status" value=1 <?php if ($agent['list_status'] === 1) : ?>checked<?php endif; ?> /><span>掲載する</span>
               </label>
               <label class="list_status">
-                <input type="radio" name="list_status" value=2 <?php if ($form['list_status'] === 2) : ?>checked<?php endif; ?> /><span>まだ掲載しない</span>
+                <input type="radio" name="list_status" value=2 <?php if ($agent['list_status'] === 2) : ?>checked<?php endif; ?> /><span>まだ掲載しない</span>
               </label>
             </td>
           </tr>
@@ -143,8 +163,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <tr>
             <th>掲載期間<span class="required">必須</span></th>
             <td>
-              <input type="date" name="started_at" value="<?php echo h($form["started_at"]); ?>" /> ～
-              <input type="date" name="ended_at" value="<?php echo h($form["ended_at"]); ?>" <?php if ((isset($error['started_at']) && $error['started_at'] === 'blank') || isset($error['ended_at']) && $error['ended_at'] === 'blank') : ?> />
+              <input type="date" name="started_at" value="<?php echo h($agent["started_at"]); ?>" /> ～
+              <input type="date" name="ended_at" value="<?php echo h($agent["ended_at"]); ?>" <?php if ((isset($error['started_at']) && $error['started_at'] === 'blank') || isset($error['ended_at']) && $error['ended_at'] === 'blank') : ?> />
               <p class="error">* 掲載期間を入力</p>
             <?php endif; ?>
             </td>
@@ -153,13 +173,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <tr class="login-info">
             <th>ログイン情報</th>
             <td>
-              email:<input type="email" name="login_email" value="<?php echo h($form["login_email"]); ?>" />　　　pass:<input type="password" name="login_pass" value="<?php echo h($form["login_pass"]); ?>" />
+              email:<input type="email" name="login_email" value="<?php echo h($agent["login_email"]); ?>" />　　　pass:<input type="password" name="login_pass" value="<?php echo h($agent["login_pass"]); ?>" />
             </td>
           </tr>
 
           <tr>
             <th>学生情報送信先</th>
-            <td><input type="email" name="to_send_email" value="<?php echo h($form["to_send_email"]); ?>" />
+            <td><input type="email" name="to_send_email" value="<?php echo h($agent["to_send_email"]); ?>" />
           </tr>
         </table>
         <table class="contact-info-table">
@@ -168,16 +188,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </tr>
           <tr>
             <td class="sub-th">氏名</td>
-            <td><input type="text" name="client_name" value="<?php echo h($form["client_name"]); ?>" /></td>
+            <td><input type="text" name="client_name" value="<?php echo h($agent["client_name"]); ?>" /></td>
           </tr>
           <tr>
             <td class="sub-th">部署名</td>
-            <td><input type="text" name="client_department" value="<?php echo h($form["client_department"]); ?>" /></td>
+            <td><input type="text" name="client_department" value="<?php echo h($agent["client_department"]); ?>" /></td>
           </tr>
           <tr class="contact-number">
             <td class="sub-th">連絡先</td>
             <td>
-              email:<input type="email" name="client_email" value="<?php echo h($form["client_email"]); ?>" />　　　tel:<input type="tel" name="client_tel" value="<?php echo h($form["client_tel"]); ?>" />
+              email:<input type="email" name="client_email" value="<?php echo h($agent["client_email"]); ?>" />　　　tel:<input type="tel" name="client_tel" value="<?php echo h($agent["client_tel"]); ?>" />
             </td>
           </tr>
         </table>
@@ -188,7 +208,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <tr>
             <td class="sub-th">掲載企業名<span class="required">必須</span></td>
             <td>
-              <input type="text" name="insert_company_name" value="<?php echo h($form["insert_company_name"]); ?>" /><?php if (isset($error['insert_company_name']) && $error['insert_company_name'] === 'blank') : ?>
+              <input type="text" name="insert_company_name" value="<?php echo h($agent["insert_company_name"]); ?>" /><?php if (isset($error['insert_company_name']) && $error['insert_company_name'] === 'blank') : ?>
                 <p class="error">* 掲載する企業名を入力してください</p>
               <?php endif; ?>
             </td>
@@ -205,17 +225,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <tr>
             <td class="sub-th">オススメポイント</td>
             <td>
-              <input type="text" name="insert_recommend_1" placeholder="100文字以内で入力してください" value="<?php echo h($form["insert_recommend_1"]); ?>" /><input type="text" name="insert_recommend_2" value="<?php echo h($form["insert_recommend_2"]); ?>" /><input type="text" name="insert_recommend_3" value="<?php echo h($form["insert_recommend_3"]); ?>" />
+              <input type="text" name="insert_recommend_1" placeholder="100文字以内で入力してください" value="<?php echo h($agent["insert_recommend_1"]); ?>" /><input type="text" name="insert_recommend_2" value="<?php echo h($agent["insert_recommend_2"]); ?>" /><input type="text" name="insert_recommend_3" value="<?php echo h($agent["insert_recommend_3"]); ?>" />
             </td>
           </tr>
           <tr>
             <td class="sub-th">取扱い企業数</td>
-            <td><input type="text" name="insert_handled_number" value="<?php echo h($form["insert_handled_number"]); ?>" /></td>
+            <td><input type="text" name="insert_handled_number" value="<?php echo h($agent["insert_handled_number"]); ?>" /></td>
           </tr>
           <tr>
             <td class="sub-th">詳細欄</td>
             <!-- textareaの文字数制限解除する↓ -->
-            <td> <textarea name="insert_detail" id="" cols="30" rows="10"><?php echo h($form["insert_detail"]); ?></textarea></td>
+            <td> <textarea name="insert_detail" id="" cols="30" rows="10"><?php echo h($agent["insert_detail"]); ?></textarea></td>
           </tr>
         </table>
         <table class="tags-add">
@@ -229,10 +249,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <td>
                 <?php foreach ($filter_sort as $filter_tag) : ?>
                   <label class="added-tag">
-                    <input type="checkbox" name="agent_tags[]" value="<?= $filter_tag['tag_id'] ?>" <?php if($form['agent_tags']):foreach ($form['agent_tags'] as $agent_tag) : if (h($filter_tag['tag_id']) === $agent_tag) : ?>checked <?php endif;
-                                                                                                                                                                                                        endforeach; endif;?> />
-                    <span><?= $filter_tag['tag_name']; ?></span> </label>
-                <?php endforeach; ?>
+                  <input type="checkbox" name="filter_tag" <?php foreach ($agent_tags as $agent_tag) : if ($filter_tag['tag_id'] === $agent_tag['tag_id']) : ?>checked <?php endif;endforeach; ?> />
+                  <span><?= $filter_tag['tag_name']; ?></span> </label>
+              <?php endforeach; ?>
               </td>
             </tr>
           <?php endforeach; ?>
