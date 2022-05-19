@@ -1,26 +1,15 @@
 <?php
 session_start();
 require('../../db_connect.php');
-// $_SESSION['form']['student_contacts'] = $_POST['student_contacts'];
-
-// echo "<pre>";
-// var_dump($_POST['student_contacts']);
-// echo "</pre>";
-// array(3) {
-//   [0]=>
-//   string(1) "1"
-//   [1]=>
-//   string(1) "3"
-//   [2]=>
-//   string(2) "16"
-// }
-// var_dump($_SESSION['form']);//ok
-
-if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['form'])) {
+if (!isset($_POST['student_contacts']) && !isset($_SESSION['form'])) {
+  header('location: cart.php');
+  exit();
+} elseif (isset($_GET['action']) && $_GET['action'] === 'rewrite') {
   $form = $_SESSION['form'];
+  $student_contacts = $_SESSION['form']['student_contacts'];
+  // rewriteのときcontactNULL修正
 } else {
-  // $_SESSION['student_contacts'] = $_POST['student_contacts'];
-
+  $student_contacts = $_POST['student_contacts'];
   $form = [ //エラーで使うものだけで良いかも
     'name' => '',
     'collage' => '',
@@ -29,7 +18,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
     'email' => '',
     'tel' => '',
     'address' => '',
-    // 'memo' => '',//追加
     'acceptance' => '', //プライバシーポリシー
     // 'student_contacts' => $_POST['student_contacts'], //agent_idをinsertするときに使う？
   ];
@@ -66,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($form['name'] === '') {
     $error['name'] = 'blank';
   }
-  if (!$form['collage']) {
+  if ($form['collage'] === '') {
     $error['collage'] = 'blank';
   }
   if ($form['department'] === '') {
@@ -84,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($form['address'] === '') {
     $error['address'] = 'blank';
   }
-  if (!$form['acceptance']) {
+  if (!$form['acceptance']) { //← === ''にするとch
     $error['acceptance'] = 'blank';
   }
 
@@ -117,14 +105,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- フォーム -->
     <div class="box_con">
       <form action="" method="post" enctype="multipart/form-data">
-        <?php foreach ($_POST['student_contacts'] as $student_contact) : ?>
-          <input type="hidden" name="student_contacts[]" value="<?= $student_contact ?>">
-        <?php endforeach; ?>
+        <?php if (isset($student_contacts)) : foreach ($student_contacts as $student_contact) : ?>
+            <input type="hidden" name="student_contacts[]" value="<?= $student_contact ?>">
+        <?php endforeach;
+        endif; ?>
         <table class="formTable">
           <tr>
-            <th>お名前<span>必須</span></th>
-            <td><input size="20" type="text" name="name" value="<?php echo h($form["name"]); ?>" /><?php if (isset($error['name']) && $error['name'] === 'blank') : ?><p class="error">* 氏名は必須項目です</p>
-              <?php endif; ?>
+            <th>氏名<span>必須</span></th>
+            <td><input size="20" type="text" name="name" value="<?php echo h($form["name"]); ?>" />フルネームで記載ください<?php if (isset($error['name']) && $error['name'] === 'blank') : ?><p class="error">* 氏名は必須項目です</p>
+            <?php endif; ?>
             </td>
           </tr>
           <tr>
@@ -140,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
             </td>
           </tr>
-          <th>学校名 <span>必須</span></th>
+          <th>学校名(大学/大学院/専門学校/短大/高校等) <span>必須</span></th>
           <td><input size="30" type="text" name="collage" value="<?php echo h($form["collage"]); ?>" /><?php if (isset($error['collage']) && $error['collage'] === 'blank') : ?>
               <p class="error">* 学校名は必須項目です</p>
             <?php endif; ?>
@@ -148,14 +137,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </tr>
           <tr>
             <th>学部/学科 <span>必須</span></th>
-            <td><input size="30" type="text" name="department" value="<?php echo h($form["department"]); ?>" /><?php if (isset($error['department']) && $error['department'] === 'blank') : ?>ない方はなしと記載ください<p class="error">* 学部/学科は必須項目です</p>
+            <td><input size="30" type="text" name="department" value="<?php echo h($form["department"]); ?>" />ない方はなしと記載ください<?php if (isset($error['department']) && $error['department'] === 'blank') : ?><p class="error">* 学部/学科は必須項目です</p>
             <?php endif; ?>
             </td>
           </tr>
           <tr>
             <th>卒業年度 <span>必須</span></th>
-            <td><input size="30" type="number" name="class_of" value="<?php echo h($form["class_of"]); ?>" /><?php if (isset($error['class_of']) && $error['class_of'] === 'blank') : ?>半角数字で記載ください<p class="error">* 卒業年度は必須項目です</p>
-            <?php endif; ?>
+            <td><select value="" name="class_of">
+                <option hidden>選択してください</option>
+                <option value="24" <?php if ($form['class_of'] === "24") : ?>selected<?php endif;?>>24年度卒</option>
+                <option value="25" <?php if ($form['class_of'] === "25") : ?>selected<?php endif;?>>25年度卒</option>
+                <option value="26" <?php if ($form['class_of'] === "26") : ?>selected<?php endif;?>>26年度卒</option>
+              </select>
+              <?php if (isset($error['class_of']) && $error['class_of'] === 'blank') : ?><p class="error">* 卒業年度は必須項目です</p>
+              <?php endif; ?>
             </td>
           </tr>
           <tr>
@@ -217,11 +212,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="checkbox" name="acceptance" value="1" aria-invalid="false" class="agree" <?php if ($form['acceptance'] === "1") : ?>checked <?php endif; ?> /><span class="check">プライバシーポリシーに同意する</span>
           </label>
           <?php if (isset($error['acceptance']) && $error['acceptance'] === 'blank') : ?>
-            <p class="error">*ご同意いただけない場合は送信ができません。</p>
+            <p>*ご同意いただけない場合は送信ができません。</p>
           <?php endif; ?>
         </div>
         <p class="btn">
-          <span><input type="submit" value="　 確認 　" /></span>
+          <a href="cart.php">&laquo;&nbsp;キープ画面へ戻る</a> | <span><input type="submit" value="　 確認 　" /></span>
         </p>
       </form>
     </div>

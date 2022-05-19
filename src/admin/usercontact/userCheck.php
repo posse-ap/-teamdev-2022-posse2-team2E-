@@ -1,11 +1,13 @@
 <?php
 session_start();
 require('../../db_connect.php');
-if (isset($_SESSION['form'])) {
+if (isset($_SESSION['form']) && isset($_SESSION['form']['student_contacts'])) {
   $form = $_SESSION['form'];
   // var_dump($form);
 } else {
-  header('location: entry.php');
+  // var_dump($_SESSION['form']);//rewriteのときcontactNULL
+  header('location: cart.php');
+  exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -64,33 +66,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="box_con">
       <form method="post" action="">
         <table class="formTable">
-          <!-- <tr>
-          <th>問い合わせるエージェント　※問い合わせないエージェントはチェックボックスを外してください</th>
-          <td>
-            <div class="box_br">
-              <label>
-                <input name="contact_type" type="radio" value="1" class="radio02-input in_top" id="radio02-01">
-                <label for="radio02-01">テキスト1</label>
-              </label>
-            </div>
-            <div class="box_br">
-              <label>
-                <input name="contact_type" type="radio" value="1" class="radio02-input in_top" id="radio02-02">
-                <label for="radio02-02">テキスト2</label>
-              </label>
-            </div>
-          </td>
-        </tr> -->
-          <!-- <tr>
-          <th>ご用件</th>
-          <td><select name="ご用件">
-              <option value="">選択してください</option>
-              <option value="ご質問・お問い合わせ">ご質問・お問い合わせ</option>
-              <option value="リンクについて">リンクについて</option>
-            </select></td>
-        </tr> -->
           <tr>
-            <th>お名前<span>必須</span></th>
+            <th>氏名<span>必須</span></th>
             <td><?php echo h($form["name"]); ?>
             </td>
           </tr>
@@ -100,31 +77,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </td>
           </tr>
           <tr>
-            <th>Mail（半角）<span>必須</span></th>
+            <th>Email（半角）<span>必須</span></th>
             <td><?php echo h($form["email"]); ?>
             </td>
           </tr>
-          <th>学校名 <span>必須</span></th>
+          <th>学校名(大学/大学院/専門学校/短大/高校等) <span>必須</span></th>
           <td><?php echo h($form["collage"]); ?>
           </td>
           </tr>
           <tr>
             <th>学部/学科 <span>必須</span></th>
-            <td><?php echo h($form["class_of"]); ?>
+            <td><?php echo h($form["department"]); ?>
             </td>
           </tr>
+          <tr>
+            <th>卒業年度 <span>必須</span></th>
+            <td><?php echo h($form["class_of"]); ?>年度卒
+            </td>
           <tr>
             <th>住所 <span>必須</span></th>
             <td><?php echo h($form["address"]); ?>
             </td>
           </tr>
+          </tr>
           <tr>
-            <th>自由記入欄<br /></th>
+            <th>備考欄</th>
             <td><?php echo h($form["memo"]); ?>
+          </tr>
+          <tr>
+            <th>問い合わせるエージェント企業の確認(実際はカードを表示)</th>
+            <td>
+              <?php foreach ($form['student_contacts'] as $student_contact) : ?>
+                <input type="checkbox" checked disabled name="student_contacts[]" value=""><?= $student_contact ?>
+              <?php endforeach; ?>
           </tr>
         </table>
         <p class="btn">
-          <a href="entry.php?action=rewrite">&laquo;&nbsp;書き直す</a> | <span><input type="submit" value="　 送信 　" /></span>
+          <a href="entry.php?action=rewrite">&laquo;&nbsp;入力画面へ戻る</a> | <span><input type="submit" value="　 送信 　" /></span>
         </p>
       </form>
     </div>
