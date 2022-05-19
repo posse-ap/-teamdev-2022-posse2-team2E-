@@ -93,7 +93,7 @@ function set_list_status($list_status)
       <div class="header-title">クラフト管理者画面</div>
       <nav class="header-nav">
         <ul class="header-nav-list">
-          <a href="./agentList.php">
+          <a href="./index.php">
             <li class="header-nav-item select">エージェント一覧</li>
           </a>
           <a href="./agentAdd.php">
@@ -106,7 +106,7 @@ function set_list_status($list_status)
       </nav>
     </div>
   </header>
-  <a href="./agentList.php">エージェント一覧へ戻る＞</a>
+  <a href="./index.php">エージェント一覧へ戻る＞</a>
   <main class="main">
     <h1 class="main-title"><?php echo h($agent['insert_company_name']); ?>詳細 (<?php echo set_list_status($agent['list_status']); ?>)</h1>
     <div class="operations">

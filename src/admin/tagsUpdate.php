@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="header-title">クラフト管理者画面</div>
       <nav class="header-nav">
         <ul class="header-nav-list">
-          <a href="./agentList.php">
+          <a href="./index.php">
             <li class="header-nav-item">エージェント一覧</li>
           </a>
           <a href="./agentAdd.php">

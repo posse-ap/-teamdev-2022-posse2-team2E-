@@ -10,11 +10,16 @@ $filter_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // 削除機能
 // 絞り込みの種類
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+// エラーになるから別々でやろう
 if($_POST['filter_sorts'] != ''){
 $stmt = $db->prepare('delete from filter_sorts where id = :id');
 foreach($_POST['filter_sorts'] as $filter_sort):
 $stmt->bindValue(':id', $filter_sort, PDO::PARAM_INT);
+$stmt->execute();
+endforeach;
+$stmt = $db->prepare('delete from filter_tags where sort_id = :sort_id');
+foreach($_POST['filter_sorts'] as $filter_sort):
+$stmt->bindValue(':sort_id', $filter_sort, PDO::PARAM_INT);
 $stmt->execute();
 endforeach;
 }
@@ -53,7 +58,7 @@ header('location: tagEditThanks.php');
       <div class="header-title">クラフト管理者画面</div>
       <nav class="header-nav">
         <ul class="header-nav-list">
-          <a href="./agentList.php">
+          <a href="./index.php">
             <li class="header-nav-item">エージェント一覧</li>
           </a>
           <a href="./agentAdd.php">
@@ -71,6 +76,7 @@ header('location: tagEditThanks.php');
     <div class="agent-add-table">
     <form action="" method="post" enctype="multipart/form-data">
       <table class="tags-add">
+      <p class="error">* 絞り込みの種類を削除すると付属するタグも削除されます</p>
         <tr>
           <th>絞り込みの種類</th>
         </tr>

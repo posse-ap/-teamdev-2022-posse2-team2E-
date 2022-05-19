@@ -6,7 +6,7 @@ $id = $_GET['id'];
 if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['form'])) {
   $agent = $_SESSION['form'];
   var_dump('何も出ない？');
-  
+
   // 表示されず
   $agent_tags= $agent['agent_tags'];
 }else{
@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="header-title">クラフト管理者画面</div>
       <nav class="header-nav">
         <ul class="header-nav-list">
-          <a href="./agentList.php">
+          <a href="./index.php">
             <li class="header-nav-item select">エージェント一覧</li>
           </a>
           <a href="#">
@@ -249,7 +249,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <td>
                 <?php foreach ($filter_sort as $filter_tag) : ?>
                   <label class="added-tag">
-                  <input type="checkbox" name="filter_tag" <?php foreach ($agent_tags as $agent_tag) : if ($filter_tag['tag_id'] === $agent_tag['tag_id']) : ?>checked <?php endif;endforeach; ?> />
+                  <input type="checkbox" name="agent_tags[]" value="<?= $filter_tag['tag_id'] ?>" <?php foreach ($agent_tags as $agent_tag) : if ($filter_tag['tag_id'] === $agent_tag['tag_id']) : ?>checked <?php endif;endforeach; ?> />
                   <span><?= $filter_tag['tag_name']; ?></span> </label>
               <?php endforeach; ?>
               </td>

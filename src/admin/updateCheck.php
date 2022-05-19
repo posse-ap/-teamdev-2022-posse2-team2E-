@@ -4,9 +4,9 @@ require('../db_connect.php');
 $id = $_GET['id'];
 if (isset($_SESSION['form'])) {
   $form = $_SESSION['form'];
-  var_dump($form);
+  // var_dump($form);
 } else {
-  header('location: agentList.php');
+  header('location: index.php');
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $login_pass = password_hash($form['login_pass'], PASSWORD_DEFAULT);
@@ -50,6 +50,7 @@ if (!$success) {
   die($db->error);
 }
 
+if($form['agent_tags']){
 $stmt = $db->prepare('insert into agents_tags (agent_id, tag_id) VALUES (:agent_id, :tag_id)');
 foreach($form['agent_tags'] as $agent_tag):
 $stmt->bindValue('agent_id', (int)$id, PDO::PARAM_INT);
@@ -62,6 +63,7 @@ if (!$success) {
   die($db->error);
 }
 endforeach;
+}
 
   unset($_SESSION['form']);
   header('location: updateThanks.php');
@@ -113,7 +115,7 @@ function set_list_status($list_status)
       <div class="header-title">クラフト管理者画面</div>
       <nav class="header-nav">
         <ul class="header-nav-list">
-          <a href="./agentList.php">
+          <a href="./index.php">
             <li class="header-nav-item select">エージェント一覧</li>
           </a>
           <a href="./agentAdd.php">

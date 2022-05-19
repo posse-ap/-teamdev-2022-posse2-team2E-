@@ -18,7 +18,7 @@
       <div class="header-title">クラフト管理者画面</div>
       <nav class="header-nav">
         <ul class="header-nav-list">
-          <a href="./agentList.php">
+          <a href="./index.php">
             <li class="header-nav-item">エージェント一覧</li>
           </a>
           <a href="#">
@@ -38,7 +38,7 @@
 
 <div id="content">
 <p>編集が完了しました。</p>
-<p><a href="agentList.php">エージェント一覧画面で確認する</a></p>
+<p><a href="index.php">エージェント一覧画面で確認する</a></p>
 </div>
 
 </div>
