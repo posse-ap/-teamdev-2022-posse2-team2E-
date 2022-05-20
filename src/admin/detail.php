@@ -93,14 +93,20 @@ function set_list_status($list_status)
       <div class="header-title">クラフト管理者画面</div>
       <nav class="header-nav">
         <ul class="header-nav-list">
-          <a href="./index.php">
+        <a href="./index.php">
             <li class="header-nav-item select">エージェント一覧</li>
           </a>
-          <a href="./agentAdd.php">
+          <a href="./add/agentAdd.php">
             <li class="header-nav-item">エージェント追加</li>
           </a>
+          <a href="./tags/tagsEdit.php">
+            <li class="header-nav-item">タグ一覧</li>
+          </a>
           <a href="#">
-            <li class="header-nav-item">タグ編集</li>
+            <li class="header-nav-item">問い合わせ一覧</li>
+          </a>
+          <a href="./login/loginInfo.php">
+            <li class="header-nav-item">管理者ログイン情報</li>
           </a>
         </ul>
       </nav>
@@ -224,7 +230,7 @@ function set_list_status($list_status)
         <?php endforeach; ?>
       </table>
     </div>
-    <button><a href="update.php?id=<?= $id ?>">編集</a></button>
+    <button><a href="./update/update.php?id=<?=$id?>">編集</a></button>
   </main>
 </body>
 

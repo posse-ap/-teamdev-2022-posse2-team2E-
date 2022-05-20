@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('../db_connect.php');
+require('../../db_connect.php');
 if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['form'])) {
   $form = $_SESSION['form'];
 } else {
@@ -83,15 +83,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($form['login_email'] != '') {
     $stmt = $db->prepare('select count(*) from agents where login_email=:login_email');
     if (!$stmt) {
-        die($db->error);
+      die($db->error);
     }
     $stmt->bindValue('login_email', $form['login_email'], PDO::PARAM_STR);
     $success = $stmt->execute();
     $cnt = (int)$stmt->fetchColumn();
     if ($cnt > 0) {
-        $error['login_email'] = 'duplicate';
+      $error['login_email'] = 'duplicate';
     }
-}
+  }
 
   // 画像のチェック
   $insert_logo = $_FILES['insert_logo'];
@@ -130,8 +130,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AgentList</title>
-  <link rel="stylesheet" href="./css/reset.css" />
-  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/style.css" />
   <script src="./js/jquery-3.6.0.min.js"></script>
   <script src="./js/script.js" defer></script>
 </head>
@@ -142,16 +142,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="header-title">クラフト管理者画面</div>
       <nav class="header-nav">
         <ul class="header-nav-list">
-          <a href="./agentList.php">
+          <a href="../index.php">
             <li class="header-nav-item">エージェント一覧</li>
           </a>
-          <a href="./agentAdd.php">
+          <a href="../add/agentAdd.php">
             <li class="header-nav-item select">エージェント追加</li>
           </a>
-          <a href="./tagsEdit.php">
+          <a href="../tags/tagsEdit.php">
             <li class="header-nav-item">タグ一覧</li>
           </a>
-          <a href="./loginEdit.php">
+          <a href="#">
+            <li class="header-nav-item">問い合わせ一覧</li>
+          </a>
+          <a href="../loginEdit.php">
             <li class="header-nav-item">管理者ログイン情報</li>
           </a>
         </ul>
@@ -272,8 +275,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php foreach ($filter_sort as $filter_tag) : ?>
                   <label class="added-tag">
                     <input type="checkbox" name="agent_tags[]" value="<?= $filter_tag['tag_id'] ?>" <?php if ($form['agent_tags']) : foreach ($form['agent_tags'] as $agent_tag) : if (h($filter_tag['tag_id']) === $agent_tag) : ?>checked <?php endif;
-                                                                                                                                                                                                                                      endforeach;
-                                                                                                                                                                                                                                    endif; ?> />
+                                                                                                                                                                                                                                        endforeach;
+                                                                                                                                                                                                                                      endif; ?> />
                     <span><?= $filter_tag['tag_name']; ?></span> </label>
                 <?php endforeach; ?>
               </td>

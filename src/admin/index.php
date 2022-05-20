@@ -87,16 +87,16 @@ try {
           <a href="./index.php">
             <li class="header-nav-item select">エージェント一覧</li>
           </a>
-          <a href="./agentAdd.php">
+          <a href="./add/agentAdd.php">
             <li class="header-nav-item">エージェント追加</li>
           </a>
-          <a href="./tagsEdit.php">
+          <a href="./tags/tagsEdit.php">
             <li class="header-nav-item">タグ一覧</li>
           </a>
-          <a href="./tagsEdit.php">
+          <a href="#">
             <li class="header-nav-item">問い合わせ一覧</li>
           </a>
-          <a href="./loginEdit.php">
+          <a href="./login/loginInfo.php">
             <li class="header-nav-item">管理者ログイン情報</li>
           </a>
         </ul>

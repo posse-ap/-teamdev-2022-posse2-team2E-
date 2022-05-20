@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('../db_connect.php');
+require('../../db_connect.php');
 $id = $_GET['id'];
 
 if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['form'])) {
@@ -8,19 +8,19 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
   var_dump('何も出ない？');
 
   // 表示されず
-  $agent_tags= $agent['agent_tags'];
-}else{
+  $agent_tags = $agent['agent_tags'];
+} else {
   //エージェント情報
-$stmt = $db->prepare('select * from agents where id = :id');
-$stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
-$stmt->execute();
-$agent = $stmt->fetch(PDO::FETCH_ASSOC);
+  $stmt = $db->prepare('select * from agents where id = :id');
+  $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
+  $stmt->execute();
+  $agent = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// エージェントタグ
-$stmt = $db->prepare('select * from agents_tags where agent_id=:id');
-$stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
-$stmt->execute();
-$agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  // エージェントタグ
+  $stmt = $db->prepare('select * from agents_tags where agent_id=:id');
+  $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
+  $stmt->execute();
+  $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 //タグ情報
@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($form['insert_company_name'] === '') {
     $error['insert_company_name'] = 'blank';
   }
-  if (!$form['list_status']){
+  if (!$form['list_status']) {
     // $error['list_status'] = 'blank';
   }
   if ($form['started_at'] === '') {
@@ -114,8 +114,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>編集</title>
-  <link rel="stylesheet" href="./css/reset.css" />
-  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/style.css" />
   <script src="./js/jquery-3.6.0.min.js"></script>
   <script src="./js/script.js" defer></script>
 </head>
@@ -126,14 +126,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="header-title">クラフト管理者画面</div>
       <nav class="header-nav">
         <ul class="header-nav-list">
-          <a href="./index.php">
+          <a href="../index.php">
             <li class="header-nav-item select">エージェント一覧</li>
           </a>
-          <a href="#">
+          <a href="../add/agentAdd.php">
             <li class="header-nav-item">エージェント追加</li>
           </a>
+          <a href="../tags/tagsEdit.php">
+            <li class="header-nav-item">タグ一覧</li>
+          </a>
           <a href="#">
-            <li class="header-nav-item">タグ追加</li>
+            <li class="header-nav-item">問い合わせ一覧</li>
+          </a>
+          <a href="../login/loginInfo.php">
+            <li class="header-nav-item">管理者ログイン情報</li>
           </a>
         </ul>
       </nav>
@@ -215,7 +221,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </tr>
           <tr>
             <td class="sub-th">企業ロゴ</td>
-            <td><input type="file" name="insert_logo" value=""/>
+            <td><input type="file" name="insert_logo" value="" />
               <?php if (isset($error['insert_logo']) && $error['insert_logo'] === 'type') : ?>
                 <p class="error">* 写真などは「.png」または「.jpg」の画像を指定してください</p>
               <?php endif; ?>
@@ -249,9 +255,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <td>
                 <?php foreach ($filter_sort as $filter_tag) : ?>
                   <label class="added-tag">
-                  <input type="checkbox" name="agent_tags[]" value="<?= $filter_tag['tag_id'] ?>" <?php foreach ($agent_tags as $agent_tag) : if ($filter_tag['tag_id'] === $agent_tag['tag_id']) : ?>checked <?php endif;endforeach; ?> />
-                  <span><?= $filter_tag['tag_name']; ?></span> </label>
-              <?php endforeach; ?>
+                    <input type="checkbox" name="agent_tags[]" value="<?= $filter_tag['tag_id'] ?>" <?php foreach ($agent_tags as $agent_tag) : if ($filter_tag['tag_id'] === $agent_tag['tag_id']) : ?>checked <?php endif;
+                                                                                                                                                                                                            endforeach; ?> />
+                    <span><?= $filter_tag['tag_name']; ?></span> </label>
+                <?php endforeach; ?>
               </td>
             </tr>
           <?php endforeach; ?>

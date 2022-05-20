@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('../db_connect.php');
+require('../../db_connect.php');
 if (isset($_SESSION['form'])) {
   $form = $_SESSION['form'];
   // var_dump($form);
@@ -11,9 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $login_pass = password_hash($form['login_pass'], PASSWORD_DEFAULT);
   $stmt = $db->prepare('insert into agents (corporate_name, started_at, ended_at, login_email, login_pass, to_send_email, client_name, client_department, client_email, client_tel, insert_company_name, insert_logo, insert_recommend_1, insert_recommend_2,insert_recommend_3, insert_handled_number, insert_detail, list_status) VALUES (:corporate_name,:started_at, :ended_at, :login_email, :login_pass, :to_send_email, :client_name, :client_department, :client_email, :client_tel, :insert_company_name, :insert_logo, :insert_recommend_1, :insert_recommend_2, :insert_recommend_3, :insert_handled_number, :insert_detail, :list_status)');
   $stmt->bindValue('corporate_name', $form['corporate_name'], PDO::PARAM_STR);
-  $started_at = new DateTime( $form['started_at']);
+  $started_at = new DateTime($form['started_at']);
   $stmt->bindValue('started_at', $started_at->format('Y-m-d'), PDO::PARAM_STR);
-  $ended_at = new DateTime( $form['ended_at']);
+  $ended_at = new DateTime($form['ended_at']);
   $stmt->bindValue('ended_at', $ended_at->format('Y-m-d'), PDO::PARAM_STR);
   $stmt->bindValue('login_email', $form['login_email'], PDO::PARAM_STR);
   $stmt->bindValue('login_pass', $login_pass, PDO::PARAM_STR);
@@ -43,16 +43,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
   $stmt = $db->prepare('insert into agents_tags (agent_id, tag_id) VALUES (:agent_id, :tag_id)');
-  foreach($form['agent_tags'] as $agent_tag):
-  $stmt->bindValue('agent_id', $agent_id['id'], PDO::PARAM_INT);
-  $stmt->bindValue('tag_id', $agent_tag, PDO::PARAM_INT);
-  if (!$stmt) {
-    die($db->error);
-  }
-  $success = $stmt->execute();
-  if (!$success) {
-    die($db->error);
-  }
+  foreach ($form['agent_tags'] as $agent_tag) :
+    $stmt->bindValue('agent_id', $agent_id['id'], PDO::PARAM_INT);
+    $stmt->bindValue('tag_id', $agent_tag, PDO::PARAM_INT);
+    if (!$stmt) {
+      die($db->error);
+    }
+    $success = $stmt->execute();
+    if (!$success) {
+      die($db->error);
+    }
   endforeach;
 
   unset($_SESSION['form']);
@@ -93,8 +93,8 @@ function set_list_status($list_status)
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AgentList</title>
-  <link rel="stylesheet" href="./css/reset.css" />
-  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/style.css" />
   <script src="./js/jquery-3.6.0.min.js"></script>
   <script src="./js/script.js" defer></script>
 </head>
@@ -105,14 +105,20 @@ function set_list_status($list_status)
       <div class="header-title">クラフト管理者画面</div>
       <nav class="header-nav">
         <ul class="header-nav-list">
-          <a href="./index.php">
-            <li class="header-nav-item select">エージェント一覧</li>
+          <a href="../index.php">
+            <li class="header-nav-item">エージェント一覧</li>
           </a>
-          <a href="./agentAdd.php">
+          <a href="../add/agentAdd.php">
             <li class="header-nav-item">エージェント追加</li>
           </a>
+          <a href="../tags/tagsEdit.php">
+            <li class="header-nav-item select">タグ一覧</li>
+          </a>
           <a href="#">
-            <li class="header-nav-item">タグ追加</li>
+            <li class="header-nav-item">問い合わせ一覧</li>
+          </a>
+          <a href="../loginEdit.php">
+            <li class="header-nav-item">管理者ログイン情報</li>
           </a>
         </ul>
       </nav>
@@ -219,8 +225,9 @@ function set_list_status($list_status)
               <td>
                 <?php foreach ($filter_sort as $filter_tag) : ?>
                   <label class="added-tag">
-                    <input type="checkbox" name="agent_tags[]" value="<?= $filter_tag['tag_id'] ?>" disabled <?php if($form['agent_tags']):foreach ($form['agent_tags'] as $agent_tag) : if (h($filter_tag['tag_id']) === $agent_tag) : ?>checked <?php endif;
-                                                                                                                                                                              endforeach;endif;?> />
+                    <input type="checkbox" name="agent_tags[]" value="<?= $filter_tag['tag_id'] ?>" disabled <?php if ($form['agent_tags']) : foreach ($form['agent_tags'] as $agent_tag) : if (h($filter_tag['tag_id']) === $agent_tag) : ?>checked <?php endif;
+                                                                                                                                                                                                                                              endforeach;
+                                                                                                                                                                                                                                            endif; ?> />
                     <span><?= $filter_tag['tag_name']; ?></span> </label>
                 <?php endforeach; ?>
               </td>
