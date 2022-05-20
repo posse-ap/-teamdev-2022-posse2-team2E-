@@ -1,5 +1,5 @@
 <?php
-require('../db_connect.php');
+require('../../db_connect.php');
 // 絞り込みの種類
 $stmt = $db->query('select * from filter_sorts;');
 $filter_sorts = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -10,11 +10,16 @@ $filter_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // 削除機能
 // 絞り込みの種類
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+// エラーになるから別々でやろう
 if($_POST['filter_sorts'] != ''){
 $stmt = $db->prepare('delete from filter_sorts where id = :id');
 foreach($_POST['filter_sorts'] as $filter_sort):
 $stmt->bindValue(':id', $filter_sort, PDO::PARAM_INT);
+$stmt->execute();
+endforeach;
+$stmt = $db->prepare('delete from filter_tags where sort_id = :sort_id');
+foreach($_POST['filter_sorts'] as $filter_sort):
+$stmt->bindValue(':sort_id', $filter_sort, PDO::PARAM_INT);
 $stmt->execute();
 endforeach;
 }
@@ -28,7 +33,7 @@ $stmt->execute();
 endforeach;
 }
 
-header('location: tagEditThanks.php');
+header('location: tagEditThanks.html');
 }
 ?>
 
@@ -41,10 +46,8 @@ header('location: tagEditThanks.php');
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AgentList</title>
-  <link rel="stylesheet" href="./css/reset.css" />
-  <link rel="stylesheet" href="./css/style.css" />
-  <script src="./js/jquery-3.6.0.min.js"></script>
-  <script src="./js/script.js" defer></script>
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/style.css" />
 </head>
 
 <body>
@@ -53,14 +56,20 @@ header('location: tagEditThanks.php');
       <div class="header-title">クラフト管理者画面</div>
       <nav class="header-nav">
         <ul class="header-nav-list">
-          <a href="./agentList.php">
+        <a href="../index.php">
             <li class="header-nav-item">エージェント一覧</li>
           </a>
-          <a href="./agentAdd.php">
+          <a href="../add/agentAdd.php">
             <li class="header-nav-item">エージェント追加</li>
           </a>
-          <a href="./tagsEdit.php">
+          <a href="../tags/tagsEdit.php">
             <li class="header-nav-item select">タグ一覧</li>
+          </a>
+          <a href="#">
+            <li class="header-nav-item">問い合わせ一覧</li>
+          </a>
+          <a href="../login/loginInfo.php">
+            <li class="header-nav-item">管理者ログイン情報</li>
           </a>
         </ul>
       </nav>
@@ -71,6 +80,7 @@ header('location: tagEditThanks.php');
     <div class="agent-add-table">
     <form action="" method="post" enctype="multipart/form-data">
       <table class="tags-add">
+      <p class="error">* 絞り込みの種類を削除すると付属するタグも削除されます</p>
         <tr>
           <th>絞り込みの種類</th>
         </tr>

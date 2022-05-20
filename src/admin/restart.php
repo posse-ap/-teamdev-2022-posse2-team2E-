@@ -8,5 +8,5 @@ if(!$id){
 $stmt = $db->prepare('update agents set list_status=1 where id = :id');
 $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
 $stmt->execute();
-header('location: agentList.php');
+header('location: index.php');
 ?>

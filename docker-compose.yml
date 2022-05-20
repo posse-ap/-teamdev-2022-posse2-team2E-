@@ -1,4 +1,10 @@
 version: '3'
+
+#↓下記追記↓
+volumes:
+  db-volume:
+  maildir: {}
+
 services:
   web:
     image: nginx:latest
@@ -70,4 +76,17 @@ services:
   #     - 4040:80
   #   volumes:
   #     - ./phpmyadmin/sessions:/sessions
-  
+
+#↓下記追記↓
+#メールサーバのコンテナ
+  mail:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - '8025:8025'
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /tmp
+      #↓追記する
+    volumes:
+      - maildir:/tmp

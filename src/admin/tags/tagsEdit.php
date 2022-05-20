@@ -1,5 +1,5 @@
 <?php
-require('../db_connect.php');
+require('../../db_connect.php');
 //タグ情報
 $stmt = $db->query('select fs.id, sort_name, tag_id, tag_name from filter_sorts fs inner join filter_tags ft on fs.id = ft.sort_id;
 ');
@@ -18,8 +18,8 @@ foreach ($filter_sorts_tags as $f) {
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AgentList</title>
-  <link rel="stylesheet" href="./css/reset.css" />
-  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/style.css" />
   <script src="./js/jquery-3.6.0.min.js"></script>
   <script src="./js/script.js" defer></script>
 </head>
@@ -30,16 +30,19 @@ foreach ($filter_sorts_tags as $f) {
       <div class="header-title">クラフト管理者画面</div>
       <nav class="header-nav">
         <ul class="header-nav-list">
-          <a href="./agentList.php">
+        <a href="../index.php">
             <li class="header-nav-item">エージェント一覧</li>
           </a>
-          <a href="./agentAdd.php">
+          <a href="../add/agentAdd.php">
             <li class="header-nav-item">エージェント追加</li>
           </a>
-          <a href="./tagsEdit.php">
+          <a href="../tags/tagsEdit.php">
             <li class="header-nav-item select">タグ一覧</li>
           </a>
-          <a href="./loginEdit.php">
+          <a href="#">
+            <li class="header-nav-item">問い合わせ一覧</li>
+          </a>
+          <a href="../login/loginInfo.php">
             <li class="header-nav-item">管理者ログイン情報</li>
           </a>
         </ul>

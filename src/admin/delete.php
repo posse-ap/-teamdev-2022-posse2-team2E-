@@ -8,5 +8,5 @@ if(!$id){
 $stmt = $db->prepare('delete from agents where id = :id');
 $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
 $stmt->execute();
-header('location: agentList.php');
+header('location: index.php');
 ?>
