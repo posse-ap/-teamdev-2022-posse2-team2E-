@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   endforeach;
 
   unset($_SESSION['form']);
-  header('location: thanks.php');
+  header('location: thanks.html');
 }
 
 //タグ情報

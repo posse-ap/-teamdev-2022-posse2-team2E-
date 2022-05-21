@@ -3,7 +3,7 @@ require('../../db_connect.php');
 // 絞り込みの種類情報
 $stmt = $db->query('select * from filter_sorts;');
 $filter_sorts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+// タグ情報
 $stmt = $db->query('select * from filter_tags;');
 $filter_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
