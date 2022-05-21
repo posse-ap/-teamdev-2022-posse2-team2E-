@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($insert_logo['name'] !== '') {
       //画像のアップロード
       $filename = date('YmdHis') . '_' . $insert_logo['name'];
-      if (!move_uploaded_file($insert_logo['tmp_name'], '../img/insert_logo/' . $filename)) {
+      if (!move_uploaded_file($insert_logo['tmp_name'], '../../img/insert_logo/' . $filename)) {
         die('ファイルのアップロードに失敗しました');
       }
       $_SESSION['form']['insert_logo'] = $filename;

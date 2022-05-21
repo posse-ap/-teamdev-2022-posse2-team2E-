@@ -48,7 +48,6 @@ try {
     $sum_result = $sum_stmt->fetchAll(PDO::FETCH_ASSOC);
     $example = $sum_result[$month - 4]['年月'];
 
-
     $stmt = $db->prepare('SELECT 
     DATE_FORMAT(S.created, "%Y-%m") AS prepare_month,
     DATE_FORMAT(S.created, "%m") AS 月,
@@ -75,8 +74,6 @@ try {
     SC.agent_id = :agent_id
     AND
     DATE_FORMAT(S.created, "%Y-%m") = :form_month
-    AND
-    DATE_FORMAT(S.created, "%Y-%m") = :form_month
     ORDER BY 問い合わせ日時 desc
     ');
 
@@ -84,7 +81,6 @@ try {
     $stmt->bindValue(':agent_id', $id, PDO::PARAM_INT);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 
     if ($result[0]['counts'] === NULL) {
         $result[0]['counts'] = 0;
@@ -111,6 +107,76 @@ function set_valid_status($valid_status)
         return 'エラー';
     }
 }
+
+// 重複検査
+foreach ($result as $column) {
+    $stmt = $db->prepare(
+        'SELECT count(*)
+FROM
+students AS S, students_contacts AS SC
+WHERE
+(S.email = :email
+OR
+S.name = :name
+OR
+S.tel = :tel)
+AND
+S.id = SC.student_id
+AND
+SC.agent_id = :agent_id
+ORDER BY S.created desc'
+    );
+    if (!$stmt) {
+        die($db->error);
+    }
+    $stmt->bindValue(':email', $column['メールアドレス'], PDO::PARAM_STR);
+    $stmt->bindValue(':name', $column['氏名'], PDO::PARAM_STR);
+    $stmt->bindValue(':tel', $column['電話番号'], PDO::PARAM_STR);
+    $stmt->bindValue(':agent_id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    $duplicate_cnt = ((int)$stmt->fetchColumn())-1;
+    // 重複件数↑
+    var_dump($duplicate_cnt);
+    // foreach($duplicate_cnt as $d_cnt){
+    //     if ($cnt > 1) {
+    //   $error['login_email'] = 'duplicate';
+    // }
+    //     }
+    // echo "<pre>";
+    // var_dump($duplicated_emails);
+    // echo "</pre>";
+
+}
+
+// array(3) {
+// [15]=>{
+//     [0]=>
+//     array(1) {
+//       ["id"]=>
+//       string(2) "13"
+//     }
+//     [1]=>
+//     array(1) {
+//       ["id"]=>
+//       string(2) "10"
+//     }
+//   }
+// }
+// array(3) {
+// [13]=>{
+//     [0]=>
+//     array(1) {
+//       ["id"]=>
+//       string(2) "15"
+//     }
+//     [1]=>
+//     array(1) {
+//       ["id"]=>
+//       string(2) "10"
+//     }
+//   }
+// }...
+
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -166,25 +232,27 @@ function set_valid_status($valid_status)
                         <th>問い合わせ日時</th>
                         <th>氏名</th>
                         <th>大学</th>
-                        <th>学部</th>
-                        <th>学科</th>
+                        <th>学部/学科</th>
                         <th>何年卒</th>
-                        <th>問い合わせID</th>
+                        <th>ID</th>
                         <th>詳細</th>
                         <th>無効申請</th>
+                        <th>重複</th>
                     </tr>
                     <?php foreach ($result as $column) : ?>
                         <tr>
                             <td><?php echo ($column['問い合わせ日時']); ?></td>
                             <td><?php echo ($column['氏名']); ?></td>
                             <td><?php echo ($column['大学']); ?></td>
-                            <td><?php echo ($column['学部']); ?></td>
                             <td><?php echo ($column['学科']); ?></td>
                             <td><?php echo ($column['何年卒']); ?></td>
                             <td><?php echo ($column['問い合わせID']); ?></td>
                             <td><a class="to_students_detail" href="agent_students_detail.php?id=<?php echo ($column['問い合わせID']); ?>">詳細</a>
                             </td>
                             <td><?php echo set_valid_status($column['無効判定']); ?></td>
+                            <td>
+                                <?= $duplicate_cnt ?>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </table>

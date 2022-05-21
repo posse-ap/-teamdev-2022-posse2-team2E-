@@ -9,34 +9,6 @@ if (!isset($_SESSION["login"])) {
 }
 
 
-// if(!isset($_SESSION['kerberos_flg']) && $_SESSION['kerberos_flg'] !== 1 ){
-//     // header("Location: agent_login.php");
-
-// 		echo '
-// 			<div align="center">
-// 				<h1>不正遷移です。</h1>
-// 				<p style="color : red;">
-// 					このページの直接アクセスは禁止されています。
-// 				</p>
-// 				<p>誠にご面倒をおかけしますが、お問い合わせフォームから入力をお願い致します</p>
-// 				<p><strong>Cookieを無効化している場合は、有効化を行って下さい。</strong></p>
-// 				<p>
-// 					<ul style=" list-style-type: none;">
-// 						<li><a href="https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=ja" target="_blank">Google ChromeのCookieの有効化方法</a></li>
-// 						<li><a href="https://support.mozilla.org/ja/kb/enable-and-disable-cookies-website-preferences" target="_blank">FirefoxのCookieの有効化方法</a></li>
-// 						<li><a href="https://support.microsoft.com/ja-jp/help/17442/windows-internet-explorer-delete-manage-cookies" target="_blank">IE, EdgeのCookieの有効化方法</a></li>
-// 					</ul>
-
-
-// 					<a href="/info/お問い合わせフォーム/"><strong>『お問い合わせページ』はこちら</strong></a>
-// 				</p>
-// 			</div><!--div center-->
-// 		';
-// 		exit();
-// 	}
-
-
-
 try {
     $db = new PDO($dsn, $user, $password, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -102,7 +74,50 @@ function set_valid_status($valid_status)
     }
 }
 
+// 重複検査
+//email重複
+$stmt = $db->prepare(
+    'SELECT SC.id FROM students AS S, students_contacts AS SC WHERE S.email = :email AND S.id = SC.student_id AND SC.agent_id = :agent_id ORDER BY S.created desc'
+);
+if (!$stmt) {
+    die($db->error);
+}
+$stmt->bindValue(':email', $result['email'], PDO::PARAM_STR);
+$stmt->bindValue(':agent_id', $_SESSION['id'], PDO::PARAM_INT);
+$stmt->execute();
+$duplicated_emails = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//tel重複
+$stmt = $db->prepare(
+    'SELECT SC.id FROM students AS S, students_contacts AS SC WHERE S.tel = :tel AND S.id = SC.student_id AND SC.agent_id = :agent_id ORDER BY S.created desc'
+);
+if (!$stmt) {
+    die($db->error);
+}
+$stmt->bindValue(':tel', $result['tel'], PDO::PARAM_STR);
+$stmt->bindValue(':agent_id', $_SESSION['id'], PDO::PARAM_INT);
+$stmt->execute();
+$duplicated_tels = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//name重複
+$stmt = $db->prepare(
+    'SELECT SC.id FROM students AS S, students_contacts AS SC WHERE S.name = :name AND S.id = SC.student_id AND SC.agent_id = :agent_id ORDER BY S.created desc'
+);
+if (!$stmt) {
+    die($db->error);
+}
+$stmt->bindValue(':name', $result['name'], PDO::PARAM_STR);
+$stmt->bindValue(':agent_id', $_SESSION['id'], PDO::PARAM_INT);
+$stmt->execute();
+$duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+
+// foreach($duplicated_emails as $d_email){
+//     if($d_email['id'] !=  $id){
+//         echo $d_email['id'];
+//     }
+// }
+// echo "<pre>";
+// var_dump($duplicated_emails);
+// echo "</pre>";
 ?>
 
 <!DOCTYPE html>
@@ -154,15 +169,30 @@ function set_valid_status($valid_status)
                 </tr>
                 <tr bgcolor="white">
                     <th bgcolor="#4FA49A">氏名</th>
-                    <td><?php echo $result['name'] ?></td>
+                    <td><?php echo $result['name'] ?>
+                    <?php foreach ($duplicated_names as $d_name) : if ($d_name['id'] !=  $id) : ?>
+                                <span style="background-color:red;">id<?= $d_name['id']; ?>と重複</span>
+                        <?php endif;
+                        endforeach ?>
+                </td>
                 </tr>
                 <tr bgcolor="white">
                     <th bgcolor="#4FA49A">メールアドレス</th>
-                    <td><?php echo $result['email'] ?></td>
+                    <td><?php echo $result['email'] ?>
+                        <?php foreach ($duplicated_emails as $d_email) : if ($d_email['id'] !=  $id) : ?>
+                                <span style="background-color:red;">id<?= $d_email['id']; ?>と重複</span>
+                        <?php endif;
+                        endforeach ?>
+                    </td>
                 </tr>
                 <tr bgcolor="white">
                     <th bgcolor="#4FA49A">電話番号</th>
-                    <td><?php echo $result['tel'] ?></td>
+                    <td><?php echo $result['tel'] ?>
+                    <?php foreach ($duplicated_tels as $d_tel) : if ($d_tel['id'] !=  $id) : ?>
+                                <span style="background-color:red;">id<?= $d_tel['id']; ?>と重複</span>
+                        <?php endif;
+                        endforeach ?>
+                </td>
                 </tr>
                 <tr bgcolor="white">
                     <th bgcolor="#4FA49A">大学</th>
@@ -195,37 +225,8 @@ function set_valid_status($valid_status)
                     <a id="mukou_form" class="mukou_to_form" onclick="display()">通報する</a>
                 <?php endif; ?>
             </div>
-
-            <?php
-            /*******************************
- 確認ページから戻ってきた場合のデータの受け取り //確認ページ行かなくてもいいかなってみゆき
-             *******************************/
-            if (isset($_POST["backbtn"])) {
-                //確認ページ（confirm.php）から戻ってきた場合にはデータを受け取る
-                $namae        = $_POST["namae"];        //お名前
-                $studentid        = $_POST["studentid"];        //問い合わせID
-                $mailaddress    = $_POST["mailaddress"];    //メールアドレス
-                $naiyou        = $_POST["naiyou"];        //お問合せ内容
-
-                //危険な文字列を入力された場合にそのまま利用しない対策
-                $namae        = htmlspecialchars($namae, ENT_QUOTES);
-                $studentid        = htmlspecialchars($studentid, ENT_QUOTES);
-                $mailaddress    = htmlspecialchars($mailaddress, ENT_QUOTES);
-                $naiyou        = htmlspecialchars($naiyou, ENT_QUOTES);
-            } else {
-                //確認ページから戻ってきた場合でなければ、変数の値は必ず空となる
-                $namae        = '';                //お名前
-                $$studentid        = '';                //問い合わせID
-                $mailaddress    = '';                //メールアドレス
-                $naiyou        = '';                //お問合せ内容
-            }
-            ?>
-
-            <!-- <div class="iframe_wrap">
-                <iframe id="view" style="display:none;" src="https://docs.google.com/forms/d/e/1FAIpQLSeDbKnAzAbnHlYaRGkPwyAUU6vZYt97ZxKsdM7J9T6DNQ1fKA/viewform?embedded=true" width="900" height="884" marginwidth="0">読み込んでいます…</iframe>
-            </div> -->
             <?php if ($result['valid_status_id'] === 1) : ?>
-                <form  id="view" action="" method="post" enctype="multipart/form-data" style="display: none">
+                <form id="view" action="" method="post" enctype="multipart/form-data" style="display: none">
                     <p><label>通報内容：<br>
                             <textarea name="naiyou" cols="40" rows="5" required></textarea>
                         </label></p>
