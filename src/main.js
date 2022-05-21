@@ -1,3 +1,44 @@
+var clicked = [];//クリックされたボタンのindexを格納
+
+// カートボタンを押した際の処理
+cart_btns.forEach(function (cart_btn,index) {
+    cart_btn.addEventListener('click',function () {
+  
+      // カートボタンがすでに押されているかの判定
+      if (clicked.indexOf(index) >= 0) {
+  
+        //カートアイコンの数を減らす
+        cart_cnt--;
+        //0の時はカートアイコンのカウントを表示させない
+        if(cart_cnt == 0){
+          cart_cnt_icon.parentNode.classList.add('hidden');
+        }
+        cart_cnt_icon.innerHTML = cart_cnt;
+  
+        //カートボタンを非アクティブにする
+        cart_btn.classList.remove('item_cart_btn_active');
+  
+      }else if(clicked.indexOf(index) == -1){
+  
+        //カートボタンがクリックされていない場合の処理
+        //ボタンのindexが配列に含まれていなかったら、配列に追加
+        clicked.push(index);
+
+        //カートアイコンのカウントを増やす
+        cart_cnt++;
+        if( cart_cnt >= 1 ){
+          cart_cnt_icon.parentNode.classList.remove('hidden');
+        }
+        cart_cnt_icon.innerHTML = cart_cnt;
+
+        //カートボタンをアクティブにする
+        cart_btn.classList.add('item_cart_btn_active');
+      }
+  
+    });
+  });
+
+
 
 // 絞り込み
 var widget = document.getElementById('js-filter');
@@ -92,7 +133,7 @@ function check(id) {
     keep.style.borderWidth = "0px";
     keep.classList.add("cursor");
 
-    
+
     let keep_agent_box = document.getElementById("keep_agent_box_" + id);
 
     // キープ押されたら表示

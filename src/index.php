@@ -10,8 +10,30 @@ try {
   $e->getMessage();
   exit();
 };
+
+
+//タグ情報
+$stmt = $db->query('select fs.id, sort_name, tag_id, tag_name from filter_sorts fs inner join filter_tags ft on fs.id = ft.sort_id;
+');
+$filter_sorts_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$t_list = [];
+foreach ($filter_sorts_tags as $f) {
+  $t_list[(int)$f['id']][] = $f;
+}
+
+
+// タグ表示テスト　htmlの上に各部分
+$stmt = $db->query('select agent_id, at.tag_id, tag_name from agents_tags at, filter_tags ft where at.tag_id = ft.tag_id');
+$agents_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$at_list = [];
+foreach ($agents_tags as $a) {
+  $at_list[(int)$a['agent_id']][] = $a;
+}
+
 ?> 
 
+
+    
 
 
 <!DOCTYPE html>
@@ -46,20 +68,20 @@ crossorigin="anonymous"></script>
     </header>
 
     <wrapper>
-        <div class="first_message">
+        <div class="first_message fade-in-bottom">
             <h1>CRAFT</h1>
             <h2>失敗しないエージェント選びを</h2>
             <p>就活ドットコムだからこそできる、フラットな視点から比較、一括問い合わせまで</p>
         </div>
 
         <div class="process">
-            <p>絞り込む</p>
-            <div class="arrow"></div>
-            <p>比較する</p>
-            <div class="arrow"></div>
-            <p>キープする</p>
-            <div class="arrow"></div>
-            <p>お問い合わせる</p>
+            <p class="slide_in_1">絞り込む</p>
+            <div class="arrow slide_in_2"></div>
+            <p class="slide_in_3">比較する</p>
+            <div class="arrow slide_in_4"></div>
+            <p class="slide_in_5">キープする</p>
+            <div class="arrow slide_in_6"></div>
+            <p class="slide_in_7">問い合わせる</p>
         </div>
         
         <div class="q_and_a">
@@ -70,32 +92,14 @@ crossorigin="anonymous"></script>
             <br>
             <br>
             <div class="reason">
-            <p>・目的に合わせてエージェントを使い分けられる</p>
-            <p>・様々な視点からアドバイスをもらえる</p>
-            <p>・応募できる求人の幅を広げることができる</p>
+            <p>・<span>目的</span>に合わせてエージェントを使い分けられる</p>
+            <p>・様々な<span>視点</span>からアドバイスをもらえる</p>
+            <p>・応募できる<span>求人の幅</span>を広げることができる</p>
             </div>
         </div>
-        
+        <img src="agent_person.png" alt="" class="agent_person">
+
             <container class="filter" id="js-filter">
-                <div class="filter_left_wrapper">
-                    <div class="filter-cond" id="filter_side">
-                        <div class="agents_type">
-                            <p class="filter_num"><span>5</span>件</p>
-                            <p>エージェントのタイプ</p>
-                                <label><input type="checkbox" value="総合型" class="checks" id="form">総合型</label>
-                        </div>
-                    
-                        <div class="agents_scale">
-                            <p>規模</p>
-                                <label><input type="checkbox" value="大手志望" class="checks" id="form">大手志望</label>
-                        </div>
-                    
-                        <div class="filter_btn">
-                            <button class="reset_btn" id="uncheck-btn" type="button" >リセット</button>
-                            <div class="all_btn" id="check-btn" type="button"></div>
-                        </div>
-                    </div>
-                </div>
 
 
                 <ul class="filter-items">
@@ -106,11 +110,23 @@ crossorigin="anonymous"></script>
                         <img class="agent_img" src="logo.png" alt="">
                         <div class="agent_article">
                             <div class="agent_article_header">
-                                <h1 class="agent_name"><?php echo $listed_agent['corporate_name'] ?></h1>
+                                <div class="agent_type">
+                                    <!--  タグ表示↓ -->
+                                    <?php foreach ($at_list as $agent_tags) : ?>
+                                        <?php if ($listed_agent['id'] === current($agent_tags)['agent_id']) : ?>
+                                            <?php foreach ($agent_tags as $agent_tag) : ?>
+                                            <p class="agent_tag">#<?= $agent_tag['tag_name']; ?></p>
+                                            <?php endforeach; ?></td>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                    <!--  タグ表示↑ -->
+                                </div>
+                                
                                 <p class="num_company">取扱企業数：<?php echo $listed_agent['insert_handled_number'] ?>社</p>
                             </div>
                             <div class="agent_article_main">
-                                <p class="recommend_points">おすすめポイント</p>
+                            <h1 class="agent_name"><?php echo $listed_agent['insert_company_name'] ?></h1>
+                                <p class="recommend_points">特徴</p>
                                     <div class="recommend_points_box">
                                         <p><?php echo $listed_agent['insert_recommend_1'] ?></p>
                                     </div>
@@ -120,11 +136,11 @@ crossorigin="anonymous"></script>
                                     <div class="recommend_points_box">
                                         <p><?php echo $listed_agent['insert_recommend_3'] ?></p>
                                     </div>
-                                <p class="span_published">掲載期間：<?php echo date("Y/m/d",strtotime($listed_agent['started_at'])); ?>〜<?php echo date("Y/m/d",strtotime($listed_agent['ended_at'])); ?></p>
+                                
                             </div>
                             <div class="agent_article_footer">
-                                <p class="agent_type">#総合型</p>
-                                <label for="trigger" class="open_button">詳細を表示</label>
+                            <p class="span_published">掲載期間：<?php echo date("Y/m/d",strtotime($listed_agent['started_at'])); ?>〜<?php echo date("Y/m/d",strtotime($listed_agent['ended_at'])); ?></p>
+                                <!-- <label for="trigger" class="open_button">詳細を表示</label> -->
                                 <button class="bn632-hover bn19" id="keep_<?php echo $listed_agent['id'] ?>" onclick="check(<?php echo $listed_agent['id'] ?>)">キープする</button>
                             </div>
                         </div>
@@ -135,7 +151,7 @@ crossorigin="anonymous"></script>
                                     <label for="trigger" class="modal_trigger"></label>
                                     <div class="modal_content">
                                         <label for="trigger" class="close_button">✖️</label>
-                                        <p class="modal_title2"><?php echo $listed_agent['corporate_name'] ?></p>
+                                        <p class="modal_title2"><?php echo $listed_agent['insert_company_name'] ?></p>
                                         <p>詳細：</p>
                                         <p><?php echo $listed_agent['insert_detail'] ?></p>
                                     </div>
@@ -145,7 +161,28 @@ crossorigin="anonymous"></script>
                 <?php endforeach; ?>
                 </ul>
 
-                <div class="filter_right_wrapper">
+
+                <div class="filter_left_wrapper">
+                    <div class="filter-cond" id="filter_side">
+                        <!-- <div class="agents_type"> -->
+                            <p class="filter_num"><span>5</span>件</p>
+
+                                <?php foreach ($t_list as $filter_sort) : ?>
+                                    <div class="filter_sort_name"><?= current($filter_sort)['sort_name']; ?></div>
+                                        <?php foreach ($filter_sort as $filter_tag) : ?>
+                                            <label class="added-tag">
+                                                <input type="checkbox" name="agent_tags[]" value="<?= $filter_tag['tag_id'] ?>" class="checks" id="form" />
+                                                <?= $filter_tag['tag_name']; ?> 
+                                            </label>
+                                        <?php endforeach; ?>
+                                <?php endforeach; ?>
+                    
+                        <div class="filter_btn">
+                            <button class="reset_btn" id="uncheck-btn" type="button" >リセット</button>
+                            <div class="all_btn" id="check-btn" type="button"></div>
+                        </div>
+                    </div>
+
                     <btn class="keep_btn" id="keep_btn">
                         <div class="button05">
                             <button class="bn632-hover bn19 open_button" ><label for="trigger_keep">キープ：<span id="keep_counter">０</span>件<br>確認する</label></button>
@@ -155,69 +192,78 @@ crossorigin="anonymous"></script>
                 </div>
 
                 <!-- キープ一覧のモーダル -->
-            <div class="modal_keep">
-                <div class="modal_wrap">
-                    <input id="trigger_keep" type="checkbox">
-                    <div class="modal_overlay">
-                        <label for="trigger_keep" class="modal_trigger"></label>
-                        <div class="modal_content">
-                            <label for="trigger_keep" class="close_button">✖️</label>
+                <div class="modal_keep">
+                    <div class="modal_wrap">
+                        <input id="trigger_keep" type="checkbox">
+                        <div class="modal_overlay">
+                            <label for="trigger_keep" class="modal_trigger"></label>
+                            <div class="modal_content">
+                                <label for="trigger_keep" class="close_button">✖️</label>
 
-                    <!-- モーダルの中身 -->
-                            <h1 class="keep_view">キープ一覧</h1>
-                            <container class="filter keep_container" id="js-filter">
-                                <div class="filter_left_wrapper keep_left">
-                                    <div class="filter-cond modal-filter-cond" >
-                                            <p class="filter_num"><span>5</span>件</p>
-                                    </div>
-                                </div>
-
-                                <div class="modal-filter-items">
-                                    <ul class="filter-items">
-                                    <?php foreach($listed_agents as $listed_agent): ?>
-                                        <li class="agent_box" id="keep_agent_box_<?php echo $listed_agent['id'] ?>" data-filter-key="総合型">
-                                            <img class="agent_img" src="logo.png" alt="">
-                                            <div class="agent_article">
-                                                <div class="agent_article_header">
-                                                    <h1 class="agent_name"><?php echo $listed_agent['corporate_name'] ?></h1>
-                                                    <p class="num_company">取扱企業数：<?php echo $listed_agent['insert_handled_number'] ?>社</p>
-                                                </div>
-                                                <div class="agent_article_main">
-                                                    <p class="recommend_points">おすすめポイント</p>
-                                                        <div class="recommend_points_box modal_recommend_points_box">
-                                                            <p><?php echo $listed_agent['insert_recommend_1'] ?></p>
-                                                        </div>
-                                                        <div class="recommend_points_box modal_recommend_points_box">
-                                                            <p><?php echo $listed_agent['insert_recommend_2'] ?></p>
-                                                        </div>
-                                                        <div class="recommend_points_box modal_recommend_points_box">
-                                                            <p><?php echo $listed_agent['insert_recommend_3'] ?></p>
-                                                        </div>
-                                                    <p class="span_published">掲載期間：<?php echo date("Y/m/d",strtotime($listed_agent['started_at'])); ?>〜<?php echo date("Y/m/d",strtotime($listed_agent['ended_at'])); ?></p>
-                                                </div>
-                                                <div class="agent_article_footer">
-                                                    <p class="agent_type">#総合型</p>
-                                                </div>
-                                            </div>
-                                            <label onclick="buttonDelete(<?php echo $listed_agent['id'] ?>)" class="delete_btn">取り消す</label>
-                                        </li>
-                                    <?php endforeach; ?>
-                                    </ul>
-                                </div>
-                            
-                                <div class="filter_right_wrapper modal-filter_right_wrapper">
+                        <!-- モーダルの中身 -->
+                                <div class="modal_keep_header">
+                                    <h1 class="keep_view">キープ一覧</h1>
                                     <btn class="keep_btn" >
-                                        <div class="button05">
-                                            <button class="bn632-hover bn19 keep_inquiry_btn " >キープ：<span id="keep_counter">０</span>件<br>問い合わせる</button>
-                                        </div>
+                                                <div class="button05">
+                                                    <a href="inquiry.php">
+                                                    <button class="bn632-hover bn19 keep_inquiry_btn " >キープ：<span id="keep_counter">０</span>件<br>問い合わせる</button>
+                                                    </a>
+                                                </div>
                                     </btn>
                                 </div>
-                            </container>
-                    <!-- ここまでモーダルの中身 -->
+                                <container class="filter keep_container" id="js-filter">
+                                    <div class="modal-filter-items">
+                                        <ul class="filter-items">
+                                        <?php foreach($listed_agents as $listed_agent): ?>
+                                            <li class="agent_box" id="keep_agent_box_<?php echo $listed_agent['id'] ?>" data-filter-key="総合型">
+                                                <img class="agent_img" src="logo.png" alt="">
+                                                <div class="agent_article">
+                                                    <div class="agent_article_header">   
+                                                        <div class="agent_type">     
+                                                            <!--  タグ表示↓ -->
+                                                            <?php foreach ($at_list as $agent_tags) : ?>
+                                                                <?php if ($listed_agent['id'] === current($agent_tags)['agent_id']) : ?>
+                                                                    <?php foreach ($agent_tags as $agent_tag) : ?>
+                                                                    <p class="agent_tag">#<?= $agent_tag['tag_name']; ?></p>
+                                                                    <?php endforeach; ?></td>
+                                                                <?php endif; ?>
+                                                            <?php endforeach; ?>
+                                                            <!--  タグ表示↑ -->
+                                                        </div>
+                                                        <p class="num_company">取扱企業数：<?php echo $listed_agent['insert_handled_number'] ?>社</p>
+                                                    </div>
+                                                    <div class="agent_article_main">
+                                                    <h1 class="agent_name"><?php echo $listed_agent['insert_company_name'] ?></h1>
+                                                        <p class="recommend_points">特徴</p>
+                                                            <div class="recommend_points_box modal_recommend_points_box">
+                                                                <p><?php echo $listed_agent['insert_recommend_1'] ?></p>
+                                                            </div>
+                                                            <div class="recommend_points_box modal_recommend_points_box">
+                                                                <p><?php echo $listed_agent['insert_recommend_2'] ?></p>
+                                                            </div>
+                                                            <div class="recommend_points_box modal_recommend_points_box">
+                                                                <p><?php echo $listed_agent['insert_recommend_3'] ?></p>
+                                                            </div>
+                                                    </div>
+                                                    <div class="agent_article_footer modal_agent_article_footer">
+                                                        <p class="span_published">掲載期間：<?php echo date("Y/m/d",strtotime($listed_agent['started_at'])); ?>〜<?php echo date("Y/m/d",strtotime($listed_agent['ended_at'])); ?></p>
+                                                        <label onclick="buttonDelete(<?php echo $listed_agent['id'] ?>)" class="delete_btn">取り消す</label>
+                                                        
+                                                    </div>
+                                                </div>
+                                                
+                                            </li>
+                                            
+                                        <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                </container>
+                        <!-- ここまでモーダルの中身 -->
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <!-- ここまでキープ一覧のモーダル -->
             </container>
 
     </wrapper>
@@ -225,6 +271,9 @@ crossorigin="anonymous"></script>
 
     <footer></footer>
 
+    <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
     <script src="main.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    
 </body>
 </html>
