@@ -34,7 +34,7 @@ try {
     DATE_FORMAT(S.created, "%m") AS 月,
     (SELECT COUNT(S.created) from students AS S WHERE DATE_FORMAT(S.created, "%Y-%m") = :form_month) AS counts
     FROM
-    students AS S, student_contact AS SC, agents AS A
+    students AS S, students_contacts AS SC, agents AS A
     WHERE 
     S.id = SC.student_id    
     AND
@@ -52,19 +52,20 @@ try {
     $stmt = $db->prepare('SELECT 
     DATE_FORMAT(S.created, "%Y-%m") AS prepare_month,
     DATE_FORMAT(S.created, "%m") AS 月,
-    (SELECT COUNT(SC.created) from student_contact AS SC, agents AS A WHERE DATE_FORMAT(SC.created, "%Y-%m") = :form_month AND SC.agent_id = A.id AND SC.agent_id = :agent_id) AS counts,
+    (SELECT COUNT(SC.created) from students_contacts AS SC, agents AS A WHERE DATE_FORMAT(SC.created, "%Y-%m") = :form_month AND SC.agent_id = A.id AND SC.agent_id = :agent_id) AS counts,
     -- COUNT(S.created) AS counts,
 	S.created AS 問い合わせ日時, 
 	S.name AS 氏名, 
 	S.email AS メールアドレス, 
 	S.tel AS 電話番号, 
 	S.collage AS 大学,
-	S.faculty AS 学部,
+	-- S.faculty AS 学部,
 	S.department AS 学科,
 	S.class_of AS 何年卒,
-    SC.student_id AS 問い合わせID
+    SC.id AS 問い合わせID,
+    SC.valid_status_id AS 無効判定
     FROM
-    students AS S, student_contact AS SC, agents AS A
+    students AS S, students_contacts AS SC, agents AS A
     WHERE 
     S.id = SC.student_id
     AND
@@ -84,6 +85,7 @@ try {
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+
     if ($result[0]['counts'] === NULL) {
         $result[0]['counts'] = 0;
     }
@@ -94,6 +96,20 @@ try {
 
 if (empty($id)) {
     exit('IDが不正です。');
+}
+
+// 無効化申請中/無効化承認済みをタイトルに表示
+function set_valid_status($valid_status)
+{
+    if ($valid_status === "1") {
+        return '';
+    } elseif ($valid_status === "2") {
+        return '申請中';
+    } elseif ($valid_status === "3") {
+        return '承認済み';
+    } else {
+        return 'エラー';
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -155,6 +171,7 @@ if (empty($id)) {
                         <th>何年卒</th>
                         <th>問い合わせID</th>
                         <th>詳細</th>
+                        <th>無効申請</th>
                     </tr>
                     <?php foreach ($result as $column) : ?>
                         <tr>
@@ -167,6 +184,7 @@ if (empty($id)) {
                             <td><?php echo ($column['問い合わせID']); ?></td>
                             <td><a class="to_students_detail" href="agent_students_detail.php?id=<?php echo ($column['問い合わせID']); ?>">詳細</a>
                             </td>
+                            <td><?php echo set_valid_status($column['無効判定']); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </table>

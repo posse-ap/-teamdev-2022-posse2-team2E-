@@ -179,7 +179,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <tr class="login-info">
             <th>ログイン情報</th>
             <td>
-              email:<input type="email" name="login_email" value="<?php echo h($agent["login_email"]); ?>" />　　　pass:<input type="password" name="login_pass" value="<?php echo h($agent["login_pass"]); ?>" />
+              email:<input type="email" name="login_email" value="<?php echo h($agent["login_email"]); ?>" />　　　pass:<input type="password" name="login_pass" value="" />
+              <p class="error">* パスワードを改めて指定してください</p>
             </td>
           </tr>
 
