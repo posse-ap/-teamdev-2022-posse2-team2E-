@@ -104,8 +104,8 @@ crossorigin="anonymous"></script>
 
                 <ul class="filter-items">
                     <a href=""><button class="all_keep">全てをキープ</button></a>
-                
-                <?php foreach($listed_agents as $listed_agent): ?>
+                    <form action="entry.php" method="post" id="inquiry_submit">
+                    <?php foreach($listed_agents as $listed_agent): ?>
                     <li class="agent_box" data-filter-key="総合型">
                         <img class="agent_img" src="logo.png" alt="">
                         <div class="agent_article">
@@ -140,26 +140,35 @@ crossorigin="anonymous"></script>
                             </div>
                             <div class="agent_article_footer">
                             <p class="span_published">掲載期間：<?php echo date("Y/m/d",strtotime($listed_agent['started_at'])); ?>〜<?php echo date("Y/m/d",strtotime($listed_agent['ended_at'])); ?></p>
-                                <!-- <label for="trigger" class="open_button">詳細を表示</label> -->
-                                <button class="bn632-hover bn19" id="keep_<?php echo $listed_agent['id'] ?>" onclick="check(<?php echo $listed_agent['id'] ?>)">キープする</button>
+                                <!-- <div > -->
+                                <label id="tohoku_<?php echo $listed_agent['id'] ?>">
+                                    <input 
+                                    id="keep_<?php echo $listed_agent['id'] ?>"
+                                    class="bn632-hover bn19 "  onclick="check(<?php echo $listed_agent['id'] ?>)"
+                                    type=checkbox name=student_contacts[] value="<?php echo $listed_agent['id']; ?>" ><span></span>
+                                </label>
+                                <!-- </div> -->
                             </div>
-                        </div>
-
-                        <div class="modal_wrap">
-                            <input id="trigger" type="checkbox">
-                                <div class="modal_overlay">
-                                    <label for="trigger" class="modal_trigger"></label>
-                                    <div class="modal_content">
-                                        <label for="trigger" class="close_button">✖️</label>
-                                        <p class="modal_title2"><?php echo $listed_agent['insert_company_name'] ?></p>
-                                        <p>詳細：</p>
-                                        <p><?php echo $listed_agent['insert_detail'] ?></p>
-                                    </div>
-                                </div>
-                        </div>
+                        </div>       
                     </li>
-                <?php endforeach; ?>
+                    
+                    <?php endforeach; ?>
                 </ul>
+                </form>
+
+
+<!-- <p id="tohoku">
+    <input type="checkbox" > 北海道<br>
+    <input type="checkbox" > 青森<br>
+    <input type="checkbox" > 岩手<br>
+    <input type="checkbox" > 宮城<br>
+    <input type="checkbox" > 秋田<br>
+    <input type="checkbox" > 山形<br>
+    <input type="checkbox" > 福島<br>
+</p>
+ 
+<div class="tohokuret"></div> -->
+
 
 
                 <div class="filter_left_wrapper">
@@ -185,11 +194,13 @@ crossorigin="anonymous"></script>
 
                     <btn class="keep_btn" id="keep_btn">
                         <div class="button05">
-                            <button class="bn632-hover bn19 open_button" ><label for="trigger_keep">キープ：<span id="keep_counter">０</span>件<br>確認する</label></button>
-                        
+                            <button class="bn632-hover bn19 open_button" ><label for="trigger_keep">キープ：<span id="counter_dis" ><div class="tohokuret"></div></span>件<br>確認する</label></button>
+
                         </div>
                     </btn>
                 </div>
+
+                
 
                 <!-- キープ一覧のモーダル -->
                 <div class="modal_keep">
@@ -205,9 +216,14 @@ crossorigin="anonymous"></script>
                                     <h1 class="keep_view">キープ一覧</h1>
                                     <btn class="keep_btn" >
                                                 <div class="button05">
-                                                    <a href="inquiry.php">
-                                                    <button class="bn632-hover bn19 keep_inquiry_btn " >キープ：<span id="keep_counter">０</span>件<br>問い合わせる</button>
-                                                    </a>
+                                                    
+                                                <button class="bn632-hover bn19 keep_inquiry_btn "  type="submit" form="inquiry_submit" value="問い合わせる" >
+                                                    キープ：<span id="count_dis"></span>件<br>問い合わせる
+                                                    <!-- <button type="submit" form="inquiry_submit" value="問い合わせる">ああ</button> -->
+                
+                                                    <!-- <form action="/src/usercontact/entry.php"><input type="submit" form="inquiry_submit" value="問い合わせる"></form> -->
+                                                </button>
+                                                    
                                                 </div>
                                     </btn>
                                 </div>
@@ -251,8 +267,9 @@ crossorigin="anonymous"></script>
                                                         
                                                     </div>
                                                 </div>
-                                                
+                                            
                                             </li>
+                                            
                                             
                                         <?php endforeach; ?>
                                         </ul>

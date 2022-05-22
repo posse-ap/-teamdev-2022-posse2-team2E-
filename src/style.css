@@ -639,6 +639,10 @@ container{
     cursor: pointer;
   }
 
+  .bn632-hover input{
+      opacity: 0;
+  }
+
 
   #keep_btn.fixed {
     right: 63rem;
@@ -937,6 +941,7 @@ container{
      display: flex;
      flex-direction: row;
      justify-content: space-between;
+     margin-top: 15rem;
  }
 
  .modal-filter-items .agent_box{
@@ -945,3 +950,70 @@ container{
      /* display: flex;
      flex-direction: row; */
  }
+
+
+label {
+
+    margin-top: 5rem;
+}
+label input {
+    display: none; /* デフォルトのinputは非表示にする */
+    
+}
+label span {
+    width: 140rem;
+    /* height: 40rem; */
+    font-size: 16rem;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    /* margin: 20px; */
+    /* height: 55px; */
+    text-align:center;
+    border: none;
+    background-size: 300% 100%;
+    border-radius: 35rem;
+    /* moz-transition: all .4s ease-in-out; */
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+    padding: 13rem;
+    
+
+    background-image: linear-gradient(
+      to right,
+      #f5ce62,
+      #e43603,
+      #fa7199,
+      #e85a19
+    );
+    box-shadow: 0 4px 15px 0 rgba(0,0,0,0.25);
+    content: "キープする";
+}
+
+label span:hover {
+    background-position: 100% 0;
+    /* moz-transition: all .4s ease-in-out; */
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+  }
+  
+  label span:focus {
+    outline: none;
+  }
+
+label input:checked + span {
+    color: #FFF; /* 文字色を白に */
+    background: #808080; /* 背景色を薄い赤に */
+   
+    
+} 
+
+label input:checked + span:before {
+    content: "キープを外す";
+} 
+
+label input + span:before {
+    content: "キープする";
+} 

@@ -1,42 +1,3 @@
-var clicked = [];//クリックされたボタンのindexを格納
-
-// カートボタンを押した際の処理
-cart_btns.forEach(function (cart_btn,index) {
-    cart_btn.addEventListener('click',function () {
-  
-      // カートボタンがすでに押されているかの判定
-      if (clicked.indexOf(index) >= 0) {
-  
-        //カートアイコンの数を減らす
-        cart_cnt--;
-        //0の時はカートアイコンのカウントを表示させない
-        if(cart_cnt == 0){
-          cart_cnt_icon.parentNode.classList.add('hidden');
-        }
-        cart_cnt_icon.innerHTML = cart_cnt;
-  
-        //カートボタンを非アクティブにする
-        cart_btn.classList.remove('item_cart_btn_active');
-  
-      }else if(clicked.indexOf(index) == -1){
-  
-        //カートボタンがクリックされていない場合の処理
-        //ボタンのindexが配列に含まれていなかったら、配列に追加
-        clicked.push(index);
-
-        //カートアイコンのカウントを増やす
-        cart_cnt++;
-        if( cart_cnt >= 1 ){
-          cart_cnt_icon.parentNode.classList.remove('hidden');
-        }
-        cart_cnt_icon.innerHTML = cart_cnt;
-
-        //カートボタンをアクティブにする
-        cart_btn.classList.add('item_cart_btn_active');
-      }
-  
-    });
-  });
 
 
 
@@ -121,35 +82,31 @@ $(window).scroll(function () {
     let keep_agent_box = document.getElementById("keep_agent_box_" + i);
     keep_agent_box.style.display ="none";
     }
-
-function check(id) {
-    let keep = document.getElementById("keep_" + id);
-
-    keep.innerHTML = "キープを外す";
-    keep.style.backgroundColor = "#C0C0C0";
-    keep.classList.remove("bn632-hover");
-    keep.classList.remove("bn19");
-    keep.style.boxShadow = "0 4px 15px 0 rgba(0,0,0,0.25)";
-    keep.style.borderWidth = "0px";
-    keep.classList.add("cursor");
-
-
-    let keep_agent_box = document.getElementById("keep_agent_box_" + id);
-
-    // キープ押されたら表示
-    if(keep_agent_box.style.display=="block"){
-		// noneで非表示
-		keep_agent_box.style.display ="none";
-        keep.innerHTML = "キープする";
-        keep.classList.add("bn632-hover");
-        keep.classList.add("bn19");
-        keep.classList.add("cursor");
-	}else{
-		// blockで表示
-		keep_agent_box.style.display ="block";
-	}
     
+
+    function check(id) {
+        let keep_agent_box = document.getElementById("keep_agent_box_" + id);
+        // キープ押されたら表示
+        if(keep_agent_box.style.display=="block"){
+            keep_agent_box.style.display ="none";
+        
+        }else{
+            keep_agent_box.style.display ="block";
+            
+    };
 }
+
+
+// 岩村さん、ここお願いします！
+// function check(id) {
+$(function check(id) {
+    $('input:checkbox').change(function() {
+        var cnt = $('#tohoku input:checkbox:checked').length;
+        $('div.tohokuret').text('選択：' + cnt + '個');
+    }).trigger('change');
+});
+// }
+
 
 
 
@@ -157,11 +114,8 @@ function check(id) {
 function buttonDelete(id){
     let keep = document.getElementById("keep_" + id);
     let keep_agent_box = document.getElementById("keep_agent_box_" + id);
-        keep_agent_box.style.display ="none";
-        keep.innerHTML = "キープする";
-        keep.classList.add("bn632-hover");
-        keep.classList.add("bn19")
-        keep.classList.add("cursor");        
+        keep_agent_box.style.display ="none";     
+        keep.checked = false;
 }
 
 
