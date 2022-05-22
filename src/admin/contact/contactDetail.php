@@ -14,6 +14,12 @@ $id = $_GET['id'];
 if (empty($id)) {
     exit('IDが不正です。');
 }
+// agent_id 取得
+$stmt = $db->prepare('SELECT agent_id FROM students_contacts where id = :id');
+$stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
+$stmt->execute();
+$agent_id = $stmt->fetch(PDO::FETCH_ASSOC);
+
 
 $stmt = $db->prepare('SELECT * FROM students AS S INNER JOIN students_contacts AS SC ON S.id = SC.student_id where SC.id = :id');
 $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
@@ -21,6 +27,7 @@ $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
 $stmt->execute();
 //結果を取得
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
+// var_dump($result);
 
 if (!$result) {
     exit('データがありません。');
@@ -36,17 +43,11 @@ $invalid_requests = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // 通報機能
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $naiyou = filter_input(INPUT_POST, 'naiyou', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $stmt = $db->prepare('insert into invalid_requests (contact_id, invalid_request_memo) VALUES (:contact_id, :invalid_request_memo)');
-    $stmt->bindValue(':contact_id', (int)$id, PDO::PARAM_INT);
-    $stmt->bindValue(':invalid_request_memo', $naiyou, PDO::PARAM_STR); //filterする
-    $stmt->execute();
-
-    // students_contacts.valid_status_idを　1→2へ
-    $stmt = $db->prepare('update students_contacts set valid_status_id=2 where id=:id');
+    // students_contacts.valid_status_idを　3へ
+    $stmt = $db->prepare('update students_contacts set valid_status_id=3 where id=:id');
     $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
     $stmt->execute();
-    header("location: agent_students_detail.php?id=$id");
+    header("location: contactDetail.php?id=$id");
 }
 
 // 無効化申請中/無効化承認済みをタイトルに表示
@@ -97,16 +98,6 @@ $stmt->bindValue(':name', $result['name'], PDO::PARAM_STR);
 $stmt->bindValue(':agent_id', $_SESSION['id'], PDO::PARAM_INT);
 $stmt->execute();
 $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
-// foreach($duplicated_emails as $d_email){
-//     if($d_email['id'] !=  $id){
-//         echo $d_email['id'];
-//     }
-// }
-// echo "<pre>";
-// var_dump($duplicated_emails);
-// echo "</pre>";
 ?>
 
 <!DOCTYPE html>
@@ -156,14 +147,8 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </nav>
         </div>
     </header>
-    <div class="all_wrapper">
-        <div class="left_wrapper">
-            <li><a href="agent_students_all.php">学生情報一覧</a></li>
-            <li><a href="agent_information.php">登録情報</a></li>
-            <li><a href="#">ユーザー画面へ</a></li>
-            <li><a href="agent_logout.php">ログアウト</a></li>
-        </div>
-        <div class="right_wrapper">
+    <a href="contact.php?id=<?= $agent_id['agent_id'] ?>">&laquo;&nbsp;学生情報一覧に戻る</a>
+    <main class="main">
             <h1 class="detail_title">学生情報詳細　　　　<?= set_valid_status($result['valid_status_id']) ?></h1>
             <table class="students_detail" border="1" width="90%">
                 <tr bgcolor="white">
@@ -222,25 +207,9 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?php echo $id ?></td>
                 </tr>
             </table>
-            <div class="mukou">
-                <a class="back_to_students" href="agent_students_all.php">学生情報一覧に戻る</a>
-                <?php if ($result['valid_status_id'] === 1) : ?>
-                    <a id="mukou_form" class="mukou_to_form" onclick="display()">通報する</a>
-                <?php endif; ?>
-            </div>
-            <?php if ($result['valid_status_id'] === 1) : ?>
-                <form id="view" action="" method="post" enctype="multipart/form-data" style="display: none">
-                    <p><label>通報内容：<br>
-                            <textarea name="naiyou" cols="40" rows="5" required></textarea>
-                        </label></p>
-                    <p>
-                        報告を受けました学生の情報に関しましては、当社が確認の上、請求の対象外といたします。
-                        <br>確認いたしましたら、学生情報に「無効」と記載いたしますのでご確認くださいませ。
-                    </p>
-
-                    <p><input type="submit" value="通報する"></p>
+                <form action="" method="post" enctype="multipart/form-data">
+                    <p><input type="submit" value="無効化"></p>
                 </form>
-            <?php endif; ?>
             <?php if ($result['valid_status_id'] != 1) : ?>
                 <table>
                     <tr bgcolor="white">
@@ -251,16 +220,8 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php endif; ?>
         </div>
     </div>
-
-    <div class="inquiry">
-        <p>お問い合わせは下記の連絡先にお願いいたします。
-            <br>craft運営 boozer株式会社事務局
-            <br>TEL:080-3434-2435
-            <br>Email:craft@boozer.com
-        </p>
-    </div>
-
     <script src="agent_students_detail.js"></script>
+    </main>
 </body>
 
 </html>

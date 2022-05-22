@@ -21,6 +21,7 @@ $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
 $stmt->execute();
 //結果を取得
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
+// var_dump($result);
 
 if (!$result) {
     exit('データがありません。');
@@ -47,20 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
     $stmt->execute();
     header("location: agent_students_detail.php?id=$id");
-}
-
-// 無効化申請中/無効化承認済みをタイトルに表示
-function set_valid_status($valid_status)
-{
-    if ($valid_status === 1) {
-        return '';
-    } elseif ($valid_status === 2) {
-        return '無効化申請中';
-    } elseif ($valid_status === 3) {
-        return '無効化承認済み';
-    } else {
-        return 'エラー';
-    }
 }
 
 // 重複検査
@@ -107,6 +94,19 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // echo "<pre>";
 // var_dump($duplicated_emails);
 // echo "</pre>";
+// 無効化申請中/無効化承認済みをタイトルに表示
+function set_valid_status($valid_status)
+{
+    if ($valid_status === 1) {
+        return '';
+    } elseif ($valid_status === 2) {
+        return '無効化申請中';
+    } elseif ($valid_status === 3) {
+        return '無効化承認済み';
+    } else {
+        return 'エラー';
+    }
+}
 ?>
 
 <!DOCTYPE html>

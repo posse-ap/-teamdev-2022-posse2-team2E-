@@ -8,6 +8,11 @@ require('../../db_connect.php');
 // }
 $id = $_GET['id'];
 // var_dump($id);
+//エージェント情報
+$stmt = $db->prepare('select * from agents where id = :id');
+$stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
+$stmt->execute();
+$agent = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $form['month'] = filter_input(INPUT_POST, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -123,11 +128,11 @@ FROM students AS S, students_contacts AS SC WHERE S.id = SC.student_id AND SC.ag
 // 無効化申請中/無効化承認済みをタイトルに表示
 function set_valid_status($valid_status)
 {
-    if ($valid_status === "1") {
+    if ($valid_status === 1) {
         return '';
-    } elseif ($valid_status === "2") {
+    } elseif ($valid_status === 2) {
         return '申請中';
-    } elseif ($valid_status === "3") {
+    } elseif ($valid_status === 3) {
         return '承認済み';
     } else {
         return 'エラー';
@@ -182,10 +187,11 @@ function set_valid_status($valid_status)
             </nav>
         </div>
     </header>
+    <a href="../index.php">&laquo;&nbsp;エージェント一覧に戻る</a>
     <main class="main" >
     <!-- <div class="all_wrapper">
         <div class="right_wrapper"> -->
-            <h1 class="students_all_title">学生情報一覧</h1>
+            <h1 class="students_all_title"><?php echo h($agent['insert_company_name']); ?></h1>
             <div class="sum_inquiry_wrapper">
                 <p class="sum_inquiry"><span>
                         <?php if ($month != "all") :
@@ -224,7 +230,7 @@ function set_valid_status($valid_status)
                             <td><?php echo ($column['学科']); ?></td>
                             <td><?php echo ($column['何年卒']); ?></td>
                             <td><?php echo ($column['問い合わせID']); ?></td>
-                            <td><a class="to_students_detail" href="agent_students_detail.php?id=<?php echo ($column['問い合わせID']); ?>">詳細</a>
+                            <td><a class="to_students_detail" href="contactDetail.php?id=<?php echo ($column['問い合わせID']); ?>">詳細</a>
                             </td>
                             <td><?php echo set_valid_status($column['無効判定']); ?></td>
                             <td>
