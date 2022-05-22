@@ -1,42 +1,3 @@
-var clicked = [];//クリックされたボタンのindexを格納
-
-// カートボタンを押した際の処理
-cart_btns.forEach(function (cart_btn,index) {
-    cart_btn.addEventListener('click',function () {
-  
-      // カートボタンがすでに押されているかの判定
-      if (clicked.indexOf(index) >= 0) {
-  
-        //カートアイコンの数を減らす
-        cart_cnt--;
-        //0の時はカートアイコンのカウントを表示させない
-        if(cart_cnt == 0){
-          cart_cnt_icon.parentNode.classList.add('hidden');
-        }
-        cart_cnt_icon.innerHTML = cart_cnt;
-  
-        //カートボタンを非アクティブにする
-        cart_btn.classList.remove('item_cart_btn_active');
-  
-      }else if(clicked.indexOf(index) == -1){
-  
-        //カートボタンがクリックされていない場合の処理
-        //ボタンのindexが配列に含まれていなかったら、配列に追加
-        clicked.push(index);
-
-        //カートアイコンのカウントを増やす
-        cart_cnt++;
-        if( cart_cnt >= 1 ){
-          cart_cnt_icon.parentNode.classList.remove('hidden');
-        }
-        cart_cnt_icon.innerHTML = cart_cnt;
-
-        //カートボタンをアクティブにする
-        cart_btn.classList.add('item_cart_btn_active');
-      }
-  
-    });
-  });
 
 
 
@@ -117,58 +78,62 @@ $(window).scroll(function () {
 
 
 // キープ一覧にあるエージェントを最初は非表示
-    for (let i = 1; i < 4; i++) {
+    for (let i = 1; i < 1000; i++) {
     let keep_agent_box = document.getElementById("keep_agent_box_" + i);
-    keep_agent_box.style.display ="none";
+    keep_agent_box.style.display = "none";
     }
 
+// 岩村さん、ここお願いします！
+// function check(id) {
+// $(function () {
+//     $('input:checkbox').change(function() {
+//         var cnt = $('#tohoku input:checkbox:checked').length;
+//         $('div.tohokuret').text('選択：' + cnt + '個');
+//     }).trigger('change');
+// });
+// }
+
+// $(function() {}) の書き方はHTMLを全部読み込んでから中の処理を実行してねって書き方なので引数を取らない?と思います
+// なので以下の形で元々あるcheck関数に処理を追加してしまうのが良さそう、懸念:チェックされるたびにchangeのイベント登録しているからパフォーマンス悪くなるかも？
+// パフォーマンスとかは二の次なので一旦気にせず作成します
+
 function check(id) {
-    let keep = document.getElementById("keep_" + id);
-
-    keep.innerHTML = "キープを外す";
-    keep.style.backgroundColor = "#C0C0C0";
-    keep.classList.remove("bn632-hover");
-    keep.classList.remove("bn19");
-    keep.style.boxShadow = "0 4px 15px 0 rgba(0,0,0,0.25)";
-    keep.style.borderWidth = "0px";
-    keep.classList.add("cursor");
-
-
     let keep_agent_box = document.getElementById("keep_agent_box_" + id);
-
     // キープ押されたら表示
-    if(keep_agent_box.style.display=="block"){
-		// noneで非表示
-		keep_agent_box.style.display ="none";
-        keep.innerHTML = "キープする";
-        keep.classList.add("bn632-hover");
-        keep.classList.add("bn19");
-        keep.classList.add("cursor");
-	}else{
-		// blockで表示
-		keep_agent_box.style.display ="block";
-	}
-    
+    if(keep_agent_box.style.display == "block"){
+        keep_agent_box.style.display = "none";
+    } else {
+        keep_agent_box.style.display = "block";
+    }
+    // キープのcheckboxを全取得 (idは重複しない性質のため、class名等で取得したいですがnameが今回識別しやすそうだったのでnameで)
+    const checkBoxElements = document.getElementsByName('student_contacts[]');
+
+    // チェックした項目のみを数える
+    let count = 0;
+    checkBoxElements.forEach((element) => {
+        // チェックされてたらカウント追加
+        if (element.checked) {
+            count++;
+        }
+    });
+    $('div.tohokuret').text(  count );
+
 }
 
 
-
-// キープしたやつを取り消す
-function buttonDelete(id){
-    let keep = document.getElementById("keep_" + id);
-    let keep_agent_box = document.getElementById("keep_agent_box_" + id);
-        keep_agent_box.style.display ="none";
-        keep.innerHTML = "キープする";
-        keep.classList.add("bn632-hover");
-        keep.classList.add("bn19")
-        keep.classList.add("cursor");        
-}
+    // キープしたやつを取り消す
+    function buttonDelete(id){
+        let keep = document.getElementById("keep_" + id);
+        let keep_agent_box = document.getElementById("keep_agent_box_" + id);
+            keep_agent_box.style.display ="none";     
+            keep.checked = false;
+    }
 
 
 
 // キープの数をカウント
 let state = { count: 0 };
-let btn = document.getElementById('keep');
+let btn = document.getElementById('keep_btn');
 btn.addEventListener('click', () => {
   let keep_counter = document.getElementById('keep_counter');
   keep_counter.innerHTML = ++state.count;

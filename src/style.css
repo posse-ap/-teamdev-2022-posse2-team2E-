@@ -317,8 +317,10 @@ container{
     /* justify-content: space-between; */
     /* padding-top: 300rem; */
     /* margin: 0 50rem; */
-    margin-left: 150rem;
-    margin-right: 150rem;
+    /* margin-left: 150rem; */
+    /* margin-right: 150rem; */
+    margin: 0 auto;
+    width: 90%;
 }
 
 .filter_items{
@@ -393,15 +395,17 @@ container{
 
 .filter_left_wrapper{
     color: white;
-    width: 300rem;
+    width: 280rem;
     height: 600rem;
-    top: 20;
-    margin-top: 100rem;
+    /* top: 20; */
+    /* margin-top: 100rem; */
     /* margin-right: 100rem; */
     padding-left: 50rem;
     /* margin-right: 25rem; */
     /* padding-top: 150rem; */
     background-color: #4FA49A;
+    /* position: fixed; */
+    right: 0;
 }
 
 .filter_right_wrapper{
@@ -429,59 +433,68 @@ container{
 
 /* 各エージェントのボックス */
 .agent_box{
-    /* display: flex; */
+    display: flex;
     /* justify-content: center; */
-    margin: 2rem auto;
+    align-items: center;
+    /* margin: 2rem auto; */
     /* padding: 1em; */
-    width: 560rem;
+    width: 800rem;
     color: #666666; /*文字色*/
     /* border: 3px solid #4fa49a;  */
     background-color: #fff; /*背景色*/
     box-shadow: 0 4px 20px 0 rgba(0,0,0,0.25); /*影*/
     border-radius: 20px; /*角の丸み*/
-    height: 405rem;
+    height: 320rem;
     margin-bottom: 40rem;
-    margin-left: 80rem;
-    margin-right: 80rem;
+    margin-left: 20rem;
+    margin-right: 45rem;
     /* transform: scale(0.7); */
+    padding-left: 20rem;
 }
 
 .agent_article{
-    padding: 13.3rem 16.5rem 10.5rem 10.5rem;
+    padding: 13.3rem 23.5rem 10.5rem 10.5rem;
+    width: 500rem;
+    height: 90%;
 }
 
 .agent_article_header{
     display: flex;
+    align-items: center;
     justify-content: space-between;
 }
 
 .agent_img{
     display: flex;
-    justify-content: center;
-    width:565.6rem;
-    height: 105rem;
-    border-radius: 20rem 20rem 0 0; 
+    align-items: center;
+    /* justify-content: center; */
+    width:300rem;
+    height: 230rem;
+    border-radius: 20rem; 
+    /* padding-left: 12rem; */
 }
 
 .agent_name{
     font-size: 21rem;
-    margin: 14rem 0;
+    margin: 12rem 0;
     font-weight: bold;
 }
 
 .num_company{
     font-size: 16.1rem;
-    margin-top: 5.6rem;
+    /* margin-top: 5.6rem; */
 }
 
 .agent_article_main{
     margin-left: 10.5rem;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
 }
 
 .recommend_points{
     font-size: 17.5rem;
     /* font-weight: bold; */
-    margin: 14rem 0;
+    margin: 12rem 0;
     padding: 0.7rem 3.5rem;
     border-left: 3.5px solid #4fa49a;
   /* background: #f4f4f4; */
@@ -513,7 +526,7 @@ container{
 }
 
 .recommend_points_box p{
-    font-size: 14rem;
+    font-size: 15rem;
     margin: 0; 
     padding: 0;
 }
@@ -531,7 +544,7 @@ container{
     /* flex-direction: row; */
     justify-content: space-between;
     /* margin-top: 21rem; */
-    margin: 21rem 10rem 0rem 10rem;
+    margin: 23rem 10rem 0rem 10rem;
 }
 
 .agent_type{
@@ -546,7 +559,7 @@ container{
     /* position: relative; */
     display: inline-block;
     height: 28px;
-    margin-left: 8rem;
+    margin-right: 8rem;
     margin-bottom: 5rem;
     padding: 1rem 8rem 1rem 8rem;
     color: black;
@@ -639,6 +652,10 @@ container{
     cursor: pointer;
   }
 
+  .bn632-hover input{
+      opacity: 0;
+  }
+
 
   #keep_btn.fixed {
     right: 63rem;
@@ -657,6 +674,10 @@ container{
       font-weight: 600;
       font-size: 25rem;
   }
+
+  /* .hidden{
+      display: none;
+  } */
 
 
   /* 詳細のモーダル */
@@ -836,6 +857,8 @@ container{
   /* .modal_wrap input {
     display: none;
   } */
+
+ 
   
   .modal_overlay {
     display: flex;
@@ -858,6 +881,7 @@ container{
     width: 100%;
     height: 100%;
   }
+  
   
   .modal_keep .modal_content {
       border-radius: 20rem;
@@ -937,11 +961,79 @@ container{
      display: flex;
      flex-direction: row;
      justify-content: space-between;
+     margin-top: 15rem;
  }
 
  .modal-filter-items .agent_box{
      width: 649;
      height: 470rem;
-     /* display: flex;
-     flex-direction: row; */
+     display: flex;
+     /* flex-direction: row; */
  }
+
+
+label {
+
+    margin-top: 5rem;
+}
+label input {
+    display: none; /* デフォルトのinputは非表示にする */
+    
+}
+label span {
+    width: 140rem;
+    /* height: 40rem; */
+    font-size: 18rem;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    /* margin: 20px; */
+    /* height: 55px; */
+    text-align:center;
+    border: none;
+    background-size: 300% 100%;
+    border-radius: 35rem;
+    /* moz-transition: all .4s ease-in-out; */
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+    padding: 13rem;
+    
+
+    background-image: linear-gradient(
+      to right,
+      #f5ce62,
+      #e43603,
+      #fa7199,
+      #e85a19
+    );
+    box-shadow: 0 4px 15px 0 rgba(0,0,0,0.25);
+    content: "キープする";
+}
+
+label span:hover {
+    background-position: 100% 0;
+    /* moz-transition: all .4s ease-in-out; */
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+  }
+  
+  label span:focus {
+    outline: none;
+  }
+
+label input:checked + span {
+    color: #FFF; /* 文字色を白に */
+    background: #808080; /* 背景色を薄い赤に */
+   
+    
+} 
+
+label input:checked + span:before {
+    content: "キープを外す";
+} 
+
+label input + span:before {
+    content: "キープする";
+} 
