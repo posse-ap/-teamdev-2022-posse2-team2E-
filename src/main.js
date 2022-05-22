@@ -82,31 +82,37 @@ $(window).scroll(function () {
     let keep_agent_box = document.getElementById("keep_agent_box_" + i);
     keep_agent_box.style.display ="none";
     }
-    
-
-    function check(id) {
-        let keep_agent_box = document.getElementById("keep_agent_box_" + id);
-        // キープ押されたら表示
-        if(keep_agent_box.style.display=="block"){
-            keep_agent_box.style.display ="none";
-        
-        }else{
-            keep_agent_box.style.display ="block";
-            
-    };
-}
-
 
 // 岩村さん、ここお願いします！
 // function check(id) {
-$(function check(id) {
-    $('input:checkbox').change(function() {
-        var cnt = $('#tohoku input:checkbox:checked').length;
-        $('div.tohokuret').text('選択：' + cnt + '個');
-    }).trigger('change');
-});
+// $(function check(id) {
+//     $('input:checkbox').change(function() {
+//         var cnt = $('#tohoku input:checkbox:checked').length;
+//         $('div.tohokuret').text('選択：' + cnt + '個');
+//     }).trigger('change');
+// });
 // }
 
+// $(function() {}) の書き方はHTMLを全部読み込んでから中の処理を実行してねって書き方なので引数を取らない?と思います
+// なので以下の形で元々あるcheck関数に処理を追加してしまうのが良さそう、懸念:チェックされるたびにchangeのイベント登録しているからパフォーマンス悪くなるかも？
+// パフォーマンスとかは二の次なので一旦気にせず作成します
+
+const check = function(id) {
+    let keep_agent_box = document.getElementById("keep_agent_box_" + id);
+    // キープ押されたら表示
+    if(keep_agent_box.style.display == "block"){
+        keep_agent_box.style.display = "none";
+    } else {
+        keep_agent_box.style.display = "block";
+    }
+
+    $('input:checkbox').change(function() {
+        // 引数で受け取った文字列(id)を文字列に組み込みたい
+        // テンプレート文字列使いましょうバッククウォート(``)で囲って上げると変数を文字列ないで展開できます
+        const count = $(`#tohoku_${id} input:checkbox:checked`).length;
+        $('div.tohokuret').text('選択：' + count + '個');
+    }).trigger('change');
+}
 
 
 
@@ -122,7 +128,7 @@ function buttonDelete(id){
 
 // キープの数をカウント
 let state = { count: 0 };
-let btn = document.getElementById('keep');
+let btn = document.getElementById('keep_btn');
 btn.addEventListener('click', () => {
   let keep_counter = document.getElementById('keep_counter');
   keep_counter.innerHTML = ++state.count;
