@@ -2,10 +2,10 @@
 session_start();
 
 // ログイン済みかを確認
-// if (isset($_SESSION['login'])) {
-//     header('Location: agent_students_all.php'); // ログインしていればagent_students_all.phpへリダイレクトする
-//     exit; // 処理終了
-// }
+if (isset($_SESSION['login'])) {
+    header('Location: agent_students_all.php'); // ログインしていればagent_students_all.phpへリダイレクトする
+    exit; // 処理終了
+}
 
 if (isset($_POST["submit"])) {
     try {
@@ -23,26 +23,6 @@ if (isset($_POST["submit"])) {
             header('Location: ../../admin/index.php');
         } else {
             $msg = 'メールアドレスもしくはパスワードが間違っています。';
-
-            // echo "<pre>";
-            // var_dump($_POST['pass']);
-            // echo "</pre>";
-
-            // echo "<pre>";
-            // var_dump(password_hash("pass", PASSWORD_DEFAULT));
-            // echo "</pre>";
-
-            // echo "<pre>";
-            // var_dump($result['login_password']);
-            // echo "</pre>";
-
-            // echo "<pre>";
-            // var_dump($_POST['email']);
-            // echo "</pre>";
-
-            // echo "<pre>";
-            // var_dump($result['email']);
-            // echo "</pre>";
         }
     } catch (PDOException $e) {
         echo "もう一回";
@@ -65,7 +45,7 @@ if (isset($_POST["submit"])) {
 </head>
 
 <body>
-    <!-- <header> -->
+    <header>
     <h1>
         <p><span>CRAFT</span>by boozer</p>
     </h1>
@@ -81,13 +61,6 @@ if (isset($_POST["submit"])) {
             <input type="password" name="pass" value="<?php echo h($pass); ?>" required>
             <input type="submit" name="submit" value="ログイン">
         </form>
-    </div>
-    <div class="inquiry">
-        <p>お問い合わせは下記の連絡先にお願いいたします。
-            <br>craft運営 boozer株式会社事務局
-            <br>TEL:080-3434-2435
-            <br>Email:craft@boozer.com
-        </p>
     </div>
 </body>
 

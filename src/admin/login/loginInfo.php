@@ -1,5 +1,15 @@
 <?php
 require('../../db_connect.php');
+
+session_start();
+
+session_start();
+//ログインされていない場合は強制的にログインページにリダイレクト
+if (!isset($_SESSION["login"])) {
+    header("Location: login.php");
+    exit();
+}
+
 //タグ情報
 $stmt = $db->query('select * from admin_login;');
 $admin_login = $stmt->fetch(PDO::FETCH_ASSOC);

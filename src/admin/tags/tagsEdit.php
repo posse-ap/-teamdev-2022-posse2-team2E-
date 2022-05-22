@@ -1,5 +1,13 @@
 <?php
+session_start();
 require('../../db_connect.php');
+
+//ログインされていない場合は強制的にログインページにリダイレクト
+if (!isset($_SESSION["login"])) {
+    header("Location: ../login/login.php");
+    exit();
+}
+
 //タグ情報
 $stmt = $db->query('select fs.id, sort_name, tag_id, tag_name from filter_sorts fs inner join filter_tags ft on fs.id = ft.sort_id;
 ');

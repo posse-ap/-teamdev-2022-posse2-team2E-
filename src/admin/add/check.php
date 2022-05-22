@@ -1,11 +1,18 @@
 <?php
 session_start();
 require('../../db_connect.php');
+
+//ログインされていない場合は強制的にログインページにリダイレクト
+if (!isset($_SESSION["login"])) {
+    header("Location: ../login/login.php");
+    exit();
+}
+
 if (isset($_SESSION['form'])) {
   $form = $_SESSION['form'];
   // var_dump($form);
 } else {
-  header('location: index.php');
+  header('location: ../index.php');
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $login_pass = password_hash($form['login_pass'], PASSWORD_DEFAULT);
