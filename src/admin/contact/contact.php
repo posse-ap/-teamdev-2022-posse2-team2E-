@@ -1,12 +1,13 @@
 <?php
-require('../db_connect.php');
+require('../../db_connect.php');
 
 // //ログインされていない場合は強制的にログインページにリダイレクト
 // if (!isset($_SESSION["login"])) {
 //     header("Location: agent_login.php");
 //     exit();
 // }
-
+$id = $_GET['id'];
+// var_dump($id);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $form['month'] = filter_input(INPUT_POST, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -14,12 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $form['month'] = Date('Y-m');
 }
 
-$id = $_SESSION['id'];
 
-$message = $_SESSION['corporate_name'] . "様ようこそ";
 
 try {
-    $db = new PDO("mysql:host=db; dbname=shukatsu; charset=utf8", "$user", "$password");
 
     if (isset($form["month"])) {
         if (!$form["month"]) {
@@ -118,9 +116,9 @@ FROM students AS S, students_contacts AS SC WHERE S.id = SC.student_id AND SC.ag
     die();
 }
 
-if (empty($id)) {
-    exit('IDが不正です。');
-}
+// if (empty($id)) {
+//     exit('IDが不正です。');
+// }
 
 // 無効化申請中/無効化承認済みをタイトルに表示
 function set_valid_status($valid_status)
@@ -149,45 +147,44 @@ function set_valid_status($valid_status)
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>学生情報一覧</title>
-    <link rel="stylesheet" href="reset.css">
-    <link rel="stylesheet" href="table.css">
-    <link rel="stylesheet" href="agent_students_all.css">
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../../agent/table.css">
+    <link rel="stylesheet" href="../../agent/agent_students_all.css">
 </head>
 
 <body>
 
     <header>
         <div class="header-inner">
-            <div class="header-title">クラフト管理者画面</div>
+            <h1 class="header-title">CRAFT管理者画面</h1>
             <nav class="header-nav">
                 <ul class="header-nav-list">
-                    <a href="./index.php">
+                    <a href="../index.php">
                         <li class="header-nav-item select">エージェント一覧</li>
                     </a>
-                    <a href="./add/agentAdd.php">
+                    <a href="../add/agentAdd.php">
                         <li class="header-nav-item">エージェント追加</li>
                     </a>
-                    <a href="./tags/tagsEdit.php">
+                    <a href="../tags/tagsEdit.php">
                         <li class="header-nav-item">タグ一覧</li>
                     </a>
-                    <a href="contact.php">
+                    <a href="../contact/contact.php">
                         <li class="header-nav-item">問い合わせ一覧</li>
                     </a>
-                    <a href="./login/loginInfo.php">
+                    <a href="../login/loginInfo.php">
                         <li class="header-nav-item">管理者ログイン情報</li>
+                    </a>
+                    <a href="../login/logout.php">
+                        <li class="header-nav-item">ログアウト</li>
                     </a>
                 </ul>
             </nav>
         </div>
     </header>
-    <div class="all_wrapper">
-        <div class="left_wrapper">
-            <li><a href="agent_students_all.php">学生情報一覧</a></li>
-            <li><a href="agent_information.php">登録情報</a></li>
-            <li><a href="#">ユーザー画面へ</a></li>
-            <li><a href="agent_logout.php">ログアウト</a></li>
-        </div>
-        <div class="right_wrapper">
+    <main class="main" >
+    <!-- <div class="all_wrapper">
+        <div class="right_wrapper"> -->
             <h1 class="students_all_title">学生情報一覧</h1>
             <div class="sum_inquiry_wrapper">
                 <p class="sum_inquiry"><span>
@@ -199,7 +196,7 @@ function set_valid_status($valid_status)
                         <?php echo $cnt ?>
                     </span>件</p>
             </div>
-            <form action="agent_students_all.php" method="POST">
+            <form action="" method="POST">
                 <input type="month" name="month" value="<?php echo $form['month']; ?>">
                 <input type="submit" name="submit" value="月を変更" />
                 <span>※カレンダーの削除ボタンで全てを表示</span>
@@ -237,15 +234,9 @@ function set_valid_status($valid_status)
                     <?php endforeach; ?>
                 </table>
             <?php endif; ?>
-        </div>
-    </div>
-    <div class="inquiry">
-        <p>お問い合わせは下記の連絡先にお願いいたします。
-            <br>craft運営 boozer株式会社事務局
-            <br>TEL:080-3434-2435
-            <br>Email:craft@boozer.com
-        </p>
-    </div>
+        <!-- </div>
+    </div> -->
+    </main>
 </body>
 
 </html>

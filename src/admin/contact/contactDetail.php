@@ -1,5 +1,5 @@
 <?php
-require('../db_connect.php');
+require('../../db_connect.php');
 session_start();
 
 // //ログインされていない場合は強制的にログインページにリダイレクト
@@ -121,26 +121,40 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 </head>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+<link rel="stylesheet" href="../../agent/table.css">
+<link rel="stylesheet" href="../../agent/agent_students_detail.css">
 
-<link rel="stylesheet" href="user/reset.css">
-<link rel="stylesheet" href="table.css">
-<link rel="stylesheet" href="agent_students_detail.css">
 
 <body>
 
     <header>
-        <h1>
-            <p><span>CRAFT</span>by boozer</p>
-        </h1>
-        <p class="welcome_agent">ようこそ　<?php echo ($_SESSION['corporate_name']); ?>様</p>
-        <nav class="nav">
-            <ul>
-                <li><a href="agent_students_all.php">学生情報一覧</a></li>
-                <li><a href="agent_information.php">登録情報</a></li>
-                <li><a href="#">ユーザー画面へ</a></li>
-                <li><a href="agent_logout.php">ログアウト</a></li>
-            </ul>
-        </nav>
+        <div class="header-inner">
+            <h1 class="header-title">CRAFT管理者画面</h1>
+            <nav class="header-nav">
+                <ul class="header-nav-list">
+                    <a href="../index.php">
+                        <li class="header-nav-item select">エージェント一覧</li>
+                    </a>
+                    <a href="../add/agentAdd.php">
+                        <li class="header-nav-item">エージェント追加</li>
+                    </a>
+                    <a href="../tags/tagsEdit.php">
+                        <li class="header-nav-item">タグ一覧</li>
+                    </a>
+                    <a href="../contact/contact.php">
+                        <li class="header-nav-item">問い合わせ一覧</li>
+                    </a>
+                    <a href="../login/loginInfo.php">
+                        <li class="header-nav-item">管理者ログイン情報</li>
+                    </a>
+                    <a href="../login/logout.php">
+                        <li class="header-nav-item">ログアウト</li>
+                    </a>
+                </ul>
+            </nav>
+        </div>
     </header>
     <div class="all_wrapper">
         <div class="left_wrapper">
@@ -159,11 +173,11 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <tr bgcolor="white">
                     <th bgcolor="#4FA49A">氏名</th>
                     <td><?php echo $result['name'] ?>
-                    <?php foreach ($duplicated_names as $d_name) : if ($d_name['id'] !=  $id) : ?>
+                        <?php foreach ($duplicated_names as $d_name) : if ($d_name['id'] !=  $id) : ?>
                                 <span style="background-color:red;">id<?= $d_name['id']; ?>と重複</span>
                         <?php endif;
                         endforeach ?>
-                </td>
+                    </td>
                 </tr>
                 <tr bgcolor="white">
                     <th bgcolor="#4FA49A">メールアドレス</th>
@@ -177,11 +191,11 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <tr bgcolor="white">
                     <th bgcolor="#4FA49A">電話番号</th>
                     <td><?php echo $result['tel'] ?>
-                    <?php foreach ($duplicated_tels as $d_tel) : if ($d_tel['id'] !=  $id) : ?>
+                        <?php foreach ($duplicated_tels as $d_tel) : if ($d_tel['id'] !=  $id) : ?>
                                 <span style="background-color:red;">id<?= $d_tel['id']; ?>と重複</span>
                         <?php endif;
                         endforeach ?>
-                </td>
+                    </td>
                 </tr>
                 <tr bgcolor="white">
                     <th bgcolor="#4FA49A">大学</th>
