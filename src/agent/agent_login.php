@@ -10,7 +10,7 @@ session_start();
 if (isset($_POST["submit"])) {
     try {
         $db = new PDO("mysql:host=db; dbname=shukatsu; charset=utf8", "$user", "$password");
-        $stmt = $db->prepare('SELECT id, corporate_name, login_pass FROM agents WHERE login_email = :login_email limit 1');
+        $stmt = $db->prepare('SELECT id, corporate_name, login_email, login_pass FROM agents WHERE login_email = :login_email limit 1');
         $login_email = $_POST['email'];
         $stmt->bindValue(':login_email', $login_email, PDO::PARAM_STR);
         $stmt->execute();
@@ -24,6 +24,29 @@ if (isset($_POST["submit"])) {
             header('Location: agent_students_all.php');
         } else {
             $msg = 'メールアドレスもしくはパスワードが間違っています。';
+            echo "<pre>";
+            var_dump($result['corporate_name']);
+            echo "</pre>";
+
+            echo "<pre>";
+            var_dump(password_hash("pass", PASSWORD_DEFAULT));
+            echo "</pre>";
+
+            echo "<pre>";
+            var_dump($_POST['pass']);
+            echo "</pre>";
+
+            echo "<pre>";
+            var_dump($result['login_pass']);
+            echo "</pre>";
+
+            echo "<pre>";
+            var_dump($_POST['email']);
+            echo "</pre>";
+
+            echo "<pre>";
+            var_dump($result['login_email']);
+            echo "</pre>";
         }
     } catch (PDOException $e) {
         echo "もう一回";
@@ -48,24 +71,20 @@ if (isset($_POST["submit"])) {
 </head>
 
 <body>
-    <header>
-        <h1>
-            <p><span>CRAFT</span>by boozer</p>
-        </h1>
-        <p class="agent_login">エージェント企業ログイン画面</p>
+    <!-- <header> -->
+    <h1>
+        <p><span>CRAFT</span>by boozer</p>
+    </h1>
+    <p class="agent_login">エージェント企業ログイン画面</p>
     </header>
     <div class="agent_login_info">
         <h2 class="agent_login_title">エージェント企業用画面</h2>
         <form action="" method="post">
             <h3 class="pass_wrong"><?php echo $msg; ?></h3>
-            <p>
             <p class="agent_login_label">メールアドレス</p>
             <input type="text" name="email" value="<?php echo h($email); ?>" required>
-            </p>
-            <p>
             <p class="agent_login_label">パスワード</p>
             <input type="password" name="pass" value="<?php echo h($pass); ?>" required>
-            </p>
             <input type="submit" name="submit" value="ログイン">
         </form>
     </div>

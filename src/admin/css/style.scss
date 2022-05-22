@@ -47,7 +47,7 @@ header {
 
 // ページ構成
 .main {
-  width: 70%;
+  width: 80%;
   margin: 20px auto;
 }
 
@@ -64,6 +64,8 @@ table {
     padding: 20px 10px;
     border: solid 1px $border-color;
     vertical-align: middle;
+      white-space: nowrap;
+
   }
 
   th {
@@ -73,7 +75,7 @@ table {
 
   th:nth-child(1),
   td:nth-child(1) {
-    width: 40%;
+    width: 30%;
   }
 } //.table
 

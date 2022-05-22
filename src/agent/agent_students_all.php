@@ -7,7 +7,6 @@ if (!isset($_SESSION["login"])) {
     exit();
 }
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $form['month'] = filter_input(INPUT_POST, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 } else {
