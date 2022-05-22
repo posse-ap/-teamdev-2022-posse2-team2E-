@@ -1,5 +1,13 @@
 <?php
 require('../db_connect.php');
+
+session_start();
+//ログインされていない場合は強制的にログインページにリダイレクト
+if (!isset($_SESSION["login"])) {
+    header("Location: login/login.php");
+    exit();
+}
+
 $id = $_GET['id'];
 
 //エージェント情報
@@ -90,7 +98,7 @@ function set_list_status($list_status)
 <body>
   <header>
     <div class="header-inner">
-      <div class="header-title">クラフト管理者画面</div>
+      <h1 class="header-title">CRAFT管理者画面</h1>
       <nav class="header-nav">
         <ul class="header-nav-list">
         <a href="./index.php">
@@ -107,6 +115,9 @@ function set_list_status($list_status)
           </a>
           <a href="./login/loginInfo.php">
             <li class="header-nav-item">管理者ログイン情報</li>
+          </a>
+          <a href="./login/logout.php">
+            <li class="header-nav-item">ログアウト</li>
           </a>
         </ul>
       </nav>

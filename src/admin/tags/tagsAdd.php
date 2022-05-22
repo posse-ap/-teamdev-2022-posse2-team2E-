@@ -13,7 +13,7 @@ $stmt->bindValue(':sort_id', $_POST['sort_id'], PDO::PARAM_STR);
 $stmt->bindValue(':tag_name', $_POST['tag_name'], PDO::PARAM_STR);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $stmt->execute();
-  header('location: tagEditThanks.html');
+  header('location: tagEditThanks.php');
 }
 ?>
 
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
   <header>
     <div class="header-inner">
-      <div class="header-title">クラフト管理者画面</div>
+      <h1 class="header-title">CRAFT管理者画面</h1>
       <nav class="header-nav">
         <ul class="header-nav-list">
         <a href="../index.php">
@@ -51,6 +51,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </a>
           <a href="../login/loginInfo.php">
             <li class="header-nav-item">管理者ログイン情報</li>
+          </a>
+          <a href="../login/logout.php">
+            <li class="header-nav-item">ログアウト</li>
           </a>
         </ul>
       </nav>
@@ -100,10 +103,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endforeach; ?>
         <tr>
           <td>
-            <input type="number" name="sort_id" value="" />
+            <input type="number" name="sort_id" value="" required/>
           </td>
           <td>
-            <input type="text" name="tag_name" value="" />
+            <input type="text" name="tag_name" value="" required/>
           </td>
         </tr>
       </table>

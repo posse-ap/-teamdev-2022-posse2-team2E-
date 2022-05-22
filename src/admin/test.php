@@ -1,5 +1,14 @@
 <?php
 require('../db_connect.php');
+
+session_start();
+//ログインされていない場合は強制的にログインページにリダイレクト
+if (!isset($_SESSION["login"])) {
+    header("Location: login/login.php");
+    exit();
+}
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $form['month'] = filter_input(INPUT_POST, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
