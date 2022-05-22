@@ -80,7 +80,7 @@ $(window).scroll(function () {
 // キープ一覧にあるエージェントを最初は非表示
     for (let i = 1; i < 1000; i++) {
     let keep_agent_box = document.getElementById("keep_agent_box_" + i);
-    keep_agent_box.style.display ="none";
+    keep_agent_box.style.display = "none";
     }
 
 // 岩村さん、ここお願いします！
@@ -116,32 +116,18 @@ function check(id) {
             count++;
         }
     });
-    $('div.tohokuret').text('選択：' + count + '個');
+    $('div.tohokuret').text(  count );
 
 }
 
 
-// function check(id) {　
-//     let keep_agent_box = document.getElementById("keep_agent_box_" + id);
-//     // キープ押されたら表示
-//     if(keep_agent_box.style.display=="block"){
-//         keep_agent_box.style.display ="none";
-    
-//     }else{
-//         keep_agent_box.style.display ="block";
-        
-// };
-// }
-
-
-
-// キープしたやつを取り消す
-function buttonDelete(id){
-    let keep = document.getElementById("keep_" + id);
-    let keep_agent_box = document.getElementById("keep_agent_box_" + id);
-        keep_agent_box.style.display ="none";     
-        keep.checked = false;
-}
+    // キープしたやつを取り消す
+    function buttonDelete(id){
+        let keep = document.getElementById("keep_" + id);
+        let keep_agent_box = document.getElementById("keep_agent_box_" + id);
+            keep_agent_box.style.display ="none";     
+            keep.checked = false;
+    }
 
 
 

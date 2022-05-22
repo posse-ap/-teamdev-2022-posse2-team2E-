@@ -103,14 +103,19 @@ crossorigin="anonymous"></script>
 
 
                 <ul class="filter-items" >
-                    <a href=""><button class="all_keep">全てをキープ</button></a>
+                    <!-- <a href=""><button class="all_keep">全てをキープ</button></a> -->
                     <form action="entry.php" method="post" id="inquiry_submit" >  
                     <?php foreach($listed_agents as $listed_agent): ?>
                     <li class="agent_box" data-filter-key="総合型" id="tohoku_<?php echo $listed_agent['id'] ?>">
                         <img class="agent_img" src="logo.png" alt="">
                         <div class="agent_article">
                             <div class="agent_article_header">
-                                <div class="agent_type">
+                                <h1 class="agent_name"><?php echo $listed_agent['insert_company_name'] ?></h1>
+                                <p class="num_company">取扱企業数：<?php echo $listed_agent['insert_handled_number'] ?>社</p>        
+                            </div>
+                            <div class="agent_article_main">
+                            
+                            <div class="agent_type">
                                     <!--  タグ表示↓ -->
                                     <?php foreach ($at_list as $agent_tags) : ?>
                                         <?php if ($listed_agent['id'] === current($agent_tags)['agent_id']) : ?>
@@ -120,12 +125,7 @@ crossorigin="anonymous"></script>
                                         <?php endif; ?>
                                     <?php endforeach; ?>
                                     <!--  タグ表示↑ -->
-                                </div>
-                                
-                                <p class="num_company">取扱企業数：<?php echo $listed_agent['insert_handled_number'] ?>社</p>
                             </div>
-                            <div class="agent_article_main">
-                            <h1 class="agent_name"><?php echo $listed_agent['insert_company_name'] ?></h1>
                                 <p class="recommend_points">特徴</p>
                                     <div class="recommend_points_box">
                                         <p><?php echo $listed_agent['insert_recommend_1'] ?></p>
@@ -157,20 +157,6 @@ crossorigin="anonymous"></script>
                 </form>
 
 
-<!-- <p id="tohoku">
-    <input type="checkbox" > 北海道<br>
-    <input type="checkbox" > 青森<br>
-    <input type="checkbox" > 岩手<br>
-    <input type="checkbox" > 宮城<br>
-    <input type="checkbox" > 秋田<br>
-    <input type="checkbox" > 山形<br>
-    <input type="checkbox" > 福島<br>
-</p>
- 
-<div class="tohokuret"></div> -->
-
-
-
                 <div class="filter_left_wrapper">
                     <div class="filter-cond" id="filter_side">
                         <!-- <div class="agents_type"> -->
@@ -194,7 +180,7 @@ crossorigin="anonymous"></script>
 
                     <btn class="keep_btn" id="keep_btn">
                         <div class="button05">
-                            <button class="bn632-hover bn19 open_button" ><label for="trigger_keep">キープ：<span id="counter_dis" ><div class="tohokuret"></div></span>件<br>確認する</label></button>
+                            <button class="bn632-hover bn19 open_button" ><label for="trigger_keep">キープ：<span id="counter_dis" ><div class="tohokuret">0</div></span>件<br>確認する</label></button>
 
                         </div>
                     </btn>
@@ -218,7 +204,7 @@ crossorigin="anonymous"></script>
                                                 <div class="button05">
                                                     
                                                 <button class="bn632-hover bn19 keep_inquiry_btn "  type="submit" form="inquiry_submit" value="問い合わせる" >
-                                                    キープ：<span id="count_dis"></span>件<br>問い合わせる
+                                                    キープ：<span id="count_dis"><div class="tohokuret">0</div></span>件<br>問い合わせる
                                                     <!-- <button type="submit" form="inquiry_submit" value="問い合わせる">ああ</button> -->
                 
                                                     <!-- <form action="/src/usercontact/entry.php"><input type="submit" form="inquiry_submit" value="問い合わせる"></form> -->
@@ -231,7 +217,7 @@ crossorigin="anonymous"></script>
                                     <div class="modal-filter-items">
                                         <ul class="filter-items">
                                         <?php foreach($listed_agents as $listed_agent): ?>
-                                            <li class="agent_box" id="keep_agent_box_<?php echo $listed_agent['id'] ?>" data-filter-key="総合型">
+                                            <li class="agent_box keep_agent_box" id="keep_agent_box_<?php echo $listed_agent['id'] ?>" data-filter-key="総合型">
                                                 <img class="agent_img" src="logo.png" alt="">
                                                 <div class="agent_article">
                                                     <div class="agent_article_header">   
