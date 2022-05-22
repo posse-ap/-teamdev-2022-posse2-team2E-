@@ -104,7 +104,7 @@ crossorigin="anonymous"></script>
 
                 <ul class="filter-items">
                     <a href=""><button class="all_keep">全てをキープ</button></a>
-                    <form action="entry.php" method="post" id="inquiry_submit">
+                    <form action="entry.php" method="post" id="inquiry_submit" >
                     <?php foreach($listed_agents as $listed_agent): ?>
                     <li class="agent_box" data-filter-key="総合型">
                         <img class="agent_img" src="logo.png" alt="">

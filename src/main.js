@@ -78,7 +78,7 @@ $(window).scroll(function () {
 
 
 // キープ一覧にあるエージェントを最初は非表示
-    for (let i = 1; i < 4; i++) {
+    for (let i = 1; i < 1000; i++) {
     let keep_agent_box = document.getElementById("keep_agent_box_" + i);
     keep_agent_box.style.display ="none";
     }
@@ -99,12 +99,12 @@ $(window).scroll(function () {
 
 // 岩村さん、ここお願いします！
 // function check(id) {
-$(function check(id) {
-    $('input:checkbox').change(function() {
-        var cnt = $('#tohoku input:checkbox:checked').length;
-        $('div.tohokuret').text('選択：' + cnt + '個');
-    }).trigger('change');
-});
+// $(function check(id) {
+//     $('input:checkbox').change(function() {
+//         var cnt = $('#tohoku input:checkbox:checked').length;
+//         $('div.tohokuret').text('選択：' + cnt + '個');
+//     }).trigger('change');
+// });
 // }
 
 
