@@ -28,7 +28,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
     'insert_recommend_2' => '',
     'insert_recommend_3' => '',
     'insert_handled_number' => '',
-    'list_status' => '',
+    // 'list_status' => '',
     'insert_detail' => '',
     'agent_tags' => [],
   ];
@@ -52,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     'login_email' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'login_pass' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'to_send_email' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    'application_max' => FILTER_SANITIZE_NUMBER_INT,
     'client_name' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'client_department' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'client_email' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
@@ -63,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     'insert_recommend_3' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'insert_handled_number' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'insert_detail' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-    'list_status' => FILTER_SANITIZE_NUMBER_INT,
+    // 'list_status' => FILTER_SANITIZE_NUMBER_INT,
     'agent_tags' => array(
       'filter' => FILTER_SANITIZE_NUMBER_INT,
       'flags'     => FILTER_REQUIRE_ARRAY,
@@ -76,9 +77,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($form['insert_company_name'] === '') {
     $error['insert_company_name'] = 'blank';
   }
-  if (!$form['list_status']) {
-    $error['list_status'] = 'blank';
-  }
+  // if (!$form['list_status']) {
+  //   $error['list_status'] = 'blank';
+  // }
   if ($form['started_at'] === '') {
     $error['started_at'] = 'blank';
   }
@@ -181,16 +182,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="text" name="corporate_name" value="<?php echo h($form["corporate_name"]); ?>" /></td>
           </tr>
           <tr>
-            <th>掲載状態<span class="required">必須</span></th>
+            <th>掲載状態</th>
             <td>
-              <label class="list-status">
-                <input type="radio" name="list_status" value=1 <?php if ($form['list_status'] === "1") : ?>checked<?php endif; ?> /><span>掲載する</span>
-              </label>
-              <label class="list_status">
-                <input type="radio" name="list_status" value=2 <?php if ($form['list_status'] === "2") : ?>checked<?php endif; ?> /><span>まだ掲載しない</span><?php if (isset($error['list_status']) && $error['list_status'] === 'blank') : ?>
-                  <p class="error">* 掲載状態を選択してください</p>
-                <?php endif; ?>
-              </label>
+            【掲載期間と申し込み上限数で自動判定】
             </td>
           </tr>
 
@@ -216,6 +210,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <tr>
             <th>学生情報送信先</th>
             <td><input type="email" name="to_send_email" value="<?php echo h($form["to_send_email"]); ?>" />
+          </tr>
+          <tr>
+            <th>申し込み上限数（/月）</th>
+            <!-- 追加　必須化 -->
+            <td><input type="number" name="application_max" value="<?php echo h($form["application_max"]); ?>" /> 件
           </tr>
         </table>
         <table class="contact-info-table">

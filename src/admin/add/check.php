@@ -10,13 +10,29 @@ if (!isset($_SESSION["login"])) {
 
 if (isset($_SESSION['form'])) {
   $form = $_SESSION['form'];
+  if($form['application_max']===""){
+    $form['application_max']= 0;
+  }
+  // 期間内 && $form['application_max'] > 0
+  // ↑場合分けする
+  date_default_timezone_set('Asia/Tokyo');
+  $today = date("Y-m-d"); //今日の日付
+  // echo date_default_timezone_get();
+  $started_at = $form['started_at'];
+  $ended_at = $form['ended_at'];
+  if(strtotime($today) < strtotime($started_at) || strtotime($today) > strtotime($ended_at)){
+    $form['list_status'] = 2;
+  }else if(strtotime($today) >= strtotime($started_at) && strtotime($ended_at) >= strtotime($today)){
+    $form['list_status'] = 1;
+  }
   // var_dump($form);
+  // var_dump('今日'.$today,'開始'.$started_at, '終了'.$ended_at,);
 } else {
   header('location: ../index.php');
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $login_pass = password_hash($form['login_pass'], PASSWORD_DEFAULT);
-  $stmt = $db->prepare('insert into agents (corporate_name, started_at, ended_at, login_email, login_pass, to_send_email, client_name, client_department, client_email, client_tel, insert_company_name, insert_logo, insert_recommend_1, insert_recommend_2,insert_recommend_3, insert_handled_number, insert_detail, list_status) VALUES (:corporate_name,:started_at, :ended_at, :login_email, :login_pass, :to_send_email, :client_name, :client_department, :client_email, :client_tel, :insert_company_name, :insert_logo, :insert_recommend_1, :insert_recommend_2, :insert_recommend_3, :insert_handled_number, :insert_detail, :list_status)');
+  $stmt = $db->prepare('insert into agents (corporate_name, started_at, ended_at, login_email, login_pass, to_send_email, application_max, client_name, client_department, client_email, client_tel, insert_company_name, insert_logo, insert_recommend_1, insert_recommend_2,insert_recommend_3, insert_handled_number, insert_detail, list_status) VALUES (:corporate_name,:started_at, :ended_at, :login_email, :login_pass, :to_send_email, :application_max, :client_name, :client_department, :client_email, :client_tel, :insert_company_name, :insert_logo, :insert_recommend_1, :insert_recommend_2, :insert_recommend_3, :insert_handled_number, :insert_detail, :list_status)');
   $stmt->bindValue('corporate_name', $form['corporate_name'], PDO::PARAM_STR);
   $started_at = new DateTime($form['started_at']);
   $stmt->bindValue('started_at', $started_at->format('Y-m-d'), PDO::PARAM_STR);
@@ -25,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $stmt->bindValue('login_email', $form['login_email'], PDO::PARAM_STR);
   $stmt->bindValue('login_pass', $login_pass, PDO::PARAM_STR);
   $stmt->bindValue('to_send_email', $form['to_send_email'], PDO::PARAM_STR);
+  $stmt->bindValue('application_max', $form['application_max'], PDO::PARAM_INT);
   $stmt->bindValue('client_name', $form['client_name'], PDO::PARAM_STR);
   $stmt->bindValue('client_department', $form['client_department'], PDO::PARAM_STR);
   $stmt->bindValue('client_email', $form['client_email'], PDO::PARAM_STR);
@@ -48,8 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $stmt = $db->query('select id from agents where id = LAST_INSERT_ID()');
   $agent_id = $stmt->fetch(PDO::FETCH_ASSOC);
 
-
   $stmt = $db->prepare('insert into agents_tags (agent_id, tag_id) VALUES (:agent_id, :tag_id)');
+if($form['agent_tags']){
   foreach ($form['agent_tags'] as $agent_tag) :
     $stmt->bindValue('agent_id', $agent_id['id'], PDO::PARAM_INT);
     $stmt->bindValue('tag_id', $agent_tag, PDO::PARAM_INT);
@@ -61,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       die($db->error);
     }
   endforeach;
-
+}
   unset($_SESSION['form']);
   header('location: thanks.php');
 }
@@ -83,9 +100,9 @@ foreach ($filter_sorts_tags as $f) {
 // var_dump($agent_tags);
 function set_list_status($list_status)
 {
-  if ($list_status === "1") {
+  if ($list_status === 1) {
     return '掲載';
-  } elseif ($list_status === "2") {
+  } elseif ($list_status === 2) {
     return '非掲載';
   } else {
     return 'エラー';
@@ -146,10 +163,10 @@ function set_list_status($list_status)
           <tr>
             <th>掲載状態</th>
             <td><label class="list-status">
-                <input type="radio" name="list-status" value="1" <?php if ($form['list_status'] === "1") : ?>checked <?php endif; ?> disabled /><span>掲載する</span>
+                <input type="radio" name="list-status" value=1 <?php if ($form['list_status'] === 1) : ?>checked <?php endif; ?> disabled /><span>掲載</span>
               </label>
               <label class="list-status">
-                <input type="radio" name="list-status" value="2" <?php if ($form['list_status'] === "2") : ?>checked <?php endif; ?> disabled /><span>まだ掲載しない</span>
+                <input type="radio" name="list-status" value=2 <?php if ($form['list_status'] === 2) : ?>checked <?php endif; ?> disabled /><span>非掲載</span>
               </label>
             </td>
           </tr>
@@ -173,6 +190,11 @@ function set_list_status($list_status)
             <th>学生情報送信先</th>
             <td><?php echo h($form['to_send_email']) ?></td>
           </tr>
+          <tr>
+            <th>申し込み上限数（/月）</th>
+            <td><?php echo h($form['application_max']) ?> 件</td>
+          </tr>
+
         </table>
         <table class="contact-info-table">
           <tr>
