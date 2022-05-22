@@ -1,9 +1,9 @@
 version: '3'
 
 #↓下記追記↓
-volumes:
-  db-volume:
-  maildir: {}
+# volumes:
+#   db-volume:
+#   maildir: {}
 
 services:
   web:
@@ -17,7 +17,7 @@ services:
       - ./src:/var/www/html
   app:
     build: ./php
-    image: php:7.4.-fpm
+    image: php:7.4-fpm
     depends_on:
       - db
     volumes:
@@ -79,14 +79,15 @@ services:
 
 #↓下記追記↓
 #メールサーバのコンテナ
-  mail:
-    image: mailhog/mailhog
-    container_name: mailhog
-    ports:
-      - '8025:8025'
-    environment:
-      MH_STORAGE: maildir
-      MH_MAILDIR_PATH: /tmp
-      #↓追記する
-    volumes:
-      - maildir:/tmp
+  # mail:
+  #   image: mailhog/mailhog
+  #   container_name: mailhog
+  #   ports:
+  #     - '8024:8024'
+  #     # - '1025:1025'
+  #   environment:
+  #     MH_STORAGE: maildir
+  #     MH_MAILDIR_PATH: /tmp
+  #     #↓追記する
+  #   volumes:
+  #     - maildir:/tmp

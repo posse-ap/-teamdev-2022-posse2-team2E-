@@ -11,25 +11,28 @@
 </head>
 
 <body>
-  <header>
+<header>
     <div class="header-inner">
-      <div class="header-title">クラフト管理者画面</div>
+      <h1 class="header-title">CRAFT管理者画面</h1>
       <nav class="header-nav">
         <ul class="header-nav-list">
-        <a href="../index.php">
-            <li class="header-nav-item select">エージェント一覧</li>
+          <a href="../index.php">
+            <li class="header-nav-item">エージェント一覧</li>
           </a>
           <a href="../add/agentAdd.php">
             <li class="header-nav-item">エージェント追加</li>
           </a>
           <a href="../tags/tagsEdit.php">
-            <li class="header-nav-item">タグ一覧</li>
+            <li class="header-nav-item select">タグ一覧</li>
           </a>
           <a href="#">
             <li class="header-nav-item">問い合わせ一覧</li>
           </a>
           <a href="../login/loginInfo.php">
             <li class="header-nav-item">管理者ログイン情報</li>
+          </a>
+          <a href="../login/logout.php">
+            <li class="header-nav-item">ログアウト</li>
           </a>
         </ul>
       </nav>
@@ -40,9 +43,10 @@
 <h1>エージェント編集</h1>
 </div>
 
-<div id="content">
+<div class="done">
 <p>編集が完了しました。</p>
-<p><a href="../index.php">エージェント一覧画面で確認する</a></p>
+<p><a href="tagsEdit.php">タグ一覧画面で確認する</a></p>
+<p>絞り込みの種類、タグ両方が設定されていなければユーザー画面には反映されません。<br>片方しかなものは、編集画面で確認できます</p>
 </div>
 
 </div>
