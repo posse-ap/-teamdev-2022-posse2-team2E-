@@ -193,7 +193,7 @@ function set_list_status($list_status)
           </tr>
           <tr>
             <td class="sub-th">企業ロゴ</td>
-            <td><img src="../img/insert_logo/<?php echo h($form['insert_logo']); ?>" width="300" alt="" /></td>
+            <td><img src="../../img/insert_logo/<?php echo h($form['insert_logo']); ?>" width="300" alt="" /></td>
           </tr>
           <tr>
             <td class="sub-th">オススメポイント</td>
