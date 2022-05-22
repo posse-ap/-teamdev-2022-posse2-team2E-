@@ -1,5 +1,13 @@
 <?php
 require('../../db_connect.php');
+
+session_start();
+//ログインされていない場合は強制的にログインページにリダイレクト
+if (!isset($_SESSION["login"])) {
+    header("Location: ../login/login.php");
+    exit();
+}
+
 // 絞り込みの種類情報
 $stmt = $db->query('select * from filter_sorts;');
 $filter_sorts = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -33,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
   <header>
     <div class="header-inner">
-      <div class="header-title">クラフト管理者画面</div>
+      <h1 class="header-title">CRAFT管理者画面</h1>
       <nav class="header-nav">
         <ul class="header-nav-list">
           <a href="../index.php">
@@ -50,6 +58,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </a>
           <a href="../login/loginInfo.php">
             <li class="header-nav-item">管理者ログイン情報</li>
+          </a>
+          <a href="../login/logout.php">
+            <li class="header-nav-item">ログアウト</li>
           </a>
         </ul>
       </nav>
@@ -84,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               【自動割当】
             </td>
             <td>
-              <input type="text" name="tag_name" value="" />
+              <input type="text" name="tag_name" value="" required />
             </td>
           </tr>
         </table>

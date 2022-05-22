@@ -1,5 +1,13 @@
 <?php
 require('../db_connect.php');
+session_start();
+
+//ログインされていない場合は強制的にログインページにリダイレクト
+if (!isset($_SESSION["login"])) {
+    header("Location: ./login/login.php");
+    exit();
+}
+
 try {
   $stmt = $db->prepare('select * from agents where list_status=?');
   $stmt->execute([1]);
@@ -81,7 +89,7 @@ try {
 <body>
   <header>
     <div class="header-inner">
-      <div class="header-title">クラフト管理者画面</div>
+      <h1 class="header-title">CRAFT管理者画面</h1>
       <nav class="header-nav">
         <ul class="header-nav-list">
           <a href="./index.php">
@@ -99,12 +107,16 @@ try {
           <a href="./login/loginInfo.php">
             <li class="header-nav-item">管理者ログイン情報</li>
           </a>
+          <a href="./login/logout.php">
+            <li class="header-nav-item">ログアウト</li>
+          </a>
         </ul>
       </nav>
     </div>
   </header>
   <main class="main">
     <section class="agent-list">
+    <h2 class="viewing_agent">掲載中の企業</h2>
       <table>
         <!-- 掲載企業、停止企業の条件つける -->
         <tr>
@@ -134,11 +146,10 @@ try {
         <!-- タグ表示テスト ↑-->
       <?php endforeach; ?>
           </tr>
-
       </table>
     </section>
     <section class="agent-not-listed">
-      <div id="js-open" onclick="js-open">掲載停止中の企業▼</div>
+      <div id="js-open" onclick="js-open">掲載停止中の企業</div>
       <table>
         <?php foreach ($non_listed_agents as $non_listed_agent) :
         ?>

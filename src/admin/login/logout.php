@@ -1,8 +1,9 @@
 <?php
 session_start();
 $output = '';
+
 if (!isset($_SESSION["login"])) {
-    header("Location: agent_login.php");
+    header("Location: login.php");
 }
 //セッション変数のクリア
 $_SESSION = array();
@@ -31,20 +32,22 @@ echo $output;
 <head>
     <meta charset="UTF-8">
     <title>ログアウトページ</title>
-    <link rel="stylesheet" href="agent_logout.css">
-    <link rel="stylesheet" href="table.css">
+    <link rel="stylesheet" href="../../reset.css">
+    <link rel="stylesheet" href="../../agent/agent_logout.css">
+    <link rel="stylesheet" href="../../agent/agent_login.css">
+    <link rel="stylesheet" href="../../agent/table.css">
 </head>
 
 <body>
     <header>
         <h1>
-            <p><span>CRAFT</span>by boozer</p>
+        <p><span>CRAFT</span>by boozer</p>
         </h1>
-        <p class="agent_login">ログアウト画面</p>
+        <p class="agent_login">CRAFT管理者ログアウト画面</p>
     </header>
     <div class="message">
         <p>ログアウトしました</p>
-        <a href="agent_login.php">ログインページへ</a>
+        <a href="login.php">ログインページへ</a>
     </div>
 </body>
 

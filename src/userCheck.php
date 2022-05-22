@@ -1,6 +1,14 @@
 <?php
 session_start();
-require('db_connect.php');
+require('../../db_connect.php');
+
+// //ログインされていない場合は強制的にログインページにリダイレクト
+// if (!isset($_SESSION["login"])) {
+//     header("Location: ../login/login.php");
+//     exit();
+// }
+
+
 if (isset($_SESSION['form']) && isset($_SESSION['form']['student_contacts'])) {
   $form = $_SESSION['form'];
   // var_dump($form);

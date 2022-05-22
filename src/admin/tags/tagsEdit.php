@@ -1,5 +1,13 @@
 <?php
+session_start();
 require('../../db_connect.php');
+
+//ログインされていない場合は強制的にログインページにリダイレクト
+if (!isset($_SESSION["login"])) {
+    header("Location: ../login/login.php");
+    exit();
+}
+
 //タグ情報
 $stmt = $db->query('select fs.id, sort_name, tag_id, tag_name from filter_sorts fs inner join filter_tags ft on fs.id = ft.sort_id;
 ');
@@ -27,7 +35,7 @@ foreach ($filter_sorts_tags as $f) {
 <body>
 <header>
     <div class="header-inner">
-      <div class="header-title">クラフト管理者画面</div>
+      <h1 class="header-title">CRAFT管理者画面</h1>
       <nav class="header-nav">
         <ul class="header-nav-list">
         <a href="../index.php">
@@ -44,6 +52,9 @@ foreach ($filter_sorts_tags as $f) {
           </a>
           <a href="../login/loginInfo.php">
             <li class="header-nav-item">管理者ログイン情報</li>
+          </a>
+          <a href="../login/logout.php">
+            <li class="header-nav-item">ログアウト</li>
           </a>
         </ul>
       </nav>

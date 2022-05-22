@@ -6,17 +6,15 @@
     margin: 50px 0;
 }
 
-
-
 .agent_detail th {
-    width: 30%;
+    width: 300px;
+    /* width: 30%; */
     color: #fff;
     background-color: #4FA49A;
 }
 
 .agent_detail tr {
     background-color: #fff;
-
 }
 
 .agent_detail td {
@@ -25,6 +23,5 @@
 
 .company_information_title {
     font-size: 30px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
-

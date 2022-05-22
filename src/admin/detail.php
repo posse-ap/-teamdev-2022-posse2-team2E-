@@ -1,5 +1,13 @@
 <?php
 require('../db_connect.php');
+
+session_start();
+//ログインされていない場合は強制的にログインページにリダイレクト
+if (!isset($_SESSION["login"])) {
+  header("Location: login/login.php");
+  exit();
+}
+
 $id = $_GET['id'];
 
 //エージェント情報
@@ -90,10 +98,10 @@ function set_list_status($list_status)
 <body>
   <header>
     <div class="header-inner">
-      <div class="header-title">クラフト管理者画面</div>
+      <h1 class="header-title">CRAFT管理者画面</h1>
       <nav class="header-nav">
         <ul class="header-nav-list">
-        <a href="./index.php">
+          <a href="./index.php">
             <li class="header-nav-item select">エージェント一覧</li>
           </a>
           <a href="./add/agentAdd.php">
@@ -108,6 +116,9 @@ function set_list_status($list_status)
           <a href="./login/loginInfo.php">
             <li class="header-nav-item">管理者ログイン情報</li>
           </a>
+          <a href="./login/logout.php">
+            <li class="header-nav-item">ログアウト</li>
+          </a>
         </ul>
       </nav>
     </div>
@@ -116,6 +127,8 @@ function set_list_status($list_status)
   <main class="main">
     <h1 class="main-title"><?php echo h($agent['insert_company_name']); ?>詳細 (<?php echo set_list_status($agent['list_status']); ?>)</h1>
     <div class="operations">
+      <button onclick="location.href='./update/update.php?id=<?= $id ?>'">編集画面へ</a></button>
+      <!-- <button><a href="./update/update.php?id=<?= $id ?>">編集</a></button> -->
       <button>ユーザー画面を確認</button>
     </div>
     <div class="agent-add-table">
@@ -125,15 +138,15 @@ function set_list_status($list_status)
           <td><?php echo h($agent['corporate_name']) ?></td>
         </tr>
         <tr>
-            <th>掲載状態</th>
-            <td><label class="list-status">
-                <input type="radio" name="list-status" value="1" <?php if($agent['list_status'] === 1):?>checked <?php endif; ?> disabled/><span>掲載中</span>
-              </label>
-              <label class="list-status">
-                <input type="radio" name="list-status" value="2" <?php if($agent['list_status'] === 2):?>checked <?php endif; ?> disabled/><span>掲載停止中</span>
-              </label>
-            </td>
-          </tr>
+          <th>掲載状態</th>
+          <td><label class="list-status">
+              <input type="radio" name="list-status" value="1" <?php if ($agent['list_status'] === 1) : ?>checked <?php endif; ?> disabled /><span>掲載中</span>
+            </label>
+            <label class="list-status">
+              <input type="radio" name="list-status" value="2" <?php if ($agent['list_status'] === 2) : ?>checked <?php endif; ?> disabled /><span>掲載停止中</span>
+            </label>
+          </td>
+        </tr>
 
         <tr>
           <th>掲載期間</th>
@@ -185,7 +198,7 @@ function set_list_status($list_status)
         </tr>
         <tr>
           <td class="sub-th">企業ロゴ</td>
-          <td><img src="../img/insert_logo/<?php echo h($agent['insert_logo']); ?>" width="300" alt="" /></td>
+          <td><img src="../../img/insert_logo/<?php echo h($agent['insert_logo']); ?>" width="300" alt="" /></td>
         </tr>
         <tr>
           <td class="sub-th">オススメポイント</td>
@@ -221,7 +234,8 @@ function set_list_status($list_status)
               <?php foreach ($filter_sort as $filter_tag) : ?>
                 <label class="added-tag">
 
-                  <input type="checkbox" name="filter_tag" disabled <?php foreach ($agent_tags as $agent_tag) : if ($filter_tag['tag_id'] === $agent_tag['tag_id']) : ?>checked <?php endif;endforeach; ?> />
+                  <input type="checkbox" name="filter_tag" disabled <?php foreach ($agent_tags as $agent_tag) : if ($filter_tag['tag_id'] === $agent_tag['tag_id']) : ?>checked <?php endif;
+                                                                                                                                                                            endforeach; ?> />
                   <span><?= $filter_tag['tag_name']; ?></span> </label>
               <?php endforeach; ?>
 
@@ -230,7 +244,7 @@ function set_list_status($list_status)
         <?php endforeach; ?>
       </table>
     </div>
-    <button><a href="./update/update.php?id=<?=$id?>">編集</a></button>
+    <!-- <button><a href="./update/update.php?id=<?= $id ?>">編集</a></button> -->
   </main>
 </body>
 

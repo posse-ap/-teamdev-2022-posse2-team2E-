@@ -1,11 +1,18 @@
 <?php
 session_start();
 require('../../db_connect.php');
+
+//ログインされていない場合は強制的にログインページにリダイレクト
+if (!isset($_SESSION["login"])) {
+    header("Location: ../login/login.php");
+    exit();
+}
+
 if (isset($_SESSION['form'])) {
   $form = $_SESSION['form'];
   // var_dump($form);
 } else {
-  header('location: index.php');
+  header('location: ../index.php');
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $login_pass = password_hash($form['login_pass'], PASSWORD_DEFAULT);
@@ -56,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   endforeach;
 
   unset($_SESSION['form']);
-  header('location: thanks.html');
+  header('location: thanks.php');
 }
 
 //タグ情報
@@ -102,7 +109,7 @@ function set_list_status($list_status)
 <body>
   <header>
     <div class="header-inner">
-      <div class="header-title">クラフト管理者画面</div>
+      <h1 class="header-title">CRAFT管理者画面</h1>
       <nav class="header-nav">
         <ul class="header-nav-list">
           <a href="../index.php">
@@ -117,8 +124,11 @@ function set_list_status($list_status)
           <a href="#">
             <li class="header-nav-item">問い合わせ一覧</li>
           </a>
-          <a href="../loginEdit.php">
+          <a href="../login/loginInfo.php">
             <li class="header-nav-item">管理者ログイン情報</li>
+          </a>
+          <a href="../login/logout.php">
+            <li class="header-nav-item">ログアウト</li>
           </a>
         </ul>
       </nav>
@@ -193,7 +203,7 @@ function set_list_status($list_status)
           </tr>
           <tr>
             <td class="sub-th">企業ロゴ</td>
-            <td><img src="../img/insert_logo/<?php echo h($form['insert_logo']); ?>" width="300" alt="" /></td>
+            <td><img src="../../img/insert_logo/<?php echo h($form['insert_logo']); ?>" width="300" alt="" /></td>
           </tr>
           <tr>
             <td class="sub-th">オススメポイント</td>

@@ -1,6 +1,13 @@
 <?php
 session_start();
 require('../../db_connect.php');
+
+//ログインされていない場合は強制的にログインページにリダイレクト
+if (!isset($_SESSION["login"])) {
+    header("Location: ../login/login.php");
+    exit();
+}
+
 if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['form'])) {
   $form = $_SESSION['form'];
 } else {
@@ -109,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($insert_logo['name'] !== '') {
       //画像のアップロード
       $filename = date('YmdHis') . '_' . $insert_logo['name'];
-      if (!move_uploaded_file($insert_logo['tmp_name'], '../img/insert_logo/' . $filename)) {
+      if (!move_uploaded_file($insert_logo['tmp_name'], '../../img/insert_logo/' . $filename)) {
         die('ファイルのアップロードに失敗しました');
       }
       $_SESSION['form']['insert_logo'] = $filename;
@@ -139,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
   <header>
     <div class="header-inner">
-      <div class="header-title">クラフト管理者画面</div>
+      <h1 class="header-title">CRAFT管理者画面</h1>
       <nav class="header-nav">
         <ul class="header-nav-list">
           <a href="../index.php">
@@ -154,8 +161,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <a href="#">
             <li class="header-nav-item">問い合わせ一覧</li>
           </a>
-          <a href="../loginEdit.php">
+          <a href="../login/loginInfo.php">
             <li class="header-nav-item">管理者ログイン情報</li>
+          </a>
+          <a href="../login/logout.php">
+            <li class="header-nav-item">ログアウト</li>
           </a>
         </ul>
       </nav>

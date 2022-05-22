@@ -1,3 +1,16 @@
+<?php
+
+session_start();
+require('../../db_connect.php');
+
+// //ログインされていない場合は強制的にログインページにリダイレクト
+// if (!isset($_SESSION["login"])) {
+//     header("Location: ../login/login.php");
+//     exit();
+// }
+
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>

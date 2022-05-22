@@ -1,5 +1,15 @@
 <?php
 require('../../db_connect.php');
+
+session_start();
+
+session_start();
+//ログインされていない場合は強制的にログインページにリダイレクト
+if (!isset($_SESSION["login"])) {
+    header("Location: login.php");
+    exit();
+}
+
 //タグ情報
 $stmt = $db->query('select * from admin_login;');
 $admin_login = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -22,7 +32,7 @@ $admin_login = $stmt->fetch(PDO::FETCH_ASSOC);
 <body>
   <header>
     <div class="header-inner">
-      <div class="header-title">クラフト管理者画面</div>
+      <h1 class="header-title">CRAFT管理者画面</h1>
       <nav class="header-nav">
         <ul class="header-nav-list">
           <a href="../index.php">
@@ -39,6 +49,9 @@ $admin_login = $stmt->fetch(PDO::FETCH_ASSOC);
           </a>
           <a href="../login/loginInfo.php">
             <li class="header-nav-item select">管理者ログイン情報</li>
+          </a>
+          <a href="../login/logout.php">
+            <li class="header-nav-item">ログアウト</li>
           </a>
         </ul>
       </nav>

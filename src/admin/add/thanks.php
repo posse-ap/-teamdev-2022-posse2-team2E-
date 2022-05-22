@@ -1,3 +1,15 @@
+<?php
+require('../../db_connect.php');
+session_start();
+
+//ログインされていない場合は強制的にログインページにリダイレクト
+if (!isset($_SESSION["login"])) {
+    header("Location: ../login/login.php");
+    exit();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -8,15 +20,17 @@
   <title>AgentList</title>
   <link rel="stylesheet" href="../css/reset.css" />
   <link rel="stylesheet" href="../css/style.css" />
+  <script src="./js/jquery-3.6.0.min.js"></script>
+  <script src="./js/script.js" defer></script>
 </head>
 
 <body>
-<header>
+  <header>
     <div class="header-inner">
-      <div class="header-title">クラフト管理者画面</div>
+      <h1 class="header-title">CRAFT管理者画面</h1>
       <nav class="header-nav">
         <ul class="header-nav-list">
-          <a href="../index.php">
+        <a href="../index.php">
             <li class="header-nav-item">エージェント一覧</li>
           </a>
           <a href="../add/agentAdd.php">
@@ -31,19 +45,21 @@
           <a href="../login/loginInfo.php">
             <li class="header-nav-item">管理者ログイン情報</li>
           </a>
+          <a href="../login/logout.php">
+            <li class="header-nav-item">ログアウト</li>
+          </a>
         </ul>
       </nav>
     </div>
   </header>
 <body>
 <div id="head">
-<h1>エージェント編集</h1>
+<h1>新規登録</h1>
 </div>
 
-<div id="content">
-<p>編集が完了しました。</p>
-<p><a href="tagsEdit.php">タグ一覧画面で確認する</a></p>
-<p>絞り込みの種類、タグ両方が設定されていなければユーザー画面には反映されません。片方しかなものは、編集画面で確認できます</p>
+<div class="done">
+<p>新規登録が完了しました。</p>
+<p><a href="../index.php">エージェント一覧画面で確認する</a></p>
 </div>
 
 </div>
