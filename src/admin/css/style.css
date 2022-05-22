@@ -38,7 +38,7 @@ header .select {
 
 .main {
   width: 80%;
-  margin: 20px auto 0;
+  margin: 20px auto 100px;
   padding-top: 120px;
 }
 
@@ -78,24 +78,40 @@ input {
 }
 
 .agent-not-listed {
-  margin-top: 70px;
+  margin-top: 90px;
 }
 
-.operations button {
-  margin-left: auto;
-}
 
 .main-title {
   font-size: 30px;
   font-weight: bold;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
   text-align: center;
 }
 
+.viewing_agent {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+#js-open {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.operations {
+  /* width: 300px; */
+  display: flex;
+  justify-content: end;
+  margin-right: 0;
+}
+
 .operations button {
-  display: block;
-  width: 150px;
-  height: 40px;
+  /* display: block; */
+  margin-left: 20px;
+  font-size: 18px;
+  width: 200px;
+  height: 50px;
 }
 
 .agent-add-table > table, .agent-add-table form > table {
@@ -151,3 +167,4 @@ input {
 .done p {
   margin: 10px 0;
 }
+

@@ -28,25 +28,25 @@ if (isset($_POST["submit"])) {
             var_dump($result['corporate_name']);
             echo "</pre>";
 
-            echo "<pre>";
-            var_dump(password_hash("pass", PASSWORD_DEFAULT));
-            echo "</pre>";
+            // echo "<pre>";
+            // var_dump(password_hash("pass", PASSWORD_DEFAULT));
+            // echo "</pre>";
 
-            echo "<pre>";
-            var_dump($_POST['pass']);
-            echo "</pre>";
+            // echo "<pre>";
+            // var_dump($_POST['pass']);
+            // echo "</pre>";
 
-            echo "<pre>";
-            var_dump($result['login_pass']);
-            echo "</pre>";
+            // echo "<pre>";
+            // var_dump($result['login_pass']);
+            // echo "</pre>";
 
-            echo "<pre>";
-            var_dump($_POST['email']);
-            echo "</pre>";
+            // echo "<pre>";
+            // var_dump($_POST['email']);
+            // echo "</pre>";
 
-            echo "<pre>";
-            var_dump($result['login_email']);
-            echo "</pre>";
+            // echo "<pre>";
+            // var_dump($result['login_email']);
+            // echo "</pre>";
         }
     } catch (PDOException $e) {
         echo "もう一回";
@@ -71,7 +71,7 @@ if (isset($_POST["submit"])) {
 </head>
 
 <body>
-    <!-- <header> -->
+    <header>
     <h1>
         <p><span>CRAFT</span>by boozer</p>
     </h1>

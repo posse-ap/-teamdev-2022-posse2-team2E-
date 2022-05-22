@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>userEntry</title>
-  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" type="text/css" href="contact_style.css" />
   <!-- <script src="./js/jquery-3.6.0.min.js"></script>
   <script src="./js/script.js" defer></script> -->
 </head>

@@ -1,5 +1,13 @@
 <?php
 
+session_start();
+require('../../db_connect.php');
+
+// //ログインされていない場合は強制的にログインページにリダイレクト
+// if (!isset($_SESSION["login"])) {
+//     header("Location: ../login/login.php");
+//     exit();
+// }
 
 ?>
 
@@ -21,7 +29,7 @@
       <h1 class="header-title">CRAFT管理者画面</h1>
       <nav class="header-nav">
         <ul class="header-nav-list">
-        <a href="../index.php">
+          <a href="../index.php">
             <li class="header-nav-item select">エージェント一覧</li>
           </a>
           <a href="../add/agentAdd.php">
@@ -43,16 +51,18 @@
       </nav>
     </div>
   </header>
-<body>
-<div id="head">
-<h1>エージェント編集</h1>
-</div>
 
-<div id="content">
-<p>編集が完了しました。</p>
-<p><a href="../index.php">エージェント一覧画面で確認する</a></p>
-</div>
+  <body>
 
-</div>
-</body>
+    <div class="done">
+      <div id="head">
+        <h1>エージェント編集</h1>
+      </div>
+      <p>編集が完了しました。</p>
+      <p><a href="../index.php">エージェント一覧画面で確認する</a></p>
+    </div>
+
+    </div>
+  </body>
+
 </html>

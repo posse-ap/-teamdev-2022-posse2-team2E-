@@ -1,6 +1,7 @@
 <?php
 session_start();
 $output = '';
+
 if (!isset($_SESSION["login"])) {
     header("Location: login.php");
 }

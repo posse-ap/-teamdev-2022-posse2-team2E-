@@ -116,6 +116,7 @@ try {
   </header>
   <main class="main">
     <section class="agent-list">
+    <h2 class="viewing_agent">掲載中の企業</h2>
       <table>
         <!-- 掲載企業、停止企業の条件つける -->
         <tr>
@@ -145,11 +146,10 @@ try {
         <!-- タグ表示テスト ↑-->
       <?php endforeach; ?>
           </tr>
-
       </table>
     </section>
     <section class="agent-not-listed">
-      <div id="js-open" onclick="js-open">掲載停止中の企業▼</div>
+      <div id="js-open" onclick="js-open">掲載停止中の企業</div>
       <table>
         <?php foreach ($non_listed_agents as $non_listed_agent) :
         ?>
