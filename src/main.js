@@ -97,9 +97,7 @@ $(window).scroll(function () {
 // なので以下の形で元々あるcheck関数に処理を追加してしまうのが良さそう、懸念:チェックされるたびにchangeのイベント登録しているからパフォーマンス悪くなるかも？
 // パフォーマンスとかは二の次なので一旦気にせず作成します
 
-// const check = function(id) 
-function check(id)             //こちらの関数だと処理が動いたので、とりあえずこちらを使ってます。
-{
+function check(id) {
     let keep_agent_box = document.getElementById("keep_agent_box_" + id);
     // キープ押されたら表示
     if(keep_agent_box.style.display == "block"){
@@ -107,13 +105,19 @@ function check(id)             //こちらの関数だと処理が動いたの�
     } else {
         keep_agent_box.style.display = "block";
     }
+    // キープのcheckboxを全取得 (idは重複しない性質のため、class名等で取得したいですがnameが今回識別しやすそうだったのでnameで)
+    const checkBoxElements = document.getElementsByName('student_contacts[]');
 
-    $('input:checkbox').change(function() {
-        // 引数で受け取った文字列(id)を文字列に組み込みたい
-        // テンプレート文字列使いましょうバッククウォート(``)で囲って上げると変数を文字列ないで展開できます
-        const count = $(`#tohoku_${id} input:checkbox:checked`).length;
-        $('div.tohokuret').text('選択：' + count + '個');
-    }).trigger('change');
+    // チェックした項目のみを数える
+    let count = 0;
+    checkBoxElements.forEach((element) => {
+        // チェックされてたらカウント追加
+        if (element.checked) {
+            count++;
+        }
+    });
+    $('div.tohokuret').text('選択：' + count + '個');
+
 }
 
 
