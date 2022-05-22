@@ -1,5 +1,13 @@
 <?php
+session_start();
 require('../../db_connect.php');
+
+//ログインされていない場合は強制的にログインページにリダイレクト
+if (!isset($_SESSION["login"])) {
+    header("Location: ../login/login.php");
+    exit();
+}
+
 // 絞り込みの種類情報
 $stmt = $db->query('select * from filter_sorts;');
 $filter_sorts = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -13,7 +21,8 @@ $stmt->bindValue(':sort_id', $_POST['sort_id'], PDO::PARAM_STR);
 $stmt->bindValue(':tag_name', $_POST['tag_name'], PDO::PARAM_STR);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $stmt->execute();
-  header('location: tagEditThanks.php');
+  // header('location: tagEditThanks.php');
+  header('location: tagsEdit.php');
 }
 ?>
 
