@@ -3,7 +3,7 @@ session_start();
 
 // ログイン済みかを確認
 if (isset($_SESSION['login'])) {
-    header('Location: agent_students_all.php'); // ログインしていればagent_students_all.phpへリダイレクトする
+    header('Location: ../index.php'); // ログインしていればagent_students_all.phpへリダイレクトする
     exit; // 処理終了
 }
 
