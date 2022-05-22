@@ -1,12 +1,12 @@
-<?php require($_SERVER['DOCUMENT_ROOT'] . "/db_connect.php");
-
+<?php
+require('../db_connect.php');
 session_start();
 
-//ログインされていない場合は強制的にログインページにリダイレクト
-if (!isset($_SESSION["login"])) {
-    header("Location: agent_login.php");
-    exit();
-}
+// //ログインされていない場合は強制的にログインページにリダイレクト
+// if (!isset($_SESSION["login"])) {
+//     header("Location: agent_login.php");
+//     exit();
+// }
 
 // 問い合わせid (!=student_id)
 $id = $_GET['id'];

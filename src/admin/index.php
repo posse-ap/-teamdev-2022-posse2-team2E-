@@ -93,7 +93,7 @@ try {
           <a href="./tags/tagsEdit.php">
             <li class="header-nav-item">タグ一覧</li>
           </a>
-          <a href="#">
+          <a href="./contact/contact.php">
             <li class="header-nav-item">問い合わせ一覧</li>
           </a>
           <a href="./login/loginInfo.php">
