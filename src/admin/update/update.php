@@ -13,8 +13,7 @@ $id = $_GET['id'];
 if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['form'])) {
   $agent = $_SESSION['form'];
   $agent_tags = $agent['agent_tags'];
-} elseif(isset($form)) {
-  $agent = $form;
+} elseif(isset($agent)) {
   $agent_tags = $agent['agent_tags'];
 }else{
   //エージェント情報
@@ -51,6 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     'login_email' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'login_pass' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'to_send_email' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    'application_max' => FILTER_SANITIZE_NUMBER_INT,
+    'charge' => FILTER_SANITIZE_NUMBER_INT,
     'client_name' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'client_department' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'client_email' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
@@ -61,26 +62,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     'insert_recommend_2' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'insert_recommend_3' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'insert_handled_number' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-    'insert_detail' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-    'list_status' => FILTER_SANITIZE_NUMBER_INT,
+    // 'insert_detail' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    // 'list_status' => FILTER_SANITIZE_NUMBER_INT,
     'agent_tags' => array(
       'filter' => FILTER_SANITIZE_NUMBER_INT,
       'flags'     => FILTER_REQUIRE_ARRAY,
     ),
   ); // タグについては配列？
-  $form = filter_input_array(INPUT_POST, $args);
+  $agent = filter_input_array(INPUT_POST, $args);
 
   // エラー判定
-  if ($form['started_at'] > $form['ended_at']) {
+  if ($agent['started_at'] > $agent['ended_at']) {
     $error['period'] = 'reverse';
   }
   // login_emailの重複チェック
-  if ($form['login_email'] != '') {
-    $stmt = $db->prepare('select count(*) from agents where login_email=:login_email');
+  if ($agent['login_email'] != '') {
+    $stmt = $db->prepare('select count(*) from agents where login_email=:login_email and id != :id');
     if (!$stmt) {
       die($db->error);
     }
-    $stmt->bindValue('login_email', $form['login_email'], PDO::PARAM_STR);
+    $stmt->bindValue('login_email', $agent['login_email'], PDO::PARAM_STR);
+    $stmt->bindValue('id', $id, PDO::PARAM_INT);
     $success = $stmt->execute();
     $cnt = (int)$stmt->fetchColumn();
     if ($cnt > 0) {
@@ -90,32 +92,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   // 画像のチェック
   $insert_logo = $_FILES['insert_logo'];
-  if ($insert_logo['name'] !== '' && $insert_logo['error'] === 0) {
     $type = mime_content_type($insert_logo['tmp_name']);
     if ($type !== 'image/png' && $type !== 'image/jpeg') {
       $error['insert_logo'] = 'type';
     }
-  }
 
   // エラーがなければ確認画面へ
   if (empty($error)) {
-    $_SESSION['form'] = $form;
-
-    if ($insert_logo['name'] !== '') {
+    $_SESSION['form'] = $agent;
       //画像のアップロード
       $filename = date('YmdHis') . '_' . $insert_logo['name'];
       if (!move_uploaded_file($insert_logo['tmp_name'], '../../img/insert_logo/' . $filename)) {
         die('ファイルのアップロードに失敗しました');
       }
       $_SESSION['form']['insert_logo'] = $filename;
-    } else {
-      $_SESSION['form']['insert_logo'] = '';
-    }
-
     header("location: updateCheck.php?id=$id");
     exit();
   }
-}
+  }
 
 ?>
 <!DOCTYPE html>
@@ -160,6 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </nav>
     </div>
   </header>
+  <a href="../detail.php?id=<?= $id ?>">エージェント詳細画面へ戻る＞</a>
   <main class="main">
     <h1 class="main-title"><?php echo h($agent["insert_company_name"]); ?>編集画面</h1>
     <div class="agent-add-table">
@@ -206,7 +201,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="application_max" value="<?php echo h($agent["application_max"]); ?>" min="1" required/> 件
           </tr>
           <th>請求金額（/件）<span class="error">*</span></th>
-            <td><input type="number" name="application_max" value="<?php echo h($agent["application_max"]); ?>" required/> 円
+            <td><input type="number" name="charge" value="<?php echo h($agent["charge"]); ?>" required/> 円
           </tr>
         </table>
         <table class="contact-info-table">
@@ -271,8 +266,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <td>
                 <?php foreach ($filter_sort as $filter_tag) : ?>
                   <label class="added-tag">
-                    <input type="checkbox" name="agent_tags[]" value="<?= $filter_tag['tag_id'] ?>" <?php foreach ($agent_tags as $agent_tag) : if ($filter_tag['tag_id'] === $agent_tag['tag_id']) : ?>checked <?php endif;
-                                                                                                                                                                                                            endforeach; ?> />
+                    <input type="checkbox" name="agent_tags[]" value="<?= $filter_tag['tag_id'] ?>" <?php if($agent_tags) :foreach ($agent_tags as $agent_tag) : if ($filter_tag['tag_id'] === $agent_tag['tag_id']) : ?>checked <?php endif;
+                                                                                                                                                                                                            endforeach; endif;?> />
                     <span><?= $filter_tag['tag_name']; ?></span> </label>
                 <?php endforeach; ?>
               </td>
