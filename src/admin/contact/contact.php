@@ -101,7 +101,7 @@ FROM students AS S, students_contacts AS SC WHERE S.id = SC.student_id AND SC.ag
     FROM
     students AS S, students_contacts AS SC, agents AS A
     WHERE 
-    S.id = SC.student_i
+    S.id = SC.student_id
     AND
     SC.agent_id = A.id
     AND
