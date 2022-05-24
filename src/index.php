@@ -51,6 +51,8 @@ foreach ($agents_tags as $a) {
 src="https://code.jquery.com/jquery-3.3.1.min.js"
 integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 crossorigin="anonymous"></script>
+
+
 </head>
 <body>
     <!-- ヘッダー -->
@@ -163,6 +165,8 @@ crossorigin="anonymous"></script>
                     <?php endforeach; ?>
                 </ul>
                 </form>
+
+
 
 
                 <div class="filter_left_wrapper">
@@ -290,12 +294,129 @@ crossorigin="anonymous"></script>
 
     </wrapper>
 
-
     <footer></footer>
+
+
+
+
+
+    
+    <!-- 絞り込み機能のサンプル -->
+    <div class="bl_3daysSearchBlock">
+ 
+  <div class="bl_3daysSearchBlock_inner">
+ 
+    <div class="bl_3daysSearchBlock_ttl">
+      <div class="bl_3daysSearchBlock_ttl_main">LUNCH INFO</div>
+      <div class="bl_3daysSearchBlock_ttl_sub">県内のランチスポット情報</div>
+       
+    </div>
+ 
+    <div id="select" class="bl_selectBlock">
+ 
+      <div class="el_searchResult">
+        <span class="el_searchResult_nume js_numerator"></span>件／全<span class="el_searchResult_deno js_denominator"></span>件
+      </div>
+ 
+      <div class="bl_selectBlock_wrapper">
+ 
+        <div class="bl_selectBlock_wrapper_wrapper">
+          <div class="bl_selectBlock_ttl">ジャンル</div>
+          <div class="bl_selectBlock_content js_conditions" data-type="type">
+            <span class="bl_selectBlock_check"><input id="type-japan" type="checkbox" name="type" value="japan">
+              <label for="type-japan">
+              <span class="el_checkbox"></span>
+              和食
+              </label>
+            </span>
+            <span class="bl_selectBlock_check"><input id="type-china" type="checkbox" name="type" value="china">
+              <label for="type-china">
+              <span class="el_checkbox"></span>
+              中華
+              </label>
+            </span>
+            <span class="bl_selectBlock_check"><input id="type-italia" type="checkbox" name="type" value="italia">
+              <label for="type-italia">
+              <span class="el_checkbox"></span>
+              イタリアン
+              </label>
+            </span>
+          </div>
+        </div>
+        <div class="bl_selectBlock_wrapper_wrapper">
+          <div class="bl_selectBlock_ttl">価格帯</div>
+          <div class="bl_selectBlock_content js_conditions" data-type="price">
+            <span class="bl_selectBlock_check"><input id="price-u500" type="checkbox" name="price" value="u500">
+              <label for="price-u500">
+                <span class="el_checkbox"></span>
+                〜500円
+              </label>
+            </span>
+            <span class="bl_selectBlock_check"><input id="price-o500u1000" type="checkbox" name="price" value="o500u1000">
+              <label for="price-o500u1000">
+                <span class="el_checkbox"></span>
+                501円〜1000円
+              </label>
+            </span>
+            <span class="bl_selectBlock_check"><input id="price-o1000" type="checkbox" name="price" value="o1000">
+              <label for="price-o1000">
+                <span class="el_checkbox"></span>
+                1000円〜
+              </label>
+            </span>
+          </div>
+        </div>
+        <div class="bl_selectBlock_wrapper_wrapper">
+          <div class="bl_selectBlock_ttl">場所</div>
+          <div class="bl_selectBlock_content js_conditions" data-type="location">
+            <span class="bl_selectBlock_check"><input id="location-kanazawa" type="checkbox" name="location" value="kanazawa">
+              <label for="location-kanazawa">
+                <span class="el_checkbox"></span>
+                金沢
+              </label>
+            </span>
+            <span class="bl_selectBlock_check"><input id="location-kaga" type="checkbox" name="location" value="kaga">
+              <label for="location-kaga">
+                <span class="el_checkbox"></span>
+                加賀
+              </label>
+            </span>
+            <span class="bl_selectBlock_check"><input id="location-komatsu" type="checkbox" name="location" value="komatsu">
+              <label for="location-komatsu">
+                <span class="el_checkbox"></span>
+                小松
+              </label>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="bl_selectBlock_release js_release">すべての選択を解除</div>
+    </div>
+ 
+    <div class="bl_searchResultBlock">
+      <div class="bl_searchResultBlock_item js_target" data-type="japan" data-price="u500" data-location="kanazawa">和食/〜500円/金沢</div>
+      <div class="bl_searchResultBlock_item js_target" data-type="china" data-price="u500" data-location="kanazawa">中華/〜500円/金沢</div>
+      <div class="bl_searchResultBlock_item js_target" data-type="italia" data-price="u500" data-location="kanazawa">イタリアン/〜500円/金沢</div>
+      <div class="bl_searchResultBlock_item js_target" data-type="japan" data-price="o500u1000" data-location="kanazawa">和食/501円〜1000円/金沢</div>
+      <div class="bl_searchResultBlock_item js_target" data-type="china" data-price="o500u1000" data-location="kanazawa">中華/501円〜1000円/金沢</div>
+      <div class="bl_searchResultBlock_item js_target" data-type="italia" data-price="o500u1000" data-location="kanazawa">イタリアン/501円〜1000円/金沢</div>
+      <div class="bl_searchResultBlock_item js_target" data-type="japan" data-price="u500" data-location="kaga" >和食/〜500円/加賀</div>
+      <div class="bl_searchResultBlock_item js_target" data-type="china" data-price="u500" data-location="komatsu">中華/〜500円/小松</div>
+      <div class="bl_searchResultBlock_item js_target" data-type="italia" data-price="u500" data-location="komatsu">イタリアン/〜500円/小松</div>
+      <div class="bl_searchResultBlock_item js_target" data-type="japan" data-price="o1000" data-location="kanazawa">和食/1000円〜/加賀</div>
+      <div class="bl_searchResultBlock_item js_target" data-type="japan,china" data-price="o1000" data-location="kanazawa">和食＆中華/1000円〜/加賀</div>
+    </div>
+ 
+  </div>
+ 
+</div>
+
+    
 
     <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
     <script src="main.js"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
+    
     
 </body>
 </html>
