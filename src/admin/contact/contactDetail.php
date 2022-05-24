@@ -10,6 +10,7 @@ session_start();
 
 // 問い合わせid (!=student_id)
 $id = $_GET['id'];
+
 $agent_id = $_GET['agent'];
 
 if (empty($id) || empty($agent_id)) {
@@ -34,12 +35,12 @@ if (!$result) {
     exit('データがありません。');
 }
 
+
 // エージェント名取得
 $stmt = $db->prepare('SELECT insert_company_name FROM agents WHERE id=:id');
 $stmt->bindValue(':id', (int)$agent_id, PDO::PARAM_INT);
 $stmt->execute();
 $agent = $stmt->fetch(PDO::FETCH_ASSOC);
-
 
 
 // 通報内容
@@ -56,7 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $db->prepare('update students_contacts set valid_status_id=3 where id=:id');
     $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
     $stmt->execute();
+
     header("location: contactDetail.php?agent=$agent_id&id=$id");
+
 }
 
 // 無効化申請中/無効化承認済みをタイトルに表示
@@ -82,7 +85,9 @@ if (!$stmt) {
     die($db->error);
 }
 $stmt->bindValue(':email', $result['email'], PDO::PARAM_STR);
+
 $stmt->bindValue(':agent_id', (int)$agent_id, PDO::PARAM_INT);
+
 $stmt->execute();
 $duplicated_emails = $stmt->fetchAll(PDO::FETCH_ASSOC);
 //tel重複
@@ -93,7 +98,9 @@ if (!$stmt) {
     die($db->error);
 }
 $stmt->bindValue(':tel', $result['tel'], PDO::PARAM_STR);
+
 $stmt->bindValue(':agent_id', (int)$agent_id, PDO::PARAM_INT);
+
 $stmt->execute();
 $duplicated_tels = $stmt->fetchAll(PDO::FETCH_ASSOC);
 //name重複
@@ -104,7 +111,9 @@ if (!$stmt) {
     die($db->error);
 }
 $stmt->bindValue(':name', $result['name'], PDO::PARAM_STR);
+
 $stmt->bindValue(':agent_id', (int)$agent_id, PDO::PARAM_INT);
+
 $stmt->execute();
 $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -156,6 +165,7 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </nav>
         </div>
     </header>
+
     <div class="back">
     <a href="contact.php?id=<?= $agent_id ?>">&laquo;&nbsp;<?= $agent['insert_company_name'] ?>問い合わせ一覧に戻る</a></div>
     <main class="main">

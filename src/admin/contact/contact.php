@@ -62,6 +62,7 @@ FROM students AS S, students_contacts AS SC WHERE S.id = SC.student_id AND SC.ag
 
     foreach ($all_contact as $contact) {
         $stmt = $db->prepare(
+
             'SELECT SC.id FROM students AS S, students_contacts AS SC WHERE (S.email = :email OR S.name = :name OR S.tel = :tel) AND S.id = SC.student_id AND SC.agent_id = :agent_id ORDER BY S.created desc'
         );
         if (!$stmt) {
@@ -72,6 +73,7 @@ FROM students AS S, students_contacts AS SC WHERE S.id = SC.student_id AND SC.ag
         $stmt->bindValue(':tel', $contact['電話番号'], PDO::PARAM_STR);
         $stmt->bindValue(':agent_id', $id, PDO::PARAM_INT);
         $stmt->execute();
+
         $duplicate_ids[$contact['問い合わせID']] =  $stmt->fetchAll(PDO::FETCH_ASSOC);
         // 重複id(自分含む)→掲載時判別
     }
@@ -82,6 +84,8 @@ FROM students AS S, students_contacts AS SC WHERE S.id = SC.student_id AND SC.ag
 
     if ($month != "all") :
         // 指定monthのstudents
+
+
         $stmt = $db->prepare('SELECT 
     DATE_FORMAT(S.created, "%Y-%m") AS prepare_month,
     DATE_FORMAT(S.created, "%m") AS 月,
@@ -112,6 +116,7 @@ FROM students AS S, students_contacts AS SC WHERE S.id = SC.student_id AND SC.ag
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $cnt = count($result);
+
 
         // 指定monthの有効students
         $stmt = $db->prepare('SELECT *
@@ -233,6 +238,7 @@ function set_valid_status($valid_status)
             </nav>
         </div>
     </header>
+
     <div class="back">
         <a href="../index.php">&laquo;&nbsp;エージェント一覧に戻る</a>
     </div>

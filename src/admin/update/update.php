@@ -28,7 +28,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
   $stmt->execute();
   $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-// var_dump($agent);
+// echo '<pre>';
+// var_dump($agent_tags);
+// echo '</pre>';
 
 
 //タグ情報
@@ -39,6 +41,9 @@ $t_list = [];
 foreach ($filter_sorts_tags as $f) {
   $t_list[(int)$f['id']][] = $f;
 }
+// echo '<pre>';
+// var_dump($t_list);
+// echo '</pre>';
 
 $error = [];
 
@@ -266,7 +271,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <td>
                 <?php foreach ($filter_sort as $filter_tag) : ?>
                   <label class="added-tag">
-                    <input type="checkbox" name="agent_tags[]" value="<?= $filter_tag['tag_id'] ?>" <?php if($agent_tags) :foreach ($agent_tags as $agent_tag) : if ($filter_tag['tag_id'] === $agent_tag['tag_id']) : ?>checked <?php endif;
+                    <input type="checkbox" name="agent_tags[]" value=<?= $filter_tag['tag_id'] ?> <?php if($agent_tags) :foreach ($agent_tags as $agent_tag) :
+                    if ($filter_tag['tag_id'] === (int)$agent_tag) : ?>checked <?php endif;
                                                                                                                                                                                                             endforeach; endif;?> />
                     <span><?= $filter_tag['tag_name']; ?></span> </label>
                 <?php endforeach; ?>
