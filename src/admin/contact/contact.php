@@ -64,8 +64,6 @@ FROM students AS S, students_contacts AS SC WHERE S.id = SC.student_id AND SC.ag
         $stmt = $db->prepare(
 
             'SELECT SC.id FROM students AS S, students_contacts AS SC WHERE (S.email = :email OR S.name = :name OR S.tel = :tel) AND S.id = SC.student_id AND SC.agent_id = :agent_id ORDER BY S.created desc'
-
-           
         );
         if (!$stmt) {
             die($db->error);
