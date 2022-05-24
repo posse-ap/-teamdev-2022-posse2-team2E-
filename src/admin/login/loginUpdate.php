@@ -9,8 +9,79 @@ if (!isset($_SESSION["login"])) {
 
 $id = $_GET['id'];
 if($id=== 'admin'){
-  // ここから
-}
+  $title = '管理者';
+  $name= 'CRAFT';
+  $stmt = $db->query('select * from admin_login;');
+  $stmt->execute();
+  $admin = $stmt->fetch(PDO::FETCH_ASSOC);
+  $email = $admin['email'];
+
+  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $form['login_email'] = filter_input(INPUT_POST, 'login_email', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $form['login_pass'] = filter_input(INPUT_POST, 'login_pass', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $login_pass = password_hash($form['login_pass'], PASSWORD_DEFAULT);
+    $stmt = $db->prepare('update admin_login set email = :login_email, login_password = :login_pass');
+    $stmt->bindValue('login_email', $form['login_email'], PDO::PARAM_STR);
+    $stmt->bindValue('login_pass', $login_pass, PDO::PARAM_STR);
+    if (!$stmt) {
+      die($db->error);
+    }
+    $success = $stmt->execute();
+    if (!$success) {
+      die($db->error);
+    }
+
+    header('location: loginInfo.php');
+  }//post
+
+
+}else{//agent
+  $title  = 'エージェント';
+  $stmt = $db->prepare('select * from agents where id = :id;');
+  $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
+  $stmt->execute();
+  $agent = $stmt->fetch(PDO::FETCH_ASSOC);
+  $name = $agent['insert_company_name'];
+  $email = $agent['login_email'];
+
+  $error = [];
+  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+      $form['login_email'] = filter_input(INPUT_POST, 'login_email', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+      $form['login_pass'] = filter_input(INPUT_POST, 'login_pass', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+  // login_emailの重複チェック
+  if ($form['login_email'] != '') {
+    $stmt = $db->prepare('select count(*) from agents where login_email=:login_email and id != :id');
+    if (!$stmt) {
+      die($db->error);
+    }
+    $stmt->bindValue('login_email', $form['login_email'], PDO::PARAM_STR);
+    $stmt->bindValue('id', $id, PDO::PARAM_INT);
+    $success = $stmt->execute();
+    $cnt = (int)$stmt->fetchColumn();
+    if ($cnt > 0) {
+      $error['login_email'] = 'duplicate';
+    }
+  }
+  if (empty($error)) {
+    $login_pass = password_hash($form['login_pass'], PASSWORD_DEFAULT);
+    $stmt = $db->prepare('update agents set login_email = :login_email, login_pass = :login_pass where id = :id');
+    $stmt->bindValue('login_email', $form['login_email'], PDO::PARAM_STR);
+    $stmt->bindValue('login_pass', $login_pass, PDO::PARAM_STR);
+    $stmt->bindValue('id', (int)$id, PDO::PARAM_INT);
+    if (!$stmt) {
+      die($db->error);
+    }
+    $success = $stmt->execute();
+    if (!$success) {
+      die($db->error);
+    }
+
+    header('location: loginInfo.php');
+  }//!error
+  }//post
+}//agent
 
 //管理者ログイン情報
 $stmt = $db->query('select * from admin_login;');
@@ -65,7 +136,7 @@ $agents_login = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="agent-add-table">
       <table class="tags-add">
         <tr>
-          <th>管理者</th>
+          <th><?= $title ?></th>
         </tr>
         <tr>
           <td class="sub-th">企業名</td>
@@ -75,15 +146,15 @@ $agents_login = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </tr>
         <tr>
           <td>
-            Boozer
+            <?php echo $name ?>
           </td>
           <td>
-            <!-- email -->
-            <?= $admin_login['email'] ?>
+            <input type="email" name="login_email" value="<?php echo h($email); ?>" required/>
+            <?php if (isset($error['login_email']) && $error['login_email'] === 'duplicate') : ?>
+                <p class="error">* 指定されたメールアドレスはすでに登録されています</p><?php endif; ?>
           </td>
           <td>
-            <!-- ここにパスワード -->
-            【表示されません】
+          <input type="password" name="login_pass" value="" required/>
           </td>
           <td>
           <input type="submit" value="編集を完了する" />

@@ -80,7 +80,7 @@ $agents_login = $stmt->fetchAll(PDO::FETCH_ASSOC);
             【表示されません】
           </td>
           <td>
-            <a href="loginUpdate.php?id=admin ?>">編集</a>
+            <a href="loginUpdate.php?id=admin">編集</a>
           </td>
         </tr>
       </table>
