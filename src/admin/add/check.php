@@ -10,8 +10,7 @@ if (!isset($_SESSION["login"])) {
 
 if (isset($_SESSION['form'])) {
   $form = $_SESSION['form'];
-  // 期間内 && $form['application_max'] > 0
-  // ↑場合分けする
+  // 期間判定
   date_default_timezone_set('Asia/Tokyo');
   $today = date("Y-m-d"); //今日の日付
   // echo date_default_timezone_get();

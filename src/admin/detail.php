@@ -143,7 +143,7 @@ $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <input type="radio" name="list-status" value="1" <?php if ($agent['list_status'] === 1) : ?>checked <?php endif; ?> disabled /><span>掲載中</span>
             </label>
             <label class="list-status">
-              <input type="radio" name="list-status" value="2" <?php if ($agent['list_status'] === 2) : ?>checked <?php endif; ?> disabled /><span>掲載停止中</span>
+              <input type="radio" name="list-status" value="2" <?php if ($agent['list_status'] != 1) : ?>checked <?php endif; ?> disabled /><span>掲載停止中</span>
             </label>
           </td>
         </tr>
@@ -167,6 +167,14 @@ $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <tr>
           <th>学生情報送信先</th>
           <td><?php echo h($agent['to_send_email']) ?></td>
+        </tr>
+        <tr>
+          <th>申し込み上限数（/月）</th>
+          <td><?php echo h($agent['application_max']) ?> 件</td>
+        </tr>
+        <tr>
+          <th>請求金額（/件）</th>
+          <td><?php echo h($agent['charge']) ?> 円</td>
         </tr>
       </table>
       <table class="contact-info-table">
@@ -213,10 +221,6 @@ $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <tr>
           <td class="sub-th">取扱い企業数</td>
           <td><?php echo h($agent['insert_handled_number']) ?></td>
-        </tr>
-        <tr>
-          <td class="sub-th">詳細欄</td>
-          <td><?php echo h($agent['insert_detail']) ?></td>
         </tr>
       </table>
       <table class="tags-add">

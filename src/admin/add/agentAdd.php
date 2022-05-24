@@ -150,7 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="text" name="corporate_name" value="<?php echo h($form["corporate_name"]); ?>" required /></td>
           </tr>
           <tr>
-            <th>掲載状態<span class="error">*</span></th>
+            <th>掲載状態</th>
             <td>
               【掲載期間と申し込み上限数で自動判定】
             </td>
@@ -182,13 +182,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </tr>
           <tr>
             <th>申し込み上限数（/月）<span class="error">*</span></th>
-            <!-- 追加　必須化 -->
-            <td><input type="number" name="application_max" value="<?php echo h($form["application_max"]); ?>" min="1" required /> 件　　
+            <td><input type="number" name="application_max" value="<?php echo h($form["application_max"]); ?>" min="1" required /> 件
           </tr>
           <tr>
             <th>請求金額（/件）<span class="error">*</span></th>
-            <!-- 追加　必須化 -->
-            <td><input type="number" name="charge" value="<?php echo h($form["charge"]); ?>" required /> 円　　
+            <td><input type="number" name="charge" value="<?php echo h($form["charge"]); ?>" required /> 円
           </tr>
         </table>
         <table class="contact-info-table">

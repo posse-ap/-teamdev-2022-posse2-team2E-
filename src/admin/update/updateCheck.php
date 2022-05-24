@@ -12,13 +12,24 @@ $id = $_GET['id'];
 // var_dump($id);
 if (isset($_SESSION['form'])) {
   $form = $_SESSION['form'];
+  // 期間判定
+  date_default_timezone_set('Asia/Tokyo');
+  $today = date("Y-m-d"); //今日の日付
+  // echo date_default_timezone_get();
+  $started_at = $form['started_at'];
+  $ended_at = $form['ended_at'];
+  if (strtotime($today) < strtotime($started_at) || strtotime($today) > strtotime($ended_at)){
+    $form['list_status'] = 2;
+  } elseif (strtotime($today) >= strtotime($started_at) && strtotime($ended_at) >= strtotime($today)) {
+    $form['list_status'] = 1;
+  }
   // var_dump($form);
 } else {
   header('location: ../../index.php');
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $login_pass = password_hash($form['login_pass'], PASSWORD_DEFAULT);
-  $stmt = $db->prepare('update agents set corporate_name = :corporate_name, started_at = :started_at, ended_at = :ended_at, login_email = :login_email, login_pass = :login_pass, to_send_email = :to_send_email, client_name = :client_name, client_department = :client_department, client_email = :client_email, client_tel = :client_tel, insert_company_name = :insert_company_name, insert_logo = :insert_logo, insert_recommend_1 = :insert_recommend_1, insert_recommend_2 = :insert_recommend_2, insert_recommend_3 = :insert_recommend_3, insert_handled_number = :insert_handled_number, insert_detail = :insert_detail, list_status = :list_status where id = :id');
+  $stmt = $db->prepare('update agents set corporate_name = :corporate_name, started_at = :started_at, ended_at = :ended_at, login_email = :login_email, login_pass = :login_pass, to_send_email = :to_send_email, client_name = :client_name, client_department = :client_department, client_email = :client_email, client_tel = :client_tel, insert_company_name = :insert_company_name, insert_logo = :insert_logo, insert_recommend_1 = :insert_recommend_1, insert_recommend_2 = :insert_recommend_2, insert_recommend_3 = :insert_recommend_3, insert_handled_number = :insert_handled_number, list_status = :list_status where id = :id');
   $stmt->bindValue('corporate_name', $form['corporate_name'], PDO::PARAM_STR);
   $started_at = new DateTime( $form['started_at']);
   $stmt->bindValue('started_at', $started_at->format('Y-m-d'), PDO::PARAM_STR);
@@ -37,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $stmt->bindValue('insert_recommend_2', $form['insert_recommend_2'], PDO::PARAM_STR);
   $stmt->bindValue('insert_recommend_3', $form['insert_recommend_3'], PDO::PARAM_STR);
   $stmt->bindValue('insert_handled_number', $form['insert_handled_number'], PDO::PARAM_STR);
-  $stmt->bindValue('insert_detail', $form['insert_detail'], PDO::PARAM_STR);
   $stmt->bindValue('list_status', $form['list_status'], PDO::PARAM_INT);
   $stmt->bindValue('id', (int)$id, PDO::PARAM_INT);
   if (!$stmt) {
@@ -92,16 +102,16 @@ $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
 $stmt->execute();
 $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // var_dump($agent_tags);
-function set_list_status($list_status)
-{
-  if ($list_status === "1") {
-    return '掲載';
-  } elseif ($list_status === "2") {
-    return '非掲載';
-  } else {
-    return 'エラー';
-  }
-}
+// function set_list_status($list_status)
+// {
+//   if ($list_status === "1") {
+//     return '掲載';
+//   } elseif ($list_status === "2") {
+//     return '非掲載';
+//   } else {
+//     return 'エラー';
+//   }
+// }
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -160,7 +170,7 @@ function set_list_status($list_status)
                 <input type="radio" name="list-status" value="1" <?php if ($form['list_status'] === "1") : ?>checked <?php endif; ?> disabled /><span>掲載する</span>
               </label>
               <label class="list-status">
-                <input type="radio" name="list-status" value="2" <?php if ($form['list_status'] === "2") : ?>checked <?php endif; ?> disabled /><span>まだ掲載しない</span>
+                <input type="radio" name="list-status" value="2" <?php if ($form['list_status'] != "1") : ?>checked <?php endif; ?> disabled /><span>まだ掲載しない</span>
               </label>
             </td>
           </tr>
@@ -229,10 +239,6 @@ function set_list_status($list_status)
           <tr>
             <td class="sub-th">取扱い企業数</td>
             <td><?php echo h($form['insert_handled_number']) ?></td>
-          </tr>
-          <tr>
-            <td class="sub-th">詳細欄</td>
-            <td><?php echo h($form['insert_detail']) ?></td>
           </tr>
         </table>
         <table class="tags-add">

@@ -12,11 +12,11 @@ $id = $_GET['id'];
 
 if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['form'])) {
   $agent = $_SESSION['form'];
-  var_dump('何も出ない？');
-
-  // 表示されず
   $agent_tags = $agent['agent_tags'];
-} else {
+} elseif(isset($form)) {
+  $agent = $form;
+  $agent_tags = $agent['agent_tags'];
+}else{
   //エージェント情報
   $stmt = $db->prepare('select * from agents where id = :id');
   $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
@@ -29,6 +29,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
   $stmt->execute();
   $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+// var_dump($agent);
+
 
 //タグ情報
 $stmt = $db->query('select fs.id, sort_name, tag_id, tag_name from filter_sorts fs inner join filter_tags ft on fs.id = ft.sort_id;
@@ -67,34 +69,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ),
   ); // タグについては配列？
   $form = filter_input_array(INPUT_POST, $args);
-  // var_dump($form2);
 
   // エラー判定
-  if ($form['insert_company_name'] === '') {
-    $error['insert_company_name'] = 'blank';
-  }
-  if (!$form['list_status']) {
-    // $error['list_status'] = 'blank';
-  }
-  if (!$form['started_at'] || !$form['ended_at']) {
-    $error['date'] = 'blank';
-  } elseif ($form['started_at'] > $form['ended_at']) {
+  if ($form['started_at'] > $form['ended_at']) {
     $error['period'] = 'reverse';
   }
-
-    // login_emailの重複チェック
-    if ($form['login_email'] != '') {
-      $stmt = $db->prepare('select count(*) from agents where login_email=:login_email');
-      if (!$stmt) {
-        die($db->error);
-      }
-      $stmt->bindValue('login_email', $form['login_email'], PDO::PARAM_STR);
-      $success = $stmt->execute();
-      $cnt = (int)$stmt->fetchColumn();
-      if ($cnt > 0) {
-        $error['login_email'] = 'duplicate';
-      }
+  // login_emailの重複チェック
+  if ($form['login_email'] != '') {
+    $stmt = $db->prepare('select count(*) from agents where login_email=:login_email');
+    if (!$stmt) {
+      die($db->error);
     }
+    $stmt->bindValue('login_email', $form['login_email'], PDO::PARAM_STR);
+    $success = $stmt->execute();
+    $cnt = (int)$stmt->fetchColumn();
+    if ($cnt > 0) {
+      $error['login_email'] = 'duplicate';
+    }
+  }
 
   // 画像のチェック
   $insert_logo = $_FILES['insert_logo'];
@@ -173,9 +165,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="agent-add-table">
       <form action="" method="post" enctype="multipart/form-data">
         <table class="main-info-table">
+        <span class="error">*は必須項目</span>
           <tr>
-            <th>法人名</th>
-            <td><input type="text" name="corporate_name" value="<?php echo h($agent["corporate_name"]); ?>" /></td>
+            <th>法人名<span class="error">*</span></th>
+            <td><input type="text" name="corporate_name" value="<?php echo h($agent["corporate_name"]); ?>" required/></td>
           </tr>
           <tr>
             <th>掲載状態</th>
@@ -185,12 +178,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </tr>
 
           <tr>
-            <th>掲載期間<span class="required">必須</span></th>
+            <th>掲載期間<span class="error">*</span></th>
             <td>
-              <input type="date" name="started_at" value="<?php echo h($agent["started_at"]); ?>" /> ～
-              <input type="date" name="ended_at" value="<?php echo h($agent["ended_at"]); ?>"  /><?php if (isset($error['date']) && $error['date'] === 'blank') : ?>
-                <p class="error">* 掲載期間を入力</p>
-              <?php endif; ?>
+              <input type="date" name="started_at" value="<?php echo h($agent["started_at"]); ?>" required/> ～
+              <input type="date" name="ended_at" value="<?php echo h($agent["ended_at"]); ?>" required />
               <?php if (isset($error['period']) && $error['period'] === 'reverse') : ?>
                 <p class="error">* 終了日を開始日より後に設定してください。</p>
               <?php endif; ?>
@@ -198,9 +189,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </tr>
 
           <tr class="login-info">
-            <th>ログイン情報</th>
+            <th>ログイン情報<span class="error">*</span></th>
             <td>
-              email:<input type="email" name="login_email" value="<?php echo h($agent["login_email"]); ?>" />　　　pass:<input type="password" name="login_pass" value="" />
+              email:<input type="email" name="login_email" value="<?php echo h($agent["login_email"]); ?>" required/>　　　pass:<input type="password" name="login_pass" value="" required/>
               <p class="error">* パスワードを改めて指定してください</p>
               <?php if (isset($error['login_email']) && $error['login_email'] === 'duplicate') : ?>
                 <p class="error">* 指定されたメールアドレスはすでに登録されています</p><?php endif; ?>
@@ -208,13 +199,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </tr>
           <tr>
           <tr>
-            <th>学生情報送信先</th>
-            <td><input type="email" name="to_send_email" value="<?php echo h($agent["to_send_email"]); ?>" />
+            <th>学生情報送信先<span class="error">*</span></th>
+            <td><input type="email" name="to_send_email" value="<?php echo h($agent["to_send_email"]); ?>" required/>
           </tr>
-          <th>申し込み上限数（/月）</th>
-            <!-- 追加　必須化 -->
-            <td><input type="number" name="application_max" value="<?php echo h($agent["application_max"]); ?>" /> 件　　
-              <span class="error">* 入力しないと掲載できません</span>
+          <th>申し込み上限数（/月）<span class="error">*</span></th>
+            <td><input type="number" name="application_max" value="<?php echo h($agent["application_max"]); ?>" min="1" required/> 件
+          </tr>
+          <th>請求金額（/件）<span class="error">*</span></th>
+            <td><input type="number" name="application_max" value="<?php echo h($agent["application_max"]); ?>" required/> 円
           </tr>
         </table>
         <table class="contact-info-table">
@@ -222,17 +214,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <th>担当者情報</th>
           </tr>
           <tr>
-            <td class="sub-th">氏名</td>
-            <td><input type="text" name="client_name" value="<?php echo h($agent["client_name"]); ?>" /></td>
+            <td class="sub-th">氏名<span class="error">*</span></td>
+            <td><input type="text" name="client_name" value="<?php echo h($agent["client_name"]); ?>" required/></td>
           </tr>
           <tr>
-            <td class="sub-th">部署名</td>
-            <td><input type="text" name="client_department" value="<?php echo h($agent["client_department"]); ?>" /></td>
+            <td class="sub-th">部署名<span class="error">*</span></td>
+            <td><input type="text" name="client_department" value="<?php echo h($agent["client_department"]); ?>" required/></td>
           </tr>
           <tr class="contact-number">
-            <td class="sub-th">連絡先</td>
+            <td class="sub-th">連絡先<span class="error">*</span></td>
             <td>
-              email:<input type="email" name="client_email" value="<?php echo h($agent["client_email"]); ?>" />　　　tel:<input type="tel" name="client_tel" value="<?php echo h($agent["client_tel"]); ?>" />
+              email:<input type="email" name="client_email" value="<?php echo h($agent["client_email"]); ?>" required/>　　　tel:<input type="tel" name="client_tel" value="<?php echo h($agent["client_tel"]); ?>" required/>
             </td>
           </tr>
         </table>
@@ -241,16 +233,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <th>掲載情報</th>
           </tr>
           <tr>
-            <td class="sub-th">掲載企業名<span class="required">必須</span></td>
+            <td class="sub-th">掲載企業名<span class="error">*</span></td>
             <td>
-              <input type="text" name="insert_company_name" value="<?php echo h($agent["insert_company_name"]); ?>" /><?php if (isset($error['insert_company_name']) && $error['insert_company_name'] === 'blank') : ?>
+              <input type="text" name="insert_company_name" value="<?php echo h($agent["insert_company_name"]); ?>" required/><?php if (isset($error['insert_company_name']) && $error['insert_company_name'] === 'blank') : ?>
                 <p class="error">* 掲載する企業名を入力してください</p>
               <?php endif; ?>
             </td>
           </tr>
           <tr>
-            <td class="sub-th">企業ロゴ</td>
-            <td><input type="file" name="insert_logo" value="" />
+            <td class="sub-th">企業ロゴ<span class="error">*</span></td>
+            <td><input type="file" name="insert_logo" value="" required/>
               <?php if (isset($error['insert_logo']) && $error['insert_logo'] === 'type') : ?>
                 <p class="error">* 写真などは「.png」または「.jpg」の画像を指定してください</p>
               <?php endif; ?>
@@ -258,19 +250,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </td>
           </tr>
           <tr>
-            <td class="sub-th">オススメポイント</td>
+            <td class="sub-th">オススメポイント<span class="error">*</span></td>
             <td>
-              <input type="text" name="insert_recommend_1" placeholder="100文字以内で入力してください" value="<?php echo h($agent["insert_recommend_1"]); ?>" /><input type="text" name="insert_recommend_2" value="<?php echo h($agent["insert_recommend_2"]); ?>" /><input type="text" name="insert_recommend_3" value="<?php echo h($agent["insert_recommend_3"]); ?>" />
+              <input type="text" name="insert_recommend_1" placeholder="100文字以内で入力してください" value="<?php echo h($agent["insert_recommend_1"]); ?>" required/><input type="text" name="insert_recommend_2" value="<?php echo h($agent["insert_recommend_2"]); ?>" required/><input type="text" name="insert_recommend_3" value="<?php echo h($agent["insert_recommend_3"]); ?>" required/>
             </td>
           </tr>
           <tr>
-            <td class="sub-th">取扱い企業数</td>
-            <td><input type="text" name="insert_handled_number" value="<?php echo h($agent["insert_handled_number"]); ?>" /></td>
-          </tr>
-          <tr>
-            <td class="sub-th">詳細欄</td>
-            <!-- textareaの文字数制限解除する↓ -->
-            <td> <textarea name="insert_detail" id="" cols="30" rows="10"><?php echo h($agent["insert_detail"]); ?></textarea></td>
+            <td class="sub-th">取扱い企業数<span class="error">*</span></td>
+            <td><input type="text" name="insert_handled_number" value="<?php echo h($agent["insert_handled_number"]); ?>" required/></td>
           </tr>
         </table>
         <table class="tags-add">

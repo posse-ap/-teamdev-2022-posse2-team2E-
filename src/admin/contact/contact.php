@@ -62,7 +62,7 @@ FROM students AS S, students_contacts AS SC WHERE S.id = SC.student_id AND SC.ag
 
     foreach ($all_contact as $contact) {
         $stmt = $db->prepare(
-            'SELECT count(*) FROM students AS S, students_contacts AS SC WHERE (S.email = :email OR S.name = :name OR S.tel = :tel) AND S.id = SC.student_id AND SC.agent_id = :agent_id ORDER BY S.created desc'
+            'SELECT SC.id FROM students AS S, students_contacts AS SC WHERE (S.email = :email OR S.name = :name OR S.tel = :tel) AND S.id = SC.student_id AND SC.agent_id = :agent_id ORDER BY S.created desc'
         );
         if (!$stmt) {
             die($db->error);
@@ -72,9 +72,13 @@ FROM students AS S, students_contacts AS SC WHERE S.id = SC.student_id AND SC.ag
         $stmt->bindValue(':tel', $contact['電話番号'], PDO::PARAM_STR);
         $stmt->bindValue(':agent_id', $id, PDO::PARAM_INT);
         $stmt->execute();
-        $duplicate_cnt[$contact['問い合わせID']] = ((int)$stmt->fetchColumn()) - 1;
-        // 重複件数↑
+        $duplicate_ids[$contact['問い合わせID']] =  $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // 重複id(自分含む)→掲載時判別
     }
+    // echo '<pre>';
+    // var_dump($duplicate_ids);
+    // echo '</pre>';
+
 
     if ($month != "all") :
         // 指定monthのstudents
@@ -133,9 +137,27 @@ DATE_FORMAT(S.created, "%Y-%m") = :form_month
         $charge_cnt = ($cnt - $invalid_cnt) * $agent['charge']; //請求金額
 
 
-    else :
+    else : //全表示
         $result = $all_contact;
         $cnt = count($result);
+        // 指定monthの有効students
+        $stmt = $db->prepare('SELECT *
+FROM
+students AS S, students_contacts AS SC, agents AS A
+WHERE 
+S.id = SC.student_id
+AND
+SC.agent_id = A.id
+AND
+SC.agent_id = :agent_id
+AND
+SC.valid_status_id = :invalid_status_id');
+        $stmt->bindValue(':agent_id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':invalid_status_id', (int)3, PDO::PARAM_INT);
+        $stmt->execute();
+        $invalid = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $invalid_cnt = count($invalid); //請求件数
+        $charge_cnt = ($cnt - $invalid_cnt) * $agent['charge']; //請求金額
     endif;
     // echo "<pre>";
     // var_dump($cnt);
@@ -164,7 +186,7 @@ function set_valid_status($valid_status)
 }
 
 // echo "<pre>";
-// var_dump($duplicate_cnt);
+// var_dump($duplicate_id);
 // echo "</pre>";
 
 ?>
@@ -245,7 +267,7 @@ function set_valid_status($valid_status)
                     <th>氏名</th>
                     <th>大学</th>
                     <th>学部/学科</th>
-                    <th>何年卒</th>
+                    <th>卒業年度</th>
                     <th>ID</th>
                     <th>詳細</th>
                     <th>無効申請</th>
@@ -257,13 +279,16 @@ function set_valid_status($valid_status)
                         <td><?php echo ($column['氏名']); ?></td>
                         <td><?php echo ($column['大学']); ?></td>
                         <td><?php echo ($column['学科']); ?></td>
-                        <td><?php echo ($column['何年卒']); ?></td>
+                        <td><?php echo ($column['何年卒']); ?>年度</td>
                         <td><?php echo ($column['問い合わせID']); ?></td>
-                        <td><a class="to_students_detail" href="contactDetail.php?id=<?php echo ($column['問い合わせID']); ?>">詳細</a>
+                        <td><a class="to_students_detail" href="contactDetail.php?agent=<?= $id ?>&id=<?= $column['問い合わせID'] ?>">詳細</a>
                         </td>
                         <td><?php echo set_valid_status($column['無効判定']); ?></td>
                         <td>
-                            <?= $duplicate_cnt[$column['問い合わせID']] ?>件
+                            <?php foreach ($duplicate_ids[$column['問い合わせID']] as $d_id) : if ($d_id['id'] !=  $column['問い合わせID']) :
+                                    echo 'id' . $d_id['id'].' ';
+                                endif;
+                            endforeach ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

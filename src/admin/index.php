@@ -48,7 +48,7 @@ $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $cnt = count($result);
 // 比較
-$stmt = $db->prepare('update agents set list_status=3 where id= :id and application_max < :application');
+$stmt = $db->prepare('update agents set list_status=3 where id= :id and application_max <= :application');
 $stmt->bindValue(':id', $agent['id'], PDO::PARAM_INT);
 $stmt->bindValue(':application', $cnt, PDO::PARAM_INT);
 $success = $stmt->execute();
