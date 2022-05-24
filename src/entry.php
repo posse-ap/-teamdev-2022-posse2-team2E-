@@ -1,16 +1,9 @@
 <?php
 session_start();
-require('../../db_connect.php');
-
-session_start();
-//ログインされていない場合は強制的にログインページにリダイレクト
-if (!isset($_SESSION["login"])) {
-    header("Location: ../login/login.php");
-    exit();
-}
+require('db_connect.php');
 
 if (!isset($_POST['student_contacts']) && !isset($_SESSION['form'])) {
-  header('location: cart.php');
+  header('location: index.php');
   exit();
 } elseif (isset($_GET['action']) && $_GET['action'] === 'rewrite') {
   $form = $_SESSION['form'];

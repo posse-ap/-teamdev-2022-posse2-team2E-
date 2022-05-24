@@ -16,7 +16,7 @@ if (isset($_SESSION['form'])) {
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $login_pass = password_hash($form['login_pass'], PASSWORD_DEFAULT);
-  $stmt = $db->prepare('insert into agents (corporate_name, started_at, ended_at, login_email, login_pass, to_send_email, client_name, client_department, client_email, client_tel, insert_company_name, insert_logo, insert_recommend_1, insert_recommend_2,insert_recommend_3, insert_handled_number, insert_detail, list_status) VALUES (:corporate_name,:started_at, :ended_at, :login_email, :login_pass, :to_send_email, :client_name, :client_department, :client_email, :client_tel, :insert_company_name, :insert_logo, :insert_recommend_1, :insert_recommend_2, :insert_recommend_3, :insert_handled_number, :insert_detail, :list_status)');
+  $stmt = $db->prepare('insert into agents (corporate_name, started_at, ended_at, login_email, login_pass, to_send_email, client_name, client_department, client_email, client_tel, insert_company_name, insert_logo, insert_recommend_1, insert_recommend_2,insert_recommend_3, insert_handled_number, insert_detail, list_status, application_max) VALUES (:corporate_name,:started_at, :ended_at, :login_email, :login_pass, :to_send_email, :client_name, :client_department, :client_email, :client_tel, :insert_company_name, :insert_logo, :insert_recommend_1, :insert_recommend_2, :insert_recommend_3, :insert_handled_number, :insert_detail, :list_status, 3)');
   $stmt->bindValue('corporate_name', $form['corporate_name'], PDO::PARAM_STR);
   $started_at = new DateTime($form['started_at']);
   $stmt->bindValue('started_at', $started_at->format('Y-m-d'), PDO::PARAM_STR);
@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $stmt->bindValue('insert_handled_number', $form['insert_handled_number'], PDO::PARAM_STR);
   $stmt->bindValue('insert_detail', $form['insert_detail'], PDO::PARAM_STR);
   $stmt->bindValue('list_status', $form['list_status'], PDO::PARAM_INT);
+  // $stmt->bindValue('application_max', $form['application_max'], PDO::PARAM_INT);
   if (!$stmt) {
     die($db->error);
   }

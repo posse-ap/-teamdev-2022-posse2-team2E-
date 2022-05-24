@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-require('../../db_connect.php');
+require('db_connect.php');
 
 // //ログインされていない場合は強制的にログインページにリダイレクト
 // if (!isset($_SESSION["login"])) {
@@ -22,7 +22,7 @@ require('../../db_connect.php');
 <body>
   <div id="content">
   <p>問い合わせ完了</p>
-  <a href="cart.php">  キープに戻る  </a>
+  <a href="index.php">  トップページに戻る  </a>
   </div>
 </body>
 </html>
