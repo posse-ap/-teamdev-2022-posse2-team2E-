@@ -97,7 +97,7 @@ FROM students AS S, students_contacts AS SC WHERE S.id = SC.student_id AND SC.ag
     FROM
     students AS S, students_contacts AS SC, agents AS A
     WHERE 
-    S.id = SC.student_id
+    S.id = SC.student_i
     AND
     SC.agent_id = A.id
     AND
@@ -157,7 +157,7 @@ SC.valid_status_id = :invalid_status_id');
         $stmt->execute();
         $invalid = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $invalid_cnt = count($invalid); //請求件数
-        $charge_cnt = ($cnt - $invalid_cnt) * $agent['charge']; //請求金額
+        $charge_cnt = ($cnt - $invalid_cnt) * $agent['charge']; //請求金
     endif;
     // echo "<pre>";
     // var_dump($cnt);
