@@ -1,12 +1,18 @@
-<?php require($_SERVER['DOCUMENT_ROOT'] . "/db_connect.php");
-session_start();
+<?php
+require('../../db_connect.php');
 
-//ログインされていない場合は強制的にログインページにリダイレクト
-if (!isset($_SESSION["login"])) {
-    header("Location: agent_login.php");
-    exit();
-}
-
+// //ログインされていない場合は強制的にログインページにリダイレクト
+// if (!isset($_SESSION["login"])) {
+//     header("Location: agent_login.php");
+//     exit();
+// }
+$id = $_GET['id'];
+// var_dump($id);
+//エージェント情報
+$stmt = $db->prepare('select * from agents where id = :id');
+$stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
+$stmt->execute();
+$agent = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $form['month'] = filter_input(INPUT_POST, 'month', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -14,12 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $form['month'] = Date('Y-m');
 }
 
-$id = $_SESSION['id'];
 
-$message = $_SESSION['corporate_name'] . "様ようこそ";
 
 try {
-    $db = new PDO("mysql:host=db; dbname=shukatsu; charset=utf8", "$user", "$password");
 
     if (isset($form["month"])) {
         if (!$form["month"]) {
@@ -36,7 +39,7 @@ try {
     // var_dump($result);
     // echo "</pre>";
     // 全ての問い合わせ
-$stmt = $db->prepare('SELECT
+    $stmt = $db->prepare('SELECT
 S.created AS 問い合わせ日時, 
 S.name AS 氏名, 
 S.email AS メールアドレス, 
@@ -47,31 +50,31 @@ S.class_of AS 何年卒,
 SC.id AS 問い合わせID,
 SC.valid_status_id AS 無効判定
 FROM students AS S, students_contacts AS SC WHERE S.id = SC.student_id AND SC.agent_id = :agent_id ORDER BY S.created desc');
-if (!$stmt) {
-    die($db->error);
-}
-$stmt->bindValue(':agent_id', $id, PDO::PARAM_INT);
-$stmt->execute();
-$all_contact = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
-// 重複検査
-
-foreach ($all_contact as $contact) {
-    $stmt = $db->prepare(
-        'SELECT count(*) FROM students AS S, students_contacts AS SC WHERE (S.email = :email OR S.name = :name OR S.tel = :tel) AND S.id = SC.student_id AND SC.agent_id = :agent_id ORDER BY S.created desc'
-    );
     if (!$stmt) {
         die($db->error);
     }
-    $stmt->bindValue(':email', $contact['メールアドレス'], PDO::PARAM_STR);
-    $stmt->bindValue(':name', $contact['氏名'], PDO::PARAM_STR);
-    $stmt->bindValue(':tel', $contact['電話番号'], PDO::PARAM_STR);
     $stmt->bindValue(':agent_id', $id, PDO::PARAM_INT);
     $stmt->execute();
-    $duplicate_cnt[$contact['問い合わせID']] = ((int)$stmt->fetchColumn()) - 1;
-    // 重複件数↑
-}
+    $all_contact = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+    // 重複検査
+
+    foreach ($all_contact as $contact) {
+        $stmt = $db->prepare(
+            'SELECT count(*) FROM students AS S, students_contacts AS SC WHERE (S.email = :email OR S.name = :name OR S.tel = :tel) AND S.id = SC.student_id AND SC.agent_id = :agent_id ORDER BY S.created desc'
+        );
+        if (!$stmt) {
+            die($db->error);
+        }
+        $stmt->bindValue(':email', $contact['メールアドレス'], PDO::PARAM_STR);
+        $stmt->bindValue(':name', $contact['氏名'], PDO::PARAM_STR);
+        $stmt->bindValue(':tel', $contact['電話番号'], PDO::PARAM_STR);
+        $stmt->bindValue(':agent_id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $duplicate_cnt[$contact['問い合わせID']] = ((int)$stmt->fetchColumn()) - 1;
+        // 重複件数↑
+    }
 
     if ($month != "all") :
         $stmt = $db->prepare('SELECT 
@@ -118,18 +121,18 @@ foreach ($all_contact as $contact) {
     die();
 }
 
-if (empty($id)) {
-    exit('IDが不正です。');
-}
+// if (empty($id)) {
+//     exit('IDが不正です。');
+// }
 
 // 無効化申請中/無効化承認済みをタイトルに表示
 function set_valid_status($valid_status)
 {
-    if ($valid_status === "1") {
+    if ($valid_status === 1) {
         return '';
-    } elseif ($valid_status === "2") {
+    } elseif ($valid_status === 2) {
         return '申請中';
-    } elseif ($valid_status === "3") {
+    } elseif ($valid_status === 3) {
         return '承認済み';
     } else {
         return 'エラー';
@@ -149,45 +152,57 @@ function set_valid_status($valid_status)
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>学生情報一覧</title>
-    <link rel="stylesheet" href="reset.css">
-    <link rel="stylesheet" href="table.css">
-    <link rel="stylesheet" href="agent_students_all.css">
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../../agent/table.css">
+    <link rel="stylesheet" href="../../agent/agent_students_all.css">
 </head>
 
 <body>
 
     <header>
-        <h1>
-            <p><span>CRAFT</span>by boozer</p>
-        </h1>
-        <p class="welcome_agent">ようこそ　<?php echo ($_SESSION['corporate_name']); ?>様</p>
-        <nav class="nav">
-            <ul>
-                <li><a href="agent_students_all.php">学生情報一覧</a></li>
-                <li><a href="agent_information.php">登録情報</a></li>
-                <li><a href="#">ユーザー画面へ</a></li>
-                <li><a href="agent_logout.php">ログアウト</a></li>
-            </ul>
-        </nav>
-    </header>
-    <div class="all_wrapper">
-        <div class="left_wrapper">
-            <li><a href="agent_students_all.php">学生情報一覧</a></li>
-            <li><a href="agent_information.php">登録情報</a></li>
-            <li><a href="#">ユーザー画面へ</a></li>
-            <li><a href="agent_logout.php">ログアウト</a></li>
+        <div class="header-inner">
+            <h1 class="header-title">CRAFT管理者画面</h1>
+            <nav class="header-nav">
+                <ul class="header-nav-list">
+                    <a href="../index.php">
+                        <li class="header-nav-item select">エージェント一覧</li>
+                    </a>
+                    <a href="../add/agentAdd.php">
+                        <li class="header-nav-item">エージェント追加</li>
+                    </a>
+                    <a href="../tags/tagsEdit.php">
+                        <li class="header-nav-item">タグ一覧</li>
+                    </a>
+                    <a href="../contact/contact.php">
+                        <li class="header-nav-item">問い合わせ一覧</li>
+                    </a>
+                    <a href="../login/loginInfo.php">
+                        <li class="header-nav-item">管理者ログイン情報</li>
+                    </a>
+                    <a href="../login/logout.php">
+                        <li class="header-nav-item">ログアウト</li>
+                    </a>
+                </ul>
+            </nav>
         </div>
-        <div class="right_wrapper">
-            <h1 class="students_all_title">学生情報一覧</h1>
+    </header>
+    <a href="../index.php">&laquo;&nbsp;エージェント一覧に戻る</a>
+    <main class="main" >
+    <!-- <div class="all_wrapper">
+        <div class="right_wrapper"> -->
+            <h1 class="students_all_title"><?php echo h($agent['insert_company_name']); ?></h1>
             <div class="sum_inquiry_wrapper">
                 <p class="sum_inquiry"><span>
-                    <?php if($month != "all"):
-                    echo ($form['month']).'月'; else: echo '全て'; endif; ?>
-                </span>の問い合わせ件数: <span>
-                    <?php echo $cnt?>
+                        <?php if ($month != "all") :
+                            echo ($form['month']) . '月';
+                        else : echo '全て';
+                        endif; ?>
+                    </span>の問い合わせ件数: <span>
+                        <?php echo $cnt ?>
                     </span>件</p>
             </div>
-            <form action="agent_students_all.php" method="POST">
+            <form action="" method="POST">
                 <input type="month" name="month" value="<?php echo $form['month']; ?>">
                 <input type="submit" name="submit" value="月を変更" />
                 <span>※カレンダーの削除ボタンで全てを表示</span>
@@ -215,7 +230,7 @@ function set_valid_status($valid_status)
                             <td><?php echo ($column['学科']); ?></td>
                             <td><?php echo ($column['何年卒']); ?></td>
                             <td><?php echo ($column['問い合わせID']); ?></td>
-                            <td><a class="to_students_detail" href="agent_students_detail.php?id=<?php echo ($column['問い合わせID']); ?>">詳細</a>
+                            <td><a class="to_students_detail" href="contactDetail.php?id=<?php echo ($column['問い合わせID']); ?>">詳細</a>
                             </td>
                             <td><?php echo set_valid_status($column['無効判定']); ?></td>
                             <td>
@@ -225,15 +240,9 @@ function set_valid_status($valid_status)
                     <?php endforeach; ?>
                 </table>
             <?php endif; ?>
-        </div>
-    </div>
-    <div class="inquiry">
-        <p>お問い合わせは下記の連絡先にお願いいたします。
-            <br>craft運営 boozer株式会社事務局
-            <br>TEL:080-3434-2435
-            <br>Email:craft@boozer.com
-        </p>
-    </div>
+        <!-- </div>
+    </div> -->
+    </main>
 </body>
 
 </html>

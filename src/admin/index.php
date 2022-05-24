@@ -101,7 +101,7 @@ try {
           <a href="./tags/tagsEdit.php">
             <li class="header-nav-item">タグ一覧</li>
           </a>
-          <a href="#">
+          <a href="./contact/contact.php">
             <li class="header-nav-item">問い合わせ一覧</li>
           </a>
           <a href="./login/loginInfo.php">
@@ -131,7 +131,7 @@ try {
             <td><?php echo $listed_agent['insert_company_name'] ?></td>
             <td><?php echo date("Y/m/d", strtotime($listed_agent['started_at'])) . '~' . date("Y/m/d", strtotime($listed_agent['ended_at'])) ?></td>
             <td><a href="detail.php?id=<?php echo $listed_agent['id']; ?>">詳細</a></td>
-            <td><a href="contact.php?id=<?php echo $listed_agent['id']; ?>">問い合わせ一覧</a></td>
+            <td><a href="contact/contact.php?id=<?php echo $listed_agent['id']; ?>">問い合わせ一覧</a></td>
             <td><a href="stop.php?id=<?php echo $listed_agent['id']; ?>" onclick="return confirm('本当に掲載停止しますか? 掲載停止しても詳細情報は保持されます。')">掲載停止</a></td>
             <!--  タグ表示テスト↓ -->
             <td>
