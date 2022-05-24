@@ -166,7 +166,7 @@ foreach ($agents_tags as $a) {
             <li class="header-nav-item">問い合わせ一覧</li>
           </a>
           <a href="./login/loginInfo.php">
-            <li class="header-nav-item">管理者ログイン情報</li>
+            <li class="header-nav-item">ログイン情報</li>
           </a>
           <a href="./login/logout.php">
             <li class="header-nav-item">ログアウト</li>
