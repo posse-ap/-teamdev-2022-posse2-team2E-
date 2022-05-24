@@ -1,6 +1,8 @@
 
 <?php 
 require('db_connect.php');
+
+
 try {
   $stmt = $db->prepare('select * from agents where list_status=?');
   $stmt->execute([1]);
@@ -111,7 +113,7 @@ crossorigin="anonymous"></script>
                         <div class="agent_article">
                             <div class="agent_article_header">
                                 <h1 class="agent_name"><?php echo $listed_agent['insert_company_name'] ?></h1>
-                                <p class="num_company">取扱企業数：<?php echo $listed_agent['insert_handled_number'] ?>社</p>        
+                                <p class="num_company">取扱企業数：<?php echo $listed_agent['insert_handled_number'] ?></p>        
                             </div>
                             <div class="agent_article_main">
                             
@@ -158,9 +160,12 @@ crossorigin="anonymous"></script>
 
 
                 <div class="filter_left_wrapper">
+                    <!-- 白色の擬似要素div -->
+                    <!-- <div class="white_div"></div> -->
                     <div class="filter-cond" id="filter_side">
                         <!-- <div class="agents_type"> -->
-                            <p class="filter_num"><span>5</span>件</p>
+                        <!-- 実際に表示されてるエージェント数をいれる -->
+                            <p class="filter_num"><span>5</span>件</p> 
 
                                 <?php foreach ($t_list as $filter_sort) : ?>
                                     <div class="filter_sort_name"><?= current($filter_sort)['sort_name']; ?></div>
@@ -173,17 +178,25 @@ crossorigin="anonymous"></script>
                                 <?php endforeach; ?>
                     
                         <div class="filter_btn">
-                            <button class="reset_btn" id="uncheck-btn" type="button" >リセット</button>
-                            <div class="all_btn" id="check-btn" type="button"></div>
+                        <div class="flex_btn">
+                            <button class="reset_btn" id="uncheck-btn" type="reset" >リセット</button>
+                            <button class="reset_btn to_filter_btn" id="uncheck-btn" type="reset" >絞りこむ</button>
                         </div>
+                            <!-- <div class="all_btn" id="check-btn" type="button"></div> -->
+                            <!-- <button class="trigger_keep_btn"><label for="trigger_keep">キープ：<span id="counter_dis" ><div class="tohokuret">0</div></span>件<br>確認する</label></button> -->
+                            <button class="trigger_keep_btn"><label for="trigger_keep"><span id="counter_dis" ><div class="tohokuret">0</div></span>件キープ中<br>確認する</label></button>
+                            <!-- <button ><label for="trigger_keep">キープ：<span id="counter_dis" ><div class="tohokuret">0</div></span>件<br>確認する</label></button> -->
+                            <!-- <button class="bn632-hover bn19 open_button" ><label for="trigger_keep">キープ：<span id="counter_dis" ><div class="tohokuret">0</div></span>件<br>確認する</label></button> -->
+                        </div>
+
                     </div>
 
-                    <btn class="keep_btn" id="keep_btn">
-                        <div class="button05">
-                            <button class="bn632-hover bn19 open_button" ><label for="trigger_keep">キープ：<span id="counter_dis" ><div class="tohokuret">0</div></span>件<br>確認する</label></button>
+                    <!-- <btn class="keep_btn" id="keep_btn"> -->
+                        <!-- <div class="button05"> -->
+                            <!-- <button  class="bn632-hover bn19 open_button" ><label for="trigger_keep">キープ：<span id="counter_dis" ><div class="tohokuret">0</div></span>件<br>確認する</label></button> -->
 
-                        </div>
-                    </btn>
+                        <!-- </div> -->
+                    <!-- </btn> -->
                 </div>
 
                 
@@ -232,7 +245,7 @@ crossorigin="anonymous"></script>
                                                             <?php endforeach; ?>
                                                             <!--  タグ表示↑ -->
                                                         </div>
-                                                        <p class="num_company">取扱企業数：<?php echo $listed_agent['insert_handled_number'] ?>社</p>
+                                                        <p class="num_company">取扱企業数：<?php echo $listed_agent['insert_handled_number'] ?></p>
                                                     </div>
                                                     <div class="agent_article_main">
                                                     <h1 class="agent_name"><?php echo $listed_agent['insert_company_name'] ?></h1>

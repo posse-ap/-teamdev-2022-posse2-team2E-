@@ -198,9 +198,13 @@ container{
 }
 
 #filter_side.fixed {
-    left: 64rem;
+    /* left: 64rem; */
+    /* top: 50rem; */
+
+    right: 0;
+    top: 0;
+
     position: fixed;
-    top: 50rem;
 }
 
 .all_keep{
