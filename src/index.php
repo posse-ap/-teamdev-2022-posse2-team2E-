@@ -57,24 +57,25 @@ crossorigin="anonymous"></script>
         <nav>
             <ul>
                 <li><a href="">就活サイト</a></li>
-                <li><a href="">就活支援サービス</a></li>
-                <li><a href="">自己分析診断ツール</a></li>
+                <!-- <li><a href="">就活支援サービス</a></li> -->
+                <!-- <li><a href="">自己分析診断ツール</a></li> -->
                 <li><a href="">ES添削サービス</a></li>
                 <li><a href="">就活エージェント</a></li>
-                <li><a href="">就活の教科書とは</a></li>
+                <!-- <li><a href="">就活の教科書とは</a></li> -->
                 <li><a href="">お問い合わせ</a></li>
             </ul>
         </nav>
     </header>
 
     <wrapper>
-        <div class="first_message fade-in-bottom">
+        <div class="first_message ">
+        <div class="bkRGBA">
+            <div class="word fade-in-bottom">
             <h1>CRAFT</h1>
-            <h2>失敗しないエージェント選びを</h2>
-            <p>就活ドットコムだからこそできる、フラットな視点から比較、一括問い合わせまで</p>
-        </div>
+            <h2>気軽に<span class="emphasis">複数</span>のエージェント選びを</h2>
+            <!-- <p>フラットな視点で比較、一括問い合わせまで -->
 
-        <div class="process">
+            <div class="process">
             <p class="slide_in_1">絞り込む</p>
             <div class="arrow slide_in_2"></div>
             <p class="slide_in_3">比較する</p>
@@ -83,6 +84,11 @@ crossorigin="anonymous"></script>
             <div class="arrow slide_in_6"></div>
             <p class="slide_in_7">問い合わせる</p>
         </div>
+            </div>
+        </div>
+        </div>
+
+        
         
         <div class="q_and_a">
             <p>Q.いくつのエージェントを問い合わせればいいの？</p>
@@ -94,7 +100,7 @@ crossorigin="anonymous"></script>
             <div class="reason">
             <p>・<span>目的</span>に合わせてエージェントを使い分けられる</p>
             <p>・様々な<span>視点</span>からアドバイスをもらえる</p>
-            <p>・応募できる<span>求人の幅</span>を広げることができる</p>
+            <p>・応募できる<span>求人の幅</span>を広げられる</p>
             </div>
         </div>
         <img src="agent_person.png" alt="" class="agent_person">
