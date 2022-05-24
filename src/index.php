@@ -2,6 +2,17 @@
 <?php 
 require('db_connect.php');
 
+$to = 'user@gmail.com';
+$subject = '本登録をお願いします。';
+$message = 'URLから本登録をお願いします。';
+$from = 'test@gmail.com';
+$header = "From: ".$from."\r\n";
+mb_language('Japanese');
+mb_internal_encoding("UTF-8");
+$result = mb_send_mail($to,$subject,$message,$header);
+var_dump($result);
+exit;
+
 
 try {
   $stmt = $db->prepare('select * from agents where list_status=?');
