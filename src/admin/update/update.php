@@ -76,12 +76,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!$form['list_status']) {
     // $error['list_status'] = 'blank';
   }
-  if ($form['started_at'] === '') {
-    $error['started_at'] = 'blank';
+  if (!$form['started_at'] || !$form['ended_at']) {
+    $error['date'] = 'blank';
+  } elseif ($form['started_at'] > $form['ended_at']) {
+    $error['period'] = 'reverse';
   }
-  if (!$form['ended_at'] === '') {
-    $error['ended_at'] = 'blank';
-  }
+
+    // login_emailの重複チェック
+    if ($form['login_email'] != '') {
+      $stmt = $db->prepare('select count(*) from agents where login_email=:login_email');
+      if (!$stmt) {
+        die($db->error);
+      }
+      $stmt->bindValue('login_email', $form['login_email'], PDO::PARAM_STR);
+      $success = $stmt->execute();
+      $cnt = (int)$stmt->fetchColumn();
+      if ($cnt > 0) {
+        $error['login_email'] = 'duplicate';
+      }
+    }
 
   // 画像のチェック
   $insert_logo = $_FILES['insert_logo'];
@@ -165,14 +178,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="text" name="corporate_name" value="<?php echo h($agent["corporate_name"]); ?>" /></td>
           </tr>
           <tr>
-            <th>掲載状態<span class="required">必須</span></th>
+            <th>掲載状態</th>
             <td>
-              <label class="list-status">
-                <input type="radio" name="list_status" value=1 <?php if ($agent['list_status'] === 1) : ?>checked<?php endif; ?> /><span>掲載する</span>
-              </label>
-              <label class="list_status">
-                <input type="radio" name="list_status" value=2 <?php if ($agent['list_status'] === 2) : ?>checked<?php endif; ?> /><span>まだ掲載しない</span>
-              </label>
+            【掲載期間と申し込み上限数で自動判定】
             </td>
           </tr>
 
@@ -180,9 +188,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <th>掲載期間<span class="required">必須</span></th>
             <td>
               <input type="date" name="started_at" value="<?php echo h($agent["started_at"]); ?>" /> ～
-              <input type="date" name="ended_at" value="<?php echo h($agent["ended_at"]); ?>" <?php if ((isset($error['started_at']) && $error['started_at'] === 'blank') || isset($error['ended_at']) && $error['ended_at'] === 'blank') : ?> />
-              <p class="error">* 掲載期間を入力</p>
-            <?php endif; ?>
+              <input type="date" name="ended_at" value="<?php echo h($agent["ended_at"]); ?>"  /><?php if (isset($error['date']) && $error['date'] === 'blank') : ?>
+                <p class="error">* 掲載期間を入力</p>
+              <?php endif; ?>
+              <?php if (isset($error['period']) && $error['period'] === 'reverse') : ?>
+                <p class="error">* 終了日を開始日より後に設定してください。</p>
+              <?php endif; ?>
             </td>
           </tr>
 
@@ -191,12 +202,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td>
               email:<input type="email" name="login_email" value="<?php echo h($agent["login_email"]); ?>" />　　　pass:<input type="password" name="login_pass" value="" />
               <p class="error">* パスワードを改めて指定してください</p>
+              <?php if (isset($error['login_email']) && $error['login_email'] === 'duplicate') : ?>
+                <p class="error">* 指定されたメールアドレスはすでに登録されています</p><?php endif; ?>
             </td>
           </tr>
-
+          <tr>
           <tr>
             <th>学生情報送信先</th>
             <td><input type="email" name="to_send_email" value="<?php echo h($agent["to_send_email"]); ?>" />
+          </tr>
+          <th>申し込み上限数（/月）</th>
+            <!-- 追加　必須化 -->
+            <td><input type="number" name="application_max" value="<?php echo h($agent["application_max"]); ?>" /> 件　　
+              <span class="error">* 入力しないと掲載できません</span>
           </tr>
         </table>
         <table class="contact-info-table">

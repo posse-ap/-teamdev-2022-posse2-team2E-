@@ -39,7 +39,7 @@ header .select {
 .main {
   width: 80%;
   margin: 20px auto 100px;
-  padding-top: 120px;
+  padding-top: 20px;
 }
 
 section {
@@ -168,3 +168,6 @@ input {
   margin: 10px 0;
 }
 
+.back{
+  margin-top: 100px
+}

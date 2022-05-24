@@ -147,7 +147,8 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </nav>
         </div>
     </header>
-    <a href="contact.php?id=<?= $agent_id['agent_id'] ?>">&laquo;&nbsp;学生情報一覧に戻る</a>
+    <div class="back">
+    <a href="contact.php?id=<?= $agent_id['agent_id'] ?>">&laquo;&nbsp;学生情報一覧に戻る</a></div>
     <main class="main">
             <h1 class="detail_title">学生情報詳細　　　　<?= set_valid_status($result['valid_status_id']) ?></h1>
             <table class="students_detail" border="1" width="90%">

@@ -4,15 +4,12 @@ require('../../db_connect.php');
 
 //ログインされていない場合は強制的にログインページにリダイレクト
 if (!isset($_SESSION["login"])) {
-    header("Location: ../login/login.php");
-    exit();
+  header("Location: ../login/login.php");
+  exit();
 }
 
 if (isset($_SESSION['form'])) {
   $form = $_SESSION['form'];
-  if($form['application_max']===""){
-    $form['application_max']= 0;
-  }
   // 期間内 && $form['application_max'] > 0
   // ↑場合分けする
   date_default_timezone_set('Asia/Tokyo');
@@ -20,9 +17,9 @@ if (isset($_SESSION['form'])) {
   // echo date_default_timezone_get();
   $started_at = $form['started_at'];
   $ended_at = $form['ended_at'];
-  if(strtotime($today) < strtotime($started_at) || strtotime($today) > strtotime($ended_at)){
+  if (strtotime($today) < strtotime($started_at) || strtotime($today) > strtotime($ended_at)){
     $form['list_status'] = 2;
-  }else if(strtotime($today) >= strtotime($started_at) && strtotime($ended_at) >= strtotime($today)){
+  } elseif (strtotime($today) >= strtotime($started_at) && strtotime($ended_at) >= strtotime($today)) {
     $form['list_status'] = 1;
   }
   // var_dump($form);
@@ -32,7 +29,7 @@ if (isset($_SESSION['form'])) {
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $login_pass = password_hash($form['login_pass'], PASSWORD_DEFAULT);
-  $stmt = $db->prepare('insert into agents (corporate_name, started_at, ended_at, login_email, login_pass, to_send_email, application_max, client_name, client_department, client_email, client_tel, insert_company_name, insert_logo, insert_recommend_1, insert_recommend_2,insert_recommend_3, insert_handled_number, insert_detail, list_status) VALUES (:corporate_name,:started_at, :ended_at, :login_email, :login_pass, :to_send_email, :application_max, :client_name, :client_department, :client_email, :client_tel, :insert_company_name, :insert_logo, :insert_recommend_1, :insert_recommend_2, :insert_recommend_3, :insert_handled_number, :insert_detail, :list_status)');
+  $stmt = $db->prepare('insert into agents (corporate_name, started_at, ended_at, login_email, login_pass, to_send_email, application_max, charge, client_name, client_department, client_email, client_tel, insert_company_name, insert_logo, insert_recommend_1, insert_recommend_2,insert_recommend_3, insert_handled_number, list_status) VALUES (:corporate_name,:started_at, :ended_at, :login_email, :login_pass, :to_send_email, :application_max, :charge, :client_name, :client_department, :client_email, :client_tel, :insert_company_name, :insert_logo, :insert_recommend_1, :insert_recommend_2, :insert_recommend_3, :insert_handled_number, :list_status)');
   $stmt->bindValue('corporate_name', $form['corporate_name'], PDO::PARAM_STR);
   $started_at = new DateTime($form['started_at']);
   $stmt->bindValue('started_at', $started_at->format('Y-m-d'), PDO::PARAM_STR);
@@ -42,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $stmt->bindValue('login_pass', $login_pass, PDO::PARAM_STR);
   $stmt->bindValue('to_send_email', $form['to_send_email'], PDO::PARAM_STR);
   $stmt->bindValue('application_max', $form['application_max'], PDO::PARAM_INT);
+  $stmt->bindValue('charge', $form['charge'], PDO::PARAM_INT);
   $stmt->bindValue('client_name', $form['client_name'], PDO::PARAM_STR);
   $stmt->bindValue('client_department', $form['client_department'], PDO::PARAM_STR);
   $stmt->bindValue('client_email', $form['client_email'], PDO::PARAM_STR);
@@ -51,9 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $stmt->bindValue('insert_recommend_1', $form['insert_recommend_1'], PDO::PARAM_STR);
   $stmt->bindValue('insert_recommend_2', $form['insert_recommend_2'], PDO::PARAM_STR);
   $stmt->bindValue('insert_recommend_3', $form['insert_recommend_3'], PDO::PARAM_STR);
-  $stmt->bindValue('insert_handled_number', $form['insert_handled_number'], PDO::PARAM_STR);
-  $stmt->bindValue('insert_detail', $form['insert_detail'], PDO::PARAM_STR);
-  $stmt->bindValue('list_status', $form['list_status'], PDO::PARAM_INT);
+  $stmt->bindValue('insert_handled_number', $form['insert_handled_number'], PDO::PARAM_STR);  $stmt->bindValue('list_status', $form['list_status'], PDO::PARAM_INT);
   if (!$stmt) {
     die($db->error);
   }
@@ -66,19 +62,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $agent_id = $stmt->fetch(PDO::FETCH_ASSOC);
 
   $stmt = $db->prepare('insert into agents_tags (agent_id, tag_id) VALUES (:agent_id, :tag_id)');
-if($form['agent_tags']){
-  foreach ($form['agent_tags'] as $agent_tag) :
-    $stmt->bindValue('agent_id', $agent_id['id'], PDO::PARAM_INT);
-    $stmt->bindValue('tag_id', $agent_tag, PDO::PARAM_INT);
-    if (!$stmt) {
-      die($db->error);
-    }
-    $success = $stmt->execute();
-    if (!$success) {
-      die($db->error);
-    }
-  endforeach;
-}
+  if ($form['agent_tags']) {
+    foreach ($form['agent_tags'] as $agent_tag) :
+      $stmt->bindValue('agent_id', $agent_id['id'], PDO::PARAM_INT);
+      $stmt->bindValue('tag_id', $agent_tag, PDO::PARAM_INT);
+      if (!$stmt) {
+        die($db->error);
+      }
+      $success = $stmt->execute();
+      if (!$success) {
+        die($db->error);
+      }
+    endforeach;
+  }
   unset($_SESSION['form']);
   header('location: thanks.php');
 }
@@ -98,16 +94,7 @@ foreach ($filter_sorts_tags as $f) {
 // $stmt->execute();
 // $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // var_dump($agent_tags);
-function set_list_status($list_status)
-{
-  if ($list_status === 1) {
-    return '掲載';
-  } elseif ($list_status === 2) {
-    return '非掲載';
-  } else {
-    return 'エラー';
-  }
-}
+
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -166,8 +153,10 @@ function set_list_status($list_status)
                 <input type="radio" name="list-status" value=1 <?php if ($form['list_status'] === 1) : ?>checked <?php endif; ?> disabled /><span>掲載</span>
               </label>
               <label class="list-status">
-                <input type="radio" name="list-status" value=2 <?php if ($form['list_status'] === 2) : ?>checked <?php endif; ?> disabled /><span>非掲載</span>
+                <input type="radio" name="list-status" value=2 <?php if ($form['list_status'] != 1) : ?>checked <?php endif; ?> disabled /><span>非掲載</span>
               </label>
+              <?php if ($form['list_status'] === 2) : ?>
+                <p class="error">*掲載期間が今日を含んでいません。</p><?php endif; ?>
             </td>
           </tr>
 
@@ -193,6 +182,10 @@ function set_list_status($list_status)
           <tr>
             <th>申し込み上限数（/月）</th>
             <td><?php echo h($form['application_max']) ?> 件</td>
+          </tr>
+          <tr>
+            <th>請求金額（/件）</th>
+            <td><?php echo h($form['charge']) ?> 円</td>
           </tr>
 
         </table>
@@ -241,10 +234,6 @@ function set_list_status($list_status)
             <td class="sub-th">取扱い企業数</td>
             <td><?php echo h($form['insert_handled_number']) ?></td>
           </tr>
-          <tr>
-            <td class="sub-th">詳細欄</td>
-            <td><?php echo h($form['insert_detail']) ?></td>
-          </tr>
         </table>
         <table class="tags-add">
           <tr>
@@ -258,8 +247,8 @@ function set_list_status($list_status)
                 <?php foreach ($filter_sort as $filter_tag) : ?>
                   <label class="added-tag">
                     <input type="checkbox" name="agent_tags[]" value="<?= $filter_tag['tag_id'] ?>" disabled <?php if ($form['agent_tags']) : foreach ($form['agent_tags'] as $agent_tag) : if (h($filter_tag['tag_id']) === $agent_tag) : ?>checked <?php endif;
-                                                                                                                                                                                                                                              endforeach;
-                                                                                                                                                                                                                                            endif; ?> />
+                                                                                                                                                                                                                                                  endforeach;
+                                                                                                                                                                                                                                                endif; ?> />
                     <span><?= $filter_tag['tag_name']; ?></span> </label>
                 <?php endforeach; ?>
               </td>

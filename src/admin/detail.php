@@ -70,16 +70,16 @@ $stmt->execute();
 $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // var_dump($agent_tags);
 
-function set_list_status($list_status)
-{
-  if ($list_status === 1) {
-    return '掲載中';
-  } elseif ($list_status === 2) {
-    return '掲載停止中';
-  } else {
-    return 'エラー';
-  }
-}
+// function set_list_status($list_status)
+// {
+//   if ($list_status === 1) {
+//     return '掲載中';
+//   } elseif ($list_status === 2) {
+//     return '掲載停止中';
+//   } else {
+//     return 'エラー';
+//   }
+// }
 ?>
 <!DOCTYPE html>
 <html lang="ja">
