@@ -7,6 +7,11 @@ if (!isset($_SESSION["login"])) {
   exit();
 }
 
+$id = $_GET['id'];
+if($id=== 'admin'){
+  // ここから
+}
+
 //管理者ログイン情報
 $stmt = $db->query('select * from admin_login;');
 $admin_login = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -56,6 +61,7 @@ $agents_login = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
   </header>
   <main class="main">
+  <form action="" method="post" enctype="multipart/form-data">
     <div class="agent-add-table">
       <table class="tags-add">
         <tr>
@@ -80,38 +86,12 @@ $agents_login = $stmt->fetchAll(PDO::FETCH_ASSOC);
             【表示されません】
           </td>
           <td>
-            <a href="loginUpdate.php?id=admin ?>">編集</a>
+          <input type="submit" value="編集を完了する" />
           </td>
         </tr>
       </table>
-      <table class="tags-add">
-        <tr>
-          <th>エージェント</th>
-        </tr>
-        <tr>
-          <td class="sub-th">企業名</td>
-          <td class="sub-th">email</td>
-          <td class="sub-th">pass</td>
-          <td class="sub-th">編集</td>
-        </tr>
-        <?php foreach ($agents_login as $a_login) : ?>
-          <tr>
-            <td>
-              <?= $a_login['insert_company_name'] ?>
-            </td>
-            <td>
-              <?= $a_login['login_email'] ?>
-            </td>
-            <td>
-              【表示されません】
-            </td>
-            <td>
-              <a href="loginUpdate.php?id=<?= $a_login['id'] ?>">編集</a>
-            </td>
-          </tr>
-        <?php endforeach; ?>
-      </table>
     </div>
+    </form>
   </main>
 </body>
 
