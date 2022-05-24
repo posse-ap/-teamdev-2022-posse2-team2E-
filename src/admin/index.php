@@ -193,6 +193,7 @@ foreach ($agents_tags as $a) {
             <td><?php echo date("Y/m/d", strtotime($listed_agent['started_at'])) . '~' . date("Y/m/d", strtotime($listed_agent['ended_at'])) ?></td>
             <td><a href="detail.php?id=<?php echo $listed_agent['id']; ?>">詳細</a></td>
             <td><a href="contact/contact.php?id=<?php echo $listed_agent['id']; ?>">問い合わせ一覧</a></td>
+
             <!--  タグ表示テスト↓ -->
             <td>
               <?php foreach ($at_list as $agent_tags) : ?>
