@@ -1,19 +1,27 @@
-<?php require($_SERVER['DOCUMENT_ROOT'] . "/db_connect.php");
-
+<?php
+require('../../db_connect.php');
 session_start();
 
-//ログインされていない場合は強制的にログインページにリダイレクト
-if (!isset($_SESSION["login"])) {
-    header("Location: agent_login.php");
-    exit();
-}
+// //ログインされていない場合は強制的にログインページにリダイレクト
+// if (!isset($_SESSION["login"])) {
+//     header("Location: agent_login.php");
+//     exit();
+// }
 
 // 問い合わせid (!=student_id)
 $id = $_GET['id'];
 
-if (empty($id)) {
+$agent_id = $_GET['agent'];
+
+if (empty($id) || empty($agent_id)) {
     exit('IDが不正です。');
 }
+// agent_id 取得
+// $stmt = $db->prepare('SELECT agent_id FROM students_contacts where id = :id');
+// $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
+// $stmt->execute();
+// $agent_id = $stmt->fetch(PDO::FETCH_ASSOC);
+
 
 $stmt = $db->prepare('SELECT * FROM students AS S INNER JOIN students_contacts AS SC ON S.id = SC.student_id where SC.id = :id');
 $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
@@ -27,6 +35,14 @@ if (!$result) {
     exit('データがありません。');
 }
 
+
+// エージェント名取得
+$stmt = $db->prepare('SELECT insert_company_name FROM agents WHERE id=:id');
+$stmt->bindValue(':id', (int)$agent_id, PDO::PARAM_INT);
+$stmt->execute();
+$agent = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
 // 通報内容
 $stmt = $db->prepare('SELECT * FROM invalid_requests  where contact_id = :contact_id');
 $stmt->bindValue(':contact_id', (int)$id, PDO::PARAM_INT);
@@ -37,63 +53,15 @@ $invalid_requests = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // 通報機能
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $naiyou = filter_input(INPUT_POST, 'naiyou', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $stmt = $db->prepare('insert into invalid_requests (contact_id, invalid_request_memo) VALUES (:contact_id, :invalid_request_memo)');
-    $stmt->bindValue(':contact_id', (int)$id, PDO::PARAM_INT);
-    $stmt->bindValue(':invalid_request_memo', $naiyou, PDO::PARAM_STR); //filterする
-    $stmt->execute();
-
-    // students_contacts.valid_status_idを　1→2へ
-    $stmt = $db->prepare('update students_contacts set valid_status_id=2 where id=:id');
+    // students_contacts.valid_status_idを　3へ
+    $stmt = $db->prepare('update students_contacts set valid_status_id=3 where id=:id');
     $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
     $stmt->execute();
-    header("location: agent_students_detail.php?id=$id");
+
+    header("location: contactDetail.php?agent=$agent_id&id=$id");
+
 }
 
-// 重複検査
-//email重複
-$stmt = $db->prepare(
-    'SELECT SC.id FROM students AS S, students_contacts AS SC WHERE S.email = :email AND S.id = SC.student_id AND SC.agent_id = :agent_id ORDER BY S.created desc'
-);
-if (!$stmt) {
-    die($db->error);
-}
-$stmt->bindValue(':email', $result['email'], PDO::PARAM_STR);
-$stmt->bindValue(':agent_id', $_SESSION['id'], PDO::PARAM_INT);
-$stmt->execute();
-$duplicated_emails = $stmt->fetchAll(PDO::FETCH_ASSOC);
-//tel重複
-$stmt = $db->prepare(
-    'SELECT SC.id FROM students AS S, students_contacts AS SC WHERE S.tel = :tel AND S.id = SC.student_id AND SC.agent_id = :agent_id ORDER BY S.created desc'
-);
-if (!$stmt) {
-    die($db->error);
-}
-$stmt->bindValue(':tel', $result['tel'], PDO::PARAM_STR);
-$stmt->bindValue(':agent_id', $_SESSION['id'], PDO::PARAM_INT);
-$stmt->execute();
-$duplicated_tels = $stmt->fetchAll(PDO::FETCH_ASSOC);
-//name重複
-$stmt = $db->prepare(
-    'SELECT SC.id FROM students AS S, students_contacts AS SC WHERE S.name = :name AND S.id = SC.student_id AND SC.agent_id = :agent_id ORDER BY S.created desc'
-);
-if (!$stmt) {
-    die($db->error);
-}
-$stmt->bindValue(':name', $result['name'], PDO::PARAM_STR);
-$stmt->bindValue(':agent_id', $_SESSION['id'], PDO::PARAM_INT);
-$stmt->execute();
-$duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
-// foreach($duplicated_emails as $d_email){
-//     if($d_email['id'] !=  $id){
-//         echo $d_email['id'];
-//     }
-// }
-// echo "<pre>";
-// var_dump($duplicated_emails);
-// echo "</pre>";
 // 無効化申請中/無効化承認済みをタイトルに表示
 function set_valid_status($valid_status)
 {
@@ -107,6 +75,47 @@ function set_valid_status($valid_status)
         return 'エラー';
     }
 }
+
+// 重複検査
+//email重複
+$stmt = $db->prepare(
+    'SELECT SC.id FROM students AS S, students_contacts AS SC WHERE S.email = :email AND S.id = SC.student_id AND SC.agent_id = :agent_id ORDER BY S.created desc'
+);
+if (!$stmt) {
+    die($db->error);
+}
+$stmt->bindValue(':email', $result['email'], PDO::PARAM_STR);
+
+$stmt->bindValue(':agent_id', (int)$agent_id, PDO::PARAM_INT);
+
+$stmt->execute();
+$duplicated_emails = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//tel重複
+$stmt = $db->prepare(
+    'SELECT SC.id FROM students AS S, students_contacts AS SC WHERE S.tel = :tel AND S.id = SC.student_id AND SC.agent_id = :agent_id ORDER BY S.created desc'
+);
+if (!$stmt) {
+    die($db->error);
+}
+$stmt->bindValue(':tel', $result['tel'], PDO::PARAM_STR);
+
+$stmt->bindValue(':agent_id', (int)$agent_id, PDO::PARAM_INT);
+
+$stmt->execute();
+$duplicated_tels = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//name重複
+$stmt = $db->prepare(
+    'SELECT SC.id FROM students AS S, students_contacts AS SC WHERE S.name = :name AND S.id = SC.student_id AND SC.agent_id = :agent_id ORDER BY S.created desc'
+);
+if (!$stmt) {
+    die($db->error);
+}
+$stmt->bindValue(':name', $result['name'], PDO::PARAM_STR);
+
+$stmt->bindValue(':agent_id', (int)$agent_id, PDO::PARAM_INT);
+
+$stmt->execute();
+$duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -121,35 +130,46 @@ function set_valid_status($valid_status)
 
 </head>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+<link rel="stylesheet" href="../../agent/table.css">
+<link rel="stylesheet" href="../../agent/agent_students_detail.css">
 
-<link rel="stylesheet" href="user/reset.css">
-<link rel="stylesheet" href="table.css">
-<link rel="stylesheet" href="agent_students_detail.css">
 
 <body>
 
     <header>
-        <h1>
-            <p><span>CRAFT</span>by boozer</p>
-        </h1>
-        <p class="welcome_agent">ようこそ　<?php echo ($_SESSION['corporate_name']); ?>様</p>
-        <nav class="nav">
-            <ul>
-                <li><a href="agent_students_all.php">学生情報一覧</a></li>
-                <li><a href="agent_information.php">登録情報</a></li>
-                <li><a href="#">ユーザー画面へ</a></li>
-                <li><a href="agent_logout.php">ログアウト</a></li>
-            </ul>
-        </nav>
-    </header>
-    <div class="all_wrapper">
-        <div class="left_wrapper">
-            <li><a href="agent_students_all.php">学生情報一覧</a></li>
-            <li><a href="agent_information.php">登録情報</a></li>
-            <li><a href="#">ユーザー画面へ</a></li>
-            <li><a href="agent_logout.php">ログアウト</a></li>
+        <div class="header-inner">
+            <h1 class="header-title">CRAFT管理者画面</h1>
+            <nav class="header-nav">
+                <ul class="header-nav-list">
+                    <a href="../index.php">
+                        <li class="header-nav-item select">エージェント一覧</li>
+                    </a>
+                    <a href="../add/agentAdd.php">
+                        <li class="header-nav-item">エージェント追加</li>
+                    </a>
+                    <a href="../tags/tagsEdit.php">
+                        <li class="header-nav-item">タグ一覧</li>
+                    </a>
+                    <a href="../contact/contact.php">
+                        <li class="header-nav-item">問い合わせ一覧</li>
+                    </a>
+                    <a href="../login/loginInfo.php">
+                        <li class="header-nav-item">管理者ログイン情報</li>
+                    </a>
+                    <a href="../login/logout.php">
+                        <li class="header-nav-item">ログアウト</li>
+                    </a>
+                </ul>
+            </nav>
         </div>
-        <div class="right_wrapper">
+    </header>
+
+    <div class="back">
+    <a href="contact.php?id=<?= $agent_id ?>">&laquo;&nbsp;<?= $agent['insert_company_name'] ?>問い合わせ一覧に戻る</a></div>
+    <main class="main">
+        
             <h1 class="detail_title">学生情報詳細　　　　<?= set_valid_status($result['valid_status_id']) ?></h1>
             <table class="students_detail" border="1" width="90%">
                 <tr bgcolor="white">
@@ -159,11 +179,11 @@ function set_valid_status($valid_status)
                 <tr bgcolor="white">
                     <th bgcolor="#4FA49A">氏名</th>
                     <td><?php echo $result['name'] ?>
-                    <?php foreach ($duplicated_names as $d_name) : if ($d_name['id'] !=  $id) : ?>
+                        <?php foreach ($duplicated_names as $d_name) : if ($d_name['id'] !=  $id) : ?>
                                 <span style="background-color:red;">id<?= $d_name['id']; ?>と重複</span>
                         <?php endif;
                         endforeach ?>
-                </td>
+                    </td>
                 </tr>
                 <tr bgcolor="white">
                     <th bgcolor="#4FA49A">メールアドレス</th>
@@ -177,11 +197,11 @@ function set_valid_status($valid_status)
                 <tr bgcolor="white">
                     <th bgcolor="#4FA49A">電話番号</th>
                     <td><?php echo $result['tel'] ?>
-                    <?php foreach ($duplicated_tels as $d_tel) : if ($d_tel['id'] !=  $id) : ?>
+                        <?php foreach ($duplicated_tels as $d_tel) : if ($d_tel['id'] !=  $id) : ?>
                                 <span style="background-color:red;">id<?= $d_tel['id']; ?>と重複</span>
                         <?php endif;
                         endforeach ?>
-                </td>
+                    </td>
                 </tr>
                 <tr bgcolor="white">
                     <th bgcolor="#4FA49A">大学</th>
@@ -208,25 +228,9 @@ function set_valid_status($valid_status)
                     <td><?php echo $id ?></td>
                 </tr>
             </table>
-            <div class="mukou">
-                <a class="back_to_students" href="agent_students_all.php">学生情報一覧に戻る</a>
-                <?php if ($result['valid_status_id'] === 1) : ?>
-                    <a id="mukou_form" class="mukou_to_form" onclick="display()">通報する</a>
-                <?php endif; ?>
-            </div>
-            <?php if ($result['valid_status_id'] === 1) : ?>
-                <form id="view" action="" method="post" enctype="multipart/form-data" style="display: none">
-                    <p><label>通報内容：<br>
-                            <textarea name="naiyou" cols="40" rows="5" required></textarea>
-                        </label></p>
-                    <p>
-                        報告を受けました学生の情報に関しましては、当社が確認の上、請求の対象外といたします。
-                        <br>確認いたしましたら、学生情報に「無効」と記載いたしますのでご確認くださいませ。
-                    </p>
-
-                    <p><input type="submit" value="通報する"></p>
+                <form action="" method="post" enctype="multipart/form-data">
+                    <p><input type="submit" value="無効化"></p>
                 </form>
-            <?php endif; ?>
             <?php if ($result['valid_status_id'] != 1) : ?>
                 <table>
                     <tr bgcolor="white">
@@ -237,16 +241,8 @@ function set_valid_status($valid_status)
             <?php endif; ?>
         </div>
     </div>
-
-    <div class="inquiry">
-        <p>お問い合わせは下記の連絡先にお願いいたします。
-            <br>craft運営 boozer株式会社事務局
-            <br>TEL:080-3434-2435
-            <br>Email:craft@boozer.com
-        </p>
-    </div>
-
     <script src="agent_students_detail.js"></script>
+    </main>
 </body>
 
 </html>

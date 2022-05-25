@@ -2,7 +2,7 @@ header {
   width: 100%;
   background-color: #4FA49A;
   border-bottom: #fff 1px solid;
-  position: fixed;
+  /* position: fixed;一時 */
   top: 0;
 }
 header .header-inner {
@@ -39,7 +39,7 @@ header .select {
 .main {
   width: 80%;
   margin: 20px auto 100px;
-  padding-top: 120px;
+  padding-top: 20px;
 }
 
 section {
@@ -168,3 +168,6 @@ input {
   margin: 10px 0;
 }
 
+.back{
+  margin-top: 100px
+}
