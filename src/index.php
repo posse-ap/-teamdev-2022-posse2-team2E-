@@ -118,7 +118,7 @@ foreach ($agents_tags as $a) {
                 <form action="entry.php" method="post" id="inquiry_submit">
                     <?php foreach ($listed_agents as $listed_agent) : ?>
                         <li class="agent_box" data-filter-key="総合型" id="tohoku_<?php echo $listed_agent['id'] ?>">
-                            <img class="agent_img" src="logo.png" alt="">
+                            <img class="agent_img" src="img/insert_logo/<?php echo $listed_agent['insert_logo'] ?>" alt="企業ロゴ">
                             <div class="agent_article">
                                 <div class="agent_article_header">
                                     <h1 class="agent_name"><?php echo $listed_agent['insert_company_name'] ?></h1>
@@ -178,18 +178,18 @@ foreach ($agents_tags as $a) {
                             <div class="filter_sort_name"><?= current($filter_sort)['sort_name']; ?></div>
                             <div class="each_filter_box">
                                 <?php foreach ($filter_sort as $filter_tag) : ?>
-                            <div class="w">
+                                    <div class="w">
 
 
-                                    <input type="checkbox" name="agent_tags[]" class="checks" id="form" value="<?= $filter_tag['tag_id'] ?>"/>
-                                    <label class="added-tag" for="form">
-                                        <?= $filter_tag['tag_name']; ?>
-                                        <!-- <span><?= $filter_tag['tag_name']; ?></span> -->
-                                    </label>
+                                        <input type="checkbox" name="agent_tags[]" class="checks" id="form" value="<?= $filter_tag['tag_id'] ?>" />
+                                        <label class="added-tag" for="form">
+                                            <?= $filter_tag['tag_name']; ?>
+                                            <!-- <span><?= $filter_tag['tag_name']; ?></span> -->
+                                        </label>
 
 
 
-                            </div>
+                                    </div>
 
                                 <?php endforeach; ?>
                             </div>
@@ -308,7 +308,15 @@ foreach ($agents_tags as $a) {
     </wrapper>
 
 
-    <footer></footer>
+    <footer>
+        <div class="inquiry">
+            <p>お問い合わせは下記の連絡先にお願いいたします。
+                <br>craft運営 boozer株式会社事務局
+                <br>TEL:080-3434-2435
+                <br>Email:craft@boozer.com
+            </p>
+        </div>
+    </footer>
 
     <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
     <script src="main.js"></script>
