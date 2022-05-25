@@ -29,10 +29,6 @@ if (isset($_POST["submit"])) {
             echo "</pre>";
 
             // echo "<pre>";
-            // var_dump(password_hash("pass", PASSWORD_DEFAULT));
-            // echo "</pre>";
-
-            // echo "<pre>";
             // var_dump($_POST['pass']);
             // echo "</pre>";
 
