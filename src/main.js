@@ -82,7 +82,9 @@ $(window).scroll(function () {
 
 
 // キープ一覧にあるエージェントを最初は非表示
-for (let i = 1; i < 1000; i++) {
+const keepAgentElements = document.querySelectorAll('.keep_agent_box');
+
+for (let i = 1; i < keepAgentElements.length ; i++) {
     let keep_agent_box = document.getElementById("keep_agent_box_" + i);
     keep_agent_box.style.display = "none";
 }
