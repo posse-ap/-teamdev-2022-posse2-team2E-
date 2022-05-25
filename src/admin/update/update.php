@@ -247,7 +247,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <?php if (isset($error['insert_logo']) && $error['insert_logo'] === 'type') : ?>
                 <p class="error">* 写真などは「.png」または「.jpg」の画像を指定してください</p>
               <?php endif; ?>
-              <p class="error">* 画像を変更する場合は写真を選択してください</p>
+              <p class="error">* ロゴを変更する場合は写真を選択してください</p>
             </td>
           </tr>
           <tr>
