@@ -13,7 +13,7 @@ $id = $_GET['id'];
 if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['form'])) {
   $agent = $_SESSION['form'];
   $agent_tags = $agent['agent_tags'];
-} elseif(isset($agent)) {
+} elseif(isset($agent)) {//POSTの中身
   $agent_tags = $agent['agent_tags'];
 }else{
   //エージェント情報
@@ -21,16 +21,20 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
   $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
   $stmt->execute();
   $agent = $stmt->fetch(PDO::FETCH_ASSOC);
-
   // エージェントタグ
   $stmt = $db->prepare('select * from agents_tags where agent_id=:id');
   $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
   $stmt->execute();
   $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+  // 写真変更ないときは既存のものをセッションに渡す
+$filename = $agent['insert_logo'];
+
 // echo '<pre>';
 // var_dump($agent_tags);
 // echo '</pre>';
+// var_dump($agent['insert_logo']);
+
 
 
 //タグ情報
@@ -52,8 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     'corporate_name' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'started_at' => FILTER_SANITIZE_NUMBER_INT,
     'ended_at' => FILTER_SANITIZE_NUMBER_INT,
-    'login_email' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-    'login_pass' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    // 'login_email' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    // 'login_pass' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'to_send_email' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'application_max' => FILTER_SANITIZE_NUMBER_INT,
     'charge' => FILTER_SANITIZE_NUMBER_INT,
@@ -80,37 +84,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($agent['started_at'] > $agent['ended_at']) {
     $error['period'] = 'reverse';
   }
-  // login_emailの重複チェック
-  if ($agent['login_email'] != '') {
-    $stmt = $db->prepare('select count(*) from agents where login_email=:login_email and id != :id');
-    if (!$stmt) {
-      die($db->error);
-    }
-    $stmt->bindValue('login_email', $agent['login_email'], PDO::PARAM_STR);
-    $stmt->bindValue('id', $id, PDO::PARAM_INT);
-    $success = $stmt->execute();
-    $cnt = (int)$stmt->fetchColumn();
-    if ($cnt > 0) {
-      $error['login_email'] = 'duplicate';
-    }
-  }
+  // // login_emailの重複チェック
+  // if ($agent['login_email'] != '') {
+  //   $stmt = $db->prepare('select count(*) from agents where login_email=:login_email and id != :id');
+  //   if (!$stmt) {
+  //     die($db->error);
+  //   }
+  //   $stmt->bindValue('login_email', $agent['login_email'], PDO::PARAM_STR);
+  //   $stmt->bindValue('id', $id, PDO::PARAM_INT);
+  //   $success = $stmt->execute();
+  //   $cnt = (int)$stmt->fetchColumn();
+  //   if ($cnt > 0) {
+  //     $error['login_email'] = 'duplicate';
+  //   }
+  // }
 
-  // 画像のチェック
+  // 画像のチェック(変更は任意)
   $insert_logo = $_FILES['insert_logo'];
+  if($insert_logo['name'] !== '' && $insert_logo['error']===0){
     $type = mime_content_type($insert_logo['tmp_name']);
     if ($type !== 'image/png' && $type !== 'image/jpeg') {
       $error['insert_logo'] = 'type';
     }
+  }
 
   // エラーがなければ確認画面へ
   if (empty($error)) {
     $_SESSION['form'] = $agent;
       //画像のアップロード
+      if($insert_logo['name'] !== ''){
       $filename = date('YmdHis') . '_' . $insert_logo['name'];
       if (!move_uploaded_file($insert_logo['tmp_name'], '../../img/insert_logo/' . $filename)) {
         die('ファイルのアップロードに失敗しました');
       }
       $_SESSION['form']['insert_logo'] = $filename;
+    }else{
+      $_SESSION['form']['insert_logo'] = $filename;
+      // var_dump($agent['insert_logo']);
+    }
     header("location: updateCheck.php?id=$id");
     exit();
   }
@@ -187,16 +198,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <?php endif; ?>
             </td>
           </tr>
-
-          <tr class="login-info">
-            <th>ログイン情報<span class="error">*</span></th>
-            <td>
-              email:<input type="email" name="login_email" value="<?php echo h($agent["login_email"]); ?>" required/>　　　pass:<input type="password" name="login_pass" value="" required/>
-              <p class="error">* パスワードを改めて指定してください</p>
-              <?php if (isset($error['login_email']) && $error['login_email'] === 'duplicate') : ?>
-                <p class="error">* 指定されたメールアドレスはすでに登録されています</p><?php endif; ?>
-            </td>
-          </tr>
           <tr>
           <tr>
             <th>学生情報送信先<span class="error">*</span></th>
@@ -242,11 +243,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </tr>
           <tr>
             <td class="sub-th">企業ロゴ<span class="error">*</span></td>
-            <td><input type="file" name="insert_logo" value="" required/>
+            <td><input type="file" name="insert_logo" value=""/>
               <?php if (isset($error['insert_logo']) && $error['insert_logo'] === 'type') : ?>
                 <p class="error">* 写真などは「.png」または「.jpg」の画像を指定してください</p>
               <?php endif; ?>
-              <p class="error">* 画像を改めて指定してください</p>
+              <p class="error">* ロゴを変更する場合は写真を選択してください</p>
             </td>
           </tr>
           <tr>

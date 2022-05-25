@@ -10,6 +10,7 @@ if (!isset($_SESSION["login"])) {
 
 if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['form'])) {
   $form = $_SESSION['form'];
+  $s_filename = $form['insert_logo'];
 }
 
 //タグ情報
@@ -70,12 +71,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
   }
 
-  // 画像のチェック
+  // 画像のチェック(変更は任意)
   $insert_logo = $_FILES['insert_logo'];
+  if($insert_logo['name'] !== '' && $insert_logo['error']===0){
     $type = mime_content_type($insert_logo['tmp_name']);
     if ($type !== 'image/png' && $type !== 'image/jpeg') {
       $error['insert_logo'] = 'type';
     }
+  }
 
   // エラーがなければ送信
   if (empty($error)) {
@@ -89,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       }
       $_SESSION['form']['insert_logo'] = $filename;
     } else {
-      $_SESSION['form']['insert_logo'] = '';
+      $_SESSION['form']['insert_logo'] = $s_filename;
     }
 
     header('location: check.php');
@@ -166,7 +169,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <?php endif; ?>
             </td>
           </tr>
-
           <tr class="login-info">
             <th>ログイン情報<span class="error">*</span></th>
             <td>
@@ -175,7 +177,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <p class="error">* 指定されたメールアドレスはすでに登録されています</p><?php endif; ?>
             </td>
           </tr>
-
           <tr>
             <th>学生情報送信先<span class="error">*</span></th>
             <td><input type="email" name="to_send_email" value="<?php echo h($form["to_send_email"]); ?>" required />
@@ -220,10 +221,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </tr>
           <tr>
             <td class="sub-th">企業ロゴ<span class="error">*</span></td>
-            <td><input type="file" name="insert_logo" required />
+            <td><input type="file" name="insert_logo" 
+            <?php if(!isset($s_filename)): ?> required <?php endif;?>/>
               <?php if (isset($error['insert_logo']) && $error['insert_logo'] === 'type') : ?>
                 <p class="error">* 写真などは「.png」または「.jpg」の画像を指定してください</p>
               <?php endif; ?>
+              <?php if(isset($s_filename)) : ?>
+                <p class="error">* ロゴを変更する場合は写真を選択してください</p>
+              <?php endif;?>
             </td>
           </tr>
           <tr>

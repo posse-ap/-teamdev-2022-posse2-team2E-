@@ -166,7 +166,6 @@ foreach ($filter_sorts_tags as $f) {
               <?php echo h($form['ended_at']) ?>
             </td>
           </tr>
-
           <tr class="login-info">
             <th>ログイン情報</th>
             <td>
