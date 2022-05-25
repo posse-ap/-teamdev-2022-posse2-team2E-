@@ -21,7 +21,20 @@
 //     checkbox.addEventListener('change', filter);
 // });
 
-
+// スクロールしたらアニメーション
+$(function(){
+    $(window).scroll(function (){
+      $('.process').each(function(){
+        var elementTop = $(this).offset().top;
+        var scroll = $(window).scrollTop();
+        var windowHeight = $(window).height();
+        if (scroll > elementTop - windowHeight + 100){
+          $(this).addClass('scrollin');
+          
+        }
+      });
+    });
+  });
 
 //全選択ボタンを取得する
 const checkBtn = document.getElementById("check-btn");
@@ -81,7 +94,8 @@ $(window).scroll(function () {
 
 
 // キープ一覧にあるエージェントを最初は非表示
-    for (let i = 1; i < 1000; i++) {
+    const keepBoxElements =document.querySelectorAll(".keep_agent_box")
+    for (let i = 1; i < keepBoxElements.length; i++) {
     let keep_agent_box = document.getElementById("keep_agent_box_" + i);
     keep_agent_box.style.display = "none";
     }
@@ -130,18 +144,30 @@ function check(id) {
         let keep_agent_box = document.getElementById("keep_agent_box_" + id);
             keep_agent_box.style.display ="none";     
             keep.checked = false;
+
+     const checkBoxElements = document.getElementsByName('student_contacts[]');
+
+     // チェックした項目のみを数える
+     let count = 0;
+    checkBoxElements.forEach((element) => {
+        // チェックされてたらカウント追加
+        if (element.checked) {
+            count++;
+        }
+    });
+    $('div.tohokuret').text(  count );
     }
 
 
 
-// キープの数をカウント
-let state = { count: 0 };
-let btn = document.getElementById('keep_btn');
-btn.addEventListener('click', () => {
-  let keep_counter = document.getElementById('keep_counter');
-  keep_counter.innerHTML = ++state.count;
-  return;
-});
+// // キープの数をカウント
+// let state = { count: 0 };
+// let btn = document.getElementById('keep_btn');
+// btn.addEventListener('click', () => {
+//   let keep_counter = document.getElementById('keep_counter');
+//   keep_counter.innerHTML = ++state.count;
+//   return;
+// });
 
 
 

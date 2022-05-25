@@ -63,13 +63,13 @@ header nav ul li a {
 }
 
 .first_message h1{
-    font-size: 95rem;
+    font-size: 120rem;
     margin: 10rem auto;
     font-weight: bold;
 }
 
 .first_message h2{
-    font-size: 30rem;
+    font-size: 45rem;
     margin: 18rem auto;
 }
 
@@ -80,7 +80,7 @@ header nav ul li a {
 
 .emphasis{
     color: #FFD700;
-    font-size: 50rem;
+    font-size: 60rem;
     /* color:red; */
     /* text-decoration: underline; */
 }
@@ -93,8 +93,9 @@ header nav ul li a {
     /* display: flex; */
     justify-content: center;
     display:table;
-    margin-top: 90rem;
-    
+    margin: 90rem 20rem;
+    margin-left: 120rem;
+
 }
 
 .process p{
@@ -183,13 +184,14 @@ header nav ul li a {
 }
 
 /*下からフェードイン*/
-.fade-in-bottom {
+ .fade-in-bottom {
     opacity: 0;
     animation-name: fadein-bottom;
     animation-duration: 1.0s;
     animation-timing-function: ease-out;
     animation-fill-mode: forwards;
  }
+ 
  @keyframes fadein-bottom {
     0% {
        opacity: 0;
@@ -201,131 +203,17 @@ header nav ul li a {
     }
  }
 
-.slide_in_1{
-    opacity: 0;
-    animation-name: slide_in_1;
-    animation-duration: 1.1s;
-    animation-timing-function: ease-out;
-    animation-fill-mode: forwards;
- }
- @keyframes slide_in_1 {
-    0% {
-       opacity: 0;
-       transform: translateX(-40px);
-    }
-    100% {
-       opacity: 1;
-       transform: translateX(0);
-    }
+.process{
+    opacity : 0;
+    transform : translate(-60px, 0px);
+    transition:all 1.0s;
 }
 
-.slide_in_2{
-    opacity: 0;
-    animation-name: slide_in_2;
-    animation-duration: 1.2s;
-    animation-timing-function: ease-out;
-    animation-fill-mode: forwards;
- }
- @keyframes slide_in_2 {
-    14% {
-       opacity: 0;
-       transform: translateX(-40px);
-    }
-    100% {
-       opacity: 1;
-       transform: translateX(0);
-    }
+.process.scrollin {
+    opacity : 1;
+    transform : translate(0, 0);
 }
 
-.slide_in_3{
-    opacity: 0;
-    animation-name: slide_in_3;
-    animation-duration: 1.3s;
-    animation-timing-function: ease-out;
-    animation-fill-mode: forwards;
- }
- @keyframes slide_in_3 {
-    28% {
-       opacity: 0;
-       transform: translateX(-40px);
-    }
-    100% {
-       opacity: 1;
-       transform: translateX(0);
-    }
-}
-
-.slide_in_4{
-    opacity: 0;
-    animation-name: slide_in_4;
-    animation-duration: 1.4s;
-    animation-timing-function: ease-out;
-    animation-fill-mode: forwards;
- }
- @keyframes slide_in_4 {
-    42% {
-       opacity: 0;
-       transform: translateX(-40px);
-    }
-    100% {
-       opacity: 1;
-       transform: translateX(0);
-    }
-}
-
-.slide_in_5{
-    opacity: 0;
-    animation-name: slide_in_5;
-    animation-duration: 1.5s;
-    animation-timing-function: ease-out;
-    animation-fill-mode: forwards;
- }
- @keyframes slide_in_5 {
-    56% {
-       opacity: 0;
-       transform: translateX(-40px);
-    }
-    100% {
-       opacity: 1;
-       transform: translateX(0);
-    }
-}
-
-.slide_in_6{
-    opacity: 0;
-    animation-name: slide_in_6;
-    animation-duration: 1.6s;
-    animation-timing-function: ease-out;
-    animation-fill-mode: forwards;
- }
- @keyframes slide_in_6 {
-    70% {
-       opacity: 0;
-       transform: translateX(-40px);
-    }
-    100% {
-       opacity: 1;
-       transform: translateX(0);
-    }
-}
-
-.slide_in_7{
-    opacity: 0;
-    animation-name: slide_in_7;
-    animation-duration: 1.7s;
-    animation-timing-function: ease-out;
-    animation-fill-mode: forwards;
- }
- @keyframes slide_in_7 {
-    84% {
-       opacity: 0;
-       transform: translateX(-40px);
-    }
-    100% {
-       opacity: 1;
-       transform: translateX(0);
-    }
-}
 
 .agent_person{
     margin-top: 40rem;
@@ -1231,9 +1119,9 @@ label input + span:before {
 
 /* 絞り込みサンプル */
 
-input{
+/* input{
     display: none;
-  }
+  } */
   .bl_3daysSearchBlock{
     margin-bottom: 60px;
   }

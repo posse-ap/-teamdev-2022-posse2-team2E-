@@ -73,13 +73,19 @@ crossorigin="anonymous"></script>
 
     <wrapper>
         <div class="first_message ">
-        <div class="bkRGBA">
-            <div class="word fade-in-bottom">
-            <h1>CRAFT</h1>
-            <h2>気軽に<span class="emphasis">複数</span>のエージェント選びを</h2>
-            <!-- <p>フラットな視点で比較、一括問い合わせまで -->
+            <div class="bkRGBA">
+                <div class="word fade-in-bottom">
+                    <h1>CRAFT</h1>
+                    <h2>気軽に<span class="emphasis">複数</span>のエージェント選びを</h2>
+                    <!-- <p>フラットな視点で比較、一括問い合わせまで -->
 
-            <div class="process">
+                    
+                </div>
+            </div>
+        </div>
+
+        <p></p>
+        <div class="process">
             <p class="slide_in_1">絞り込む</p>
             <div class="arrow slide_in_2"></div>
             <p class="slide_in_3">比較する</p>
@@ -88,16 +94,11 @@ crossorigin="anonymous"></script>
             <div class="arrow slide_in_6"></div>
             <p class="slide_in_7">問い合わせる</p>
         </div>
-            </div>
-        </div>
-        </div>
 
-        
-        
         <div class="q_and_a">
             <p>Q.いくつのエージェントを問い合わせればいいの？</p>
             <br>
-            <p>A. <span class="multiples">複数</span>のエージェントに問い合わせることをおすすめします。</p>
+            <p>A. <span class="multiples">複数</span>のエージェントに問い合わせることをおすすめしています。</p>
             <p>理由としては、以下のようなものが挙げられます。</p>
             <br>
             <br>
@@ -272,7 +273,7 @@ crossorigin="anonymous"></script>
                                                     </div>
                                                     <div class="agent_article_footer modal_agent_article_footer">
                                                         <p class="span_published">掲載期間：<?php echo date("Y/m/d",strtotime($listed_agent['started_at'])); ?>〜<?php echo date("Y/m/d",strtotime($listed_agent['ended_at'])); ?></p>
-                                                        <label onclick="buttonDelete(<?php echo $listed_agent['id'] ?>)" class="delete_btn">取り消す</label>
+                                                        <label onclick="buttonDelete(<?php echo $listed_agent['id'] ?>)" class="delete_btn" name=student_contacts[] >削除</label>
                                                         
                                                     </div>
                                                 </div>
@@ -300,111 +301,89 @@ crossorigin="anonymous"></script>
 
 
 
-    
+
     <!-- 絞り込み機能のサンプル -->
     <div class="bl_3daysSearchBlock">
- 
-  <div class="bl_3daysSearchBlock_inner">
- 
-    <div class="bl_3daysSearchBlock_ttl">
-      <div class="bl_3daysSearchBlock_ttl_main">LUNCH INFO</div>
-      <div class="bl_3daysSearchBlock_ttl_sub">県内のランチスポット情報</div>
-       
-    </div>
  
     <div id="select" class="bl_selectBlock">
  
       <div class="el_searchResult">
         <span class="el_searchResult_nume js_numerator"></span>件／全<span class="el_searchResult_deno js_denominator"></span>件
       </div>
- 
-      <div class="bl_selectBlock_wrapper">
- 
-        <div class="bl_selectBlock_wrapper_wrapper">
-          <div class="bl_selectBlock_ttl">ジャンル</div>
+
+          <div class="bl_selectBlock_ttl">エージェントのタイプ</div>
           <div class="bl_selectBlock_content js_conditions" data-type="type">
-            <span class="bl_selectBlock_check"><input id="type-japan" type="checkbox" name="type" value="japan">
-              <label for="type-japan">
-              <span class="el_checkbox"></span>
-              和食
+            <span class="bl_selectBlock_check"><input id="type-tokka" type="checkbox" name="type" value="tokka">
+              <label for="type-tokka">
+              特化型
               </label>
             </span>
-            <span class="bl_selectBlock_check"><input id="type-china" type="checkbox" name="type" value="china">
-              <label for="type-china">
-              <span class="el_checkbox"></span>
-              中華
+            <span class="bl_selectBlock_check"><input id="type-sougou" type="checkbox" name="type" value="sougou">
+              <label for="type-sougou">
+              総合型
               </label>
             </span>
-            <span class="bl_selectBlock_check"><input id="type-italia" type="checkbox" name="type" value="italia">
+            <!-- <span class="bl_selectBlock_check"><input id="type-italia" type="checkbox" name="type" value="italia">
               <label for="type-italia">
-              <span class="el_checkbox"></span>
               イタリアン
               </label>
-            </span>
+            </span> -->
           </div>
-        </div>
-        <div class="bl_selectBlock_wrapper_wrapper">
-          <div class="bl_selectBlock_ttl">価格帯</div>
-          <div class="bl_selectBlock_content js_conditions" data-type="price">
-            <span class="bl_selectBlock_check"><input id="price-u500" type="checkbox" name="price" value="u500">
-              <label for="price-u500">
-                <span class="el_checkbox"></span>
-                〜500円
+
+          <div class="bl_selectBlock_ttl">志望会社の規模</div>
+          <div class="bl_selectBlock_content js_conditions" data-type="scale">
+            <span class="bl_selectBlock_check"><input id="scale-ote" type="checkbox" name="scale" value="ote">
+              <label for="scale-ote">
+                大手志望
               </label>
             </span>
-            <span class="bl_selectBlock_check"><input id="price-o500u1000" type="checkbox" name="price" value="o500u1000">
-              <label for="price-o500u1000">
-                <span class="el_checkbox"></span>
-                501円〜1000円
+            <span class="bl_selectBlock_check"><input id="scale-venture" type="checkbox" name="scale" value="venture">
+              <label for="scale-venture">
+                ベンチャー企業
               </label>
             </span>
-            <span class="bl_selectBlock_check"><input id="price-o1000" type="checkbox" name="price" value="o1000">
+            <!-- <span class="bl_selectBlock_check"><input id="price-o1000" type="checkbox" name="price" value="o1000">
               <label for="price-o1000">
-                <span class="el_checkbox"></span>
                 1000円〜
               </label>
-            </span>
+            </span> -->
           </div>
-        </div>
-        <div class="bl_selectBlock_wrapper_wrapper">
-          <div class="bl_selectBlock_ttl">場所</div>
+
+          <!-- <div class="bl_selectBlock_ttl">場所</div>
           <div class="bl_selectBlock_content js_conditions" data-type="location">
             <span class="bl_selectBlock_check"><input id="location-kanazawa" type="checkbox" name="location" value="kanazawa">
               <label for="location-kanazawa">
-                <span class="el_checkbox"></span>
                 金沢
               </label>
             </span>
             <span class="bl_selectBlock_check"><input id="location-kaga" type="checkbox" name="location" value="kaga">
               <label for="location-kaga">
-                <span class="el_checkbox"></span>
                 加賀
               </label>
             </span>
             <span class="bl_selectBlock_check"><input id="location-komatsu" type="checkbox" name="location" value="komatsu">
               <label for="location-komatsu">
-                <span class="el_checkbox"></span>
                 小松
               </label>
             </span>
-          </div>
-        </div>
-      </div>
+          </div> -->
+
+
       <div class="bl_selectBlock_release js_release">すべての選択を解除</div>
     </div>
  
     <div class="bl_searchResultBlock">
-      <div class="bl_searchResultBlock_item js_target" data-type="japan" data-price="u500" data-location="kanazawa">和食/〜500円/金沢</div>
-      <div class="bl_searchResultBlock_item js_target" data-type="china" data-price="u500" data-location="kanazawa">中華/〜500円/金沢</div>
-      <div class="bl_searchResultBlock_item js_target" data-type="italia" data-price="u500" data-location="kanazawa">イタリアン/〜500円/金沢</div>
-      <div class="bl_searchResultBlock_item js_target" data-type="japan" data-price="o500u1000" data-location="kanazawa">和食/501円〜1000円/金沢</div>
-      <div class="bl_searchResultBlock_item js_target" data-type="china" data-price="o500u1000" data-location="kanazawa">中華/501円〜1000円/金沢</div>
-      <div class="bl_searchResultBlock_item js_target" data-type="italia" data-price="o500u1000" data-location="kanazawa">イタリアン/501円〜1000円/金沢</div>
-      <div class="bl_searchResultBlock_item js_target" data-type="japan" data-price="u500" data-location="kaga" >和食/〜500円/加賀</div>
-      <div class="bl_searchResultBlock_item js_target" data-type="china" data-price="u500" data-location="komatsu">中華/〜500円/小松</div>
+      <div class="js_target" data-type="tokka" data-scale="ote" >特化型/大手志望</div>
+      <div class="js_target" data-type="sougou" data-scale="ote" >総合型/大手志望</div>
+      <!-- <div class="js_target" data-type="italia" data-scale="u500" >イタリアン/〜500円/金沢</div> -->
+      <div class="js_target" data-type="tokka" data-scale="venture" >特化型/ベンチャー志望</div>
+      <div class="js_target" data-type="sougou" data-scale="venture" >総合型/ベンチャー志望</div>
+      <!-- <div class="js_target" data-type="italia" data-scale="o500u1000" >イタリアン/501円〜1000円/金沢</div> -->
+      <div class="js_target" data-type="tokka" data-scale="ote"  >特化型/大手志望</div>
+      <!-- <div class="bl_searchResultBlock_item js_target" data-type="china" data-price="u500" data-location="komatsu">中華/〜500円/小松</div>
       <div class="bl_searchResultBlock_item js_target" data-type="italia" data-price="u500" data-location="komatsu">イタリアン/〜500円/小松</div>
       <div class="bl_searchResultBlock_item js_target" data-type="japan" data-price="o1000" data-location="kanazawa">和食/1000円〜/加賀</div>
-      <div class="bl_searchResultBlock_item js_target" data-type="japan,china" data-price="o1000" data-location="kanazawa">和食＆中華/1000円〜/加賀</div>
+      <div class="bl_searchResultBlock_item js_target" data-type="japan,china" data-price="o1000" data-location="kanazawa">和食＆中華/1000円〜/加賀</div> -->
     </div>
  
   </div>
