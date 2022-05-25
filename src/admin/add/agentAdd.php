@@ -27,8 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     'corporate_name' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'started_at' => FILTER_SANITIZE_NUMBER_INT,
     'ended_at' => FILTER_SANITIZE_NUMBER_INT,
-    'login_email' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-    'login_pass' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    // 'login_email' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    // 'login_pass' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'to_send_email' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'application_max' => FILTER_SANITIZE_NUMBER_INT,
     'charge' => FILTER_SANITIZE_NUMBER_INT,
@@ -57,20 +57,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $error['period'] = 'reverse';
   }
   // login_emailの重複チェック
-  if ($form['login_email'] != '') {
-    $stmt = $db->prepare('select count(*) from agents where login_email=:login_email');
-    if (!$stmt) {
-      die($db->error);
-    }
-    $stmt->bindValue('login_email', $form['login_email'], PDO::PARAM_STR);
-    $success = $stmt->execute();
-    $cnt = (int)$stmt->fetchColumn();
-    if ($cnt > 0) {
-      $error['login_email'] = 'duplicate';
-    }
-  }
+  // if ($form['login_email'] != '') {
+  //   $stmt = $db->prepare('select count(*) from agents where login_email=:login_email');
+  //   if (!$stmt) {
+  //     die($db->error);
+  //   }
+  //   $stmt->bindValue('login_email', $form['login_email'], PDO::PARAM_STR);
+  //   $success = $stmt->execute();
+  //   $cnt = (int)$stmt->fetchColumn();
+  //   if ($cnt > 0) {
+  //     $error['login_email'] = 'duplicate';
+  //   }
+  // }
 
-  // 画像のチェック
+  // 画像のチェック(変更は任意)
   $insert_logo = $_FILES['insert_logo'];
     $type = mime_content_type($insert_logo['tmp_name']);
     if ($type !== 'image/png' && $type !== 'image/jpeg') {
@@ -167,14 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </td>
           </tr>
 
-          <tr class="login-info">
-            <th>ログイン情報<span class="error">*</span></th>
-            <td>
-              email:<input type="email" name="login_email" value="<?php echo h($form["login_email"]); ?>" required />　　　pass:<input type="password" name="login_pass" value="<?php echo h($form["login_pass"]); ?>" required />
-              <?php if (isset($error['login_email']) && $error['login_email'] === 'duplicate') : ?>
-                <p class="error">* 指定されたメールアドレスはすでに登録されています</p><?php endif; ?>
-            </td>
-          </tr>
+
 
           <tr>
             <th>学生情報送信先<span class="error">*</span></th>
