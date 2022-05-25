@@ -8,6 +8,7 @@
 function h($value) {
 	return htmlspecialchars($value, ENT_QUOTES);
 }
+
 function set_list_status($list_status)
 {
   if ($list_status === 1) {

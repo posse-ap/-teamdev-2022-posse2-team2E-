@@ -123,11 +123,12 @@ $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
       </nav>
     </div>
   </header>
-  <a href="./index.php">エージェント一覧へ戻る＞</a>
   <main class="main">
     <h1 class="main-title"><?php echo h($agent['insert_company_name']); ?>詳細 (<?php echo set_list_status($agent['list_status']); ?>)</h1>
     <div class="operations">
-      <button onclick="location.href='./update/update.php?id=<?= $id ?>'">編集画面へ</a></button>
+      <!-- <a href="./index.php">エージェント一覧へ戻る＞</a> -->
+      <button onclick="location.href='./index.php'">一覧画面へ戻る</button>
+      <button onclick="location.href='./update/update.php?id=<?= $id ?>'">編集</a></button>
       <!-- <button><a href="./update/update.php?id=<?= $id ?>">編集</a></button> -->
       <button>ユーザー画面を確認</button>
     </div>

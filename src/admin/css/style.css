@@ -85,7 +85,7 @@ input {
 .main-title {
   font-size: 30px;
   font-weight: bold;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
   text-align: center;
 }
 
@@ -170,4 +170,12 @@ input {
 
 .back{
   margin-top: 100px
+}
+
+.back_detail {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #aaa;
+    width: auto;
+    height: auto;
 }
