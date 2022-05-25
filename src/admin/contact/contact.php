@@ -62,7 +62,8 @@ FROM students AS S, students_contacts AS SC WHERE S.id = SC.student_id AND SC.ag
 
     foreach ($all_contact as $contact) {
         $stmt = $db->prepare(
-            'SELECT count(*) FROM students AS S, students_contacts AS SC WHERE (S.email = :email OR S.name = :name OR S.tel = :tel) AND S.id = SC.student_id AND SC.agent_id = :agent_id ORDER BY S.created desc'
+
+            'SELECT SC.id FROM students AS S, students_contacts AS SC WHERE (S.email = :email OR S.name = :name OR S.tel = :tel) AND S.id = SC.student_id AND SC.agent_id = :agent_id ORDER BY S.created desc'
         );
         if (!$stmt) {
             die($db->error);
@@ -72,11 +73,19 @@ FROM students AS S, students_contacts AS SC WHERE S.id = SC.student_id AND SC.ag
         $stmt->bindValue(':tel', $contact['電話番号'], PDO::PARAM_STR);
         $stmt->bindValue(':agent_id', $id, PDO::PARAM_INT);
         $stmt->execute();
-        $duplicate_cnt[$contact['問い合わせID']] = ((int)$stmt->fetchColumn()) - 1;
-        // 重複件数↑
+
+        $duplicate_ids[$contact['問い合わせID']] =  $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // 重複id(自分含む)→掲載時判別
     }
+    // echo '<pre>';
+    // var_dump($duplicate_ids);
+    // echo '</pre>';
+
 
     if ($month != "all") :
+        // 指定monthのstudents
+
+
         $stmt = $db->prepare('SELECT 
     DATE_FORMAT(S.created, "%Y-%m") AS prepare_month,
     DATE_FORMAT(S.created, "%m") AS 月,
@@ -96,7 +105,6 @@ FROM students AS S, students_contacts AS SC WHERE S.id = SC.student_id AND SC.ag
     AND
     SC.agent_id = A.id
     AND
-    -- A.id = :agent_id
     SC.agent_id = :agent_id
     AND
     DATE_FORMAT(S.created, "%Y-%m") = :form_month
@@ -109,9 +117,52 @@ FROM students AS S, students_contacts AS SC WHERE S.id = SC.student_id AND SC.ag
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $cnt = count($result);
 
-    else :
+
+        // 指定monthの有効students
+        $stmt = $db->prepare('SELECT *
+FROM
+students AS S, students_contacts AS SC, agents AS A
+WHERE 
+S.id = SC.student_id
+AND
+SC.agent_id = A.id
+AND
+SC.agent_id = :agent_id
+AND
+SC.valid_status_id = :invalid_status_id
+AND
+DATE_FORMAT(S.created, "%Y-%m") = :form_month
+');
+        $stmt->bindValue(':form_month', $form['month'], PDO::PARAM_STR);
+        $stmt->bindValue(':agent_id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':invalid_status_id', (int)3, PDO::PARAM_INT);
+        $stmt->execute();
+        $invalid = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $invalid_cnt = count($invalid); //請求件数
+        $charge_cnt = ($cnt - $invalid_cnt) * $agent['charge']; //請求金額
+
+
+    else : //全表示
         $result = $all_contact;
         $cnt = count($result);
+        // 指定monthの有効students
+        $stmt = $db->prepare('SELECT *
+FROM
+students AS S, students_contacts AS SC, agents AS A
+WHERE 
+S.id = SC.student_id
+AND
+SC.agent_id = A.id
+AND
+SC.agent_id = :agent_id
+AND
+SC.valid_status_id = :invalid_status_id');
+        $stmt->bindValue(':agent_id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':invalid_status_id', (int)3, PDO::PARAM_INT);
+        $stmt->execute();
+        $invalid = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $invalid_cnt = count($invalid); //請求件数
+        $charge_cnt = ($cnt - $invalid_cnt) * $agent['charge']; //請求金
     endif;
     // echo "<pre>";
     // var_dump($cnt);
@@ -140,7 +191,7 @@ function set_valid_status($valid_status)
 }
 
 // echo "<pre>";
-// var_dump($duplicate_cnt);
+// var_dump($duplicate_id);
 // echo "</pre>";
 
 ?>
@@ -187,59 +238,68 @@ function set_valid_status($valid_status)
             </nav>
         </div>
     </header>
-    <a href="../index.php">&laquo;&nbsp;エージェント一覧に戻る</a>
-    <main class="main" >
-    <!-- <div class="all_wrapper">
+
+    <div class="back">
+        <a href="../index.php">&laquo;&nbsp;エージェント一覧に戻る</a>
+    </div>
+    <main class="main">
+        <!-- <div class="all_wrapper">
         <div class="right_wrapper"> -->
-            <h1 class="students_all_title"><?php echo h($agent['insert_company_name']); ?></h1>
-            <div class="sum_inquiry_wrapper">
-                <p class="sum_inquiry"><span>
-                        <?php if ($month != "all") :
-                            echo ($form['month']) . '月';
-                        else : echo '全て';
-                        endif; ?>
-                    </span>の問い合わせ件数: <span>
-                        <?php echo $cnt ?>
-                    </span>件</p>
-            </div>
-            <form action="" method="POST">
-                <input type="month" name="month" value="<?php echo $form['month']; ?>">
-                <input type="submit" name="submit" value="月を変更" />
-                <span>※カレンダーの削除ボタンで全てを表示</span>
-            </form>
-            <?php if ($cnt === 0) : ?>
-                <p class="error">ヒットしませんでした。違う月を改めて指定してください</p>
-            <?php else : ?>
-                <table cellspacing="0">
+        <h1 class="students_all_title"><?php echo h($agent['insert_company_name']); ?>　
+            (<?php echo set_list_status($agent['list_status']); ?>)
+        </h1>
+        <div class="sum_inquiry_wrapper">
+            <p class="sum_inquiry"><span>
+                    <?php if ($month != "all") :
+                        echo ($form['month']) . '月';
+                    else : echo '全て';
+                    endif; ?>
+                </span>の問い合わせ件数: <span>
+                    <?php echo $cnt ?>
+                </span>件　　　　無効: <span><?php echo $invalid_cnt ?></span> 件
+                　　　　請求金額: <span><?php echo $charge_cnt ?></span> 円</p>
+        </div>
+        <form action="" method="POST">
+            <input type="month" name="month" value="<?php echo $form['month']; ?>">
+            <input type="submit" name="submit" value="月を変更" />
+            <span>※カレンダーの削除ボタンで全てを表示</span>
+        </form>
+        <?php if ($cnt === 0) : ?>
+            <p class="error">ヒットしませんでした。違う月を改めて指定してください</p>
+        <?php else : ?>
+            <table cellspacing="0">
+                <tr>
+                    <th>問い合わせ日時</th>
+                    <th>氏名</th>
+                    <th>大学</th>
+                    <th>学部/学科</th>
+                    <th>卒業年度</th>
+                    <th>ID</th>
+                    <th>詳細</th>
+                    <th>無効申請</th>
+                    <th>重複</th>
+                </tr>
+                <?php foreach ($result as $column) : ?>
                     <tr>
-                        <th>問い合わせ日時</th>
-                        <th>氏名</th>
-                        <th>大学</th>
-                        <th>学部/学科</th>
-                        <th>何年卒</th>
-                        <th>ID</th>
-                        <th>詳細</th>
-                        <th>無効申請</th>
-                        <th>重複</th>
+                        <td><?php echo ($column['問い合わせ日時']); ?></td>
+                        <td><?php echo ($column['氏名']); ?></td>
+                        <td><?php echo ($column['大学']); ?></td>
+                        <td><?php echo ($column['学科']); ?></td>
+                        <td><?php echo ($column['何年卒']); ?>年度</td>
+                        <td><?php echo ($column['問い合わせID']); ?></td>
+                        <td><a class="to_students_detail" href="contactDetail.php?agent=<?= $id ?>&id=<?= $column['問い合わせID'] ?>">詳細</a>
+                        </td>
+                        <td><?php echo set_valid_status($column['無効判定']); ?></td>
+                        <td>
+                            <?php foreach ($duplicate_ids[$column['問い合わせID']] as $d_id) : if ($d_id['id'] !=  $column['問い合わせID']) :
+                                    echo 'id' . $d_id['id'].' ';
+                                endif;
+                            endforeach ?>
+                        </td>
                     </tr>
-                    <?php foreach ($result as $column) : ?>
-                        <tr>
-                            <td><?php echo ($column['問い合わせ日時']); ?></td>
-                            <td><?php echo ($column['氏名']); ?></td>
-                            <td><?php echo ($column['大学']); ?></td>
-                            <td><?php echo ($column['学科']); ?></td>
-                            <td><?php echo ($column['何年卒']); ?></td>
-                            <td><?php echo ($column['問い合わせID']); ?></td>
-                            <td><a class="to_students_detail" href="contactDetail.php?id=<?php echo ($column['問い合わせID']); ?>">詳細</a>
-                            </td>
-                            <td><?php echo set_valid_status($column['無効判定']); ?></td>
-                            <td>
-                                <?= $duplicate_cnt[$column['問い合わせID']] ?>件
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </table>
-            <?php endif; ?>
+                <?php endforeach; ?>
+            </table>
+        <?php endif; ?>
         <!-- </div>
     </div> -->
     </main>

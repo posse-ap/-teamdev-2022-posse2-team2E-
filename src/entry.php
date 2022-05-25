@@ -2,9 +2,8 @@
 session_start();
 require('db_connect.php');
 
-
 if (!isset($_POST['student_contacts']) && !isset($_SESSION['form'])) {
-  header('location: cart.php');
+  header('location: index.php');
   exit();
 } elseif (isset($_GET['action']) && $_GET['action'] === 'rewrite') {
   $form = $_SESSION['form'];

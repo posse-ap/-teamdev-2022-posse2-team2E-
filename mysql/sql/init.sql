@@ -15,10 +15,10 @@ CREATE TABLE users (
 -- INSERT INTO users SET email='testtest@gmail.com', password=sha1('password');
 
 INSERT INTO users SET agent_name='kashiken', email='testtest@gmail.com', password='$2y$10$jFWlJ.8RvTWwNd1ZYv4NReC4KmMqgb804u./LDVDrz1Bb0w7h781.';
-INSERT INTO users SET agent_name='kashiken', email='test@icloud.com', password='$2y$10$jFWlJ.8RvTWwNd1ZYv4NReC4KmMqgb804u./LDVDrz1Bb0w7h781.';
-INSERT INTO users SET agent_name='kashiken', email='test@neko.com', password='$2y$10$jFWlJ.8RvTWwNd1ZYv4NReC4KmMqgb804u./LDVDrz1Bb0w7h781.';
-INSERT INTO users SET agent_name='kashiken', email='test@nya.com', password='$2y$10$jFWlJ.8RvTWwNd1ZYv4NReC4KmMqgb804u./LDVDrz1Bb0w7h781.';
-INSERT INTO users SET agent_name='kashiken', email='test@hiii.com', password='$2y$10$jFWlJ.8RvTWwNd1ZYv4NReC4KmMqgb804u./LDVDrz1Bb0w7h781.';
+INSERT INTO users SET agent_name='naoki', email='test@icloud.com', password='$2y$10$jFWlJ.8RvTWwNd1ZYv4NReC4KmMqgb804u./LDVDrz1Bb0w7h781.';
+INSERT INTO users SET agent_name='miyuki', email='test@neko.com', password='$2y$10$jFWlJ.8RvTWwNd1ZYv4NReC4KmMqgb804u./LDVDrz1Bb0w7h781.';
+INSERT INTO users SET agent_name='maino', email='test@nya.com', password='$2y$10$jFWlJ.8RvTWwNd1ZYv4NReC4KmMqgb804u./LDVDrz1Bb0w7h781.';
+INSERT INTO users SET agent_name='akira', email='test@hiii.com', password='$2y$10$jFWlJ.8RvTWwNd1ZYv4NReC4KmMqgb804u./LDVDrz1Bb0w7h781.';
 -- INSERT INTO users (email, password) VALUES ('testtest@gmail.com', sha1('password'));
 -- INSERT INTO users (email, password) VALUES ('testtest@icloud.com', sha1('password'));
 -- INSERT INTO users (email, password) VALUES ('testtest@nya.com', sha1('password'));

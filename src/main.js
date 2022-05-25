@@ -80,7 +80,8 @@ const el = document.getElementsByClassName("checks");
 var nav_pos = $("#filter_side").offset().top;
 var nav_height = $("#filter_side").outerHeight();
 $(window).scroll(function () {
-    if ($(this).scrollTop() > nav_pos -90) {
+    // if ($(this).scrollTop() > nav_pos -90) {
+    if ($(this).scrollTop() > nav_pos) {
         $("filter").css("padding-top", nav_height);
         $("#filter_side").addClass("fixed");
         $(".filter_left_wrapper").addClass("white");
@@ -98,7 +99,7 @@ $(window).scroll(function () {
     for (let i = 1; i < keepBoxElements.length; i++) {
     let keep_agent_box = document.getElementById("keep_agent_box_" + i);
     keep_agent_box.style.display = "none";
-    }
+}
 
 // 岩村さん、ここお願いします！
 // function check(id) {
@@ -117,7 +118,7 @@ $(window).scroll(function () {
 function check(id) {
     let keep_agent_box = document.getElementById("keep_agent_box_" + id);
     // キープ押されたら表示
-    if(keep_agent_box.style.display == "block"){
+    if (keep_agent_box.style.display == "block") {
         keep_agent_box.style.display = "none";
     } else {
         keep_agent_box.style.display = "block";
@@ -133,8 +134,20 @@ function check(id) {
             count++;
         }
     });
-    $('div.tohokuret').text(  count );
+    $('div.tohokuret').text(count);
 
+    if (count == 0) {
+        $('.trigger_keep_btn').removeClass('btn_orange');
+        $('.trigger_keep_btn').addClass('btn_gray');
+        $('.tohokuret').addClass('btn_gray');
+        $('.tohokuret').removeClass('int_white');
+    }
+    else {
+        $('.trigger_keep_btn').removeClass('btn_gray');
+        $('.trigger_keep_btn').addClass('btn_orange');
+        $('.tohokuret').removeClass('btn_gray');
+        $('.tohokuret').addClass('int_white');
+    }
 }
 
 
@@ -157,17 +170,6 @@ function check(id) {
     });
     $('div.tohokuret').text(  count );
     }
-
-
-
-// // キープの数をカウント
-// let state = { count: 0 };
-// let btn = document.getElementById('keep_btn');
-// btn.addEventListener('click', () => {
-//   let keep_counter = document.getElementById('keep_counter');
-//   keep_counter.innerHTML = ++state.count;
-//   return;
-// });
 
 
 

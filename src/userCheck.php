@@ -14,8 +14,8 @@ if (isset($_SESSION['form']) && isset($_SESSION['form']['student_contacts'])) {
   // var_dump($form);
 } else {
   // var_dump($_SESSION['form']);//rewriteのときcontactNULL
-  header('location: index.php');
-  exit();
+  // header('location: index.php');
+  // exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

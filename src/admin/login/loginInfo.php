@@ -1,18 +1,19 @@
 <?php
 require('../../db_connect.php');
-
-session_start();
-
 session_start();
 //ログインされていない場合は強制的にログインページにリダイレクト
 if (!isset($_SESSION["login"])) {
-    header("Location: login.php");
-    exit();
+  header("Location: login.php");
+  exit();
 }
 
-//タグ情報
+//管理者ログイン情報
 $stmt = $db->query('select * from admin_login;');
 $admin_login = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// エージェントログイン情報
+$stmt = $db->query('select * from agents;');
+$agents_login = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -45,7 +46,7 @@ $admin_login = $stmt->fetch(PDO::FETCH_ASSOC);
             <li class="header-nav-item">問い合わせ一覧</li>
           </a>
           <a href="../login/loginInfo.php">
-            <li class="header-nav-item select">管理者ログイン情報</li>
+            <li class="header-nav-item select">ログイン情報</li>
           </a>
           <a href="../login/logout.php">
             <li class="header-nav-item">ログアウト</li>
@@ -58,20 +59,57 @@ $admin_login = $stmt->fetch(PDO::FETCH_ASSOC);
     <div class="agent-add-table">
       <table class="tags-add">
         <tr>
+          <th>管理者</th>
+        </tr>
+        <tr>
+          <td class="sub-th">企業名</td>
           <td class="sub-th">email</td>
           <td class="sub-th">pass</td>
+          <td class="sub-th">編集</td>
         </tr>
         <tr>
           <td>
+            Boozer
+          </td>
+          <td>
             <!-- email -->
             <?= $admin_login['email'] ?>
-          </td>
           </td>
           <td>
             <!-- ここにパスワード -->
             【表示されません】
           </td>
+          <td>
+            <a href="loginUpdate.php?id=admin">編集</a>
+          </td>
         </tr>
+      </table>
+      <table class="tags-add">
+        <tr>
+          <th>エージェント</th>
+        </tr>
+        <tr>
+          <td class="sub-th">企業名</td>
+          <td class="sub-th">email</td>
+          <td class="sub-th">pass</td>
+          <td class="sub-th">編集</td>
+        </tr>
+        <?php foreach ($agents_login as $a_login) : ?>
+          <tr>
+            <td>
+              <?= $a_login['insert_company_name'] ?>
+            </td>
+            <td>
+              <?= $a_login['login_email'] ?>
+            </td>
+            <td>
+              【表示されません】
+            </td>
+            <td>
+              <a href="loginUpdate.php?id=<?= $a_login['id'] ?>">編集</a>
+            </td>
+          </tr>
+        <?php endforeach; ?>
       </table>
     </div>
   </main>
