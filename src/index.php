@@ -1,16 +1,37 @@
 <?php
 require('db_connect.php');
 
-// $to = 'user@gmail.com';
-// $subject = '本登録をお願いします。';
-// $message = 'URLから本登録をお願いします。';
-// $from = 'test@gmail.com';
+
+mb_language('ja');
+mb_internal_encoding("UTF-8");
+$to = 'dig@dig.com';
+$subject = '問い合わせが完了しました。';
+$message = '問い合わせが完了しました。';
+$from = 'craft@boozer.com';
+// $header = "From: {$from}\nReply-To: {$from}\nContent-Type: text/plain;";
 // $header = "From: ".$from."\r\n";
+$header = ['From'=>'テスト<foo@example.jp>', 'Content-Type'=>'text/plain; charset=UTF-8', 'Content-Transfer-Encoding'=>'8bit'];
+$result = mb_send_mail($to,$subject,$message,$header);
+var_dump($result);
+// mb_send_mail($mailto, $subject_order_str, $mailtext_order_str, $header1, '-f'. $returnMail );
+
+// $to = 'agent@gmail.com';
+// $subject = '問い合わせを受信しました。';
+// $message = '問い合わせを受信しました。';
+// $from = 'test@gmail.com';
+// $header = "From: {$from}\nReply-To: {$from}\nContent-Type: text/plain;";
 // mb_language('Japanese');
 // mb_internal_encoding("UTF-8");
-// $result = mb_send_mail($to,$subject,$message,$header);
-// var_dump($result);
-// exit;
+// $result2 = mb_send_mail($to,$subject,$message,$header);
+// var_dump($result2);
+
+// $from = 'from@example.com';
+// $to   = 'to@example.com';
+// $subject = 'テストメール';
+// $body = 'メールの送信テストです。';
+
+// $ret = mb_send_mail($to, $subject, $body, "From: {$from} \r\n");
+// var_dump($ret);
 
 
 try {
@@ -38,8 +59,13 @@ foreach ($filter_sorts_tags as $f) {
 $stmt = $db->query('select agent_id, at.tag_id, tag_name from agents_tags at, filter_tags ft where at.tag_id = ft.tag_id');
 $agents_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $at_list = [];
+
+// var_dump($agents_tags[0]);
 foreach ($agents_tags as $a) {
     $at_list[(int)$a['agent_id']][] = $a;
+    // echo ($a['agent_id']);
+    // echo $at_list[(int)$a['agent_id']];
+    // var_dump($at_list[(int)$a[0]['agent_id']]);
 }
 
 ?>
@@ -129,9 +155,12 @@ foreach ($agents_tags as $a) {
                                     <div class="agent_type">
                                         <!--  タグ表示↓ -->
                                         <?php foreach ($at_list as $agent_tags) : ?>
+                
                                             <?php if ($listed_agent['id'] === current($agent_tags)['agent_id']) : ?>
                                                 <?php foreach ($agent_tags as $agent_tag) : ?>
+                                                <!-- <?php var_dump($agent_tag['tag_id']); ?> -->
                                                     <p class="agent_tag">#<?= $agent_tag['tag_name']; ?></p>
+                                                    <!-- <p class="agent_tag">#<?= $agent_tag['agent_id']; ?></p> -->
                                                 <?php endforeach; ?></td>
                                             <?php endif; ?>
                                         <?php endforeach; ?>

@@ -17,7 +17,7 @@ services:
       - ./src:/var/www/html
   app:
     build: ./php
-    image: php:7.4-fpm
+    image: php:8.1-fpm
     depends_on:
       - db
     volumes:
@@ -49,26 +49,25 @@ services:
   #     - MYSQL_PASSWORD=password
   #     - MYSQL_ROOT_PASSWORD=password
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    depends_on:
-      - db
-    environment:
-      - PMA_ARBITRARY=1
-      - PMA_HOSTS=db
-      - PMA_USER=posse_user
-      - PMA_PASSWORD=password
-    ports:
-      - "4040:80"
-    volumes:
-      - ./docker/phpmyadmin/sessions:/sessions
-
-  
-  # mailhog:
-  #   image: mailhog/mailhog
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     - PMA_ARBITRARY=1
+  #     - PMA_HOSTS=db
+  #     - PMA_USER=posse_user
+  #     - PMA_PASSWORD=password
   #   ports:
-  #     # - 1024:1025
-  #     - 8024:8025
+  #     - "4040:80"
+  #   volumes:
+  #     - ./docker/phpmyadmin/sessions:/sessions
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      # - 1024:1025
+      - 8024:8025
 
 
   # phpmyadmin:

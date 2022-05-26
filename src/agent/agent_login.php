@@ -76,7 +76,9 @@ if (isset($_POST["submit"])) {
     <div class="agent_login_info">
         <h2 class="agent_login_title">エージェント企業用画面</h2>
         <form action="" method="post">
+        <?php if (isset($msg)) : ?>
             <h3 class="pass_wrong"><?php echo $msg; ?></h3>
+        <?php endif; ?>
             <p class="agent_login_label">メールアドレス</p>
             <input type="text" name="email" value="" required>
             <p class="agent_login_label">パスワード</p>

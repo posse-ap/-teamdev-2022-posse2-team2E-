@@ -4,8 +4,8 @@ require('../../db_connect.php');
 
 //ログインされていない場合は強制的にログインページにリダイレクト
 if (!isset($_SESSION["login"])) {
-    header("Location: ../login/login.php");
-    exit();
+  header("Location: ../login/login.php");
+  exit();
 }
 
 //タグ情報
@@ -33,12 +33,12 @@ foreach ($filter_sorts_tags as $f) {
 </head>
 
 <body>
-<header>
+  <header>
     <div class="header-inner">
       <h1 class="header-title">CRAFT管理者画面</h1>
       <nav class="header-nav">
         <ul class="header-nav-list">
-        <a href="../index.php">
+          <a href="../index.php">
             <li class="header-nav-item">エージェント一覧</li>
           </a>
           <a href="../add/agentAdd.php">
@@ -61,30 +61,32 @@ foreach ($filter_sorts_tags as $f) {
     </div>
   </header>
   <main class="main">
-      <div class="agent-add-table">
-        <table class="tags-add">
+    <div class="agent-add-table">
+      <table class="tags-add">
+        <tr>
+          <td class="sub-th">絞り込みの種類</td>
+          <td class="sub-th">タグ</td>
+        </tr>
+        <?php foreach ($t_list as $filter_sort) : ?>
           <tr>
-            <td class="sub-th">絞り込みの種類</td>
-            <td class="sub-th">タグ</td>
-          </tr>
-          <?php foreach ($t_list as $filter_sort) : ?>
-            <tr>
-              <td><?= current($filter_sort)['sort_name']; ?></td>
-              <td>
-                <?php foreach ($filter_sort as $filter_tag) : ?>
-                  <label class="added-tag">
-                    <span><?= $filter_tag['tag_name']; ?></span> </label>
-                <?php endforeach; ?>
+            <td><?= current($filter_sort)['sort_name']; ?></td>
+            <td>
+              <?php foreach ($filter_sort as $filter_tag) : ?>
+                <label class="added-tag">
+                  <span><?= $filter_tag['tag_name']; ?></span> </label>
+              <?php endforeach; ?>
 
-              </td>
-            </tr>
-          <?php endforeach; ?>
-        </table>
-      </div>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </table>
+    </div>
+    <div class="tag_edit_btns">
       <button><a href="tagsUpdate.php">編集</a></button>
       <button><a href="sortsAdd.php">絞り込みの種類追加</a></button>
       <button><a href="tagsAdd.php">タグ追加</a></button>
       <button><a href="tagsDelete.php">選択して削除</a></button>
+    </div>
   </main>
 </body>
 
