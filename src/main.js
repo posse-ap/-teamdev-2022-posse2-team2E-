@@ -96,7 +96,7 @@ $(window).scroll(function () {
 
 // キープ一覧にあるエージェントを最初は非表示
     const keepBoxElements =document.querySelectorAll(".keep_agent_box")
-    for (let i = 1; i < keepBoxElements.length; i++) {
+    for (let i = 1; i <= keepBoxElements.length; i++) {
     let keep_agent_box = document.getElementById("keep_agent_box_" + i);
     keep_agent_box.style.display = "none";
 }

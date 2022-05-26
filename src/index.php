@@ -35,7 +35,7 @@ foreach ($filter_sorts_tags as $f) {
 
 
 // タグ表示テスト　htmlの上に各部分
-$stmt = $db->query('select agent_id, at.tag_id, tag_name from agents_tags at, filter_tags ft where at.tag_id = ft.tag_id');
+$stmt = $db->query('select agent_id, at.tag_id, sort_id, tag_name from agents_tags at, filter_tags ft where at.tag_id = ft.tag_id');
 $agents_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $at_list = [];
 foreach ($agents_tags as $a) {
@@ -79,7 +79,7 @@ foreach ($agents_tags as $a) {
     </header>
 
     <wrapper>
-        <div class="first_message ">
+        <div class="first_message " >
             <div class="bkRGBA">
                 <div class="word fade-in-bottom">
                     <h1>CRAFT</h1>
@@ -139,7 +139,7 @@ foreach ($agents_tags as $a) {
                                             <?php if ($listed_agent['id'] === current($agent_tags)['agent_id']) : ?>
                                                 <?php foreach ($agent_tags as $agent_tag) : ?>
                                                     <p class="agent_tag">#<?= $agent_tag['tag_name']; ?></p>
-                                                <?php endforeach; ?></td>
+                                                <?php endforeach; ?>
                                             <?php endif; ?>
                                         <?php endforeach; ?>
                                         <!--  タグ表示↑ -->
@@ -186,18 +186,11 @@ foreach ($agents_tags as $a) {
                             <div class="each_filter_box">
                                 <?php foreach ($filter_sort as $filter_tag) : ?>
                                     <div class="w">
-
-
                                         <input type="checkbox" name="agent_tags[]" class="checks" id="form" value="<?= $filter_tag['tag_id'] ?>" />
                                         <label class="added-tag" for="form">
                                             <?= $filter_tag['tag_name']; ?>
-                                            <!-- <span><?= $filter_tag['tag_name']; ?></span> -->
                                         </label>
-
-
-
                                     </div>
-
                                 <?php endforeach; ?>
                             </div>
                         <?php endforeach; ?>
@@ -331,7 +324,7 @@ foreach ($agents_tags as $a) {
 
 
     <!-- 絞り込み機能のサンプル -->
-    <div class="bl_3daysSearchBlock">
+<div class="bl_3daysSearchBlock">
  
     <div id="select" class="bl_selectBlock">
  
@@ -339,82 +332,95 @@ foreach ($agents_tags as $a) {
         <span class="el_searchResult_nume js_numerator"></span>件／全<span class="el_searchResult_deno js_denominator"></span>件
       </div>
 
-          <div class="bl_selectBlock_ttl">エージェントのタイプ</div>
-          <div class="bl_selectBlock_content js_conditions" data-type="type">
-            <span class="bl_selectBlock_check"><input id="type-tokka" type="checkbox" name="type" value="tokka">
-              <label for="type-tokka">
-              特化型
-              </label>
-            </span>
-            <span class="bl_selectBlock_check"><input id="type-sougou" type="checkbox" name="type" value="sougou">
-              <label for="type-sougou">
-              総合型
-              </label>
-            </span>
-            <!-- <span class="bl_selectBlock_check"><input id="type-italia" type="checkbox" name="type" value="italia">
-              <label for="type-italia">
-              イタリアン
-              </label>
-            </span> -->
-          </div>
+      
+
+      
+
+     
+<?php foreach ($t_list as $filter_sort) : ?>
+    <div class="filter_sort_name"><?= current($filter_sort)['sort_name']; ?></div>
+        <div class="each_filter_box js_conditions" data-type="<?= current($filter_sort)['id']; ?>">
+            <?php foreach ($filter_sort as $filter_tag) : ?>
+                    <span class="bl_selectBlock_check">
+                    <input type="checkbox" name="agent_tags[]" class="checks" id="form"  value="<?= $filter_tag['tag_name'] ?>"/>
+                    <label class="added-tag" for="form">
+                        <?= $filter_tag['tag_name']; ?>
+                    </label>
+                    </span>
+            <?php endforeach; ?>
+        </div>
+<?php endforeach; ?>
+    <!--↓ここのコメントアウトを外す  -->
+            <!-- <div class="bl_selectBlock_ttl">エージェントのタイプ</div>
+            <div class="bl_selectBlock_content js_conditions" data-type="1">
+              <span class="bl_selectBlock_check"><input id="scale-ote" type="checkbox" name="type" value="tokka">
+                <label for="type-tokka">
+                  特化型
+                </label>
+              </span>
+              <span class="bl_selectBlock_check"><input id="scale-venture" type="checkbox" name="type" value="sougou">
+                <label for="type-sougou">
+                  総合型
+                </label>
+              </span>
+            </div>
 
           <div class="bl_selectBlock_ttl">志望会社の規模</div>
-          <div class="bl_selectBlock_content js_conditions" data-type="scale">
-            <span class="bl_selectBlock_check"><input id="scale-ote" type="checkbox" name="scale" value="ote">
-              <label for="scale-ote">
-                大手志望
-              </label>
-            </span>
-            <span class="bl_selectBlock_check"><input id="scale-venture" type="checkbox" name="scale" value="venture">
-              <label for="scale-venture">
-                ベンチャー企業
-              </label>
-            </span>
-            <!-- <span class="bl_selectBlock_check"><input id="price-o1000" type="checkbox" name="price" value="o1000">
-              <label for="price-o1000">
-                1000円〜
-              </label>
-            </span> -->
-          </div>
-
-          <!-- <div class="bl_selectBlock_ttl">場所</div>
-          <div class="bl_selectBlock_content js_conditions" data-type="location">
-            <span class="bl_selectBlock_check"><input id="location-kanazawa" type="checkbox" name="location" value="kanazawa">
-              <label for="location-kanazawa">
-                金沢
-              </label>
-            </span>
-            <span class="bl_selectBlock_check"><input id="location-kaga" type="checkbox" name="location" value="kaga">
-              <label for="location-kaga">
-                加賀
-              </label>
-            </span>
-            <span class="bl_selectBlock_check"><input id="location-komatsu" type="checkbox" name="location" value="komatsu">
-              <label for="location-komatsu">
-                小松
-              </label>
-            </span>
-          </div> -->
-
+            <div class="bl_selectBlock_content js_conditions" data-type="2">
+              <span class="bl_selectBlock_check"><input id="scale-ote" type="checkbox" name="scale" value="大手志望">
+                <label for="scale-ote">
+                  大手志望
+                </label>
+              </span>
+              <span class="bl_selectBlock_check"><input id="scale-venture" type="checkbox" name="scale" value="ベンチャー志望">
+                <label for="scale-venture">
+                  ベンチャー企業
+                </label>
+              </span>
+            </div> -->
 
       <div class="bl_selectBlock_release js_release">すべての選択を解除</div>
     </div>
  
     <div class="bl_searchResultBlock">
-      <div class="js_target" data-type="tokka" data-scale="ote" >特化型/大手志望</div>
-      <div class="js_target" data-type="sougou" data-scale="ote" >総合型/大手志望</div>
-      <!-- <div class="js_target" data-type="italia" data-scale="u500" >イタリアン/〜500円/金沢</div> -->
-      <div class="js_target" data-type="tokka" data-scale="venture" >特化型/ベンチャー志望</div>
-      <div class="js_target" data-type="sougou" data-scale="venture" >総合型/ベンチャー志望</div>
-      <!-- <div class="js_target" data-type="italia" data-scale="o500u1000" >イタリアン/501円〜1000円/金沢</div> -->
-      <div class="js_target" data-type="tokka" data-scale="ote"  >特化型/大手志望</div>
-      <!-- <div class="bl_searchResultBlock_item js_target" data-type="china" data-price="u500" data-location="komatsu">中華/〜500円/小松</div>
-      <div class="bl_searchResultBlock_item js_target" data-type="italia" data-price="u500" data-location="komatsu">イタリアン/〜500円/小松</div>
-      <div class="bl_searchResultBlock_item js_target" data-type="japan" data-price="o1000" data-location="kanazawa">和食/1000円〜/加賀</div>
-      <div class="bl_searchResultBlock_item js_target" data-type="japan,china" data-price="o1000" data-location="kanazawa">和食＆中華/1000円〜/加賀</div> -->
+    <!--↓ここのコメントアウトを外す  -->
+      <!-- <div class="js_target" data-1="tokka" data-2="大手志望" >特化型/大手志望</div>
+      <div class="js_target" data-1="tokka" data-2="ベンチャー志望" >特化型/ベンチャー志望</div>
+      <div class="js_target" data-1="sougou" data-2="大手志望"  >総合型/大手志望</div> -->
+
+      
+<?php foreach ($listed_agents as $listed_agent) : ?>
+<li class="agent_box"  id="tohoku_<?php echo $listed_agent['id'] ?>">
+            <div class="agent_type">
+                <!--  タグ表示↓ -->
+                <?php foreach ($at_list as $agent_tags) : ?>
+                    <?php if ($listed_agent['id'] === current($agent_tags)['agent_id']) : ?>
+                        <?php foreach ($agent_tags as $agent_tag) : ?>                                          
+                            <p class="agent_tag js_target" 
+                            <?php foreach ($t_list as $filter_sort) : ?>
+                                <?php if ($filter_sort['id'] === current($agent_tag)['sort_id']) : ?>
+                                data-<?= $agent_tag['sort_id']; ?>=<?php if ($filter_sort['tag_id'] === current($agent_tag)['tag_id']) : ?>"<?= $agent_tag['tag_name'] ?>"
+                                    
+                                    <?php endif; ?>       
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                            >
+                                #<?= $agent_tag['tag_name']; ?>
+                            </p>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                <!--  タグ表示↑ -->
+            </div>
+</li>
+<?php endforeach; ?>
+      
+    
+    
+    
     </div>
  
-  </div>
+  
  
 </div>
 
