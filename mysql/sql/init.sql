@@ -7,7 +7,7 @@ USE shukatsu;
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: db
--- 生成日時: 2022 年 5 月 26 日 05:16
+-- 生成日時: 2022 年 5 月 26 日 07:36
 -- サーバのバージョン： 8.0.27
 -- PHP のバージョン: 8.0.15
 
@@ -231,27 +231,6 @@ INSERT INTO `agent_list_status` (`id`, `list_status`) VALUES
 -- --------------------------------------------------------
 
 --
--- テーブルの構造 `events`
---
-
-CREATE TABLE `events` (
-  `id` int NOT NULL,
-  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
-
---
--- テーブルのデータのダンプ `events`
---
-
-INSERT INTO `events` (`id`, `title`, `created_at`, `updated_at`) VALUES
-(1, 'イベント1', '2022-05-25 16:04:57', '2022-05-25 16:04:57'),
-(2, 'イベント2', '2022-05-25 16:04:57', '2022-05-25 16:04:57');
-
--- --------------------------------------------------------
-
---
 -- テーブルの構造 `filter_sorts`
 --
 
@@ -313,7 +292,11 @@ INSERT INTO `invalid_requests` (`id`, `contact_id`, `invalid_request_memo`, `inv
 (2, 2, '連絡つかない', '2022-05-08 12:59:39'),
 (3, 12, '通報テスト', '2022-05-21 01:25:14'),
 (13, 7, '通報初めて', '2022-05-21 02:45:25'),
-(19, 13, '名前が氏名になっていない', '2022-05-21 09:00:58');
+(19, 13, '名前が氏名になっていない', '2022-05-21 09:00:58'),
+(20, 11, 'なんか生意気そうだから', '2022-05-26 07:32:25'),
+(21, 11, 'なんか生意気そうだから', '2022-05-26 07:32:26'),
+(22, 11, 'なんか生意気そうだから', '2022-05-26 07:32:30'),
+(23, 11, 'なんか生意気そうだから', '2022-05-26 07:32:51');
 
 -- --------------------------------------------------------
 
@@ -380,12 +363,12 @@ INSERT INTO `students_contacts` (`id`, `student_id`, `agent_id`, `valid_status_i
 (8, 9, 3, 1, '2022-05-18 14:01:10'),
 (9, 9, 16, 1, '2022-05-18 14:01:10'),
 (10, 10, 1, 2, '2022-05-18 14:04:42'),
-(11, 10, 3, 1, '2022-05-18 14:04:42'),
+(11, 10, 3, 2, '2022-05-18 14:04:42'),
 (12, 10, 16, 2, '2022-05-18 14:04:42'),
 (13, 11, 1, 2, '2022-05-19 07:49:14'),
 (14, 11, 16, 1, '2022-05-19 07:49:14'),
 (15, 12, 1, 1, '2022-05-20 08:45:34'),
-(16, 12, 3, 1, '2022-05-20 08:45:34'),
+(16, 12, 3, 3, '2022-05-20 08:45:34'),
 (17, 12, 16, 1, '2022-05-20 08:45:34'),
 (18, 13, 1, 3, '2022-05-21 16:04:37'),
 (19, 13, 3, 3, '2022-05-21 16:04:37'),
@@ -415,32 +398,6 @@ INSERT INTO `students_valid_status` (`id`, `vlid_status`) VALUES
 (1, '正常'),
 (2, '無効登録済'),
 (3, '無効申請あり');
-
--- --------------------------------------------------------
-
---
--- テーブルの構造 `users`
---
-
-CREATE TABLE `users` (
-  `id` int NOT NULL,
-  `agent_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
-
---
--- テーブルのデータのダンプ `users`
---
-
-INSERT INTO `users` (`id`, `agent_name`, `email`, `password`, `created_at`, `updated_at`) VALUES
-(1, 'kashiken', 'testtest@gmail.com', '$2y$10$jFWlJ.8RvTWwNd1ZYv4NReC4KmMqgb804u./LDVDrz1Bb0w7h781.', '2022-05-25 16:04:57', '2022-05-25 16:04:57'),
-(2, 'naoki', 'test@icloud.com', '$2y$10$jFWlJ.8RvTWwNd1ZYv4NReC4KmMqgb804u./LDVDrz1Bb0w7h781.', '2022-05-25 16:04:57', '2022-05-25 16:04:57'),
-(3, 'miyuki', 'test@neko.com', '$2y$10$jFWlJ.8RvTWwNd1ZYv4NReC4KmMqgb804u./LDVDrz1Bb0w7h781.', '2022-05-25 16:04:57', '2022-05-25 16:04:57'),
-(4, 'maino', 'test@nya.com', '$2y$10$jFWlJ.8RvTWwNd1ZYv4NReC4KmMqgb804u./LDVDrz1Bb0w7h781.', '2022-05-25 16:04:57', '2022-05-25 16:04:57'),
-(5, 'akira', 'test@hiii.com', '$2y$10$jFWlJ.8RvTWwNd1ZYv4NReC4KmMqgb804u./LDVDrz1Bb0w7h781.', '2022-05-25 16:04:57', '2022-05-25 16:04:57');
 
 --
 -- ダンプしたテーブルのインデックス
@@ -474,12 +431,6 @@ ALTER TABLE `agents_tags`
 -- テーブルのインデックス `agent_list_status`
 --
 ALTER TABLE `agent_list_status`
-  ADD PRIMARY KEY (`id`);
-
---
--- テーブルのインデックス `events`
---
-ALTER TABLE `events`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -519,14 +470,6 @@ ALTER TABLE `students_valid_status`
   ADD PRIMARY KEY (`id`);
 
 --
--- テーブルのインデックス `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `agent_name` (`agent_name`),
-  ADD UNIQUE KEY `email` (`email`);
-
---
 -- ダンプしたテーブルの AUTO_INCREMENT
 --
 
@@ -561,66 +504,42 @@ ALTER TABLE `agent_list_status`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- テーブルの AUTO_INCREMENT `events`
+-- テーブルの AUTO_INCREMENT `filter_sorts`
 --
-ALTER TABLE `events`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `filter_sorts`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- テーブルの AUTO_INCREMENT `users`
+-- テーブルの AUTO_INCREMENT `filter_tags`
 --
-ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE `filter_tags`
+  MODIFY `tag_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- テーブルの AUTO_INCREMENT `invalid_requests`
+--
+ALTER TABLE `invalid_requests`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- テーブルの AUTO_INCREMENT `students`
+--
+ALTER TABLE `students`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- テーブルの AUTO_INCREMENT `students_contacts`
+--
+ALTER TABLE `students_contacts`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- テーブルの AUTO_INCREMENT `students_valid_status`
+--
+ALTER TABLE `students_valid_status`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-
-
--- DROP TABLE IF EXISTS users;
--- CREATE TABLE users (
---   id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
---   agent_name VARCHAR(255) UNIQUE NOT NULL,
---   email VARCHAR(255) UNIQUE NOT NULL,
---   password VARCHAR(255) NOT NULL,
---   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
---   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
--- );
-
--- -- INSERT INTO users SET email='testtest@gmail.com', password=sha1('password');
-
--- INSERT INTO users SET agent_name='kashiken', email='testtest@gmail.com', password='$2y$10$jFWlJ.8RvTWwNd1ZYv4NReC4KmMqgb804u./LDVDrz1Bb0w7h781.';
--- INSERT INTO users SET agent_name='naoki', email='test@icloud.com', password='$2y$10$jFWlJ.8RvTWwNd1ZYv4NReC4KmMqgb804u./LDVDrz1Bb0w7h781.';
--- INSERT INTO users SET agent_name='miyuki', email='test@neko.com', password='$2y$10$jFWlJ.8RvTWwNd1ZYv4NReC4KmMqgb804u./LDVDrz1Bb0w7h781.';
--- INSERT INTO users SET agent_name='maino', email='test@nya.com', password='$2y$10$jFWlJ.8RvTWwNd1ZYv4NReC4KmMqgb804u./LDVDrz1Bb0w7h781.';
--- INSERT INTO users SET agent_name='akira', email='test@hiii.com', password='$2y$10$jFWlJ.8RvTWwNd1ZYv4NReC4KmMqgb804u./LDVDrz1Bb0w7h781.';
--- -- INSERT INTO users (email, password) VALUES ('testtest@gmail.com', sha1('password'));
--- -- INSERT INTO users (email, password) VALUES ('testtest@icloud.com', sha1('password'));
--- -- INSERT INTO users (email, password) VALUES ('testtest@nya.com', sha1('password'));
--- -- INSERT INTO users (email, password) VALUES ('testtest@hiii.com', sha1('password'));
--- -- VALUES 
---   -- ('test@gmail.com', sha1('pass')),
---   -- ('test@icloud.com', sha1('pass')),
---   -- ('test@neko.com', sha1('password')),
---   -- ('test@nya.com', sha1('password'));
-
--- -- 
--- -- INSERT INTO
--- --     `users` (`email`, `password`)
--- -- VALUES
--- --     ('testtest@gmail.com', 'password'),
--- --     ('kashiken4646@gmail.com', 'secret'),
--- --     ('akichan@gmail.com', 'akiraa');
-
--- DROP TABLE IF EXISTS events;
--- CREATE TABLE events (
---   id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
---   title VARCHAR(255) NOT NULL,
---   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
---   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
--- );
-
--- INSERT INTO events SET title='イベント1';
--- INSERT INTO events SET title='イベント2';

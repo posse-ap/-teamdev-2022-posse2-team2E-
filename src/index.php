@@ -1,16 +1,29 @@
 <?php
 require('db_connect.php');
 
-// $to = 'user@gmail.com';
-// $subject = '本登録をお願いします。';
-// $message = 'URLから本登録をお願いします。';
+
+mb_language('ja');
+mb_internal_encoding("UTF-8");
+$to = 'dig@dig.com';
+$subject = '問い合わせが完了しました。';
+$message = '問い合わせが完了しました。';
+$from = 'craft@boozer.com';
+// $header = "From: {$from}\nReply-To: {$from}\nContent-Type: text/plain;";
+// $header = "From: ".$from."\r\n";
+$header = ['From'=>'テスト<foo@example.jp>', 'Content-Type'=>'text/plain; charset=UTF-8', 'Content-Transfer-Encoding'=>'8bit'];
+$result = mb_send_mail($to,$subject,$message,$header);
+var_dump($result);
+// mb_send_mail($mailto, $subject_order_str, $mailtext_order_str, $header1, '-f'. $returnMail );
+
+// $to = 'agent@gmail.com';
+// $subject = '問い合わせを受信しました。';
+// $message = '問い合わせを受信しました。';
 // $from = 'test@gmail.com';
 // $header = "From: {$from}\nReply-To: {$from}\nContent-Type: text/plain;";
 // mb_language('Japanese');
 // mb_internal_encoding("UTF-8");
-// $result = mb_send_mail($to,$subject,$message,$header);
-// var_dump($result);
-// exit;
+// $result2 = mb_send_mail($to,$subject,$message,$header);
+// var_dump($result2);
 
 // $from = 'from@example.com';
 // $to   = 'to@example.com';
@@ -76,7 +89,7 @@ foreach ($agents_tags as $a) {
 
 <body>
     <!-- ヘッダー -->
-    <!-- <header> -->
+    <header>
         <img src="logo.png" alt="">
         <nav>
             <ul>
