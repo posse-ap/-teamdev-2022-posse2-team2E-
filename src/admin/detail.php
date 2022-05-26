@@ -110,11 +110,8 @@ $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <a href="./tags/tagsEdit.php">
             <li class="header-nav-item">タグ一覧</li>
           </a>
-          <a href="#">
-            <li class="header-nav-item">問い合わせ一覧</li>
-          </a>
           <a href="./login/loginInfo.php">
-            <li class="header-nav-item">管理者ログイン情報</li>
+            <li class="header-nav-item">ログイン情報</li>
           </a>
           <a href="./login/logout.php">
             <li class="header-nav-item">ログアウト</li>
@@ -130,7 +127,7 @@ $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <button onclick="location.href='./index.php'">一覧画面へ戻る</button>
       <button onclick="location.href='./update/update.php?id=<?= $id ?>'">編集</a></button>
       <!-- <button><a href="./update/update.php?id=<?= $id ?>">編集</a></button> -->
-      <button>ユーザー画面を確認</button>
+      <button onclick="window.open('../index.php','_blank')">ユーザー画面を確認</button>
     </div>
     <div class="agent-add-table">
       <table class="main-info-table">

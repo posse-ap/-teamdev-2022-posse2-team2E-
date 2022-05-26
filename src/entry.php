@@ -217,7 +217,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <?php endif; ?>
         </div>
         <p class="btn">
-          <a href="cart.php">&laquo;&nbsp;キープ画面へ戻る</a> | <span><input type="submit" value="　 確認 　" /></span>
+          <a href="index.php">&laquo;&nbsp;キープ画面へ戻る</a> | <span><input type="submit" value="　 確認 　" /></span>
         </p>
       </form>
     </div>
