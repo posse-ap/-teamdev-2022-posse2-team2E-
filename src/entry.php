@@ -96,13 +96,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>userEntry</title>
+  <link rel="stylesheet" type="text/css" href="reset.css" />
   <link rel="stylesheet" type="text/css" href="contact_style.css" />
+  <link rel="stylesheet" type="text/css" href="style.css" />
   <!-- <script src="./js/jquery-3.6.0.min.js"></script>
   <script src="./js/script.js" defer></script> -->
 </head>
 
 <body>
   <main>
+    <header>
+      <img src="logo.png" alt="">
+      <nav>
+        <ul>
+          <li><a href="">就活サイト</a></li>
+          <li><a href="">就活支援サービス</a></li>
+          <li><a href="">自己分析診断ツール</a></li>
+          <li><a href="">ES添削サービス</a></li>
+          <li><a href="">就活エージェント</a></li>
+          <li><a href="">就活の教科書とは</a></li>
+          <li><a href="">お問い合わせ</a></li>
+        </ul>
+      </nav>
+    </header>
     <!-- フォーム -->
     <div class="box_con">
       <form action="" method="post" enctype="multipart/form-data">
@@ -146,9 +162,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <th>卒業年度 <span>必須</span></th>
             <td><select value="" name="class_of">
                 <option hidden>選択してください</option>
-                <option value="24" <?php if ($form['class_of'] === "24") : ?>selected<?php endif;?>>24年度卒</option>
-                <option value="25" <?php if ($form['class_of'] === "25") : ?>selected<?php endif;?>>25年度卒</option>
-                <option value="26" <?php if ($form['class_of'] === "26") : ?>selected<?php endif;?>>26年度卒</option>
+                <option value="24" <?php if ($form['class_of'] === "24") : ?>selected<?php endif; ?>>24年度卒</option>
+                <option value="25" <?php if ($form['class_of'] === "25") : ?>selected<?php endif; ?>>25年度卒</option>
+                <option value="26" <?php if ($form['class_of'] === "26") : ?>selected<?php endif; ?>>26年度卒</option>
               </select>
               <?php if (isset($error['class_of']) && $error['class_of'] === 'blank') : ?><p class="error">* 卒業年度は必須項目です</p>
               <?php endif; ?>
@@ -221,6 +237,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </p>
       </form>
     </div>
+    <footer>
+      <div class="inquiry">
+        <p>お問い合わせは下記の連絡先にお願いいたします。
+          <br>craft運営 boozer株式会社事務局
+          <br>TEL:080-3434-2435
+          <br>Email:craft@boozer.com
+        </p>
+      </div>
+    </footer>
     <!-- ここまで -->
   </main>
 </body>

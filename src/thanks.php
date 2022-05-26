@@ -18,6 +18,8 @@ require('db_connect.php');
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
   <title>問い合わせ完了</title>
 </head>
 
@@ -37,10 +39,24 @@ require('db_connect.php');
       </ul>
     </nav>
   </header>
-  <div id="content">
-    <p>問い合わせ完了</p>
+  <div class="inquiry_done">
+  <!-- <img src="logo.png" alt=""> -->
+    <h1 class="green_line">問い合わせ完了</h1>
+    <p>お問い合わせ内容については、順次エージェント企業の担当者の方が対応させていただきます。</p>
+    <p>システムによる自動返信にて、受付完了メールを送信しております。</p>
+    <p>メールが届かない場合は、お手数ですが弊社までご一報ください。</p>
     <a href="index.php"> トップページに戻る </a>
   </div>
+
+      <footer>
+        <div class="inquiry bottom">
+            <p>お問い合わせは下記の連絡先にお願いいたします。
+                <br>craft運営 boozer株式会社事務局
+                <br>TEL:080-3434-2435
+                <br>Email:craft@boozer.com
+            </p>
+        </div>
+    </footer>
 </body>
 
 </html>
