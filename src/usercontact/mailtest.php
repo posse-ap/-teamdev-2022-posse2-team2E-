@@ -70,28 +70,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   // agentへ一斉送信
   // agent email
-  $stmt = $db->prepare('select to_send_email from agents where id = :id');
+  $stmt = $db->prepare('select * from agents where id = :id');
   // var_dump($form['student_contacts']);
   foreach ($form['student_contacts'] as $student_contact) :
     $stmt->bindValue('id', (int)$student_contact, PDO::PARAM_INT);
     $stmt->execute();
-    $agents_email[] = $stmt->fetch(PDO::FETCH_ASSOC);  
-  endforeach;
+    $agent = $stmt->fetch(PDO::FETCH_ASSOC);  
+
     // var_dump($agents_email);
   mb_language("Japanese");
 	mb_internal_encoding("UTF-8");
  
-  foreach($agents_email as $a_email){
-	$to = $a_email['to_send_email'];
-	$subject = '学生問い合わせ';
-  $message = '下記の学生から問い合わせがありました。
-  改行は反映される？';
+	$to = $agent['to_send_email'];
+	$subject = '【boozer株式会社】学生お問い合わせのお知らせ';
+  $message = "※このメールはシステムからの自動返信です
+  
+  ".$agent['client_name']."様
+  
+  お世話になっております。
+  Boozer株式会社でございます。
+  
+  以下の内容で弊社サイトからお問い合わせがありました。
+  いたずらメールとご判断されましたら、お手数ですが管理サイトから通報をお願いします。確認次第、請求対象からお外しします。
+
+  また、なにかありましたら、craft@boozer.comにお問い合わせください。なお、営業時間は平日9時〜18時となっております。
+  時間外のお問い合わせは翌営業日にご連絡差し上げます。
+  
+  ご理解・ご了承の程よろしくお願い致します。
+  
+  ━━━━━━□■□　お問い合わせ内容　□■□━━━━━━
+  氏名：".h($form["name"])."
+  電話番号：".h($form["tel"])."
+  Email：".h($form["email"])."
+  学校名(大学/大学院/専門学校/短大/高校等)：".h($form["collage"])."
+  学部/学科：".h($form["department"])."
+  卒業年度：".h($form["class_of"])."年卒
+  住所：".h($form["address"])."
+  備考欄：".h($form["memo"])."
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  
+  ———————————————————————
+  craft運営 boozer株式会社事務局
+  担当：山田　太郎
+  TEL:080-3434-2435
+  Email:craft@boozer.com
+  
+  【会社情報】
+  住所：〒111-1111　東京都港区●●5-6-7-8
+  電話番号：090-1000-2000
+  営業時間：平日 9時～18時
+  ———————————————————————";
   $header = ['From'=>'craft@boozer.com', 'Content-Type'=>'text/plain; charset=UTF-8', 'Content-Transfer-Encoding'=>'8bit'];
   $result = mb_send_mail($to,$subject,$message,$header);
   if(!$result){
     echo 'メールの送信に失敗しました';
   }
-  }
+endforeach;
   // agentへ一斉送信ここまで
 
   //学生問い合わせ確認メール
