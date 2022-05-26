@@ -63,6 +63,11 @@ services:
     volumes:
       - ./docker/phpmyadmin/sessions:/sessions
       
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 8024:8025
+
   # phpmyadmin:
   #   image: phpmyadmin/phpmyadmin
   #   environment:

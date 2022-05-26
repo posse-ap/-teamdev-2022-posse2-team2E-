@@ -54,7 +54,6 @@ if (!isset($_SESSION["login"])) {
   </header>
 <body>
 <div id="head">
-<h1>エージェント編集</h1>
 </div>
 
 <div class="done">

@@ -182,7 +182,7 @@ foreach ($agents_tags as $a) {
         <!-- 掲載企業、停止企業の条件つける -->
         <tr>
           <th>エージェント名</th>
-          <th>契約期間</th>
+          <th>掲載期間</th>
           <th colspan="2">操作</th>
           <th>登録タグ</th>
         </tr>
