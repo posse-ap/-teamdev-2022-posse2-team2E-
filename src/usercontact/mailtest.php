@@ -1,6 +1,6 @@
 <?php
-session_start();
-require('db_connect.php');
+// session_start();
+require('../db_connect.php');
 
 // //ログインされていない場合は強制的にログインページにリダイレクト
 // if (!isset($_SESSION["login"])) {
@@ -9,48 +9,64 @@ require('db_connect.php');
 // }
 
 
-if (isset($_SESSION['form']) && isset($_SESSION['form']['student_contacts'])) {
-  $form = $_SESSION['form'];
-  // var_dump($form);
-} else {
-  // var_dump($_SESSION['form']);//rewriteのときcontactNULL
-  // header('location: index.php');
-  // exit();
-}
+// if (isset($_SESSION['form']) && isset($_SESSION['form']['student_contacts'])) {
+//   $form = $_SESSION['form'];
+//   // var_dump($form);
+// } else {
+//   // var_dump($_SESSION['form']);//rewriteのときcontactNULL
+//   // header('location: index.php');
+//   // exit();
+// }
+
+$form = array(
+  'name' => '渡邊美由貴',
+  'collage' => '慶應大学',
+  'department' => '経済学部',
+  'class_of' => '24',
+  'email' => 'miyuki@gmail.com',
+  'tel' => '08099993333',
+  'address' => '墨田区アパート3-3-3',
+  'memo' => '',
+  'acceptance' => '',
+  'student_contacts' => array(
+    0 => 3,
+    1 => 5,
+  ),
+);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $stmt = $db->prepare('insert into students (name, collage, department, class_of, email, tel, address, memo) VALUES (:name, :collage, :department, :class_of, :email, :tel, :address, :memo)');
-  $stmt->bindValue('name', $form['name'], PDO::PARAM_STR);
-  $stmt->bindValue('collage', $form['collage'], PDO::PARAM_STR);
-  $stmt->bindValue('department', $form['department'], PDO::PARAM_STR);
-  $stmt->bindValue('class_of', $form['class_of'], PDO::PARAM_INT);
-  $stmt->bindValue('email', $form['email'], PDO::PARAM_STR);
-  $stmt->bindValue('tel', $form['tel'], PDO::PARAM_STR);
-  $stmt->bindValue('address', $form['address'], PDO::PARAM_STR);
-  $stmt->bindValue('memo', $form['memo'], PDO::PARAM_STR);
-  if (!$stmt) {
-    die($db->error);
-  }
-  $success = $stmt->execute();
-  if (!$success) {
-    die($db->error);
-  }
+  // $stmt = $db->prepare('insert into students (name, collage, department, class_of, email, tel, address, memo) VALUES (:name, :collage, :department, :class_of, :email, :tel, :address, :memo)');
+  // $stmt->bindValue('name', $form['name'], PDO::PARAM_STR);
+  // $stmt->bindValue('collage', $form['collage'], PDO::PARAM_STR);
+  // $stmt->bindValue('department', $form['department'], PDO::PARAM_STR);
+  // $stmt->bindValue('class_of', $form['class_of'], PDO::PARAM_INT);
+  // $stmt->bindValue('email', $form['email'], PDO::PARAM_STR);
+  // $stmt->bindValue('tel', $form['tel'], PDO::PARAM_STR);
+  // $stmt->bindValue('address', $form['address'], PDO::PARAM_STR);
+  // $stmt->bindValue('memo', $form['memo'], PDO::PARAM_STR);
+  // if (!$stmt) {
+  //   die($db->error);
+  // }
+  // $success = $stmt->execute();
+  // if (!$success) {
+  //   die($db->error);
+  // }
 
-  // students_contactsへ一斉送信
-  $stmt = $db->query('select id from students where id = LAST_INSERT_ID()');
-  $student_id = $stmt->fetch(PDO::FETCH_ASSOC);
-  $stmt = $db->prepare('insert into students_contacts (student_id, agent_id) VALUES (:student_id, :agent_id)');
-  foreach ($form['student_contacts'] as $student_contact) :
-    $stmt->bindValue('student_id', $student_id['id'], PDO::PARAM_INT);
-    $stmt->bindValue('agent_id', $student_contact, PDO::PARAM_INT);
-    if (!$stmt) {
-      die($db->error);
-    }
-    $success = $stmt->execute();
-    if (!$success) {
-      die($db->error);
-    }
-  endforeach;
+  // // students_contactsへ一斉送信
+  // $stmt = $db->query('select id from students where id = LAST_INSERT_ID()');
+  // $student_id = $stmt->fetch(PDO::FETCH_ASSOC);
+  // $stmt = $db->prepare('insert into students_contacts (student_id, agent_id) VALUES (:student_id, :agent_id)');
+  // foreach ($form['student_contacts'] as $student_contact) :
+  //   $stmt->bindValue('student_id', $student_id['id'], PDO::PARAM_INT);
+  //   $stmt->bindValue('agent_id', $student_contact, PDO::PARAM_INT);
+  //   if (!$stmt) {
+  //     die($db->error);
+  //   }
+  //   $success = $stmt->execute();
+  //   if (!$success) {
+  //     die($db->error);
+  //   }
+  // endforeach;
 
   // agentへ一斉送信
   // agent email
@@ -68,25 +84,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   foreach($agents_email as $a_email){
 	$to = $a_email['to_send_email'];
 	$subject = '学生問い合わせ';
-  $message = '下記の学生から問い合わせがありました。';
+  $message = '下記の学生から問い合わせがありました。
+  改行は反映される？';
   $header = ['From'=>'craft@boozer.com', 'Content-Type'=>'text/plain; charset=UTF-8', 'Content-Transfer-Encoding'=>'8bit'];
   $result = mb_send_mail($to,$subject,$message,$header);
+  if(!$result){
+    echo 'メールの送信に失敗しました';
   }
-// var_dump($result);
-  //     $message = $form['name'];
- 
-	// 		if(mb_send_mail($to, $title, $content)){
-	// 			echo "メールを送信しました";
-	// 		} else {
-	// 			echo "メールの送信に失敗しました";
-	// 		}
-
-
-
+  }
   // agentへ一斉送信ここまで
 
-  unset($_SESSION['form']);
-  header('location: thanks.php');
+  //学生問い合わせ確認メール
+  mb_language("Japanese");
+	mb_internal_encoding("UTF-8");
+  $to = $form['email'];
+	$subject = '問い合わせ確認メール';
+  $message = 'エージェント企業への問い合わせを送信しました。
+  改行は反映される？';
+  $header = ['From'=>'craft@boozer.com', 'Content-Type'=>'text/plain; charset=UTF-8', 'Content-Transfer-Encoding'=>'8bit'];
+  $result = mb_send_mail($to,$subject,$message,$header);
+  if(!$result){
+    echo 'メールの送信に失敗しました';
+  }
+
+
+
+
+
+
+
+  // unset($_SESSION['form']);
+  header('location: mailtest.php');
 }
 ?>
 <!DOCTYPE html>
