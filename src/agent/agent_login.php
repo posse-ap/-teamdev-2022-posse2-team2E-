@@ -29,10 +29,6 @@ if (isset($_POST["submit"])) {
             echo "</pre>";
 
             // echo "<pre>";
-            // var_dump(password_hash("pass", PASSWORD_DEFAULT));
-            // echo "</pre>";
-
-            // echo "<pre>";
             // var_dump($_POST['pass']);
             // echo "</pre>";
 
@@ -80,11 +76,13 @@ if (isset($_POST["submit"])) {
     <div class="agent_login_info">
         <h2 class="agent_login_title">エージェント企業用画面</h2>
         <form action="" method="post">
+        <?php if (isset($msg)) : ?>
             <h3 class="pass_wrong"><?php echo $msg; ?></h3>
+        <?php endif; ?>
             <p class="agent_login_label">メールアドレス</p>
-            <input type="text" name="email" value="<?php echo h($email); ?>" required>
+            <input type="text" name="email" value="" required>
             <p class="agent_login_label">パスワード</p>
-            <input type="password" name="pass" value="<?php echo h($pass); ?>" required>
+            <input type="password" name="pass" value="" required>
             <input type="submit" name="submit" value="ログイン">
         </form>
     </div>

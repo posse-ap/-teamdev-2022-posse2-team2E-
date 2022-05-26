@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('../../db_connect.php');
+require('db_connect.php');
 
 // //ログインされていない場合は強制的にログインページにリダイレクト
 // if (!isset($_SESSION["login"])) {
@@ -14,8 +14,8 @@ if (isset($_SESSION['form']) && isset($_SESSION['form']['student_contacts'])) {
   // var_dump($form);
 } else {
   // var_dump($_SESSION['form']);//rewriteのときcontactNULL
-  header('location: index.php');
-  exit();
+  // header('location: index.php');
+  // exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   endforeach;
 
   unset($_SESSION['form']);
-  header('location: thanks.html');
+  header('location: thanks.php');
 }
 ?>
 <!DOCTYPE html>

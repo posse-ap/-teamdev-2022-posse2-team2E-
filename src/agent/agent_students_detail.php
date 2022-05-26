@@ -128,7 +128,7 @@ function set_valid_status($valid_status)
 
 <body>
 
-    <header>
+    <!-- <header> -->
         <h1>
             <p><span>CRAFT</span>by boozer</p>
         </h1>
@@ -137,7 +137,7 @@ function set_valid_status($valid_status)
             <ul>
                 <li><a href="agent_students_all.php">学生情報一覧</a></li>
                 <li><a href="agent_information.php">登録情報</a></li>
-                <li><a href="#">ユーザー画面へ</a></li>
+                <li><a href="../index.php" target="_blank">ユーザー画面へ</a></li>
                 <li><a href="agent_logout.php">ログアウト</a></li>
             </ul>
         </nav>
@@ -146,7 +146,7 @@ function set_valid_status($valid_status)
         <div class="left_wrapper">
             <li><a href="agent_students_all.php">学生情報一覧</a></li>
             <li><a href="agent_information.php">登録情報</a></li>
-            <li><a href="#">ユーザー画面へ</a></li>
+            <li><a href="../index.php" target="_blank">ユーザー画面へ</a></li>
             <li><a href="agent_logout.php">ログアウト</a></li>
         </div>
         <div class="right_wrapper">
@@ -160,7 +160,7 @@ function set_valid_status($valid_status)
                     <th bgcolor="#4FA49A">氏名</th>
                     <td><?php echo $result['name'] ?>
                     <?php foreach ($duplicated_names as $d_name) : if ($d_name['id'] !=  $id) : ?>
-                                <span style="background-color:red;">id<?= $d_name['id']; ?>と重複</span>
+                                <span style="background-color:red;">ID<?= $d_name['id']; ?>と重複</span>
                         <?php endif;
                         endforeach ?>
                 </td>
@@ -169,7 +169,7 @@ function set_valid_status($valid_status)
                     <th bgcolor="#4FA49A">メールアドレス</th>
                     <td><?php echo $result['email'] ?>
                         <?php foreach ($duplicated_emails as $d_email) : if ($d_email['id'] !=  $id) : ?>
-                                <span style="background-color:red;">id<?= $d_email['id']; ?>と重複</span>
+                                <span style="background-color:red;">ID<?= $d_email['id']; ?>と重複</span>
                         <?php endif;
                         endforeach ?>
                     </td>
@@ -178,7 +178,7 @@ function set_valid_status($valid_status)
                     <th bgcolor="#4FA49A">電話番号</th>
                     <td><?php echo $result['tel'] ?>
                     <?php foreach ($duplicated_tels as $d_tel) : if ($d_tel['id'] !=  $id) : ?>
-                                <span style="background-color:red;">id<?= $d_tel['id']; ?>と重複</span>
+                                <span style="background-color:red;">ID<?= $d_tel['id']; ?>と重複</span>
                         <?php endif;
                         endforeach ?>
                 </td>
@@ -217,14 +217,14 @@ function set_valid_status($valid_status)
             <?php if ($result['valid_status_id'] === 1) : ?>
                 <form id="view" action="" method="post" enctype="multipart/form-data" style="display: none">
                     <p><label>通報内容：<br>
-                            <textarea name="naiyou" cols="40" rows="5" required></textarea>
+                            <textarea name="naiyou" cols="70" rows="5" required></textarea>
                         </label></p>
                     <p>
-                        報告を受けました学生の情報に関しましては、当社が確認の上、請求の対象外といたします。
-                        <br>確認いたしましたら、学生情報に「無効」と記載いたしますのでご確認くださいませ。
+                        報告いただいた学生の情報に関しましては、当社が確認の上請求の対象外と致します。
+                        <br>確認致しましたら、学生情報に「無効」と記載いたしますのでご確認くださいませ。
                     </p>
 
-                    <p><input type="submit" value="通報する"></p>
+                    <p><input type="submit" class="report_btn" value="通報する"></p>
                 </form>
             <?php endif; ?>
             <?php if ($result['valid_status_id'] != 1) : ?>

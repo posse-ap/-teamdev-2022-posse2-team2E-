@@ -210,7 +210,7 @@ foreach ($agents_tags as $a) {
       </table>
     </section>
     <section class="agent-not-listed">
-      <div>掲載停止中の企業</div>
+      <div class="viewing_agent">掲載停止中の企業</div>
       <table>
         <?php foreach ($non_listed_agents as $non_listed_agent) :
         ?>

@@ -3,6 +3,11 @@
     color: #fff;
 }
 
+.students_detail span {
+   padding: 3px 10px;
+   color: white;
+}
+
 .mukou {
     margin: 50px 0;
     text-align: center;
@@ -76,3 +81,28 @@
     background-color: #fcfcfc;
     display: none;
  }
+
+#view {
+   /* width: 200px;
+   margin: 0 auto; */
+   }
+
+#view p {
+   width: 700px;
+   margin: 0 auto;
+   text-align: center;
+   line-height: 1.7;
+}
+
+.report_btn {
+  width: 200px;
+    height: 60px;
+    font-size: 18px;
+    padding: 10px;
+    margin-top: 30px;
+    background: red;
+    border: 3px solid #DAFCED;
+    text-decoration: none;
+    color: #fff;
+    cursor :pointer;
+}
