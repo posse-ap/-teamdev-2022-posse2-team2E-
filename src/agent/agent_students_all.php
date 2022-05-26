@@ -165,7 +165,7 @@ function set_valid_status($valid_status)
             <ul>
                 <li><a href="agent_students_all.php">学生情報一覧</a></li>
                 <li><a href="agent_information.php">登録情報</a></li>
-                <li><a href="#">ユーザー画面へ</a></li>
+                <li><a href="../index.php">ユーザー画面へ</a></li>
                 <li><a href="agent_logout.php">ログアウト</a></li>
             </ul>
         </nav>
@@ -174,7 +174,7 @@ function set_valid_status($valid_status)
         <div class="left_wrapper">
             <li><a href="agent_students_all.php">学生情報一覧</a></li>
             <li><a href="agent_information.php">登録情報</a></li>
-            <li><a href="#">ユーザー画面へ</a></li>
+            <li><a href="../index.php">ユーザー画面へ</a></li>
             <li><a href="agent_logout.php">ログアウト</a></li>
         </div>
         <div class="right_wrapper">

@@ -1,5 +1,17 @@
 FROM php:7.4.7-fpm
+# FROM php:8.17.4.7-fpm
+# RUN docker-php-ext-install pdo_mysql
+
+# FROM php:8.1-fpm
 RUN docker-php-ext-install pdo_mysql
+# mailhog対応
+RUN apt-get update
+RUN apt-get install -y vim
+RUN curl -sSL https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 -o mhsendmail
+RUN chmod +x mhsendmail
+RUN mv mhsendmail /usr/local/bin/mhsendmail
+COPY ./php.ini /usr/local/etc/php/php.ini
+
 
 
 # RUN curl -sSLO https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 \

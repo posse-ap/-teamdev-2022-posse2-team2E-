@@ -239,15 +239,19 @@ function set_valid_status($valid_status)
         </div>
     </header>
 
-    <div class="back">
+    <!-- <div class="back">
         <a href="../index.php">&laquo;&nbsp;エージェント一覧に戻る</a>
-    </div>
-    <main class="main">
+    </div> -->
+    <main class="main contact_mg">
+
         <!-- <div class="all_wrapper">
         <div class="right_wrapper"> -->
         <h1 class="students_all_title"><?php echo h($agent['insert_company_name']); ?>　
             (<?php echo set_list_status($agent['list_status']); ?>)
         </h1>
+        <div class="back">
+            <a href="../index.php">&laquo;&nbsp;エージェント一覧に戻る</a>
+        </div>
         <div class="sum_inquiry_wrapper">
             <p class="sum_inquiry"><span>
                     <?php if ($month != "all") :
@@ -292,7 +296,7 @@ function set_valid_status($valid_status)
                         <td><?php echo set_valid_status($column['無効判定']); ?></td>
                         <td>
                             <?php foreach ($duplicate_ids[$column['問い合わせID']] as $d_id) : if ($d_id['id'] !=  $column['問い合わせID']) :
-                                    echo 'id' . $d_id['id'].' ';
+                                    echo 'id' . $d_id['id'] . ' ';
                                 endif;
                             endforeach ?>
                         </td>
@@ -302,6 +306,7 @@ function set_valid_status($valid_status)
         <?php endif; ?>
         <!-- </div>
     </div> -->
+
     </main>
 </body>
 

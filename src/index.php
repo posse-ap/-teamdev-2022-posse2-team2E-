@@ -5,12 +5,20 @@ require('db_connect.php');
 // $subject = '本登録をお願いします。';
 // $message = 'URLから本登録をお願いします。';
 // $from = 'test@gmail.com';
-// $header = "From: ".$from."\r\n";
+// $header = "From: {$from}\nReply-To: {$from}\nContent-Type: text/plain;";
 // mb_language('Japanese');
 // mb_internal_encoding("UTF-8");
 // $result = mb_send_mail($to,$subject,$message,$header);
 // var_dump($result);
 // exit;
+
+// $from = 'from@example.com';
+// $to   = 'to@example.com';
+// $subject = 'テストメール';
+// $body = 'メールの送信テストです。';
+
+// $ret = mb_send_mail($to, $subject, $body, "From: {$from} \r\n");
+// var_dump($ret);
 
 
 try {
@@ -38,8 +46,13 @@ foreach ($filter_sorts_tags as $f) {
 $stmt = $db->query('select agent_id, at.tag_id, tag_name from agents_tags at, filter_tags ft where at.tag_id = ft.tag_id');
 $agents_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $at_list = [];
+
+// var_dump($agents_tags[0]);
 foreach ($agents_tags as $a) {
     $at_list[(int)$a['agent_id']][] = $a;
+    // echo ($a['agent_id']);
+    // echo $at_list[(int)$a['agent_id']];
+    // var_dump($at_list[(int)$a[0]['agent_id']]);
 }
 
 ?>
@@ -63,7 +76,7 @@ foreach ($agents_tags as $a) {
 
 <body>
     <!-- ヘッダー -->
-    <header>
+    <!-- <header> -->
         <img src="logo.png" alt="">
         <nav>
             <ul>
@@ -129,9 +142,12 @@ foreach ($agents_tags as $a) {
                                     <div class="agent_type">
                                         <!--  タグ表示↓ -->
                                         <?php foreach ($at_list as $agent_tags) : ?>
+                
                                             <?php if ($listed_agent['id'] === current($agent_tags)['agent_id']) : ?>
                                                 <?php foreach ($agent_tags as $agent_tag) : ?>
+                                                <!-- <?php var_dump($agent_tag['tag_id']); ?> -->
                                                     <p class="agent_tag">#<?= $agent_tag['tag_name']; ?></p>
+                                                    <!-- <p class="agent_tag">#<?= $agent_tag['agent_id']; ?></p> -->
                                                 <?php endforeach; ?></td>
                                             <?php endif; ?>
                                         <?php endforeach; ?>
