@@ -70,6 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   // agentへ一斉送信
   // agent email
+  $s_message = '';
   $stmt = $db->prepare('select * from agents where id = :id');
   // var_dump($form['student_contacts']);
   foreach ($form['student_contacts'] as $student_contact) :
@@ -98,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   
   ご理解・ご了承の程よろしくお願い致します。
   
-  ━━━━━━□■□　お問い合わせ内容　□■□━━━━━━
+  ━━━━━━□■□　学生情報　□■□━━━━━━
   氏名：".h($form["name"])."
   電話番号：".h($form["tel"])."
   Email：".h($form["email"])."
@@ -116,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   Email:craft@boozer.com
   
   【会社情報】
-  住所：〒111-1111　東京都港区●●5-6-7-8
+  住所：〒111-1111　東京都港区5-6-7-8
   電話番号：090-1000-2000
   営業時間：平日 9時～18時
   ———————————————————————";
@@ -125,20 +126,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if(!$result){
     echo 'メールの送信に失敗しました';
   }
+    // agentへ一斉送信ここまで
+
+    // 学生送信メール用エージェント企業名配列
+    $s_message .= "・".$agent['insert_company_name']."\n  ";
 endforeach;
-  // agentへ一斉送信ここまで
+var_dump($s_message);
 
   //学生問い合わせ確認メール
+  if(!empty($s_message)){
+  $stmt = $db->prepare('select * from agents where id = :id');
+
   mb_language("Japanese");
 	mb_internal_encoding("UTF-8");
   $to = $form['email'];
-	$subject = '問い合わせ確認メール';
-  $message = 'エージェント企業への問い合わせを送信しました。
-  改行は反映される？';
+	$subject = '【Boozer株式会社】確認メール';
+  $message = "
+  ※このメールはシステムからの自動返信です
+  
+  ".h($form["name"])."様
+  
+  エージェント企業への問い合わせが完了しました。
+  
+  
+  お問い合わせいただいたエージェント企業から、近日中にご連絡がありますので、今しばらくお待ちくださいませ。しばらくたっても連絡が来ない場合はお手数ですが、craft@boozer.comにお問い合わせください。なお、営業時間は平日9時〜18時となっております。
+  時間外のお問い合わせは翌営業日にご連絡差し上げます。
+  
+  ご理解・ご了承の程よろしくお願い致します。
+  
+  ━━━ お問い合わせしたエージェント企業━━━━━━━━━━━━━━━━━━━━━━━━━
+  ".$s_message."
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  
+  ご不明な点やご質問がございましたら、
+  お気軽にお問い合わせくださいませ。
+  今後ともどうぞよろしくお願いいたします。
+  
+  ———————————————————————
+  craft運営 boozer株式会社事務局
+  担当：山田　太郎
+  TEL:080-3434-2435
+  Email:craft@boozer.com
+  
+  【会社情報】
+  住所：〒111-1111　東京都港区5-6-7-8
+  電話番号：090-1000-2000
+  営業時間：平日 9時～18時
+  ———————————————————————";
   $header = ['From'=>'craft@boozer.com', 'Content-Type'=>'text/plain; charset=UTF-8', 'Content-Transfer-Encoding'=>'8bit'];
   $result = mb_send_mail($to,$subject,$message,$header);
   if(!$result){
     echo 'メールの送信に失敗しました';
+  }
   }
 
 
