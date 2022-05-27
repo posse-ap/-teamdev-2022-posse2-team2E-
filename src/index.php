@@ -146,9 +146,10 @@ foreach ($agents_tags as $a) {
                             </div>
                         </li>
                     <?php endforeach; ?>
+                </form>
             </ul>
-            </form>
 
+            <!-- <div class="filter_left_wrapper fade-in fade-in-left"> -->
             <div class="filter_left_wrapper">
                 <div class="filter-cond" id="filter_side">
                     <!-- 実際に表示されてるエージェント数をいれる -->
