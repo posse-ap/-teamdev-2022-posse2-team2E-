@@ -324,41 +324,70 @@ foreach ($agents_tags as $a) {
 
 
     <!-- 絞り込み機能のサンプル -->
-<div class="bl_3daysSearchBlock">
- 
     <div id="select" class="bl_selectBlock">
- 
       <div class="el_searchResult">
         <span class="el_searchResult_nume js_numerator"></span>件／全<span class="el_searchResult_deno js_denominator"></span>件
       </div>
 
-      
-
-      
-
-     
-<?php foreach ($t_list as $filter_sort) : ?>
+    <?php foreach ($t_list as $filter_sort) : ?>
     <div class="filter_sort_name"><?= current($filter_sort)['sort_name']; ?></div>
         <div class="each_filter_box js_conditions" data-type="<?= current($filter_sort)['id']; ?>">
             <?php foreach ($filter_sort as $filter_tag) : ?>
                     <span class="bl_selectBlock_check">
-                    <input type="checkbox" name="agent_tags[]" class="checks" id="form"  value="<?= $filter_tag['tag_name'] ?>"/>
-                    <label class="added-tag" for="form">
-                        <?= $filter_tag['tag_name']; ?>
-                    </label>
+                        <input type="checkbox" name="agent_tags[]" class="checks" id="form"  value="<?= $filter_tag['tag_name'] ?>"/>
+                        <label class="added-tag" for="form">
+                            <?= $filter_tag['tag_name']; ?>
+                        </label>
                     </span>
             <?php endforeach; ?>
         </div>
-<?php endforeach; ?>
-    <!--↓ここのコメントアウトを外す  -->
+    <?php endforeach; ?>
+
+    <div class="bl_selectBlock_release js_release">すべての選択を解除</div>
+    </div>
+
+
+
+    <div class="bl_searchResultBlock">
+        <?php foreach ($listed_agents as $listed_agent) : ?>
+                <div class="agent_type">
+                    <!--  タグ表示↓ -->
+                    <?php foreach ($at_list as $agent_tags) : ?>
+                        <?php if ($listed_agent['id'] === current($agent_tags)['agent_id']) : ?>
+                            <li class="agent_tag js_target agent_box"  id="tohoku_<?php echo $listed_agent['id'] ?>"
+                                <?php foreach ($agent_tags as $agent_tag) : ?> 
+                                    data-<?= $agent_tag['sort_id']; ?>="<?= $agent_tag['tag_name'] ?>"
+                                <?php endforeach; ?>
+                                >
+                                <?php foreach ($agent_tags as $agent_tag) : ?>
+                                    #<?= $agent_tag['tag_name']; ?>
+                                <?php endforeach; ?>
+                            </li>    
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                    <!--  タグ表示↑ -->
+                </div>
+        <?php endforeach; ?>
+    </div>
+
+    <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+    <script src="main.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+</body>
+
+</html>
+
+
+
+<!-- ↓ここのコメントアウトを外す  -->
             <!-- <div class="bl_selectBlock_ttl">エージェントのタイプ</div>
             <div class="bl_selectBlock_content js_conditions" data-type="1">
-              <span class="bl_selectBlock_check"><input id="scale-ote" type="checkbox" name="type" value="tokka">
+              <span class="bl_selectBlock_check"><input type="checkbox"  value="tokka">
                 <label for="type-tokka">
                   特化型
                 </label>
               </span>
-              <span class="bl_selectBlock_check"><input id="scale-venture" type="checkbox" name="type" value="sougou">
+              <span class="bl_selectBlock_check"><input type="checkbox" value="sougou">
                 <label for="type-sougou">
                   総合型
                 </label>
@@ -367,68 +396,19 @@ foreach ($agents_tags as $a) {
 
           <div class="bl_selectBlock_ttl">志望会社の規模</div>
             <div class="bl_selectBlock_content js_conditions" data-type="2">
-              <span class="bl_selectBlock_check"><input id="scale-ote" type="checkbox" name="scale" value="大手志望">
+              <span class="bl_selectBlock_check"><input  type="checkbox"  value="大手志望">
                 <label for="scale-ote">
                   大手志望
                 </label>
               </span>
-              <span class="bl_selectBlock_check"><input id="scale-venture" type="checkbox" name="scale" value="ベンチャー志望">
+              <span class="bl_selectBlock_check"><input  type="checkbox"  value="ベンチャー志望">
                 <label for="scale-venture">
                   ベンチャー企業
                 </label>
               </span>
             </div> -->
 
-      <div class="bl_selectBlock_release js_release">すべての選択を解除</div>
-    </div>
- 
-    <div class="bl_searchResultBlock">
-    <!--↓ここのコメントアウトを外す  -->
+ <!--↓ここのコメントアウトを外す  -->
       <!-- <div class="js_target" data-1="tokka" data-2="大手志望" >特化型/大手志望</div>
       <div class="js_target" data-1="tokka" data-2="ベンチャー志望" >特化型/ベンチャー志望</div>
       <div class="js_target" data-1="sougou" data-2="大手志望"  >総合型/大手志望</div> -->
-
-      
-<?php foreach ($listed_agents as $listed_agent) : ?>
-<li class="agent_box"  id="tohoku_<?php echo $listed_agent['id'] ?>">
-            <div class="agent_type">
-                <!--  タグ表示↓ -->
-                <?php foreach ($at_list as $agent_tags) : ?>
-                    <?php if ($listed_agent['id'] === current($agent_tags)['agent_id']) : ?>
-                        <?php foreach ($agent_tags as $agent_tag) : ?>                                          
-                            <p class="agent_tag js_target" 
-                            <?php foreach ($t_list as $filter_sort) : ?>
-                                <?php if ($filter_sort['id'] === current($agent_tag)['sort_id']) : ?>
-                                data-<?= $agent_tag['sort_id']; ?>=<?php if ($filter_sort['tag_id'] === current($agent_tag)['tag_id']) : ?>"<?= $agent_tag['tag_name'] ?>"
-                                    
-                                    <?php endif; ?>       
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                            >
-                                #<?= $agent_tag['tag_name']; ?>
-                            </p>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-                <!--  タグ表示↑ -->
-            </div>
-</li>
-<?php endforeach; ?>
-      
-    
-    
-    
-    </div>
- 
-  
- 
-</div>
-
-    
-
-    <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
-    <script src="main.js"></script>
-    <script src="https://unpkg.com/scrollreveal"></script>
-</body>
-
-</html>

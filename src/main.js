@@ -175,7 +175,7 @@ function check(id) {
 
 
 
-// 絞り込みサンプル
+// 絞り込み機能
 
 $(function(){
     var box = $('.js_target');//検索対象のDOMを格納する
