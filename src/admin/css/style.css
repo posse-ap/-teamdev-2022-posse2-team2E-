@@ -60,14 +60,21 @@ table td {
   vertical-align: middle;
 }
 table th {
-  /* background-color: #4fa49a; */
+  background-color: #4fa49a;
   color: white;
 }
+
+.notice{
+  background-color: red;
+}
+
 table th:nth-child(1),
 table td:nth-child(1) {
   width: 20%;
   /* width: 40%; */
 }
+
+
 
 .sub-th {
   background-color: #ccc;

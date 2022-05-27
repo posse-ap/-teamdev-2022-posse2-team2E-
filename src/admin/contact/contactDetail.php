@@ -284,7 +284,7 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php if ($result['valid_status_id'] != 1) : ?>
             <table>
                 <tr bgcolor="white">
-                    <th bgcolor="red">通報内容</th>
+                    <th class="notice">通報内容</th>
                     <td><?php echo h($invalid_requests['invalid_request_memo']) ?></td>
                 </tr>
             </table>
