@@ -131,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 学生送信メール用エージェント企業名配列
     $s_message .= "・".$agent['insert_company_name']."\n  ";
 endforeach;
-var_dump($s_message);
+// var_dump($s_message);
 
   //学生問い合わせ確認メール
   if(!empty($s_message)){
@@ -179,7 +179,7 @@ var_dump($s_message);
     echo 'メールの送信に失敗しました';
   }
   }
-
+// 学生確認メールここまで
 
 
 
