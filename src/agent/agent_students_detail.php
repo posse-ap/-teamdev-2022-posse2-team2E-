@@ -97,12 +97,6 @@ $stmt->bindValue(':agent_id', $_SESSION['id'], PDO::PARAM_INT);
 $stmt->execute();
 $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
-// foreach($duplicated_emails as $d_email){
-//     if($d_email['id'] !=  $id){
-//         echo $d_email['id'];
-//     }
-// }
 // echo "<pre>";
 // var_dump($duplicated_emails);
 // echo "</pre>";
@@ -140,7 +134,7 @@ function set_valid_status($valid_status)
 
 <body>
 
-    <!-- <header> -->
+    <header>
     <h1>
         <p><span>CRAFT</span>by boozer</p>
     </h1>
