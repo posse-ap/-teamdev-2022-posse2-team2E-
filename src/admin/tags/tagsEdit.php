@@ -86,6 +86,7 @@ foreach ($filter_sorts_tags as $f) {
       <button><a href="sortsAdd.php">絞り込みの種類追加</a></button>
       <button><a href="tagsAdd.php">タグ追加</a></button>
       <button><a href="tagsDelete.php">選択して削除</a></button>
+    </div>
       <p>絞り込みの種類、タグ両方が設定されていなければユーザー画面には反映されません。<br>片方しかなものは、編集画面で確認できます</p>
   </main>
 </body>

@@ -140,19 +140,19 @@ function set_valid_status($valid_status)
 
 <body>
 
-    <!-- <header> -->
-    <h1>
-        <p><span>CRAFT</span>by boozer</p>
-    </h1>
-    <p class="welcome_agent">ようこそ　<?php echo ($_SESSION['corporate_name']); ?>様</p>
-    <nav class="nav">
-        <ul>
-            <li><a href="agent_students_all.php">学生情報一覧</a></li>
-            <li><a href="agent_information.php">登録情報</a></li>
-            <li><a href="../index.php" target="_blank">ユーザー画面へ</a></li>
-            <li><a href="agent_logout.php">ログアウト</a></li>
-        </ul>
-    </nav>
+    <header>
+        <h1>
+            <p><span>CRAFT</span>by boozer</p>
+        </h1>
+        <p class="welcome_agent">ようこそ　<?php echo ($_SESSION['corporate_name']); ?>様</p>
+        <nav class="nav">
+            <ul>
+                <li><a href="agent_students_all.php">学生情報一覧</a></li>
+                <li><a href="agent_information.php">登録情報</a></li>
+                <li><a href="../index.php" target="_blank">ユーザー画面へ</a></li>
+                <li><a href="agent_logout.php">ログアウト</a></li>
+            </ul>
+        </nav>
     </header>
     <div class="all_wrapper">
         <div class="left_wrapper">

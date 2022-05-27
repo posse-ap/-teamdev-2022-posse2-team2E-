@@ -90,11 +90,11 @@ $(window).scroll(function () {
 // }
 
 // キープ一覧にあるエージェントを最初は非表示
-    const keepBoxElements =document.querySelectorAll(".keep_agent_box")
-    for (let i = 1; i <= keepBoxElements.length; i++) {
-    let keep_agent_box = document.getElementById("keep_agent_box_" + i);
-    keep_agent_box.style.display = "none";
-}
+//     const keepBoxElements =document.querySelectorAll(".keep_agent_box")
+//     for (let i = 1; i <= keepBoxElements.length; i++) {
+//     let keep_agent_box = document.getElementById("keep_agent_box_" + i);
+//     keep_agent_box.style.display = 'none';
+// }
 
 // 岩村さん、ここお願いします！
 // function check(id) {
@@ -113,10 +113,15 @@ $(window).scroll(function () {
 function check(id) {
     let keep_agent_box = document.getElementById("keep_agent_box_" + id);
     // キープ押されたら表示
-    if (keep_agent_box.style.display == "block") {
-        keep_agent_box.style.display = "none";
+    // if (keep_agent_box.style.display = "block") {
+    //     keep_agent_box.style.display = "none";
+    // } else {
+    //     keep_agent_box.style.display = "block";
+    // }
+    if (keep_agent_box.style.display = "none") {
+        keep_agent_box.style.display = "flex";
     } else {
-        keep_agent_box.style.display = "block";
+        keep_agent_box.style.display = "none";
     }
     // キープのcheckboxを全取得 (idは重複しない性質のため、class名等で取得したいですがnameが今回識別しやすそうだったのでnameで)
     const checkBoxElements = document.getElementsByName('student_contacts[]');
@@ -131,13 +136,24 @@ function check(id) {
     });
     $('div.tohokuret').text(count);
 
+    // let modal_keep = document.getElementById('modal_keep');
+    // if (count !== 0){
+    //     modal_keep.classList.remove('none');
+    // } 
+    // else {
+    //     modal_keep.style.display= "block";
+    // }
+
     if (count == 0) {
         $('.trigger_keep_btn').removeClass('btn_orange');
         $('.trigger_keep_btn').addClass('btn_gray');
         $('.tohokuret').addClass('btn_gray');
         $('.tohokuret').removeClass('int_white');
+        $('.keep_inquiry_btn').addClass('btn_gray');
+
     }
     else {
+        $('.keep_inquiry_btn').removeClass('btn_gray');
         $('.trigger_keep_btn').removeClass('btn_gray');
         $('.trigger_keep_btn').addClass('btn_orange');
         $('.tohokuret').removeClass('btn_gray');
@@ -146,24 +162,57 @@ function check(id) {
 }
 
 
-
-
 // キープしたやつを取り消す
 function buttonDelete(id) {
     let keep = document.getElementById("keep_" + id);
     let keep_agent_box = document.getElementById("keep_agent_box_" + id);
+    let tohokuret = document.getElementById('tohokuret');
+    let trigger_keep_btn = document.getElementById('trigger_keep_btn');
+    let tohokuret2 = document.getElementById('tohokuret2');
+    let keep_inquiry_btn = document.getElementById('keep_inquiry_btn');
+    // let modal_keep = document.getElementById('modal_keep');
+    // let count_dis = document.getElementById('count_dis');
     keep_agent_box.style.display = "none";
     keep.checked = false;
+
+
+// countをなんかしらで定義して、134行目から1引く、ってやりたい
+// できたああああああああ
+    // let count = keep_agent_box.length;
+
+    let count = tohokuret.innerHTML;
+    // console.log(count);
+    count--;
+    tohokuret.innerHTML = count;
+    tohokuret2.innerHTML = count;
+
+    if (count === 0) {
+        // modal_keep.style.display= "none";
+        // modal_keep.classList.add('none');
+        keep_inquiry_btn.classList.add('btn_gray');
+        trigger_keep_btn.classList.add('btn_gray');
+
+    } else {
+        keep_inquiry_btn.classList.remove('btn_gray');
+
+    }
+    // if (count !== 0){
+    //     modal_keep.style.display= "block";
+    // }
 }
+    // let modal_keep = document.getElementById('modal_keep');
+    // let count = tohokuret.innerHTML;
+    // if (count !== 0){
+    //     modal_keep.style.display= "block";
+    // }
 
 
-
-// キープの数をカウント
-let state = { count: 0 };
-let btn = document.getElementById('keep_btn');
-btn.addEventListener('click', () => {
-    let keep_counter = document.getElementById('keep_counter');
-    keep_counter.innerHTML = ++state.count;
-    return;
-});
+// // キープの数をカウント
+// let state = { count: 0 };
+// let btn = document.getElementById('keep_btn');
+// btn.addEventListener('click', () => {
+//     let keep_counter = document.getElementById('keep_counter');
+//     keep_counter.innerHTML = ++state.count;
+//     return;
+// });
 

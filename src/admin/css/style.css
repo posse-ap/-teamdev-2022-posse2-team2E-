@@ -162,15 +162,15 @@ input {
 /*# sourceMappingURL=style.css.map */
 
 .done {
-  margin-top: 120px;
+  margin-top: 70px;
   margin-left: 20px;
   font-size: 20px;
   line-height: 1.8;
 }
 
 .done p {
-  margin: 10px 0;
-}
+  margin-bottom: 10px;
+  }
 
 .back{
   margin: 50px 0;
@@ -216,6 +216,10 @@ input {
     cursor :pointer;
  }
 
+.tag_edit_btns {
+  margin: 10px 0 30px;
+}
+
 .tag_edit_btns button{
   width: 200px;
   height: 50px;
@@ -225,5 +229,6 @@ input {
 
 .tag_edit_btns button a {
   text-decoration: none;
+  width: 100%;
 
 }
