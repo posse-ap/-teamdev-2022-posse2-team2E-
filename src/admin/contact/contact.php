@@ -276,12 +276,12 @@ function set_valid_status($valid_status)
                 </tr>
                 <?php foreach ($result as $column) : ?>
                     <tr>
-                        <td><?php echo ($column['問い合わせ日時']); ?></td>
-                        <td><?php echo ($column['氏名']); ?></td>
-                        <td><?php echo ($column['大学']); ?></td>
-                        <td><?php echo ($column['学科']); ?></td>
-                        <td><?php echo ($column['何年卒']); ?>年度</td>
-                        <td><?php echo ($column['問い合わせID']); ?></td>
+                        <td><?php echo h($column['問い合わせ日時']); ?></td>
+                        <td><?php echo h($column['氏名']); ?></td>
+                        <td><?php echo h($column['大学']); ?></td>
+                        <td><?php echo h($column['学科']); ?></td>
+                        <td><?php echo h($column['何年卒']); ?>年度</td>
+                        <td><?php echo h($column['問い合わせID']); ?></td>
                         <td><a class="to_students_detail" href="contactDetail.php?agent=<?= $id ?>&id=<?= $column['問い合わせID'] ?>">詳細</a>
                         </td>
                         <td><?php echo set_valid_status($column['無効判定']); ?></td>
