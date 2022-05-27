@@ -118,107 +118,98 @@ foreach ($agents_tags as $a) {
         <img src="agent_person.png" alt="" class="agent_person">
 
         <container class="filter" id="js-filter">
-
-
+            <!-- 各エージェント -->
             <ul class="filter-items">
-                <!-- <a href=""><button class="all_keep">全てをキープ</button></a> -->
                 <form action="entry.php" method="post" id="inquiry_submit">
                     <?php foreach ($listed_agents as $listed_agent) : ?>
-                        <li class="agent_box" data-filter-key="総合型" id="tohoku_<?php echo $listed_agent['id'] ?>">
-                            <img class="agent_img" src="img/insert_logo/<?php echo $listed_agent['insert_logo'] ?>" alt="企業ロゴ">
-                            <div class="agent_article">
-                                <div class="agent_article_header">
-                                    <h1 class="agent_name"><?php echo $listed_agent['insert_company_name'] ?></h1>
-                                    <p class="num_company">取扱企業数：<?php echo $listed_agent['insert_handled_number'] ?></p>
-                                </div>
-                                <div class="agent_article_main">
-
-                                    <div class="agent_type">
-                                        <!--  タグ表示↓ -->
-                                        <?php foreach ($at_list as $agent_tags) : ?>
-                                            <?php if ($listed_agent['id'] === current($agent_tags)['agent_id']) : ?>
+                        <?php foreach ($at_list as $agent_tags) : ?>
+                            <?php if ($listed_agent['id'] === current($agent_tags)['agent_id']) : ?>
+                        
+                                <li class="agent_box js_target  " data-filter-key="総合型" id="tohoku_<?php echo $listed_agent['id'] ?>"
+                                    <?php foreach ($agent_tags as $agent_tag) : ?> 
+                                        data-<?= $agent_tag['sort_id']; ?>="<?= $agent_tag['tag_name'] ?>"
+                                    <?php endforeach; ?>>
+                                    <img class="agent_img" src="img/insert_logo/<?php echo $listed_agent['insert_logo'] ?>" alt="企業ロゴ">
+                                    <div class="agent_article">
+                                        <div class="agent_article_header">
+                                            <h1 class="agent_name"><?php echo $listed_agent['insert_company_name'] ?></h1>
+                                            <p class="num_company">取扱企業数：<?php echo $listed_agent['insert_handled_number'] ?></p>
+                                        </div>
+                                        
+                                        <div class="agent_article_main">
+                                            <div class="agent_type">
+                                                <!--  タグ表示↓ -->
                                                 <?php foreach ($agent_tags as $agent_tag) : ?>
-                                                    <p class="agent_tag">#<?= $agent_tag['tag_name']; ?></p>
+                                                    <p class="agent_tag ">
+                                                    #<?= $agent_tag['tag_name']; ?>
+                                                    </p> 
                                                 <?php endforeach; ?>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                        <!--  タグ表示↑ -->
+                                                <!--  タグ表示↑ -->
+                                            </div>
+                                            <p class="recommend_points">特徴</p>
+                                            <div class="recommend_points_box">
+                                                <p><?php echo $listed_agent['insert_recommend_1'] ?></p>
+                                            </div>
+                                            <div class="recommend_points_box">
+                                                <p><?php echo $listed_agent['insert_recommend_2'] ?></p>
+                                            </div>
+                                            <div class="recommend_points_box">
+                                                <p><?php echo $listed_agent['insert_recommend_3'] ?></p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="agent_article_footer">
+                                            <p class="span_published">掲載期間：<?php echo date("Y/m/d", strtotime($listed_agent['started_at'])); ?>〜<?php echo date("Y/m/d", strtotime($listed_agent['ended_at'])); ?></p>
+                                            <label id="tohoku_<?php echo $listed_agent['id'] ?>">
+                                                <input id="keep_<?php echo $listed_agent['id'] ?>" class="bn632-hover bn19 " onclick="check(<?php echo $listed_agent['id'] ?>)" type=checkbox name=student_contacts[] value="<?php echo $listed_agent['id']; ?>"><span></span>
+                                            </label>
+                                        </div>
                                     </div>
-                                    <p class="recommend_points">特徴</p>
-                                    <div class="recommend_points_box">
-                                        <p><?php echo $listed_agent['insert_recommend_1'] ?></p>
-                                    </div>
-                                    <div class="recommend_points_box">
-                                        <p><?php echo $listed_agent['insert_recommend_2'] ?></p>
-                                    </div>
-                                    <div class="recommend_points_box">
-                                        <p><?php echo $listed_agent['insert_recommend_3'] ?></p>
-                                    </div>
-
-                                </div>
-                                <div class="agent_article_footer">
-                                    <p class="span_published">掲載期間：<?php echo date("Y/m/d", strtotime($listed_agent['started_at'])); ?>〜<?php echo date("Y/m/d", strtotime($listed_agent['ended_at'])); ?></p>
-                                    <!-- <div > -->
-                                    <label id="tohoku_<?php echo $listed_agent['id'] ?>">
-                                        <input id="keep_<?php echo $listed_agent['id'] ?>" class="bn632-hover bn19 " onclick="check(<?php echo $listed_agent['id'] ?>)" type=checkbox name=student_contacts[] value="<?php echo $listed_agent['id']; ?>"><span></span>
-                                    </label>
-                                    <!-- </div> -->
-                                </div>
-                            </div>
-                        </li>
-
+                                </li>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
                     <?php endforeach; ?>
+                </form>
             </ul>
-            </form>
+            
 
 
+            <!-- フィルター -->
             <div class="filter_left_wrapper">
-                <!-- 白色の擬似要素div -->
-                <!-- <div class="white_div"></div> -->
-                <div class="filter-cond" id="filter_side">
-                    <!-- <div class="agents_type"> -->
-                    <!-- 実際に表示されてるエージェント数をいれる -->
-                    <p class="filter_num"><span>5</span>件</p>
+            <div class="filter-cond" id="filter_side">
+                <div id="select" >
+                    <span class="filter_num  js_numerator"></span>件／全<span class="el_searchResult js_denominator"></span>件
                     <div class="filter_box">
                         <p class="filter_script">絞り込み条件</p>
                         <?php foreach ($t_list as $filter_sort) : ?>
                             <div class="filter_sort_name"><?= current($filter_sort)['sort_name']; ?></div>
-                            <div class="each_filter_box">
+                            <div class="each_filter_box js_conditions" data-type="<?= current($filter_sort)['id']; ?>">
                                 <?php foreach ($filter_sort as $filter_tag) : ?>
-                                    <div class="w">
-                                        <input type="checkbox" name="agent_tags[]" class="checks" id="form" value="<?= $filter_tag['tag_id'] ?>" />
-                                        <label class="added-tag" for="form">
-                                            <?= $filter_tag['tag_name']; ?>
-                                        </label>
-                                    </div>
+                                        <span class="w bl_selectBlock_check">
+                                            <input type="checkbox" name="agent_tags[]" class="checks" id="form"  value="<?= $filter_tag['tag_name'] ?>"/>
+                                            <label class="added-tag" for="form">
+                                                <?= $filter_tag['tag_name']; ?>
+                                            </label>    
+                                        </span>
                                 <?php endforeach; ?>
                             </div>
                         <?php endforeach; ?>
                     </div>
+                    
 
                     <div class="filter_btn">
                         <div class="flex_btn">
-                            <button class="reset_btn" id="uncheck-btn" type="reset">リセット</button>
+                        <div class="reset_btn  js_release" id="uncheck-btn" type="reset">リセット</div>
+                            <!-- <button class="reset_btn" id="uncheck-btn" type="reset">リセット</button> -->
                             <button class="reset_btn to_filter_btn" id="uncheck-btn" type="reset">絞りこむ</button>
                         </div>
-                        <!-- <div class="all_btn" id="check-btn" type="button"></div> -->
-                        <!-- <button class="trigger_keep_btn"><label for="trigger_keep">キープ：<span id="counter_dis" ><div class="tohokuret">0</div></span>件<br>確認する</label></button> -->
                         <button class="trigger_keep_btn btn_gray"><label for="trigger_keep"><span id="counter_dis">
                                     <div class="tohokuret btn_gray">0</div>
                                 </span>件キープ中<br>確認する</label></button>
-                        <!-- <button ><label for="trigger_keep">キープ：<span id="counter_dis" ><div class="tohokuret">0</div></span>件<br>確認する</label></button> -->
-                        <!-- <button class="bn632-hover bn19 open_button" ><label for="trigger_keep">キープ：<span id="counter_dis" ><div class="tohokuret">0</div></span>件<br>確認する</label></button> -->
                     </div>
-
                 </div>
-
-                <!-- <btn class="keep_btn" id="keep_btn"> -->
-                <!-- <div class="button05"> -->
-                <!-- <button  class="bn632-hover bn19 open_button" ><label for="trigger_keep">キープ：<span id="counter_dis" ><div class="tohokuret">0</div></span>件<br>確認する</label></button> -->
-
-                <!-- </div> -->
-                <!-- </btn> -->
             </div>
+        </div>
 
 
 
@@ -241,9 +232,7 @@ foreach ($agents_tags as $a) {
                                             キープ：<span id="count_dis">
                                                 <div class="tohokuret">0</div>
                                             </span>件<br>問い合わせる
-                                            <!-- <button type="submit" form="inquiry_submit" value="問い合わせる">ああ</button> -->
-
-                                            <!-- <form action="/src/usercontact/entry.php"><input type="submit" form="inquiry_submit" value="問い合わせる"></form> -->
+                                            
                                         </button>
 
                                     </div>
@@ -318,58 +307,6 @@ foreach ($agents_tags as $a) {
         </div>
     </footer>
 
-
-
-
-
-
-    <!-- 絞り込み機能のサンプル -->
-    <div id="select" class="bl_selectBlock">
-      <div class="el_searchResult">
-        <span class="el_searchResult_nume js_numerator"></span>件／全<span class="el_searchResult_deno js_denominator"></span>件
-      </div>
-
-    <?php foreach ($t_list as $filter_sort) : ?>
-    <div class="filter_sort_name"><?= current($filter_sort)['sort_name']; ?></div>
-        <div class="each_filter_box js_conditions" data-type="<?= current($filter_sort)['id']; ?>">
-            <?php foreach ($filter_sort as $filter_tag) : ?>
-                    <span class="bl_selectBlock_check">
-                        <input type="checkbox" name="agent_tags[]" class="checks" id="form"  value="<?= $filter_tag['tag_name'] ?>"/>
-                        <label class="added-tag" for="form">
-                            <?= $filter_tag['tag_name']; ?>
-                        </label>
-                    </span>
-            <?php endforeach; ?>
-        </div>
-    <?php endforeach; ?>
-
-    <div class="bl_selectBlock_release js_release">すべての選択を解除</div>
-    </div>
-
-
-
-    <div class="bl_searchResultBlock">
-        <?php foreach ($listed_agents as $listed_agent) : ?>
-                <div class="agent_type">
-                    <!--  タグ表示↓ -->
-                    <?php foreach ($at_list as $agent_tags) : ?>
-                        <?php if ($listed_agent['id'] === current($agent_tags)['agent_id']) : ?>
-                            <li class="agent_tag js_target agent_box"  id="tohoku_<?php echo $listed_agent['id'] ?>"
-                                <?php foreach ($agent_tags as $agent_tag) : ?> 
-                                    data-<?= $agent_tag['sort_id']; ?>="<?= $agent_tag['tag_name'] ?>"
-                                <?php endforeach; ?>
-                                >
-                                <?php foreach ($agent_tags as $agent_tag) : ?>
-                                    #<?= $agent_tag['tag_name']; ?>
-                                <?php endforeach; ?>
-                            </li>    
-                        <?php endif; ?>
-                    <?php endforeach; ?>
-                    <!--  タグ表示↑ -->
-                </div>
-        <?php endforeach; ?>
-    </div>
-
     <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
     <script src="main.js"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
@@ -377,38 +314,3 @@ foreach ($agents_tags as $a) {
 
 </html>
 
-
-
-<!-- ↓ここのコメントアウトを外す  -->
-            <!-- <div class="bl_selectBlock_ttl">エージェントのタイプ</div>
-            <div class="bl_selectBlock_content js_conditions" data-type="1">
-              <span class="bl_selectBlock_check"><input type="checkbox"  value="tokka">
-                <label for="type-tokka">
-                  特化型
-                </label>
-              </span>
-              <span class="bl_selectBlock_check"><input type="checkbox" value="sougou">
-                <label for="type-sougou">
-                  総合型
-                </label>
-              </span>
-            </div>
-
-          <div class="bl_selectBlock_ttl">志望会社の規模</div>
-            <div class="bl_selectBlock_content js_conditions" data-type="2">
-              <span class="bl_selectBlock_check"><input  type="checkbox"  value="大手志望">
-                <label for="scale-ote">
-                  大手志望
-                </label>
-              </span>
-              <span class="bl_selectBlock_check"><input  type="checkbox"  value="ベンチャー志望">
-                <label for="scale-venture">
-                  ベンチャー企業
-                </label>
-              </span>
-            </div> -->
-
- <!--↓ここのコメントアウトを外す  -->
-      <!-- <div class="js_target" data-1="tokka" data-2="大手志望" >特化型/大手志望</div>
-      <div class="js_target" data-1="tokka" data-2="ベンチャー志望" >特化型/ベンチャー志望</div>
-      <div class="js_target" data-1="sougou" data-2="大手志望"  >総合型/大手志望</div> -->
