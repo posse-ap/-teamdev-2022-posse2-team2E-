@@ -52,6 +52,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
   endforeach;
 
+  // agentへ一斉送信
+  // agent email
+  $stmt = $db->prepare('select to_send_email from agents where id = :id');
+  // var_dump($form['student_contacts']);
+  foreach ($form['student_contacts'] as $student_contact) :
+    $stmt->bindValue('id', (int)$student_contact, PDO::PARAM_INT);
+    $stmt->execute();
+    $agents_email[] = $stmt->fetch(PDO::FETCH_ASSOC);  
+  endforeach;
+    // var_dump($agents_email);
+  mb_language("Japanese");
+	mb_internal_encoding("UTF-8");
+ 
+  foreach($agents_email as $a_email){
+	$to = $a_email['to_send_email'];
+	$subject = '学生問い合わせ';
+  $message = '下記の学生から問い合わせがありました。';
+  $header = ['From'=>'craft@boozer.com', 'Content-Type'=>'text/plain; charset=UTF-8', 'Content-Transfer-Encoding'=>'8bit'];
+  $result = mb_send_mail($to,$subject,$message,$header);
+  }
+// var_dump($result);
+  //     $message = $form['name'];
+ 
+	// 		if(mb_send_mail($to, $title, $content)){
+	// 			echo "メールを送信しました";
+	// 		} else {
+	// 			echo "メールの送信に失敗しました";
+	// 		}
+
+
+
+  // agentへ一斉送信ここまで
+
   unset($_SESSION['form']);
   header('location: thanks.php');
 }
