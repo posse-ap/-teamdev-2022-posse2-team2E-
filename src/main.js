@@ -76,22 +76,84 @@ const el = document.getElementsByClassName("checks");
 //     }
 // });
 
-// 途中から左側固定
+// 途中から右固定
 var nav_pos = $("#filter_side").offset().top;
 var nav_height = $("#filter_side").outerHeight();
 $(window).scroll(function () {
     // if ($(this).scrollTop() > nav_pos -90) {
-    if ($(this).scrollTop() > nav_pos) {
+    if ($(this).scrollTop() > nav_pos - 150) {
         $("filter").css("padding-top", nav_height);
-        $("#filter_side").addClass("fixed");
+        // $("#filter_side").addClass("fixed");
         $(".filter_left_wrapper").addClass("white");
+        $(".filter_left_wrapper").removeClass("none");
+
     } else {
         $("filter").css("padding-top", 0);
-        $("#filter_side").removeClass("fixed");
-        $(".filter_left_wrapper").removeClass("white");
+        // $("#filter_side").removeClass("fixed");
+        $(".filter_left_wrapper").addClass("none");
+        // $(".filter_left_wrapper").removeClass("white");
 
     }
 });
+
+$(function () {
+    //.scroll_topを変数[topBtn]に入れる 
+    var topBtn = $('#filter_side');
+    var fixed = $('.filter_left_wrapper');
+    //topBtnはhide()にして見えないようにする 
+    topBtn.hide();
+    fixed.hide();
+    $(window).scroll(function () {
+        //1300pxスクロールしたらtopBtnをフェードイン表示させる 
+        if ($(this).scrollTop() > 1300) {
+            topBtn.fadeIn();
+            fixed.fadeIn();
+        } else {
+            //もし上にスクロールして1300px未満になったらフェードアウトさせる 
+            topBtn.fadeOut();
+            fixed.fadeOut();
+        }
+    });
+});
+
+// $(function () {
+//         var topBtn = $('#filter_side');
+//         topBtn.hide();
+//     $(window).scroll(function () {
+//         var imgPos = $(this).offset().top;
+//         var scroll = $(window).scrollTop();
+//         var windowHeight = $(window).height();
+//         // if (scroll > imgPos - windowHeight + 300) {
+//               if (scroll > imgPos - windowHeight + windowHeight/5){
+//             topBtn.fadeIn();
+//             // $(this).addClass("fade-in");
+//             // $("#filter_side").addClass("fixed");
+//             // $(".filter_left_wrapper").addClass("white");
+//             // $(".filter_left_wrapper").removeClass("none");
+//         } else {
+//             topBtn.fadeOut();
+//             // $(this).removeClass("fade-in");
+//             // $("#filter_side").removeClass("fixed");
+//             // $(".filter_left_wrapper").removeClass("white");
+//         }
+//     });
+// });
+
+
+// jQuery(function ($) {
+//   var fadeIn = $('.fade-in');
+//   $(window).on('scroll', function () {
+//     $(fadeIn).each(function () {
+//       var offset = $(this).offset().top;
+//       var scroll = $(window).scrollTop(); 
+//       var windowHeight = $(window).height();
+//       if (scroll > offset - windowHeight + 100) {
+//         $(this).addClass("scroll-in");
+//       }
+//     });
+//   });
+// });
+
 
 // // キープ一覧にあるエージェントを最初は非表示
 // const keepAgentElements = document.querySelectorAll('.keep_agent_box');
@@ -187,8 +249,9 @@ function buttonDelete(id) {
     keep_agent_box.style.display = "none";
     keep.checked = false;
 
-// countをなんかしらで定義して、134行目から1引く、ってやりたい
-// できたああああああああ
+
+    // countをなんかしらで定義して、134行目から1引く、ってやりたい
+    // できたああああああああ
     // let count = keep_agent_box.length;
 
     let count = tohokuret.innerHTML;

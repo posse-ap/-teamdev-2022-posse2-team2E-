@@ -257,7 +257,8 @@ git
 container{
     margin-top: 50rem;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    /* justify-content: center; */
     overflow: scroll;
 
 }
@@ -265,13 +266,22 @@ container{
     display: flex;
     flex-direction: row;
     padding: 10rem 0;
-    margin: 0rem auto 100rem;
+    /* margin: 0rem auto 100rem; */
+    margin-bottom: 100rem;    
     width: 90%;
 }
 
-.filter_items{
+/* .filter_items{
     width: 80%;
     display: flex;
+    height: 100vh;
+} */
+
+.filter-items{
+    /* width: 80%;
+    display: flex;
+    height: 100vw; */
+    margin-left: 10vw;
 }
 
 .filter_num{
@@ -406,7 +416,12 @@ container{
 }
 
 .none {
-    display: none;
+    /* display: none; */
+    /* opacity: 0.4; */
+    opacity: 0;
+        /* -o-transition: all .8s ease-in-out;
+    -webkit-transition: all .8s ease-in-out;
+    transition: all .8s ease-in-out; */
 }
 
 .trigger_keep_btn:hover {
@@ -484,13 +499,11 @@ color: #fff !important;
     background-color: #fff;
 } */
 
-/* #filter_side {
-    height: 100%;
-} */
 
-#filter_side.fixed {
+#filter_side {
     position: fixed;
-    right: 90rem;
+    /* right: 90rem; */
+    right: 0;
     top: 0;
     /* top: 90rem; */
     /* border-radius: 20rem; */
@@ -504,10 +517,24 @@ color: #fff !important;
     /* margin-top: 100rem; */
 }
 
+/* #filter_side.fixed {
+    position: fixed;
+    right: 0;
+    top: 0;
+    background-color: #4FA49A;
+    color: white;
+    width: 280rem;
+    height: 100%;
+    padding: 0 20rem 0 30rem;
+} */
+
 .filter_left_wrapper{
     color: white;
     width: 280rem;
-    height: 100vh;
+    /* height: 100vh; */
+    /* position: sticky; */
+    top: 10px;
+    z-index: 1;
     /* height: 600rem; */
     /* margin-top: 100rem; */
     /* border-radius: 20rem 20rem 0; */
@@ -515,6 +542,44 @@ color: #fff !important;
     padding: 0 20rem 0 30rem;
     background-color: #4FA49A;
 }
+
+.fade-out{
+    opacity:0;
+    -webkit-transition:all 1s;
+    -moz-transition:all 1s;
+    -o-transition:all 1s;
+    -ms-transition:all 1s;
+    transition:all 3s;
+    background-color: white;
+}
+.fade-in{
+    opacity:1;
+    -webkit-transition:all 1s;
+    -moz-transition:all 1s;
+    -o-transition:all 1s;
+    -ms-transition:all 1s;
+    transition:all 3s;
+    
+    position: fixed;
+    right: 0;
+    top: 0;
+}
+
+/* 
+.fade-in {
+  opacity: 0;
+  transition-duration: 500ms;
+  transition-property: opacity, transform;
+}
+
+.fade-in-left {
+  transform: translate(50px, 0);
+}
+
+.scroll-in {
+  opacity: 1;
+  transform: translate(0, 0);
+} */
 
 .each_filter_box {
     display: flex;
