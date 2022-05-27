@@ -27,6 +27,13 @@ if (!$result) {
     exit('データがありません。');
 }
 
+// mail送信用
+$stmt = $db->prepare('SELECT * FROM agents where id = :id');
+$stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
+$stmt->execute();
+$agent = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
 // 通報内容
 $stmt = $db->prepare('SELECT * FROM invalid_requests  where contact_id = :contact_id');
 $stmt->bindValue(':contact_id', (int)$id, PDO::PARAM_INT);
@@ -52,10 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //学生問い合わせ確認メール
     mb_language("Japanese");
     mb_internal_encoding("UTF-8");
-    $to = $form['email'];
+    $to = 'craft@boozer.com';
     $subject = '無効申請メール';
-    $message = '○○社から無効申請メールが送信されました';
-    $header = ['From' => 'craft@boozer.com', 'Content-Type' => 'text/plain; charset=UTF-8', 'Content-Transfer-Encoding' => '8bit'];
+    $message =  $agent['insert_company_name']."から無効申請メールが送信されました";
+    $header = ['From' => $agent['to_send_email'], 'Content-Type' => 'text/plain; charset=UTF-8', 'Content-Transfer-Encoding' => '8bit'];
     $result = mb_send_mail($to, $subject, $message, $header);
     if (!$result) {
         echo 'メールの送信に失敗しました';
