@@ -69,7 +69,7 @@ foreach ($filter_sorts_tags as $f) {
 }
 
 // タグ表示テスト　htmlの上に各部分
-$stmt = $db->query('select agent_id, at.tag_id, tag_name from agents_tags at, filter_tags ft where at.tag_id = ft.tag_id');
+$stmt = $db->query('select agent_id, at.tag_id, sort_id, tag_name from agents_tags at, filter_tags ft where at.tag_id = ft.tag_id');
 $agents_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $at_list = [];
 

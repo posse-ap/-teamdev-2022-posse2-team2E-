@@ -60,7 +60,7 @@ table td {
   vertical-align: middle;
 }
 table th {
-  background-color: #4fa49a;
+  /* background-color: #4fa49a; */
   color: white;
 }
 table th:nth-child(1),
