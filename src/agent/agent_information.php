@@ -45,7 +45,7 @@ try {
             <ul>
                 <li><a href="agent_students_all.php">学生情報一覧</a></li>
                 <li><a href="agent_information.php">登録情報</a></li>
-                <li><a href="#">ユーザー画面へ</a></li>
+                <li><a href="../index.php" target="_blank">ユーザー画面へ</a></li>
                 <li><a href="agent_logout.php">ログアウト</a></li>
             </ul>
         </nav>
@@ -54,7 +54,7 @@ try {
         <div class="left_wrapper">
             <li><a href="agent_students_all.php">学生情報一覧</a></li>
             <li><a href="agent_information.php">登録情報</a></li>
-            <li><a href="#">ユーザー画面へ</a></li>
+            <li><a href="../index.php" target="_blank">ユーザー画面へ</a></li>
             <li><a href="agent_logout.php">ログアウト</a></li>
         </div>
         <div class="right_wrapper">
@@ -104,7 +104,8 @@ try {
                     </tr>
                     <tr>
                         <th>ログイン用パスワード</th>
-                        <td><?php echo ($result['login_pass']); ?></td>
+                        <td>非表示</td>
+                        <!-- <td><?php echo ($result['login_pass']); ?></td> -->
                     </tr>
                     <tr>
                         <th>情報送信先メールアドレス</th>
@@ -126,13 +127,17 @@ try {
                         <th>取扱企業数</th>
                         <td><?php echo ($result['insert_handled_number']); ?></td>
                     </tr>
-                    <tr>
-                        <th>詳細情報</th>
-                        <td><?php echo ($result['insert_detail']); ?></td>
-                    </tr>
                 </table>
             </div>
         </div>
+    </div>
+        <div class="inquiry">
+        <p>お問い合わせは下記の連絡先にお願いいたします。
+            <br>craft運営 boozer株式会社事務局
+            <br>TEL:080-3434-2435
+            <br>Email:craft@boozer.com
+        </p>
+    </div>
 </body>
 
 </html>

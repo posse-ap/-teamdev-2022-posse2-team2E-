@@ -8,7 +8,7 @@ if (!isset($_SESSION["login"])) {
   exit();
 }
 
-// try {一時
+try {
 // 全てのエージェントの掲載ステータスをupdateする。
 date_default_timezone_set('Asia/Tokyo');
 $today = date("Y-m-d");
@@ -30,18 +30,7 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // 今月の申し込み数
 foreach($agents as $agent){
-$stmt = $db->prepare('SELECT *
-  FROM
-  students AS S, students_contacts AS SC, agents AS A
-  WHERE 
-  S.id = SC.student_id
-  AND
-  SC.agent_id = A.id
-  AND
-  SC.agent_id = :agent_id
-  AND
-  DATE_FORMAT(S.created, "%Y-%m") = :form_month
-  ');
+$stmt = $db->prepare('SELECT * FROM students AS S, students_contacts AS SC, agents AS A WHERE S.id = SC.student_id AND SC.agent_id = A.id AND SC.agent_id = :agent_id AND DATE_FORMAT(S.created, "%Y-%m") = :form_month ');
 $stmt->bindValue(':form_month', Date('Y-m'), PDO::PARAM_STR);
 $stmt->bindValue(':agent_id', $agent['id'], PDO::PARAM_INT);
 $stmt->execute();
@@ -66,6 +55,7 @@ $success = $stmt->execute();
 if (!$success) {
   die($db->error);
 }
+// upadateここまで
 
 
 // 掲載エージェント
@@ -126,11 +116,11 @@ foreach ($agents_tags as $a) {
 
 
 
-// } catch (PDOException $e) {一時
-//   echo '接続失敗';
-//   $e->getMessage();
-//   exit();
-// };
+} catch (PDOException $e) {
+  echo '接続失敗';
+  $e->getMessage();
+  exit();
+};
 ?>
 
 <!DOCTYPE html>
@@ -162,9 +152,6 @@ foreach ($agents_tags as $a) {
           <a href="./tags/tagsEdit.php">
             <li class="header-nav-item">タグ一覧</li>
           </a>
-          <a href="./contact/contact.php">
-            <li class="header-nav-item">問い合わせ一覧</li>
-          </a>
           <a href="./login/loginInfo.php">
             <li class="header-nav-item">ログイン情報</li>
           </a>
@@ -182,7 +169,7 @@ foreach ($agents_tags as $a) {
         <!-- 掲載企業、停止企業の条件つける -->
         <tr>
           <th>エージェント名</th>
-          <th>契約期間</th>
+          <th>掲載期間</th>
           <th colspan="2">操作</th>
           <th>登録タグ</th>
         </tr>

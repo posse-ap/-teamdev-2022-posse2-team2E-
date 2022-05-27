@@ -36,8 +36,8 @@ if (!$result) {
 }
 
 
-// エージェント名取得
-$stmt = $db->prepare('SELECT insert_company_name FROM agents WHERE id=:id');
+// エージェント取得
+$stmt = $db->prepare('SELECT * FROM agents WHERE id=:id');
 $stmt->bindValue(':id', (int)$agent_id, PDO::PARAM_INT);
 $stmt->execute();
 $agent = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -58,8 +58,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
     $stmt->execute();
 
-    header("location: contactDetail.php?agent=$agent_id&id=$id");
+    //学生問い合わせ確認メール
+    mb_language("Japanese");
+    mb_internal_encoding("UTF-8");
+    $to = $agent['to_send_email'];
+    $subject = '【Boozer株式会社】無効申請承認のお知らせ';
+    $message =  "
+    ※このメールはシステムからの自動返信です
+    
+    " . $agent['client_name'] . "様
 
+    お世話になっております。
+    Boozer株式会社でございます。
+    以下の学生を請求対象からお外ししました。
+    
+    ━━━━━━□■□　学生情報　□■□━━━━━━
+    問い合わせID：" . h($id) . "
+    氏名：" . h($result["name"]) . "
+    申込日時：" . h($result['created']) . "
+    電話番号：" . h($result["tel"]) . "
+    Email：" . h($result["email"]) . "
+    学校名(大学/大学院/専門学校/短大/高校等)：" . h($result["collage"]) . "
+    学部/学科：" . h($result["department"]) . "
+    卒業年度：" . h($result["class_of"]) . "年卒
+    住所：" . h($result["address"]) . "
+    備考欄：" . h($result["memo"]) . "
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    お送りいただいた通報内容は以下です。
+    ━━━━━━□■□　通報内容　□■□━━━━━━
+    ".h($invalid_requests['invalid_request_memo'])."
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+    また、なにかありましたら、craft@boozer.comにお問い合わせください。なお、営業時間は平日9時〜18時となっております。
+    時間外のお問い合わせは翌営業日にご連絡差し上げます。
+    
+    ご理解・ご了承の程よろしくお願い致します。
+    ———————————————————————
+    craft運営 boozer株式会社事務局
+    担当：山田　太郎
+    TEL:080-3434-2435
+    Email:craft@boozer.com
+    
+    【会社情報】
+    住所：〒111-1111　東京都港区5-6-7-8
+    電話番号：090-1000-2000
+    営業時間：平日 9時～18時
+    ———————————————————————";
+    $header = ['From' => 'craft@boozer.com', 'Content-Type' => 'text/plain; charset=UTF-8', 'Content-Transfer-Encoding' => '8bit'];
+    $result = mb_send_mail($to, $subject, $message, $header);
+    if (!$result) {
+        echo 'メールの送信に失敗しました';
+    }
+
+    header("location: contactDetail.php?agent=$agent_id&id=$id");
 }
 
 // 無効化申請中/無効化承認済みをタイトルに表示
@@ -84,7 +138,7 @@ $stmt = $db->prepare(
 if (!$stmt) {
     die($db->error);
 }
-$stmt->bindValue(':email', $result['email'], PDO::PARAM_STR);
+$stmt->bindValue(':email', h($result['email']), PDO::PARAM_STR);
 
 $stmt->bindValue(':agent_id', (int)$agent_id, PDO::PARAM_INT);
 
@@ -97,7 +151,7 @@ $stmt = $db->prepare(
 if (!$stmt) {
     die($db->error);
 }
-$stmt->bindValue(':tel', $result['tel'], PDO::PARAM_STR);
+$stmt->bindValue(':tel', h($result['tel']), PDO::PARAM_STR);
 
 $stmt->bindValue(':agent_id', (int)$agent_id, PDO::PARAM_INT);
 
@@ -110,7 +164,7 @@ $stmt = $db->prepare(
 if (!$stmt) {
     die($db->error);
 }
-$stmt->bindValue(':name', $result['name'], PDO::PARAM_STR);
+$stmt->bindValue(':name', h($result['name']), PDO::PARAM_STR);
 
 $stmt->bindValue(':agent_id', (int)$agent_id, PDO::PARAM_INT);
 
@@ -131,7 +185,7 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <link rel="stylesheet" href="../css/reset.css" />
-  <link rel="stylesheet" href="../css/style.css" />
+<link rel="stylesheet" href="../css/style.css" />
 <link rel="stylesheet" href="../../agent/table.css">
 <link rel="stylesheet" href="../../agent/agent_students_detail.css">
 
@@ -152,11 +206,8 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <a href="../tags/tagsEdit.php">
                         <li class="header-nav-item">タグ一覧</li>
                     </a>
-                    <a href="../contact/contact.php">
-                        <li class="header-nav-item">問い合わせ一覧</li>
-                    </a>
                     <a href="../login/loginInfo.php">
-                        <li class="header-nav-item">管理者ログイン情報</li>
+                        <li class="header-nav-item">ログイン情報</li>
                     </a>
                     <a href="../login/logout.php">
                         <li class="header-nav-item">ログアウト</li>
@@ -165,83 +216,88 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </nav>
         </div>
     </header>
+    <main class="main contact_mg">
 
-    <div class="back">
-    <a href="contact.php?id=<?= $agent_id ?>">&laquo;&nbsp;<?= $agent['insert_company_name'] ?>問い合わせ一覧に戻る</a></div>
-    <main class="main">
-        
-            <h1 class="detail_title">学生情報詳細　　　　<?= set_valid_status($result['valid_status_id']) ?></h1>
-            <table class="students_detail" border="1" width="90%">
+        <h1 class="detail_title">学生情報詳細　　　　<?= set_valid_status($result['valid_status_id']) ?></h1>
+
+        <div class="back_inquiry_all">
+            <a href="contact.php?id=<?= $agent_id ?>">&laquo;&nbsp;<?= $agent['insert_company_name'] ?>問い合わせ一覧に戻る</a>
+        </div>
+        <table class="students_detail" border="1" width="90%">
+            <tr bgcolor="white">
+                <th bgcolor="#4FA49A">申込日時</th>
+                <td><?php echo h($result['created']) ?></td>
+            </tr>
+            <tr bgcolor="white">
+                <th bgcolor="#4FA49A">氏名</th>
+                <td><?php echo h($result['name']) ?>
+                    <?php foreach ($duplicated_names as $d_name) : if ($d_name['id'] !=  $id) : ?>
+                            <span style="background-color:red;">id<?= $d_name['id']; ?>と重複</span>
+                    <?php endif;
+                    endforeach ?>
+                </td>
+            </tr>
+            <tr bgcolor="white">
+                <th bgcolor="#4FA49A">メールアドレス</th>
+                <td><?php echo h($result['email']) ?>
+                    <?php foreach ($duplicated_emails as $d_email) : if ($d_email['id'] !=  $id) : ?>
+                            <span style="background-color:red;">id<?= $d_email['id']; ?>と重複</span>
+                    <?php endif;
+                    endforeach ?>
+                </td>
+            </tr>
+            <tr bgcolor="white">
+                <th bgcolor="#4FA49A">電話番号</th>
+                <td><?php echo h($result['tel']) ?>
+                    <?php foreach ($duplicated_tels as $d_tel) : if ($d_tel['id'] !=  $id) : ?>
+                            <span style="background-color:red;">id<?= $d_tel['id']; ?>と重複</span>
+                    <?php endif;
+                    endforeach ?>
+                </td>
+            </tr>
+            <tr bgcolor="white">
+                <th bgcolor="#4FA49A">大学</th>
+                <td><?php echo h($result['collage']) ?></td>
+            </tr>
+            <tr bgcolor="white">
+                <th bgcolor="#4FA49A">学科</th>
+                <td><?php echo h($result['department']) ?></td>
+            </tr>
+            <tr bgcolor="white">
+                <th bgcolor="#4FA49A">何年卒</th>
+                <td><?php echo h($result['class_of']) ?></td>
+            </tr>
+            <tr bgcolor="white">
+                <th bgcolor="#4FA49A">住所</th>
+                <td><?php echo h($result['address']) ?></td>
+            </tr>
+            <tr bgcolor="white">
+                <th bgcolor="#4FA49A">備考欄</th>
+                <td><?php echo h($result['memo']) ?>
+            </tr>
+            <tr bgcolor="white">
+                <th bgcolor="#4FA49A">問い合わせID</th>
+                <td><?php echo $id ?></td>
+            </tr>
+        </table>
+
+        <?php if ($result['valid_status_id'] != 1) : ?>
+            <table>
                 <tr bgcolor="white">
-                    <th bgcolor="#4FA49A">申込日時</th>
-                    <td><?php echo $result['created'] ?></td>
-                </tr>
-                <tr bgcolor="white">
-                    <th bgcolor="#4FA49A">氏名</th>
-                    <td><?php echo $result['name'] ?>
-                        <?php foreach ($duplicated_names as $d_name) : if ($d_name['id'] !=  $id) : ?>
-                                <span style="background-color:red;">id<?= $d_name['id']; ?>と重複</span>
-                        <?php endif;
-                        endforeach ?>
-                    </td>
-                </tr>
-                <tr bgcolor="white">
-                    <th bgcolor="#4FA49A">メールアドレス</th>
-                    <td><?php echo $result['email'] ?>
-                        <?php foreach ($duplicated_emails as $d_email) : if ($d_email['id'] !=  $id) : ?>
-                                <span style="background-color:red;">id<?= $d_email['id']; ?>と重複</span>
-                        <?php endif;
-                        endforeach ?>
-                    </td>
-                </tr>
-                <tr bgcolor="white">
-                    <th bgcolor="#4FA49A">電話番号</th>
-                    <td><?php echo $result['tel'] ?>
-                        <?php foreach ($duplicated_tels as $d_tel) : if ($d_tel['id'] !=  $id) : ?>
-                                <span style="background-color:red;">id<?= $d_tel['id']; ?>と重複</span>
-                        <?php endif;
-                        endforeach ?>
-                    </td>
-                </tr>
-                <tr bgcolor="white">
-                    <th bgcolor="#4FA49A">大学</th>
-                    <td><?php echo $result['collage'] ?></td>
-                </tr>
-                <tr bgcolor="white">
-                    <th bgcolor="#4FA49A">学科</th>
-                    <td><?php echo $result['department'] ?></td>
-                </tr>
-                <tr bgcolor="white">
-                    <th bgcolor="#4FA49A">何年卒</th>
-                    <td><?php echo $result['class_of'] ?></td>
-                </tr>
-                <tr bgcolor="white">
-                    <th bgcolor="#4FA49A">住所</th>
-                    <td><?php echo $result['address'] ?></td>
-                </tr>
-                <tr bgcolor="white">
-                    <th bgcolor="#4FA49A">備考欄</th>
-                    <td><?php echo $result['memo'] ?>
-                </tr>
-                <tr bgcolor="white">
-                    <th bgcolor="#4FA49A">問い合わせID</th>
-                    <td><?php echo $id ?></td>
+                    <th class="notice">通報内容</th>
+                    <td><?php echo h($invalid_requests['invalid_request_memo']) ?></td>
                 </tr>
             </table>
-                <form action="" method="post" enctype="multipart/form-data">
-                    <p><input type="submit" value="無効化"></p>
-                </form>
-            <?php if ($result['valid_status_id'] != 1) : ?>
-                <table>
-                    <tr bgcolor="white">
-                        <th bgcolor="red">通報内容</th>
-                        <td><?php echo h($invalid_requests['invalid_request_memo']) ?></td>
-                    </tr>
-                </table>
-            <?php endif; ?>
+        <?php endif; ?>
+        <?php if ($result['valid_status_id'] === 2) : ?>
+
+            <form action="" method="post" enctype="multipart/form-data">
+                <p><input type="submit" class="make_invalid" value="無効化"></p>
+            </form>
+        <?php endif; ?>
         </div>
-    </div>
-    <script src="agent_students_detail.js"></script>
+        </div>
+        <script src="agent_students_detail.js"></script>
     </main>
 </body>
 

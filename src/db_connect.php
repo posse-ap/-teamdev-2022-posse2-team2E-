@@ -5,8 +5,9 @@
 //   }
 // }
 
+// $value = array();
 function h($value) {
-	return htmlspecialchars($value, ENT_QUOTES);
+	return htmlspecialchars((string)$value, ENT_QUOTES, "UTF-8");
 }
 
 function set_list_status($list_status)

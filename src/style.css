@@ -9,11 +9,17 @@ html{
 /* ヘッダー */
 header{
     background-color: #4fa49a;
-    height: 100rem;
+    height: 80rem;
     width: 100%;
     font-size: 18rem;
     text-align: center;
     padding-bottom: 20rem;
+}
+
+header img {
+    width: 200rem;
+    height: 60rem;
+    object-fit: cover;
 }
 
 header nav ul {
@@ -27,6 +33,19 @@ header nav ul li a {
     padding-right: 15rem;
     font-weight: bold;
     text-decoration: none;
+    pointer-events: none;
+}
+
+@media only screen and (max-width: 768px) {
+header a{
+    font-size: 16px;
+}
+}
+
+@media only screen and (max-width: 520px) {
+header a {
+  font-size: 3vw;
+}
 }
 
 .first_message{
@@ -246,7 +265,7 @@ container{
     display: flex;
     flex-direction: row;
     padding: 10rem 0;
-    margin: 10rem auto 100rem;
+    margin: 0rem auto 100rem;
     width: 90%;
 }
 
@@ -353,12 +372,6 @@ container{
 
 }
 
-.btn_gray {
-    pointer-events: none;
-    color: rgb(216, 211, 211);
-    background-color: rgb(134, 134, 134);
-}
-
 .int_white {
     color: white;
     background-color: transparent;
@@ -382,6 +395,18 @@ container{
       #fa7199,
       #e85a19
     )
+}
+
+.btn_gray {
+    pointer-events: none;
+    color: rgb(216, 211, 211);
+    background-color: rgb(134, 134, 134);
+    background-image: none !important;
+    box-shadow: none;
+}
+
+.none {
+    display: none;
 }
 
 .trigger_keep_btn:hover {
@@ -422,6 +447,8 @@ container{
 .tohokuret {
     /* width: 10px; */
     /* margin: auto 0; */
+    margin-right: 10rem;
+    font-size: 35rem;
 }
 
 
@@ -585,6 +612,9 @@ color: #fff !important;
     border-style: none;
 } */
 
+.keep_agent_box {
+
+}
 
 /* 各エージェントのボックス */
 .agent_box{
@@ -982,8 +1012,9 @@ color: #fff !important;
   .modal_keep_header{
       display: flex;
       justify-content: center;
+      align-items: flex-end;
       margin-left: 400rem;
-      margin-top: 50rem;
+      /* margin-top: 40rem; */
   }
 
 
@@ -992,11 +1023,17 @@ color: #fff !important;
       font-size: 50rem;
       text-align: center;
       margin-top: 20rem;
+      color: black;
   }
 
   .keep_container{
-      margin-top: 0;
-      padding-top: 0;
+    margin-top: 0;
+    padding-top: 0;
+
+    display: flex;
+    flex-wrap: wrap;
+
+
   }
 
   .keep_btn .keep_inquiry_btn{
@@ -1006,6 +1043,14 @@ color: #fff !important;
       height: 100rem;
       font-size: 20rem;
       font-weight: 400;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+
+  .keep_inquiry_btn span {
+    text-align: left;
   }
 
   .keep_left{
@@ -1046,16 +1091,27 @@ color: #fff !important;
   
   
   .modal_keep .modal_content {
-      border-radius: 20rem;
-      font-size: 20rem;
-      align-self: center;
-      width: 95%;
-      height: 100%;
-      padding: 30px 30px 15px;
-      box-sizing: border-box;
-      background: #fff;
-      line-height: 1.4em;
-      transition: 0.5s;
+    border-radius: 20rem;
+    font-size: 20rem;
+    align-self: center;
+    margin: 20rem 15rem;
+    width: 95%;
+    /* height: 100vh; */
+    /* height: 100%; */
+    /* padding: 30px 30px 15px; */
+    padding: 30px 30px 0px;
+    box-sizing: border-box;
+    background: #fff;
+    line-height: 1.4em;
+    transition: 0.5s;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+       /* top: 50%;
+   left: 50%; */
+   /* -webkit-transform: translate(-50%, -50%);
+   transform: translate(-50%, -50%); */
   }
   
   .modal_content p {
@@ -1108,7 +1164,7 @@ color: #fff !important;
  .modal_recommend_points_box{
      display: flex;
      align-items: center;
-    padding: 3rem 10rem 3rem 10rem;
+    padding: 3rem 10rem;
     margin: 0em 0;
     color: #5d627b;
     background: white;
@@ -1127,9 +1183,10 @@ color: #fff !important;
  }
 
  .modal-filter-items .agent_box{
-     width: 649;
-     height: 470rem;
+     /* width: 649; */
+     height: 380rem;
      display: flex;
+     margin: 0 0 40rem 0;
      /* flex-direction: row; */
  }
 
@@ -1215,8 +1272,8 @@ label input + span:before {
     background-color: #4FA49A;
     text-align: center;
     color: #fff;
+    padding: 10px 0;
     }
-
 
 
 /* 絞り込み機能 */
@@ -1262,3 +1319,90 @@ label input + span:before {
   .js_release{
     cursor: pointer;
   }
+
+.inquiry_done {
+    width: 60%;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.inquiry_done h1 {
+    font-size: 40px;
+    margin: 80px auto 40px;
+}
+
+.green_line {background:rgba(0, 0, 0, 0) linear-gradient(transparent 70%, #f58607 0%) repeat scroll 0 0;}
+
+.green_line2 {background:rgba(0, 0, 0, 0) linear-gradient(transparent 80%, #51bbaf 0%) repeat scroll 0 0;}
+
+
+.inquiry_done img {
+    width: 600px;
+    margin: 30px auto;
+}
+
+.inquiry_done p {
+    width: 80%;
+    font-size: 18px;
+    text-align: center;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+.inquiry_done a {
+    width: 200px;
+    margin: 50px auto;
+    font-size: 18px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background-color: #4FA49A;
+    color: white;
+}
+
+.bottom {
+    position: fixed;
+    bottom: 0;
+}
+
+@media only screen and (max-width: 800px) {
+.inquiry_done {
+    width: 80%;
+}
+}
+
+@media only screen and (max-width: 500px) {
+.inquiry_done {
+    /* width: 80%; */
+    margin: 20px auto;
+}
+
+.inquiry_done h1 {
+    font-size: 30px;
+}
+.inquiry_done p {
+    font-size: 16px;
+    width: 90%;
+
+}
+}
+
+@media only screen and (max-width: 400px) {
+.inquiry_done h1 {
+    font-size: 7vw;
+}
+.inquiry_done p {
+    font-size: 4vw;
+}
+
+.inquiry_done a {
+    width: 150px;
+    margin: 40px auto;
+    font-size: 16px;
+    height: 40px;
+    line-height: 40px;
+}
+
+}

@@ -1,19 +1,55 @@
 <?php
 require('db_connect.php');
 
-// $to = 'user@gmail.com';
-// $subject = '本登録をお願いします。';
-// $message = 'URLから本登録をお願いします。';
-// $from = 'test@gmail.com';
-// $header = "From: ".$from."\r\n";
-// mb_language('Japanese');
-// mb_internal_encoding("UTF-8");
-// $result = mb_send_mail($to,$subject,$message,$header);
-// var_dump($result);
-// exit;
-
-
 try {
+    // 全てのエージェントの掲載ステータスをupdateする。
+    date_default_timezone_set('Asia/Tokyo');
+    $today = date("Y-m-d");
+    // 掲載再開
+    $stmt = $db->prepare('update agents set list_status=1 where started_at <= :started_at and ended_at >= :ended_at');
+    $stmt->bindValue(':started_at', $today, PDO::PARAM_STR);
+    $stmt->bindValue(':ended_at', $today, PDO::PARAM_STR);
+    $success = $stmt->execute();
+    if (!$success) {
+        die($db->error);
+    }
+
+    // 申し込み上限数到達(今月の申し込み数と比較)
+    // 全てのエージェントでforeach
+    // 全てのエージェント
+    $stmt = $db->query('select id from agents');
+    $stmt->execute();
+    $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // 今月の申し込み数
+    foreach ($agents as $agent) {
+        $stmt = $db->prepare('SELECT * FROM students AS S, students_contacts AS SC, agents AS A WHERE S.id = SC.student_id AND SC.agent_id = A.id AND SC.agent_id = :agent_id AND DATE_FORMAT(S.created, "%Y-%m") = :form_month ');
+        $stmt->bindValue(':form_month', Date('Y-m'), PDO::PARAM_STR);
+        $stmt->bindValue(':agent_id', $agent['id'], PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $cnt = count($result);
+        // 比較
+        $stmt = $db->prepare('update agents set list_status=3 where id= :id and application_max <= :application');
+        $stmt->bindValue(':id', $agent['id'], PDO::PARAM_INT);
+        $stmt->bindValue(':application', $cnt, PDO::PARAM_INT);
+        $success = $stmt->execute();
+        if (!$success) {
+            die($db->error);
+        }
+    }
+
+    // 掲載期間外
+    $stmt = $db->prepare('update agents set list_status=2 where started_at > :started_at or ended_at < :ended_at');
+    $stmt->bindValue(':started_at', $today, PDO::PARAM_STR);
+    $stmt->bindValue(':ended_at', $today, PDO::PARAM_STR);
+    $stmt->execute();
+    $success = $stmt->execute();
+    if (!$success) {
+        die($db->error);
+    }
+    // upadateここまで
+
     $stmt = $db->prepare('select * from agents where list_status=?');
     $stmt->execute([1]);
     $listed_agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -22,7 +58,6 @@ try {
     $e->getMessage();
     exit();
 };
-
 
 //タグ情報
 $stmt = $db->query('select fs.id, sort_name, tag_id, tag_name from filter_sorts fs inner join filter_tags ft on fs.id = ft.sort_id;
@@ -33,20 +68,16 @@ foreach ($filter_sorts_tags as $f) {
     $t_list[(int)$f['id']][] = $f;
 }
 
-
 // タグ表示テスト　htmlの上に各部分
 $stmt = $db->query('select agent_id, at.tag_id, sort_id, tag_name from agents_tags at, filter_tags ft where at.tag_id = ft.tag_id');
 $agents_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $at_list = [];
+
+// var_dump($agents_tags[0]);
 foreach ($agents_tags as $a) {
     $at_list[(int)$a['agent_id']][] = $a;
 }
-
 ?>
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -67,13 +98,10 @@ foreach ($agents_tags as $a) {
         <img src="logo.png" alt="">
         <nav>
             <ul>
-                <li><a href="">就活サイト</a></li>
-                <!-- <li><a href="">就活支援サービス</a></li> -->
-                <!-- <li><a href="">自己分析診断ツール</a></li> -->
-                <li><a href="">ES添削サービス</a></li>
-                <li><a href="">就活エージェント</a></li>
-                <!-- <li><a href="">就活の教科書とは</a></li> -->
-                <li><a href="">お問い合わせ</a></li>
+                <li><a href="#">就活サイト</a></li>
+                <li><a href="#">就活支援サービス</a></li>
+                <li><a href="#">就活の教科書とは</a></li>
+                <li><a href="#">お問い合わせ</a></li>
             </ul>
         </nav>
     </header>
@@ -90,8 +118,6 @@ foreach ($agents_tags as $a) {
                 </div>
             </div>
         </div>
-
-        <p></p>
         <div class="process">
             <p class="slide_in_1">絞り込む</p>
             <div class="arrow slide_in_2"></div>
@@ -101,7 +127,6 @@ foreach ($agents_tags as $a) {
             <div class="arrow slide_in_6"></div>
             <p class="slide_in_7">問い合わせる</p>
         </div>
-
         <div class="q_and_a">
             <p>Q.いくつのエージェントを問い合わせればいいの？</p>
             <br>
@@ -116,7 +141,6 @@ foreach ($agents_tags as $a) {
             </div>
         </div>
         <img src="agent_person.png" alt="" class="agent_person">
-
         <container class="filter" id="js-filter">
             <!-- 各エージェント -->
             <ul class="filter-items">
@@ -172,8 +196,6 @@ foreach ($agents_tags as $a) {
                 </form>
             </ul>
             
-
-
             <!-- フィルター -->
             <div class="filter_left_wrapper">
             <div class="filter-cond" id="filter_side">
@@ -195,46 +217,41 @@ foreach ($agents_tags as $a) {
                             </div>
                         <?php endforeach; ?>
                     </div>
-                    
-
                     <div class="filter_btn">
                         <div class="flex_btn">
                         <div class="reset_btn  js_release" id="uncheck-btn" type="reset">リセット</div>
                             <!-- <button class="reset_btn" id="uncheck-btn" type="reset">リセット</button> -->
                             <button class="reset_btn to_filter_btn" id="uncheck-btn" type="reset">絞りこむ</button>
                         </div>
-                        <button class="trigger_keep_btn btn_gray"><label for="trigger_keep"><span id="counter_dis">
-                                    <div class="tohokuret btn_gray">0</div>
+                        <!-- <div class="all_btn" id="check-btn" type="button"></div> -->
+                        <!-- <button class="trigger_keep_btn"><label for="trigger_keep">キープ：<span id="counter_dis" ><div class="tohokuret">0</div></span>件<br>確認する</label></button> -->
+                        <button class="trigger_keep_btn btn_gray" id="trigger_keep_btn"><label for="trigger_keep"><span id="counter_dis">
+                                    <div class="tohokuret btn_gray" id="tohokuret">0</div>
                                 </span>件キープ中<br>確認する</label></button>
                     </div>
                 </div>
             </div>
         </div>
 
-
-
             <!-- キープ一覧のモーダル -->
-            <div class="modal_keep">
+            <div class="modal_keep" id="modal_keep">
                 <div class="modal_wrap">
                     <input id="trigger_keep" type="checkbox">
                     <div class="modal_overlay">
                         <label for="trigger_keep" class="modal_trigger"></label>
                         <div class="modal_content">
                             <label for="trigger_keep" class="close_button">✖️</label>
-
                             <!-- モーダルの中身 -->
                             <div class="modal_keep_header">
                                 <h1 class="keep_view">キープ一覧</h1>
                                 <btn class="keep_btn">
                                     <div class="button05">
+                                        <button class="bn632-hover bn19 keep_inquiry_btn" id="keep_inquiry_btn" type="submit" form="inquiry_submit" value="問い合わせる">
+                                            <span id="count_dis">
+                                                <div class="tohokuret" id="tohokuret2">0</div>
+                                            </span>件キープ中<br>問い合わせる
 
-                                        <button class="bn632-hover bn19 keep_inquiry_btn " type="submit" form="inquiry_submit" value="問い合わせる">
-                                            キープ：<span id="count_dis">
-                                                <div class="tohokuret">0</div>
-                                            </span>件<br>問い合わせる
-                                            
                                         </button>
-
                                     </div>
                                 </btn>
                             </div>
@@ -242,8 +259,8 @@ foreach ($agents_tags as $a) {
                                 <div class="modal-filter-items">
                                     <ul class="filter-items">
                                         <?php foreach ($listed_agents as $listed_agent) : ?>
-                                            <li class="agent_box keep_agent_box" id="keep_agent_box_<?php echo $listed_agent['id'] ?>" data-filter-key="総合型">
-                                                <img class="agent_img" src="logo.png" alt="">
+                                            <li class="agent_box keep_agent_box" id="keep_agent_box_<?php echo $listed_agent['id'] ?>" style="display:none" data-filter-key="総合型">
+                                                <img class="agent_img" src="img/insert_logo/<?php echo $listed_agent['insert_logo'] ?>" alt="企業ロゴ">
                                                 <div class="agent_article">
                                                     <div class="agent_article_header">
                                                         <div class="agent_type">
@@ -273,15 +290,11 @@ foreach ($agents_tags as $a) {
                                                         </div>
                                                     </div>
                                                     <div class="agent_article_footer modal_agent_article_footer">
-                                                        <p class="span_published">掲載期間：<?php echo date("Y/m/d",strtotime($listed_agent['started_at'])); ?>〜<?php echo date("Y/m/d",strtotime($listed_agent['ended_at'])); ?></p>
-                                                        <label onclick="buttonDelete(<?php echo $listed_agent['id'] ?>)" class="delete_btn" name=student_contacts[] >削除</label>
-                                                        
+                                                        <p class="span_published">掲載期間：<?php echo date("Y/m/d", strtotime($listed_agent['started_at'])); ?>〜<?php echo date("Y/m/d", strtotime($listed_agent['ended_at'])); ?></p>
+                                                        <label onclick="buttonDelete(<?php echo $listed_agent['id'] ?>)" class="delete_btn" name=student_contacts[]>削除</label>
                                                     </div>
                                                 </div>
-
                                             </li>
-
-
                                         <?php endforeach; ?>
                                     </ul>
                                 </div>
@@ -293,14 +306,12 @@ foreach ($agents_tags as $a) {
             </div>
             <!-- ここまでキープ一覧のモーダル -->
         </container>
-
     </wrapper>
-
 
     <footer>
         <div class="inquiry">
-            <p>お問い合わせは下記の連絡先にお願いいたします。
-                <br>craft運営 boozer株式会社事務局
+            <p>
+                craft運営 boozer株式会社事務局
                 <br>TEL:080-3434-2435
                 <br>Email:craft@boozer.com
             </p>

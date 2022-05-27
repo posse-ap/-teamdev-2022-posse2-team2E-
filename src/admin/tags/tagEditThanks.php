@@ -39,11 +39,8 @@ if (!isset($_SESSION["login"])) {
           <a href="../tags/tagsEdit.php">
             <li class="header-nav-item select">タグ一覧</li>
           </a>
-          <a href="#">
-            <li class="header-nav-item">問い合わせ一覧</li>
-          </a>
           <a href="../login/loginInfo.php">
-            <li class="header-nav-item">管理者ログイン情報</li>
+            <li class="header-nav-item">ログイン情報</li>
           </a>
           <a href="../login/logout.php">
             <li class="header-nav-item">ログアウト</li>
@@ -54,7 +51,6 @@ if (!isset($_SESSION["login"])) {
   </header>
 <body>
 <div id="head">
-<h1>エージェント編集</h1>
 </div>
 
 <div class="done">
