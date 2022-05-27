@@ -48,6 +48,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
     $stmt->execute();
     header("location: agent_students_detail.php?id=$id");
+
+    //学生問い合わせ確認メール
+    mb_language("Japanese");
+    mb_internal_encoding("UTF-8");
+    $to = $form['email'];
+    $subject = '無効申請メール';
+    $message = '○○社から無効申請メールが送信されました';
+    $header = ['From' => 'craft@boozer.com', 'Content-Type' => 'text/plain; charset=UTF-8', 'Content-Transfer-Encoding' => '8bit'];
+    $result = mb_send_mail($to, $subject, $message, $header);
+    if (!$result) {
+        echo 'メールの送信に失敗しました';
+    }
 }
 
 // 重複検査
@@ -129,18 +141,18 @@ function set_valid_status($valid_status)
 <body>
 
     <!-- <header> -->
-        <h1>
-            <p><span>CRAFT</span>by boozer</p>
-        </h1>
-        <p class="welcome_agent">ようこそ　<?php echo ($_SESSION['corporate_name']); ?>様</p>
-        <nav class="nav">
-            <ul>
-                <li><a href="agent_students_all.php">学生情報一覧</a></li>
-                <li><a href="agent_information.php">登録情報</a></li>
-                <li><a href="../index.php" target="_blank">ユーザー画面へ</a></li>
-                <li><a href="agent_logout.php">ログアウト</a></li>
-            </ul>
-        </nav>
+    <h1>
+        <p><span>CRAFT</span>by boozer</p>
+    </h1>
+    <p class="welcome_agent">ようこそ　<?php echo ($_SESSION['corporate_name']); ?>様</p>
+    <nav class="nav">
+        <ul>
+            <li><a href="agent_students_all.php">学生情報一覧</a></li>
+            <li><a href="agent_information.php">登録情報</a></li>
+            <li><a href="../index.php" target="_blank">ユーザー画面へ</a></li>
+            <li><a href="agent_logout.php">ログアウト</a></li>
+        </ul>
+    </nav>
     </header>
     <div class="all_wrapper">
         <div class="left_wrapper">
@@ -159,11 +171,11 @@ function set_valid_status($valid_status)
                 <tr bgcolor="white">
                     <th bgcolor="#4FA49A">氏名</th>
                     <td><?php echo $result['name'] ?>
-                    <?php foreach ($duplicated_names as $d_name) : if ($d_name['id'] !=  $id) : ?>
+                        <?php foreach ($duplicated_names as $d_name) : if ($d_name['id'] !=  $id) : ?>
                                 <span style="background-color:red;">ID<?= $d_name['id']; ?>と重複</span>
                         <?php endif;
                         endforeach ?>
-                </td>
+                    </td>
                 </tr>
                 <tr bgcolor="white">
                     <th bgcolor="#4FA49A">メールアドレス</th>
@@ -177,11 +189,11 @@ function set_valid_status($valid_status)
                 <tr bgcolor="white">
                     <th bgcolor="#4FA49A">電話番号</th>
                     <td><?php echo $result['tel'] ?>
-                    <?php foreach ($duplicated_tels as $d_tel) : if ($d_tel['id'] !=  $id) : ?>
+                        <?php foreach ($duplicated_tels as $d_tel) : if ($d_tel['id'] !=  $id) : ?>
                                 <span style="background-color:red;">ID<?= $d_tel['id']; ?>と重複</span>
                         <?php endif;
                         endforeach ?>
-                </td>
+                    </td>
                 </tr>
                 <tr bgcolor="white">
                     <th bgcolor="#4FA49A">大学</th>
