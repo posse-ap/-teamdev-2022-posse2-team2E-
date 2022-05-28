@@ -2,7 +2,6 @@ header {
   width: 100%;
   background-color: #4FA49A;
   border-bottom: #fff 1px solid;
-  /* position: fixed;一時 */
   top: 0;
   position: fixed;
 }
@@ -171,7 +170,6 @@ input {
 .added-tag span {
   margin-left: 5px;
 }
-/*# sourceMappingURL=style.css.map */
 
 .done {
   margin-top: 70px;
@@ -226,6 +224,10 @@ input {
     text-decoration: none;
     color: #fff;
     cursor :pointer;
+ }
+
+ .invalid_operation label{
+   margin: auto;
  }
 
 .tag_edit_btns {
