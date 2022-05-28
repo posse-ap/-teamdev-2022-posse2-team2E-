@@ -48,6 +48,8 @@ header a {
 }
 
 .first_message{
+    width: 100vw;
+    height: 90vh;
     text-align: center;
     /* margin: 30rem auto; */
     /* margin-top: 120rem; */
@@ -108,13 +110,16 @@ header a {
 
 
 .process{
+    opacity : 0;
+    transform : translate(-60px, 0px);
+    transition:all 1.0s;
     font-weight: bold;
     height: 90rem;
     width: 1180rem;
     /* display: flex; */
     justify-content: center;
     display:table;
-    margin: 60rem 20rem ;
+    margin: 60rem auto 20rem;
     margin-left: 120rem;
 
     opacity : 0;
@@ -169,6 +174,7 @@ header a {
     color: white;
     font-size: 20rem;
     padding: 30rem ;
+    margin-top: 120rem;
 }
 
 .q_and_a:after{
@@ -294,7 +300,7 @@ header a {
 .agent_person{
     margin-top: 40rem;
     margin-left: 220rem;
-    margin-bottom: 120rem;
+    margin-bottom: 70rem;
     width: 150rem;
     height: auto;
 }
@@ -338,7 +344,6 @@ container{
     height: 100vw; */
     margin-left: 10vw;
 }
-
 .filter_num{
     margin-bottom: 20rem;
     padding-top: 30rem;
@@ -399,12 +404,14 @@ container{
 
     width: 110rem;
     height: 50rem;
+    line-height: 50rem;
     border-radius: 30rem;
+    font-size: 16rem;
+    text-align: center;
     color: black;
     font-weight: bold;
     -webkit-box-shadow: 0 3px 5px rgb(253, 253, 253);
     box-shadow: 0 4px 15px 0 rgb(0 0 0 / 25%);
-
     background-color: #FFCD2A;
     border-color: rgba(255, 252, 252, 0.897);
     margin-bottom: 5rem;
@@ -1439,6 +1446,7 @@ label input + span:before {
   
   .js_release{
     cursor: pointer;
+    
   }
 
 .inquiry_done {

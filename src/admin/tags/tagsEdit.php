@@ -47,11 +47,8 @@ foreach ($filter_sorts_tags as $f) {
           <a href="../tags/tagsEdit.php">
             <li class="header-nav-item select">タグ一覧</li>
           </a>
-          <a href="#">
-            <li class="header-nav-item">問い合わせ一覧</li>
-          </a>
           <a href="../login/loginInfo.php">
-            <li class="header-nav-item">管理者ログイン情報</li>
+            <li class="header-nav-item">ログイン情報</li>
           </a>
           <a href="../login/logoutPage.php">
             <li class="header-nav-item">ログアウト</li>
@@ -82,10 +79,10 @@ foreach ($filter_sorts_tags as $f) {
       </table>
     </div>
     <div class="tag_edit_btns">
-      <button><a href="tagsUpdate.php">編集</a></button>
-      <button><a href="sortsAdd.php">絞り込みの種類追加</a></button>
-      <button><a href="tagsAdd.php">タグ追加</a></button>
-      <button><a href="tagsDelete.php">選択して削除</a></button>
+      <button onclick="location.href='tagsUpdate.php'">編集</button>
+      <button onclick="location.href='sortsAdd.php'">絞り込みの種類追加</button>
+      <button onclick="location.href='tagsAdd.php'">タグ追加</button>
+      <button onclick="location.href='tagsDelete.php'">選択して解除</button>
     </div>
       <p>絞り込みの種類、タグ両方が設定されていなければユーザー画面には反映されません。<br>片方しかなものは、編集画面で確認できます</p>
   </main>
