@@ -23,7 +23,7 @@ if (!isset($_POST['student_contacts']) && !isset($_SESSION['form'])) {
     // 'student_contacts' => $_POST['student_contacts'], //agent_idをinsertするときに使う？
   ];
 }
-$_SESSION['back_index'] = $student_contacts;
+
 // var_dump($form);
 
 $error = [];
@@ -236,7 +236,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <!-- <button onclick="location.href='index.php'">&laquo;&nbsp;キープ画面へ戻る</button> | <span><input type="submit" value="確認" /></span> -->
           <!-- <button onclick="location.href='index.php'">キープ画面へ戻る</button>  <label for="check_form"><input type="submit" id="check_form" value="確認" /></label> -->
           <!-- <a href="index.php">&laquo;&nbsp;戻る</a>   <label for="check_form"><input type="submit" id="check_form" value="確認" /></label> -->
-          <a href="index.php?action=rewrite">&laquo;&nbsp;戻る</a>   <input type="submit" id="check_form" value="確認" />
+          <a href="index.php">&laquo;&nbsp;戻る</a>   <input type="submit" id="check_form" value="確認" />
         </div>
       </form>
     </div>
