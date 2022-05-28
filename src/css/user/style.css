@@ -138,7 +138,7 @@ container{
     margin-top: 200rem;
     display: flex;
     justify-content: center;
-    /* overflow: scroll; */
+    overflow: scroll;
 
 }
 .filter{
@@ -198,13 +198,9 @@ container{
 }
 
 #filter_side.fixed {
-    /* left: 64rem; */
-    /* top: 50rem; */
-
-    right: 0;
-    top: 0;
-
+    left: 64rem;
     position: fixed;
+    top: 50rem;
 }
 
 .all_keep{
@@ -330,7 +326,7 @@ container{
     border: none;
     background-size: 300% 100%;
     border-radius: 50px;
-    /* moz-transition: all .4s ease-in-out; */
+    moz-transition: all .4s ease-in-out;
     -o-transition: all .4s ease-in-out;
     -webkit-transition: all .4s ease-in-out;
     transition: all .4s ease-in-out;
@@ -338,7 +334,7 @@ container{
   
   .bn632-hover:hover {
     background-position: 100% 0;
-    /* moz-transition: all .4s ease-in-out; */
+    moz-transition: all .4s ease-in-out;
     -o-transition: all .4s ease-in-out;
     -webkit-transition: all .4s ease-in-out;
     transition: all .4s ease-in-out;
@@ -542,9 +538,4 @@ container{
   .modal_title2:after{
       border-bottom: 4px solid #EEEEEE;
       width: 100%;
-  }
-.modal-filter-items .filter-items{
-      margin-right: 200rem;
-      display: flex;
-      justify-content: center;
   }

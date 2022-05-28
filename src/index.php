@@ -161,7 +161,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
                                             <h1 class="agent_name"><?php echo $listed_agent['insert_company_name'] ?></h1>
                                             <p class="num_company">取扱企業数：<?php echo $listed_agent['insert_handled_number'] ?></p>
                                         </div>
-
                                         <div class="agent_article_main">
                                             <div class="agent_type">
                                                 <!--  タグ表示↓ -->
@@ -187,7 +186,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
                                         <div class="agent_article_footer">
                                             <p class="span_published">掲載期間：<?php echo date("Y/m/d", strtotime($listed_agent['started_at'])); ?>〜<?php echo date("Y/m/d", strtotime($listed_agent['ended_at'])); ?></p>
                                             <label id="tohoku_<?php echo $listed_agent['id'] ?>">
-                                                <input id="keep_<?php echo $listed_agent['id'] ?>" class="bn632-hover bn19 " onclick="check(<?php echo $listed_agent['id'] ?>)" type=checkbox name=student_contacts[] value="<?php echo $listed_agent['id']; ?>"><span></span>
+                                                <input id="keep_<?php echo $listed_agent['id'] ?>" class="bn632-hover bn19 " onclick="check(<?php echo $listed_agent['id'] ?>)" type=checkbox name=student_contacts[] value="<?php echo $listed_agent['id']; ?>"><span class="for_keep_btn"></span>
                                             </label>
                                         </div>
                                     </div>
@@ -213,7 +212,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
                                     <?php foreach ($filter_sort as $filter_tag) : ?>
                                         <span class="w bl_selectBlock_check">
                                             <input type="checkbox" name="agent_tags[]" class="checks" id="form" value="<?= $filter_tag['tag_name'] ?>" />
-                                            <label class="added-tag" for="form">
+                                            <label class="added-tag">
                                                 <?= $filter_tag['tag_name']; ?>
                                             </label>
                                         </span>
@@ -248,25 +247,29 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
                             <!-- モーダルの中身 -->
                             <div class="modal_keep_header">
                                 <h1 class="keep_view">キープ一覧</h1>
-                                <btn class="keep_btn">
-                                    <div class="button05">
-                                        <button class="bn632-hover bn19 keep_inquiry_btn" id="keep_inquiry_btn" type="submit" form="inquiry_submit" value="問い合わせる">
-                                            <span id="count_dis">
-                                                <div class="tohokuret" id="tohokuret2">0</div>
-                                            </span>件キープ中<br>問い合わせる
-
-                                        </button>
-                                    </div>
-                                </btn>
                             </div>
+                            <btn class="keep_btn">
+                                <div class="button05">
+                                    <button class="bn632-hover bn19 keep_inquiry_btn" id="keep_inquiry_btn" type="submit" form="inquiry_submit" value="問い合わせる">
+                                        <span id="count_dis">
+                                            <div class="tohokuret" id="tohokuret2">0</div>
+                                        </span>件キープ中<br>問い合わせる
+
+                                    </button>
+                                </div>
+                            </btn>
                             <container class="filter keep_container" id="js-filter">
                                 <div class="modal-filter-items">
-                                    <ul class="filter-items">
+                                    <ul class="in_modal_filter-items">
                                         <?php foreach ($listed_agents as $listed_agent) : ?>
                                             <li class="agent_box keep_agent_box" id="keep_agent_box_<?php echo $listed_agent['id'] ?>" style="display:none" data-filter-key="総合型">
                                                 <img class="agent_img" src="img/insert_logo/<?php echo $listed_agent['insert_logo'] ?>" alt="企業ロゴ">
                                                 <div class="agent_article">
                                                     <div class="agent_article_header">
+                                                        <h1 class="agent_name"><?php echo $listed_agent['insert_company_name'] ?></h1>
+                                                        <p class="num_company">取扱企業数：<?php echo $listed_agent['insert_handled_number'] ?></p>
+                                                    </div>
+                                                    <div class="agent_article_main">
                                                         <div class="agent_type">
                                                             <!--  タグ表示↓ -->
                                                             <?php foreach ($at_list as $agent_tags) : ?>
@@ -278,10 +281,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
                                                             <?php endforeach; ?>
                                                             <!--  タグ表示↑ -->
                                                         </div>
-                                                        <p class="num_company">取扱企業数：<?php echo $listed_agent['insert_handled_number'] ?></p>
-                                                    </div>
-                                                    <div class="agent_article_main">
-                                                        <h1 class="agent_name"><?php echo $listed_agent['insert_company_name'] ?></h1>
                                                         <p class="recommend_points">特徴</p>
                                                         <div class="recommend_points_box modal_recommend_points_box">
                                                             <p><?php echo $listed_agent['insert_recommend_1'] ?></p>
