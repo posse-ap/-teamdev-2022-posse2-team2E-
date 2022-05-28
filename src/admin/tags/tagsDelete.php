@@ -132,8 +132,7 @@ header('location: tagEditThanks.php');
           </tr>
         <?php endforeach; ?>
       </table>
-    
-    <div><input type="submit" value="削除する" /></div>
+    <div><a href="tagsEdit.php">&laquo;&nbsp;タグ一覧に戻る</a> | <input type="submit" value="削除する" /></div>
     </form>
     </div>
   </main>

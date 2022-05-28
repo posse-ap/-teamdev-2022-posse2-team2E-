@@ -67,6 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </header>
   <p>
   <main class="main">
+  <h1 class="main-title">タグ追加画面</h1>
   <form action="" method="post" enctype="multipart/form-data">
     <div class="agent-add-table">
 
@@ -109,14 +110,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endforeach; ?>
         <tr>
           <td>
-            <input type="number" name="sort_id" value="" required/>
+            <input type="number" name="sort_id" value="" placeholder="絞り込みの番号を記入"required/>
           </td>
           <td>
-            <input type="text" name="tag_name" value="" required/>
+            <input type="text" name="tag_name" value="" placeholder="追加するタグを記入" required/>
           </td>
         </tr>
       </table>
-      <input type="submit" value="追加する" />
+      <div><a href="tagsEdit.php">&laquo;&nbsp;タグ一覧に戻る</a> | <input type="submit" value="追加する" /></div>
     </div>
     </form>
 

@@ -65,11 +65,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </header>
   <p>
   <main class="main">
+  <h1 class="main-title">絞り込みの種類追加画面</h1>
     <form action="" method="post" enctype="multipart/form-data">
       <div class="agent-add-table">
 
         <table class="tags-add">
-          ※タグのない「絞り込みの種類」は、ユーザー画面に反映されません。
+          ※絞り込みの種類を追加した後、タグを追加してください。</br>（タグのない「絞り込みの種類」は、ユーザー画面に反映されません。）
           <tr>
             <th>絞り込みの種類</th>
           </tr>
@@ -92,11 +93,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               【自動割当】
             </td>
             <td>
-              <input type="text" name="tag_name" value="" required />
+              <input type="text" name="tag_name" value="" placeholder="追加する絞り込みの種類を記入" required />
             </td>
           </tr>
         </table>
-        <input type="submit" value="追加する" />
+        <div><a href="tagsEdit.php">&laquo;&nbsp;タグ一覧に戻る</a> | <input type="submit" value="追加する" /></div>
       </div>
     </form>
   </main>

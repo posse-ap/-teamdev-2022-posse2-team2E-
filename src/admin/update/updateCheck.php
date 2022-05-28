@@ -87,7 +87,7 @@ endforeach;
 }
 
   unset($_SESSION['form']);
-  header('location: updateThanks.php');
+  header('location: ../index.php');
 }
 
 //タグ情報
@@ -178,8 +178,8 @@ $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <tr>
             <th>掲載期間</th>
             <td>
-              <?php echo h($form['started_at']) ?> ～
-              <?php echo h($form['ended_at']) ?>
+              <?php echo date("Y/m/d", strtotime($form['started_at'])) ?> ～
+              <?php echo date("Y/m/d", strtotime($form['ended_at'])) ?>
             </td>
           </tr>
           <tr>
