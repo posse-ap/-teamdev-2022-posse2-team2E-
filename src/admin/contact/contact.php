@@ -179,6 +179,8 @@ function set_valid_status($valid_status)
         return '申請中';
     } elseif ($valid_status === 3) {
         return '承認済み';
+    } elseif ($valid_status === 4) {
+        return '申請拒否';
     } else {
         return 'エラー';
     }
@@ -222,7 +224,7 @@ function set_valid_status($valid_status)
                     <a href="../login/loginInfo.php">
                         <li class="header-nav-item">ログイン情報</li>
                     </a>
-                    <a href="../login/logout.php">
+                    <a href="../login/logoutPage.php">
                         <li class="header-nav-item">ログアウト</li>
                     </a>
                 </ul>
@@ -276,7 +278,7 @@ function set_valid_status($valid_status)
                 </tr>
                 <?php foreach ($result as $column) : ?>
                     <tr>
-                        <td><?php echo h($column['問い合わせ日時']); ?></td>
+                        <td><?php echo date("Y/m/d H:i:s", strtotime($column['問い合わせ日時'])); ?></td>
                         <td><?php echo h($column['氏名']); ?></td>
                         <td><?php echo h($column['大学']); ?></td>
                         <td><?php echo h($column['学科']); ?></td>

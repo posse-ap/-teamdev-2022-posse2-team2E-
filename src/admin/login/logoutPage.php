@@ -1,14 +1,19 @@
 <?php
-
-session_start();
 require('../../db_connect.php');
+session_start();
+//ログインされていない場合は強制的にログインページにリダイレクト
+if (!isset($_SESSION["login"])) {
+  header("Location: login.php");
+  exit();
+}
 
-// //ログインされていない場合は強制的にログインページにリダイレクト
-// if (!isset($_SESSION["login"])) {
-//     header("Location: ../login/login.php");
-//     exit();
-// }
+//管理者ログイン情報
+$stmt = $db->query('select * from admin_login;');
+$admin_login = $stmt->fetch(PDO::FETCH_ASSOC);
 
+// エージェントログイン情報
+$stmt = $db->query('select * from agents;');
+$agents_login = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +26,7 @@ require('../../db_connect.php');
   <title>AgentList</title>
   <link rel="stylesheet" href="../css/reset.css" />
   <link rel="stylesheet" href="../css/style.css" />
-</head>
+  <link rel="stylesheet" href="../../agent/agent_logout.css">
 
 <body>
   <header>
@@ -30,7 +35,7 @@ require('../../db_connect.php');
       <nav class="header-nav">
         <ul class="header-nav-list">
           <a href="../index.php">
-            <li class="header-nav-item select">エージェント一覧</li>
+            <li class="header-nav-item">エージェント一覧</li>
           </a>
           <a href="../add/agentAdd.php">
             <li class="header-nav-item">エージェント追加</li>
@@ -39,27 +44,19 @@ require('../../db_connect.php');
             <li class="header-nav-item">タグ一覧</li>
           </a>
           <a href="../login/loginInfo.php">
-            <li class="header-nav-item">ログイン情報</li>
+            <li class="header-nav-item ">ログイン情報</li>
           </a>
-          <a href="../login/logout.php">
-            <li class="header-nav-item">ログアウト</li>
+          <a href="../login/logoutPage.php">
+            <li class="header-nav-item select">ログアウト</li>
           </a>
         </ul>
       </nav>
     </div>
   </header>
-
-  <body>
-
-    <div class="done">
-      <div id="head">
-        <h1>エージェント編集</h1>
-      </div>
-      <p>編集が完了しました。</p>
-      <p><a href="../index.php">エージェント一覧画面で確認する</a></p>
+    <div class="message">
+        <p>ログアウトしますか？</p>
+        <a href="../login/logout.php">ログアウトする</a>
     </div>
-
-    </div>
-  </body>
+</body>
 
 </html>

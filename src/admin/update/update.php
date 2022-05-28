@@ -22,10 +22,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
   $stmt->execute();
   $agent = $stmt->fetch(PDO::FETCH_ASSOC);
   // エージェントタグ
-  $stmt = $db->prepare('select * from agents_tags where agent_id=:id');
+  $stmt = $db->prepare('select tag_id from agents_tags where agent_id=:id');
   $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
   $stmt->execute();
-  $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $agent_tags = $stmt->fetchAll(PDO::FETCH_COLUMN);
 }
 // 写真変更ないときは既存のものをセッションに渡す
 $filename = $agent['insert_logo'];
@@ -84,20 +84,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($agent['started_at'] > $agent['ended_at']) {
     $error['period'] = 'reverse';
   }
-  // // login_emailの重複チェック
-  // if ($agent['login_email'] != '') {
-  //   $stmt = $db->prepare('select count(*) from agents where login_email=:login_email and id != :id');
-  //   if (!$stmt) {
-  //     die($db->error);
-  //   }
-  //   $stmt->bindValue('login_email', $agent['login_email'], PDO::PARAM_STR);
-  //   $stmt->bindValue('id', $id, PDO::PARAM_INT);
-  //   $success = $stmt->execute();
-  //   $cnt = (int)$stmt->fetchColumn();
-  //   if ($cnt > 0) {
-  //     $error['login_email'] = 'duplicate';
-  //   }
-  // }
 
   // 画像のチェック(変更は任意)
   $insert_logo = $_FILES['insert_logo'];
@@ -160,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <a href="../login/loginInfo.php">
             <li class="header-nav-item">ログイン情報</li>
           </a>
-          <a href="../login/logout.php">
+          <a href="../login/logoutPage.php">
             <li class="header-nav-item">ログアウト</li>
           </a>
         </ul>

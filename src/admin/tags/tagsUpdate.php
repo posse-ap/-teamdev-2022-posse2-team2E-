@@ -115,8 +115,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>AgentList</title>
   <link rel="stylesheet" href="../css/reset.css" />
   <link rel="stylesheet" href="../css/style.css" />
-  <script src="./js/jquery-3.6.0.min.js"></script>
-  <script src="./js/script.js" defer></script>
 </head>
 
 <body>
@@ -137,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <a href="../login/loginInfo.php">
             <li class="header-nav-item">ログイン情報</li>
           </a>
-          <a href="../login/logout.php">
+          <a href="../login/logoutPage.php">
             <li class="header-nav-item">ログアウト</li>
           </a>
         </ul>
@@ -146,6 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </header>
   <p>
   <main class="main">
+  <h1 class="main-title">絞り込み編集画面</h1>
     <form action="" method="post" enctype="multipart/form-data">
       <div class="agent-add-table">
         <table class="tags-add">
@@ -195,10 +194,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p class="error">
         * 入力した番号にあう絞り込みの種類がなければ、ユーザー画面に表示されません。</br>
         * 絞り込みの種類と番号が一致しないタグは手動で削除してください。
-      </p>
-
-        <input type="submit" value="編集を完了する" />
-      </div>
+      <div><a href="tagsEdit.php">&laquo;&nbsp;タグ一覧に戻る</a> | <input type="submit" value="編集を完了する" /></div>
     </form>
   </main>
 </body>

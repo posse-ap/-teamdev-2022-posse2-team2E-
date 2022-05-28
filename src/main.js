@@ -148,12 +148,12 @@ $(function () {
     topBtn.hide();
     fixed.hide();
     $(window).scroll(function () {
-        //1300pxスクロールしたらtopBtnをフェードイン表示させる 
+        //1700pxスクロールしたらtopBtnをフェードイン表示させる 
         if ($(this).scrollTop() > 1700) {
             topBtn.fadeIn();
             fixed.fadeIn();
         } else {
-            //もし上にスクロールして1300px未満になったらフェードアウトさせる 
+            //もし上にスクロールして1700px未満になったらフェードアウトさせる 
             topBtn.fadeOut();
             fixed.fadeOut();
         }
@@ -477,6 +477,7 @@ $(function () {
         setConditions();
 
     });
+
 
     $(document).on('click', '.js_release', function () {
         $('.bl_selectBlock_check input').each(function () {

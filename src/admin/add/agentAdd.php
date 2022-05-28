@@ -110,8 +110,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>AgentList</title>
   <link rel="stylesheet" href="../css/reset.css" />
   <link rel="stylesheet" href="../css/style.css" />
-  <script src="./js/jquery-3.6.0.min.js"></script>
-  <script src="./js/script.js" defer></script>
 </head>
 
 <body>
@@ -132,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <a href="../login/loginInfo.php">
             <li class="header-nav-item">ログイン情報</li>
           </a>
-          <a href="../login/logout.php">
+          <a href="../login/logoutPage.php">
             <li class="header-nav-item">ログアウト</li>
           </a>
         </ul>
@@ -144,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="agent-add-table">
       <form action="" method="post" enctype="multipart/form-data">
         <table class="main-info-table">
-        <span class="error">*は必須項目</span>
+          <p><span class="error">*</span>は必須項目</p>
           <tr>
             <th>法人名<span class="error">*</span></th>
             <td><input type="text" name="corporate_name" value="<?php echo h($form["corporate_name"]); ?>" required /></td>
@@ -231,7 +229,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <tr>
             <td class="sub-th">オススメポイント<span class="error">*</span></td>
             <td>
-              <input type="text" name="insert_recommend_1" placeholder="100文字以内で入力してください" value="<?php echo h($form["insert_recommend_1"]); ?>" required /><input type="text" name="insert_recommend_2" value="<?php echo h($form["insert_recommend_2"]); ?>" required /><input type="text" name="insert_recommend_3" value="<?php echo h($form["insert_recommend_3"]); ?>" required />
+              <input class="recommend_under" type="text" name="insert_recommend_1" placeholder="40文字以内で入力してください" value="<?php echo h($form["insert_recommend_1"]); ?>" required /><input class="recommend_under" type="text" name="insert_recommend_2" placeholder="40文字以内で入力してください" value="<?php echo h($form["insert_recommend_2"]); ?>" required /><input class="recommend_under" type="text" name="insert_recommend_3" placeholder="40文字以内で入力してください" value="<?php echo h($form["insert_recommend_3"]); ?>" required />
             </td>
           </tr>
           <tr>

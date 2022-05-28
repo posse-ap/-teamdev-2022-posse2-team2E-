@@ -133,8 +133,6 @@ foreach ($agents_tags as $a) {
   <title>AgentList</title>
   <link rel="stylesheet" href="./css/reset.css" />
   <link rel="stylesheet" href="./css/style.css" />
-  <script src="./js/jquery-3.6.0.min.js"></script>
-  <script src="./js/script.js" defer></script>
 </head>
 
 <body>
@@ -155,7 +153,7 @@ foreach ($agents_tags as $a) {
           <a href="./login/loginInfo.php">
             <li class="header-nav-item">ログイン情報</li>
           </a>
-          <a href="./login/logout.php">
+          <a href="./login/logoutPage.php">
             <li class="header-nav-item">ログアウト</li>
           </a>
         </ul>

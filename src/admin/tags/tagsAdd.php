@@ -36,8 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>AgentList</title>
   <link rel="stylesheet" href="../css/reset.css" />
   <link rel="stylesheet" href="../css/style.css" />
-  <script src="./js/jquery-3.6.0.min.js"></script>
-  <script src="./js/script.js" defer></script>
 </head>
 
 <body>
@@ -58,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <a href="../login/loginInfo.php">
             <li class="header-nav-item">ログイン情報</li>
           </a>
-          <a href="../login/logout.php">
+          <a href="../login/logoutPage.php">
             <li class="header-nav-item">ログアウト</li>
           </a>
         </ul>
@@ -67,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </header>
   <p>
   <main class="main">
+  <h1 class="main-title">タグ追加画面</h1>
   <form action="" method="post" enctype="multipart/form-data">
     <div class="agent-add-table">
 
@@ -109,14 +108,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endforeach; ?>
         <tr>
           <td>
-            <input type="number" name="sort_id" value="" required/>
+            <input type="number" name="sort_id" value="" placeholder="絞り込みの番号を記入"required/>
           </td>
           <td>
-            <input type="text" name="tag_name" value="" required/>
+            <input type="text" name="tag_name" value="" placeholder="追加するタグを記入" required/>
           </td>
         </tr>
       </table>
-      <input type="submit" value="追加する" />
+      <div><a href="tagsEdit.php">&laquo;&nbsp;タグ一覧に戻る</a> | <input type="submit" value="追加する" /></div>
     </div>
     </form>
 

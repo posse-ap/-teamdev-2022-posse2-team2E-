@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     endforeach;
   }
   unset($_SESSION['form']);
-  header('location: thanks.php');
+  header('location: ../index.php');
 }
 
 //タグ情報
@@ -105,8 +105,6 @@ foreach ($filter_sorts_tags as $f) {
   <title>AgentList</title>
   <link rel="stylesheet" href="../css/reset.css" />
   <link rel="stylesheet" href="../css/style.css" />
-  <script src="./js/jquery-3.6.0.min.js"></script>
-  <script src="./js/script.js" defer></script>
 </head>
 
 <body>
@@ -127,7 +125,7 @@ foreach ($filter_sorts_tags as $f) {
           <a href="../login/loginInfo.php">
             <li class="header-nav-item">ログイン情報</li>
           </a>
-          <a href="../login/logout.php">
+          <a href="../login/logoutPage.php">
             <li class="header-nav-item">ログアウト</li>
           </a>
         </ul>
@@ -159,8 +157,8 @@ foreach ($filter_sorts_tags as $f) {
           <tr>
             <th>掲載期間</th>
             <td>
-              <?php echo h($form['started_at']) ?> ～
-              <?php echo h($form['ended_at']) ?>
+              <?php echo date("Y/m/d", strtotime($form['started_at'])) ?> ～
+              <?php echo date("Y/m/d", strtotime($form['ended_at'])) ?>
             </td>
           </tr>
           <tr class="login-info">

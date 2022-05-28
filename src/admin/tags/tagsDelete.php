@@ -77,7 +77,7 @@ header('location: tagEditThanks.php');
           <a href="../login/loginInfo.php">
             <li class="header-nav-item">ログイン情報</li>
           </a>
-          <a href="../login/logout.php">
+          <a href="../login/logoutPage.php">
             <li class="header-nav-item">ログアウト</li>
           </a>
         </ul>
@@ -132,8 +132,7 @@ header('location: tagEditThanks.php');
           </tr>
         <?php endforeach; ?>
       </table>
-    
-    <div><input type="submit" value="削除する" /></div>
+    <div><a href="tagsEdit.php">&laquo;&nbsp;タグ一覧に戻る</a> | <input type="submit" value="削除する" /></div>
     </form>
     </div>
   </main>

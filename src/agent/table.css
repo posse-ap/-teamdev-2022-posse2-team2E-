@@ -122,7 +122,7 @@ td {
 }
 
 .right_wrapper {
-    margin-left: 400px;
+    margin: 0 auto;
     width: 70%;
 }
 
@@ -141,3 +141,4 @@ td {
     color: #fff;
     }
 
+  

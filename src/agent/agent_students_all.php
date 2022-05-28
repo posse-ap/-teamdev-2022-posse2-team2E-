@@ -229,6 +229,8 @@ function set_valid_status($valid_status)
         return '申請中';
     } elseif ($valid_status === 3) {
         return '承認済み';
+    } elseif ($valid_status === 4) {
+        return '申請拒否';
     } else {
         return 'エラー';
     }
@@ -259,17 +261,12 @@ function set_valid_status($valid_status)
                 <li><a href="agent_students_all.php">学生情報一覧</a></li>
                 <li><a href="agent_information.php">登録情報</a></li>
                 <li><a href="../index.php">ユーザー画面へ</a></li>
-                <li><a href="agent_logout.php">ログアウト</a></li>
+                <li><a href="agent_logoutPage.php">ログアウト</a></li>
             </ul>
         </nav>
     </header>
     <div class="all_wrapper">
-        <div class="left_wrapper">
-            <li><a href="agent_students_all.php">学生情報一覧</a></li>
-            <li><a href="agent_information.php">登録情報</a></li>
-            <li><a href="../index.php">ユーザー画面へ</a></li>
-            <li><a href="agent_logout.php">ログアウト</a></li>
-        </div>
+        
         <div class="right_wrapper">
             <h1 class="students_all_title">学生情報一覧
             (<?php echo set_list_status($agent['list_status']); ?>)

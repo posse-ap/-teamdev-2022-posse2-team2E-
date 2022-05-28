@@ -28,8 +28,6 @@ foreach ($filter_sorts_tags as $f) {
   <title>AgentList</title>
   <link rel="stylesheet" href="../css/reset.css" />
   <link rel="stylesheet" href="../css/style.css" />
-  <script src="./js/jquery-3.6.0.min.js"></script>
-  <script src="./js/script.js" defer></script>
 </head>
 
 <body>
@@ -50,7 +48,7 @@ foreach ($filter_sorts_tags as $f) {
           <a href="../login/loginInfo.php">
             <li class="header-nav-item">ログイン情報</li>
           </a>
-          <a href="../login/logout.php">
+          <a href="../login/logoutPage.php">
             <li class="header-nav-item">ログアウト</li>
           </a>
         </ul>
@@ -58,6 +56,7 @@ foreach ($filter_sorts_tags as $f) {
     </div>
   </header>
   <main class="main">
+  <h1 class="main-title">掲載中の絞り込み</h1>
     <div class="agent-add-table">
       <table class="tags-add">
         <tr>
@@ -82,9 +81,9 @@ foreach ($filter_sorts_tags as $f) {
       <button onclick="location.href='tagsUpdate.php'">編集</button>
       <button onclick="location.href='sortsAdd.php'">絞り込みの種類追加</button>
       <button onclick="location.href='tagsAdd.php'">タグ追加</button>
-      <button onclick="location.href='tagsDelete.php'">選択して解除</button>
+      <button onclick="location.href='tagsDelete.php'">選択して削除</button>
     </div>
-      <p>絞り込みの種類、タグ両方が設定されていなければユーザー画面には反映されません。<br>片方しかなものは、編集画面で確認できます</p>
+      <p>絞り込みの種類、タグ両方が設定されていなければ掲載されません。<br>片方しかなものは、編集画面で確認できます</p>
   </main>
 </body>
 

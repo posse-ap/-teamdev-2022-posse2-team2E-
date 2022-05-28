@@ -62,7 +62,8 @@ header a {
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
-    /* height: 86vh; */
+    width: 100vw;
+    height: 90vh;
     /* opacity: 50%; */
     color: white;
 }
@@ -148,6 +149,11 @@ header a {
     justify-content: center;
     display:table;
     margin: 60rem auto 20rem;
+/* 
+    margin-left: 120rem;
+    opacity : 0;
+    transform : translate(-60px, 0px);
+    transition:all 1.0s; */
 }
 
 .process p{
@@ -507,7 +513,6 @@ header a {
 }
 
 
-git
 /* 絞り込み */
 [data-filter-view]:not([data-filter-view=""]) [data-filter-key] {
     display: none;

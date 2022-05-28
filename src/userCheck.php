@@ -18,6 +18,17 @@ if (isset($_SESSION['form']) && isset($_SESSION['form']['student_contacts'])) {
   // exit();
 }
 
+// agent確認用
+$stmt = $db->prepare('select insert_company_name from agents where id = :id');
+// var_dump($form['student_contacts']);
+foreach ($form['student_contacts'] as $student_contact) :
+  $stmt->bindValue('id', (int)$student_contact, PDO::PARAM_INT);
+  $stmt->execute();
+  $s_agents[] = $stmt->fetch(PDO::FETCH_COLUMN);
+endforeach;
+// var_dump($s_agents);
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $stmt = $db->prepare('insert into students (name, collage, department, class_of, email, tel, address, memo) VALUES (:name, :collage, :department, :class_of, :email, :tel, :address, :memo)');
   $stmt->bindValue('name', $form['name'], PDO::PARAM_STR);
@@ -168,6 +179,85 @@ endforeach;
   unset($_SESSION['form']);
   header('location: thanks.php');
 }
+
+
+try {
+  // 全てのエージェントの掲載ステータスをupdateする。
+  date_default_timezone_set('Asia/Tokyo');
+  $today = date("Y-m-d");
+
+  // 掲載再開
+  $stmt = $db->prepare('update agents set list_status=1 where started_at <= :started_at and ended_at >= :ended_at');
+  $stmt->bindValue(':started_at', $today, PDO::PARAM_STR);
+  $stmt->bindValue(':ended_at', $today, PDO::PARAM_STR);
+  $success = $stmt->execute();
+  if (!$success) {
+      die($db->error);
+  }
+
+  // // 申し込み上限数到達(今月の申し込み数と比較)
+  // // 全てのエージェントでforeach
+  // // 全てのエージェント
+  $stmt = $db->query('select id from agents');
+  $stmt->execute();
+  $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  // // 今月の申し込み数
+   foreach ($agents as $agent) {
+       $stmt = $db->prepare('SELECT * FROM students AS S, students_contacts AS SC, agents AS A WHERE S.id = SC.student_id AND SC.agent_id = A.id AND SC.agent_id = :agent_id AND DATE_FORMAT(S.created, "%Y-%m") = :form_month ');
+       $stmt->bindValue(':form_month', Date('Y-m'), PDO::PARAM_STR);
+       $stmt->bindValue(':agent_id', $agent['id'], PDO::PARAM_INT);
+       $stmt->execute();
+       $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+       $cnt = count($result);
+       // 比較
+       $stmt = $db->prepare('update agents set list_status=3 where id= :id and application_max <= :application');
+       $stmt->bindValue(':id', $agent['id'], PDO::PARAM_INT);
+       $stmt->bindValue(':application', $cnt, PDO::PARAM_INT);
+       $success = $stmt->execute();
+      if (!$success) {
+          die($db->error);
+      }
+  }
+
+   // 掲載期間外
+   $stmt = $db->prepare('update agents set list_status=2 where started_at > :started_at or ended_at < :ended_at');
+   $stmt->bindValue(':started_at', $today, PDO::PARAM_STR);
+   $stmt->bindValue(':ended_at', $today, PDO::PARAM_STR);
+   $stmt->execute();
+   $success = $stmt->execute();
+   if (!$success) {
+       die($db->error);
+   }
+   // upadateここまで
+
+  $stmt = $db->prepare('select * from agents where list_status=?');
+  $stmt->execute([1]);
+  $listed_agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+  echo '接続失敗';
+  $e->getMessage();
+  exit();
+};
+
+//タグ情報
+$stmt = $db->query('select fs.id, sort_name, tag_id, tag_name from filter_sorts fs inner join filter_tags ft on fs.id = ft.sort_id;
+');
+$filter_sorts_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$t_list = [];
+foreach ($filter_sorts_tags as $f) {
+    $t_list[(int)$f['id']][] = $f;
+}
+
+// タグ表示テスト　htmlの上に各部分
+$stmt = $db->query('select agent_id, at.tag_id, sort_id, tag_name from agents_tags at, filter_tags ft where at.tag_id = ft.tag_id');
+$agents_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$at_list = [];
+
+// var_dump($agents_tags[0]);
+foreach ($agents_tags as $a) {
+    $at_list[(int)$a['agent_id']][] = $a;
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -177,46 +267,63 @@ endforeach;
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>userEntry</title>
+  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
   <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" type="text/css" href="contact_style.css" />
   <!-- <script src="./js/jquery-3.6.0.min.js"></script>
   <script src="./js/script.js" defer></script> -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 </head>
 
 <body>
+<header>
+        <img src="logo.png" alt="">
+        <nav>
+            <ul>
+                <li><a href="#">就活サイト</a></li>
+                <li><a href="#">就活支援サービス</a></li>
+                <li><a href="#">就活の教科書とは</a></li>
+                <li><a href="#">お問い合わせ</a></li>
+            </ul>
+        </nav>
+    </header>
   <main>
     <div class="box_con">
+    <h1 class="inquiry_form_title">確認画面</h1>
       <form method="post" action="">
+      
         <table class="formTable">
           <tr>
-            <th>氏名<span>必須</span></th>
+            <th>氏名</th>
             <td><?php echo h($form["name"]); ?>
             </td>
           </tr>
           <tr>
-            <th>電話番号（半角）<span>必須</span></th>
+            <th>電話番号（半角）</th>
             <td><?php echo h($form["tel"]); ?>
             </td>
           </tr>
           <tr>
-            <th>Email（半角）<span>必須</span></th>
+            <th>Email（半角）</th>
             <td><?php echo h($form["email"]); ?>
             </td>
           </tr>
-          <th>学校名(大学/大学院/専門学校/短大/高校等) <span>必須</span></th>
+          <th>学校名(大学/大学院/専門学校/短大/高校等) </th>
           <td><?php echo h($form["collage"]); ?>
           </td>
           </tr>
           <tr>
-            <th>学部/学科 <span>必須</span></th>
+            <th>学部/学科 </th>
             <td><?php echo h($form["department"]); ?>
             </td>
           </tr>
           <tr>
-            <th>卒業年度 <span>必須</span></th>
+            <th>卒業年度 </th>
             <td><?php echo h($form["class_of"]); ?>年度卒
             </td>
           <tr>
-            <th>住所 <span>必須</span></th>
+            <th>住所</th>
             <td><?php echo h($form["address"]); ?>
             </td>
           </tr>
@@ -226,19 +333,32 @@ endforeach;
             <td><?php echo h($form["memo"]); ?>
           </tr>
           <tr>
-            <th>問い合わせるエージェント企業の確認(実際はカードを表示)</th>
+            <th>問い合わせるエージェント企業の確認</th>
             <td>
-              <?php foreach ($form['student_contacts'] as $student_contact) : ?>
-                <input type="checkbox" checked disabled name="student_contacts[]" value=""><?= $student_contact ?>
+              <?php foreach ($s_agents as $s_agent) : ?>
+                ・<?= $s_agent ?></br>
               <?php endforeach; ?>
+
           </tr>
         </table>
         <p class="btn">
-          <a href="entry.php?action=rewrite">&laquo;&nbsp;入力画面へ戻る</a> | <span><input type="submit" value="　 送信 　" /></span>
+        
+          <a class="back_btn2" href="entry.php?action=rewrite">&laquo;&nbsp;入力画面へ戻る</a> | <span><input type="submit" value="　 送信 　" /></span>
         </p>
       </form>
     </div>
   </main>
+
+  <footer>
+        <div class="inquiry">
+            <p>
+                craft運営 boozer株式会社事務局
+                <br>TEL:080-3434-2435
+                <br>Email:craft@boozer.com
+            </p>
+        </div>
+    </footer>
+    <script src="main.js"></script>
 </body>
 
 </html>

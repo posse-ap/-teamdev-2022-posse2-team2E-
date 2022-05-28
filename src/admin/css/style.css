@@ -2,8 +2,8 @@ header {
   width: 100%;
   background-color: #4FA49A;
   border-bottom: #fff 1px solid;
-  /* position: fixed;一時 */
   top: 0;
+  position: fixed;
 }
 header .header-inner {
   display: flex;
@@ -38,7 +38,7 @@ header .select {
 
 .main {
   width: 80%;
-  margin: 40px auto 100px;
+  margin: 100px auto 100px;
   padding-top: 20px;
 }
 
@@ -86,6 +86,10 @@ input {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.recommend_under{
+  margin-bottom: 0.5rem;
 }
 
 .agent-not-listed {
@@ -166,7 +170,6 @@ input {
 .added-tag span {
   margin-left: 5px;
 }
-/*# sourceMappingURL=style.css.map */
 
 .done {
   margin-top: 70px;
@@ -211,7 +214,7 @@ input {
 }
 
  .make_invalid {
-    width: 100%;
+    width: 30%;
     height:70px;
     margin: 20px auto;
     font-size: 30px;
@@ -221,6 +224,10 @@ input {
     text-decoration: none;
     color: #fff;
     cursor :pointer;
+ }
+
+ .invalid_operation label{
+   margin: auto;
  }
 
 .tag_edit_btns {
@@ -239,3 +246,4 @@ input {
   width: 100%;
 
 }
+

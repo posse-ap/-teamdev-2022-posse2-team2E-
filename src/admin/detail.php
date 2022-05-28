@@ -91,8 +91,6 @@ $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <title>AgentList</title>
   <link rel="stylesheet" href="./css/reset.css" />
   <link rel="stylesheet" href="./css/style.css" />
-  <script src="./js/jquery-3.6.0.min.js"></script>
-  <script src="./js/script.js" defer></script>
 </head>
 
 <body>
@@ -113,7 +111,7 @@ $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <a href="./login/loginInfo.php">
             <li class="header-nav-item">ログイン情報</li>
           </a>
-          <a href="./login/logout.php">
+          <a href="./login/logoutPage.php">
             <li class="header-nav-item">ログアウト</li>
           </a>
         </ul>
@@ -149,8 +147,8 @@ $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <tr>
           <th>掲載期間</th>
           <td>
-            <?php echo h($agent['started_at']) ?> ～
-            <?php echo h($agent['ended_at']) ?>
+            <?php echo date("Y/m/d", strtotime($agent['started_at'])) ?> ～
+            <?php echo date("Y/m/d", strtotime($agent['ended_at'])) ?>
           </td>
         </tr>
 
