@@ -18,6 +18,17 @@ if (isset($_SESSION['form']) && isset($_SESSION['form']['student_contacts'])) {
   // exit();
 }
 
+// agent確認用
+$stmt = $db->prepare('select insert_company_name from agents where id = :id');
+// var_dump($form['student_contacts']);
+foreach ($form['student_contacts'] as $student_contact) :
+  $stmt->bindValue('id', (int)$student_contact, PDO::PARAM_INT);
+  $stmt->execute();
+  $s_agents[] = $stmt->fetch(PDO::FETCH_COLUMN);
+endforeach;
+// var_dump($s_agents);
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $stmt = $db->prepare('insert into students (name, collage, department, class_of, email, tel, address, memo) VALUES (:name, :collage, :department, :class_of, :email, :tel, :address, :memo)');
   $stmt->bindValue('name', $form['name'], PDO::PARAM_STR);
@@ -322,10 +333,10 @@ foreach ($agents_tags as $a) {
             <td><?php echo h($form["memo"]); ?>
           </tr>
           <tr>
-            <th>問い合わせるエージェント企業の確認(実際はカードを表示)</th>
+            <th>問い合わせるエージェント企業の確認</th>
             <td>
-              <?php foreach ($form['student_contacts'] as $student_contact) : ?>
-                <input type="checkbox" checked disabled name="student_contacts[]" value=""><?= $student_contact ?>
+              <?php foreach ($s_agents as $s_agent) : ?>
+                ・<?= $s_agent ?></br>
               <?php endforeach; ?>
 
           </tr>
