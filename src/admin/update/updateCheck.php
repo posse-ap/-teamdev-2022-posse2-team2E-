@@ -3,15 +3,16 @@ session_start();
 require('../../db_connect.php');
 
 // //ログインされていない場合は強制的にログインページにリダイレクト
-// if (!isset($_SESSION["login"])) {
-//     header("Location: ../login/login.php");
-//     exit();
-// }
+if (!isset($_SESSION["login"])) {
+    header("Location: ../login/login.php");
+    exit();
+}
 
 $id = $_GET['id'];
 // var_dump($id);
 if (isset($_SESSION['form'])) {
   $form = $_SESSION['form'];
+  // var_dump($form['agent_tags']);
   // 期間判定
   date_default_timezone_set('Asia/Tokyo');
   $today = date("Y-m-d"); //今日の日付

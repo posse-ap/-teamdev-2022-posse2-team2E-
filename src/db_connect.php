@@ -13,7 +13,7 @@ function h($value) {
 function set_list_status($list_status)
 {
   if ($list_status === 1) {
-    return '掲載';
+    return '掲載中';
   } elseif ($list_status === 2) {
     return '掲載期間外';
   } elseif ($list_status === 3) {
