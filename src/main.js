@@ -105,7 +105,7 @@ $(function () {
     fixed.hide();
     $(window).scroll(function () {
         //1300pxスクロールしたらtopBtnをフェードイン表示させる 
-        if ($(this).scrollTop() > 1300) {
+        if ($(this).scrollTop() > 1600) {
             topBtn.fadeIn();
             fixed.fadeIn();
         } else {
@@ -373,6 +373,7 @@ $(function () {
         setConditions();
 
     });
+
 
     $(document).on('click', '.js_release', function () {
         $('.bl_selectBlock_check input').each(function () {

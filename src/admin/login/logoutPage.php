@@ -1,16 +1,20 @@
 <?php
-
-session_start();
 require('../../db_connect.php');
-
+session_start();
 //ログインされていない場合は強制的にログインページにリダイレクト
 if (!isset($_SESSION["login"])) {
-    header("Location: ../login/login.php");
-    exit();
+  header("Location: login.php");
+  exit();
 }
 
-?>
+//管理者ログイン情報
+$stmt = $db->query('select * from admin_login;');
+$admin_login = $stmt->fetch(PDO::FETCH_ASSOC);
 
+// エージェントログイン情報
+$stmt = $db->query('select * from agents;');
+$agents_login = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -22,10 +26,10 @@ if (!isset($_SESSION["login"])) {
   <title>AgentList</title>
   <link rel="stylesheet" href="../css/reset.css" />
   <link rel="stylesheet" href="../css/style.css" />
-</head>
+  <link rel="stylesheet" href="../../agent/agent_logout.css">
 
 <body>
-<header>
+  <header>
     <div class="header-inner">
       <h1 class="header-title">CRAFT管理者画面</h1>
       <nav class="header-nav">
@@ -37,28 +41,22 @@ if (!isset($_SESSION["login"])) {
             <li class="header-nav-item">エージェント追加</li>
           </a>
           <a href="../tags/tagsEdit.php">
-            <li class="header-nav-item select">タグ一覧</li>
+            <li class="header-nav-item">タグ一覧</li>
           </a>
           <a href="../login/loginInfo.php">
-            <li class="header-nav-item">ログイン情報</li>
+            <li class="header-nav-item ">ログイン情報</li>
           </a>
           <a href="../login/logoutPage.php">
-            <li class="header-nav-item">ログアウト</li>
+            <li class="header-nav-item select">ログアウト</li>
           </a>
         </ul>
       </nav>
     </div>
   </header>
-<body>
-<div id="head">
-</div>
-
-<div class="done">
-<p>編集が完了しました。</p>
-<p><a href="tagsEdit.php">タグ一覧画面で確認する</a></p>
-<p>絞り込みの種類、タグ両方が設定されていなければユーザー画面には反映されません。<br>片方しかなものは、編集画面で確認できます</p>
-</div>
-
-</div>
+    <div class="message">
+        <p>ログアウトしますか？</p>
+        <a href="../login/logout.php">ログアウトする</a>
+    </div>
 </body>
+
 </html>

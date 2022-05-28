@@ -4,6 +4,7 @@ header {
   border-bottom: #fff 1px solid;
   /* position: fixed;一時 */
   top: 0;
+  position: fixed;
 }
 header .header-inner {
   display: flex;
@@ -38,7 +39,7 @@ header .select {
 
 .main {
   width: 80%;
-  margin: 40px auto 100px;
+  margin: 100px auto 100px;
   padding-top: 20px;
 }
 
@@ -86,6 +87,10 @@ input {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.recommend_under{
+  margin-bottom: 0.5rem;
 }
 
 .agent-not-listed {
@@ -239,3 +244,4 @@ input {
   width: 100%;
 
 }
+
