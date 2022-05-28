@@ -149,7 +149,7 @@ foreach ($agents_tags as $a) {
                         <?php foreach ($at_list as $agent_tags) : ?>
                             <?php if ($listed_agent['id'] === current($agent_tags)['agent_id']) : ?>
                         
-                                <li class="agent_box js_target  " data-filter-key="総合型" id="tohoku_<?php echo $listed_agent['id'] ?>"
+                                <li class="agent_box js_target" data-filter-key="総合型" id="tohoku_<?php echo $listed_agent['id'] ?>"
                                     <?php foreach ($agent_tags as $agent_tag) : ?> 
                                         data-<?= $agent_tag['sort_id']; ?>="<?= $agent_tag['tag_name'] ?>"
                                     <?php endforeach; ?>>

@@ -343,12 +343,14 @@ container{
 
     width: 110rem;
     height: 50rem;
+    line-height: 50rem;
     border-radius: 30rem;
+    font-size: 16rem;
+    text-align: center;
     color: black;
     font-weight: bold;
     -webkit-box-shadow: 0 3px 5px rgb(253, 253, 253);
     box-shadow: 0 4px 15px 0 rgb(0 0 0 / 25%);
-
     background-color: #FFCD2A;
     border-color: rgba(255, 252, 252, 0.897);
     margin-bottom: 5rem;
@@ -1383,6 +1385,7 @@ label input + span:before {
   
   .js_release{
     cursor: pointer;
+    
   }
 
 .inquiry_done {
