@@ -173,17 +173,12 @@ function set_valid_status($valid_status)
             <li><a href="agent_students_all.php">学生情報一覧</a></li>
             <li><a href="agent_information.php">登録情報</a></li>
             <li><a href="../index.php" target="_blank">ユーザー画面へ</a></li>
-            <li><a href="agent_logout.php">ログアウト</a></li>
+            <li><a href="agent_logoutPage.php">ログアウト</a></li>
         </ul>
     </nav>
     </header>
     <div class="all_wrapper">
-        <div class="left_wrapper">
-            <li><a href="agent_students_all.php">学生情報一覧</a></li>
-            <li><a href="agent_information.php">登録情報</a></li>
-            <li><a href="../index.php" target="_blank">ユーザー画面へ</a></li>
-            <li><a href="agent_logout.php">ログアウト</a></li>
-        </div>
+        
         <div class="right_wrapper">
             <h1 class="detail_title">学生情報詳細　　　　<?= set_valid_status($result['valid_status_id']) ?></h1>
             <table class="students_detail" border="1" width="90%">
