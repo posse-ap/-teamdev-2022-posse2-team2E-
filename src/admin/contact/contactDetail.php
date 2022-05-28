@@ -68,10 +68,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mb_internal_encoding("UTF-8");
         $to = $agent['to_send_email'];
         if(!empty(h($invalid_requests['invalid_request_memo']))){
-            $invalid_requests = "    お送りいただいた通報内容は以下です。
-            ━━━━━━□■□　通報内容　□■□━━━━━━
-            " . h($invalid_requests['invalid_request_memo']) . "
-            ━━━━━━━━━━━━━━━━━━━━━━━";
+            $invalid_requests = "お送りいただいた通報内容は以下です。
+    ━━━━━━□■□　通報内容　□■□━━━━━━
+    " . h($invalid_requests['invalid_request_memo']) . "
+    ━━━━━━━━━━━━━━━━━━━━━━━";
         }else{
             $invalid_requests = "";
         }
@@ -385,11 +385,11 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php if ($result['valid_status_id'] === 1||$result['valid_status_id'] === 2) : ?>
         <form action="" method="post" enctype="multipart/form-data">
         <p class= "invalid_operation"><label>無効化処理：<br>
-            <textarea name="naiyou" cols="70" rows="5" required placeholder="処理理由を記入（エージェント企業へ自動送信されます。）"></textarea>
+            <textarea name="naiyou" cols="70" rows="5" required placeholder="処理理由を記入（ボタンを押すとエージェント企業へ自動送信されます。）"></textarea>
         </label></p>
-                <input type="submit" class="make_invalid" name="invalid" value="無効化">
+                <input type="submit" class="make_invalid non_invalid" name="invalid" value="無効化">
             <?php if ($result['valid_status_id'] === 2) : ?>
-                <input type="submit" class="make_invalid" name="non_invalid" value="無効申請拒否">
+                <input type="submit" class="make_invalid non_invalid" name="non_invalid" value="無効申請拒否">
             <?php endif; ?>
         </form>
         <?php endif; ?>

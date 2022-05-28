@@ -3,7 +3,7 @@ require($_SERVER['DOCUMENT_ROOT'] . "/db_connect.php");
 session_start();
 
 //ログインされていない場合は強制的にログインページにリダイレクト
-if (!isset($_SESSION["login"])) {
+if (!isset($_SESSION["login"]) || !isset($_SESSION['corporate_name'])) {
     header("Location: agent_login.php");
     exit();
 }

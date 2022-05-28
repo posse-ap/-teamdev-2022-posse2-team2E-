@@ -44,7 +44,6 @@ try {
      $stmt = $db->prepare('update agents set list_status=2 where started_at > :started_at or ended_at < :ended_at');
      $stmt->bindValue(':started_at', $today, PDO::PARAM_STR);
      $stmt->bindValue(':ended_at', $today, PDO::PARAM_STR);
-     $stmt->execute();
      $success = $stmt->execute();
      if (!$success) {
          die($db->error);

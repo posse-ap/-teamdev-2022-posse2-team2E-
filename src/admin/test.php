@@ -19,7 +19,6 @@ $stmt->execute();
 
 }
 
-
 ?>
 
 <!DOCTYPE html>
