@@ -331,7 +331,8 @@ foreach ($agents_tags as $a) {
           </tr>
         </table>
         <p class="btn">
-          <a href="entry.php?action=rewrite">&laquo;&nbsp;入力画面へ戻る</a> | <span><input type="submit" value="　 送信 　" /></span>
+        
+          <a class="back_btn2" href="entry.php?action=rewrite">&laquo;&nbsp;入力画面へ戻る</a> | <span><input type="submit" value="　 送信 　" /></span>
         </p>
       </form>
     </div>
