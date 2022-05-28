@@ -45,7 +45,7 @@ if (isset($_POST["submit"])) {
 </head>
 
 <body>
-    <!-- <header> -->
+    <header>
     <h1>
         <p><span>CRAFT</span>by boozer</p>
     </h1>

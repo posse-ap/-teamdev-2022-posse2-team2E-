@@ -147,7 +147,7 @@ $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <a href="../login/loginInfo.php">
             <li class="header-nav-item">ログイン情報</li>
           </a>
-          <a href="../login/logout.php">
+          <a href="../login/logoutPage.php">
             <li class="header-nav-item">ログアウト</li>
           </a>
         </ul>

@@ -9,23 +9,22 @@ html{
 /* ヘッダー */
 header{
     background-color: #4fa49a;
-    height: 80rem;
+    height: 100rem;
     width: 100%;
     font-size: 18rem;
     text-align: center;
-    padding-bottom: 20rem;
 }
 
 header img {
     width: 200rem;
-    height: 60rem;
+    height: 50rem;
     object-fit: cover;
 }
 
 header nav ul {
     display: flex;
     justify-content: center;
-    padding-top: 10rem;
+    padding-top: 15rem;
 }
 
 header nav ul li a {
@@ -57,7 +56,8 @@ header a {
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
-    height: 86vh;
+    width: 100vw;
+    height: 90vh;
     /* opacity: 50%; */
     color: white;
 }
@@ -114,8 +114,12 @@ header a {
     /* display: flex; */
     justify-content: center;
     display:table;
-    margin: 90rem 20rem;
+    margin: 60rem 20rem ;
     margin-left: 120rem;
+
+    opacity : 0;
+    transform : translate(-60px, 0px);
+    transition:all 1.0s;
 
 }
 
@@ -156,7 +160,7 @@ header a {
 
 .q_and_a{
     position: relative;
-    margin: 0 auto;
+    margin: 120rem auto 0;
     text-align: center;
     height: 250rem;
     width: 60%;
@@ -165,7 +169,6 @@ header a {
     color: white;
     font-size: 20rem;
     padding: 30rem ;
-    margin-top: 170rem;
 }
 
 .q_and_a:after{
@@ -204,6 +207,63 @@ header a {
     color:yellow;
 }
 
+.easy_step1{
+  display: flex;
+  justify-content: center;
+  margin: 80rem auto 40rem;
+  font-size: 35rem;
+  align-items: center;
+}
+
+.easy_step2 {
+  position: relative;
+  display: flex;
+  padding: 0 45px;
+  justify-content: center;
+  align-items: center;
+}
+.easy_step2:before{
+  content: '';
+  position: absolute;
+  top: 50%;
+  display: inline-block;
+  width: 44px;
+  height: 5px;
+  background-color: #4FA49A;
+  -webkit-transform: rotate(60deg);
+  transform: rotate(60deg);
+}
+
+.easy_step2:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  display: inline-block;
+  width: 44px;
+  height: 5px;
+  background-color: #4FA49A;
+  -webkit-transform: rotate(-60deg);
+  transform: rotate(-60deg);
+}
+.easy_step2:before {
+  left:0;
+  display: flex;
+  /* padding: 0 45px; */
+  justify-content: center;
+}
+.easy_step2:after {
+  right: 0;
+  display: flex;
+  /* padding: 0 45px; */
+  justify-content: center;
+}
+
+.easy_step3{
+  font-size: 55rem;
+  font-weight: bold;
+  color: #4FA49A;
+}
+
 /*下からフェードイン*/
  .fade-in-bottom {
     opacity: 0;
@@ -224,11 +284,6 @@ header a {
     }
  }
 
-.process{
-    opacity : 0;
-    transform : translate(-60px, 0px);
-    transition:all 1.0s;
-}
 
 .process.scrollin {
     opacity : 1;
@@ -244,7 +299,7 @@ header a {
     height: auto;
 }
 
-git 
+
 /* 絞り込み */
 [data-filter-view]:not([data-filter-view=""]) [data-filter-key] {
     display: none;
@@ -288,20 +343,21 @@ container{
     margin-bottom: 20rem;
     padding-top: 30rem;
     /* margin: 10rem 0 30rem; */
-    display: flex;
+    /* display: flex; */
     justify-content: center;
     justify-content: flex-start;
     align-items: flex-end;
-    font-size: 25rem;
-}
+    /* font-size: 2rem; */
 
-
-.filter_num span{
     color: #FFA628;
     margin-right: 5rem;
     font-size: 50rem;
     font-weight: 600;
-    text-decoration: underline;
+}
+
+.filter_num_all{
+ font-size: 25rem;
+ margin: 15rem auto;
 }
 
 .agents_type p{

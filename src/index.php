@@ -118,6 +118,7 @@ foreach ($agents_tags as $a) {
                 </div>
             </div>
         </div>
+        <p class="easy_step1"><span class="easy_step2">問い合わせは簡単<span class="easy_step3">４</span>ステップ！</span></p>
         <div class="process">
             <p class="slide_in_1">絞り込む</p>
             <div class="arrow slide_in_2"></div>
@@ -200,7 +201,7 @@ foreach ($agents_tags as $a) {
             <div class="filter_left_wrapper">
             <div class="filter-cond" id="filter_side">
                 <div id="select" >
-                    <span class="filter_num  js_numerator"></span>件／全<span class="el_searchResult js_denominator"></span>件
+                    <p class="filter_num_all"><span class="filter_num  js_numerator"></span>件／全<span class="el_searchResult js_denominator"></span>件</p>
                     <div class="filter_box">
                         <p class="filter_script">絞り込み条件</p>
                         <?php foreach ($t_list as $filter_sort) : ?>
