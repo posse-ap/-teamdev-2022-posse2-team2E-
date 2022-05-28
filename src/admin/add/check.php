@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     endforeach;
   }
   unset($_SESSION['form']);
-  header('location: thanks.php');
+  header('location: ../index.php');
 }
 
 //タグ情報
@@ -159,8 +159,8 @@ foreach ($filter_sorts_tags as $f) {
           <tr>
             <th>掲載期間</th>
             <td>
-              <?php echo h($form['started_at']) ?> ～
-              <?php echo h($form['ended_at']) ?>
+              <?php echo date("Y/m/d", strtotime($form['started_at'])) ?> ～
+              <?php echo date("Y/m/d", strtotime($form['ended_at'])) ?>
             </td>
           </tr>
           <tr class="login-info">

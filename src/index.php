@@ -1,4 +1,5 @@
 <?php
+session_start();
 require('db_connect.php');
 
 try {
@@ -78,6 +79,12 @@ $at_list = [];
 foreach ($agents_tags as $a) {
     $at_list[(int)$a['agent_id']][] = $a;
 }
+
+// 問い合わせから戻ったセッション
+if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['back_index'])) {
+    $student_contacts = $_SESSION['back_index'];
+    // var_dump($student_contacts);
+  }
 ?>
 
 <!DOCTYPE html>
@@ -181,7 +188,7 @@ foreach ($agents_tags as $a) {
                                         <div class="agent_article_footer">
                                             <p class="span_published">掲載期間：<?php echo date("Y/m/d", strtotime($listed_agent['started_at'])); ?>〜<?php echo date("Y/m/d", strtotime($listed_agent['ended_at'])); ?></p>
                                             <label id="tohoku_<?php echo $listed_agent['id'] ?>">
-                                                <input id="keep_<?php echo $listed_agent['id'] ?>" class="bn632-hover bn19 " onclick="check(<?php echo $listed_agent['id'] ?>)" type=checkbox name=student_contacts[] value="<?php echo $listed_agent['id']; ?>"><span></span>
+                                                <input id="keep_<?php echo $listed_agent['id'] ?>" class="bn632-hover bn19 " onclick="check(<?php echo $listed_agent['id'] ?>)" type=checkbox name=student_contacts[] value="<?php echo $listed_agent['id']; ?>" <?php if ($student_contacts) : foreach ($student_contacts as $s_contact) : if (h($listed_agent['id']) === $s_contact) : ?>checked <?php endif;endforeach;endif; ?>><span></span>
                                             </label>
                                         </div>
                                     </div>

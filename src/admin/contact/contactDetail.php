@@ -53,6 +53,9 @@ $invalid_requests = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // 通報機能
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // 無効化
+    if(isset($_POST['invalid'])){
     // students_contacts.valid_status_idを　3へ
     $stmt = $db->prepare('update students_contacts set valid_status_id=3 where id=:id');
     $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
@@ -115,6 +118,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     header("location: contactDetail.php?agent=$agent_id&id=$id");
 }
+
+// 無効化拒否
+
+}
+
 
 // 無効化申請中/無効化承認済みをタイトルに表示
 function set_valid_status($valid_status)
@@ -289,10 +297,18 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </tr>
             </table>
         <?php endif; ?>
+        <?php if ($result['valid_status_id'] != 3) : ?>
+
+            <form action="" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="invalid">
+                <p><input type="submit" class="make_invalid" value="無効化"></p>
+            </form>
+        <?php endif; ?>
         <?php if ($result['valid_status_id'] === 2) : ?>
 
             <form action="" method="post" enctype="multipart/form-data">
-                <p><input type="submit" class="make_invalid" value="無効化"></p>
+                <input type="hidden" name="non_invalid">
+                <p><input type="submit" class="make_invalid" value="無効申請拒否"></p>
             </form>
         <?php endif; ?>
         </div>

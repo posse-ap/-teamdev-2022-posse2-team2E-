@@ -149,8 +149,8 @@ $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <tr>
           <th>掲載期間</th>
           <td>
-            <?php echo h($agent['started_at']) ?> ～
-            <?php echo h($agent['ended_at']) ?>
+            <?php echo date("Y/m/d", strtotime($agent['started_at'])) ?> ～
+            <?php echo date("Y/m/d", strtotime($agent['ended_at'])) ?>
           </td>
         </tr>
 

@@ -146,6 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </header>
   <p>
   <main class="main">
+  <h1 class="main-title">絞り込み編集画面</h1>
     <form action="" method="post" enctype="multipart/form-data">
       <div class="agent-add-table">
         <table class="tags-add">
@@ -195,10 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p class="error">
         * 入力した番号にあう絞り込みの種類がなければ、ユーザー画面に表示されません。</br>
         * 絞り込みの種類と番号が一致しないタグは手動で削除してください。
-      </p>
-
-        <input type="submit" value="編集を完了する" />
-      </div>
+      <div><a href="tagsEdit.php">&laquo;&nbsp;タグ一覧に戻る</a> | <input type="submit" value="編集を完了する" /></div>
     </form>
   </main>
 </body>
