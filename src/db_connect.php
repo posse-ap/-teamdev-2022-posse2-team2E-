@@ -18,6 +18,8 @@ function set_list_status($list_status)
     return '掲載期間外';
   } elseif ($list_status === 3) {
     return '申込上限到達';
+  } elseif ($list_status === 4) {
+    return 'タグ不足';
   } else {
     return 'エラー';
   }

@@ -9,110 +9,145 @@ if (!isset($_SESSION["login"])) {
 }
 
 try {
-// 全てのエージェントの掲載ステータスをupdateする。
-date_default_timezone_set('Asia/Tokyo');
-$today = date("Y-m-d");
-// 掲載再開
-$stmt = $db->prepare('update agents set list_status=1 where started_at <= :started_at and ended_at >= :ended_at');
-$stmt->bindValue(':started_at', $today, PDO::PARAM_STR);
-$stmt->bindValue(':ended_at', $today, PDO::PARAM_STR);
-$success = $stmt->execute();
-if (!$success) {
-  die($db->error);
-}
+  // 全てのエージェントの掲載ステータスをupdateする。
+  date_default_timezone_set('Asia/Tokyo');
+  $today = date("Y-m-d");
+  // 掲載再開
+  $stmt = $db->prepare('update agents set list_status=1 where started_at <= :started_at and ended_at >= :ended_at');
+  $stmt->bindValue(':started_at', $today, PDO::PARAM_STR);
+  $stmt->bindValue(':ended_at', $today, PDO::PARAM_STR);
+  $success = $stmt->execute();
+  if (!$success) {
+    die($db->error);
+  }
 
-// 申し込み上限数到達(今月の申し込み数と比較)
-// 全てのエージェントでforeach
-// 全てのエージェント
-$stmt = $db->query('select id from agents');
-$stmt->execute();
-$agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  // 申し込み上限数到達(今月の申し込み数と比較)
+  // 全てのエージェントでforeach
+  // 全てのエージェント
+  $stmt = $db->query('select id from agents');
+  $stmt->execute();
+  $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// 今月の申し込み数
-foreach($agents as $agent){
-$stmt = $db->prepare('SELECT * FROM students AS S, students_contacts AS SC, agents AS A WHERE S.id = SC.student_id AND SC.agent_id = A.id AND SC.agent_id = :agent_id AND DATE_FORMAT(S.created, "%Y-%m") = :form_month ');
-$stmt->bindValue(':form_month', Date('Y-m'), PDO::PARAM_STR);
-$stmt->bindValue(':agent_id', $agent['id'], PDO::PARAM_INT);
-$stmt->execute();
-$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$cnt = count($result);
-// 比較
-$stmt = $db->prepare('update agents set list_status=3 where id= :id and application_max <= :application');
-$stmt->bindValue(':id', $agent['id'], PDO::PARAM_INT);
-$stmt->bindValue(':application', $cnt, PDO::PARAM_INT);
-$success = $stmt->execute();
-if (!$success) {
-  die($db->error);
-}
-}
+  // 今月の申し込み数
+  foreach ($agents as $agent) {
+    $stmt = $db->prepare('SELECT * FROM students AS S, students_contacts AS SC, agents AS A WHERE S.id = SC.student_id AND SC.agent_id = A.id AND SC.agent_id = :agent_id AND DATE_FORMAT(S.created, "%Y-%m") = :form_month ');
+    $stmt->bindValue(':form_month', Date('Y-m'), PDO::PARAM_STR);
+    $stmt->bindValue(':agent_id', $agent['id'], PDO::PARAM_INT);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $cnt = count($result);
+    // 比較
+    $stmt = $db->prepare('update agents set list_status=3 where id= :id and application_max <= :application');
+    $stmt->bindValue(':id', $agent['id'], PDO::PARAM_INT);
+    $stmt->bindValue(':application', $cnt, PDO::PARAM_INT);
+    $success = $stmt->execute();
+    if (!$success) {
+      die($db->error);
+    }
 
-// 掲載期間外
-$stmt = $db->prepare('update agents set list_status=2 where started_at > :started_at or ended_at < :ended_at');
-$stmt->bindValue(':started_at', $today, PDO::PARAM_STR);
-$stmt->bindValue(':ended_at', $today, PDO::PARAM_STR);
-$stmt->execute();
-$success = $stmt->execute();
-if (!$success) {
-  die($db->error);
-}
-// upadateここまで
+    // タグ不足
+    $stmt = $db->prepare('select tag_id from agents_tags where agent_id=:id');
+    $stmt->bindValue(':id', (int)$agent['id'], PDO::PARAM_INT);
+    $stmt->execute();
+    $agent_tags = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    if (!$agent_tags) {
+      $tag_lack = $agent['id'];
+    } else {
+      foreach ($agent_tags as $agent_tag) {
+        $stmt = $db->prepare('select sort_id from filter_tags where tag_id=:tag_id');
+        $stmt->bindValue(':tag_id', $agent_tag, PDO::PARAM_STR);
+        $stmt->execute();
+        $tags[] = $stmt->fetch(PDO::FETCH_COLUMN);
+      }
+      //タグ情報
+      $stmt = $db->query('select fs.id, sort_name, tag_id, tag_name from filter_sorts fs inner join filter_tags ft on fs.id = ft.sort_id;
+');
+      $filter_sorts_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      // var_dump($tags);
+      foreach ($filter_sorts_tags as $f) {
+        // var_dump($f['id']);
+        if (!in_array($f['id'], $tags)) {
+          $tag_lack = $agent['id'];
+        }
+      }
+    }
+    $stmt = $db->prepare('update agents set list_status=4 where id= :id');
+    if (isset($tag_lack)) {
+      $stmt->bindValue(':id', $tag_lack, PDO::PARAM_INT);
+      $success = $stmt->execute();
+      if (!$success) {
+        die($db->error);
+      }
+    }
+  }
 
-
-// 掲載エージェント
-$stmt = $db->prepare('select * from agents where list_status=? order by id desc');
-$stmt->execute([1]);
-$listed_agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
-// 非掲載エージェント
-$stmt = $db->prepare('select * from agents where list_status !=? order by id desc');
-$stmt->execute([1]);
-$non_listed_agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// タグ表示テスト
-
-$stmt = $db->query('select agent_id, at.tag_id, tag_name from agents_tags at, filter_tags ft where at.tag_id = ft.tag_id');
-$agents_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$at_list = [];
-foreach ($agents_tags as $a) {
-  $at_list[(int)$a['agent_id']][] = $a;
-}
-
-// var_dump($at_list);
-// $at_listの中身はこんな感じ 
-//[1]=> { 
-//   [0]=>  { 
-//    ["agent_id"]=> int(1) 
-//    ["tag_id"]=> int(1) 
-//    ["tag_name"]=> string(9) "特化型" 
-// }
-//    [1]=>  { 
-//    ["agent_id"]=> int(1)   
-//    ["tag_id"]=> int(2)  
-//    ["tag_name"]=> string(9) "総合型" 
-// } 
-// } 
-//[2]=>  { 
-//   [0]=>  { 
-// ["agent_id"]=> int(2) 
-// ["tag_id"]=> int(1) 
-// ["tag_name"]=> string(9) "特化型" } 
-//} 
-//[16]=>  { 
-// [0]=>  { 
-// ["agent_id"]=> int(16) 
-// ["tag_id"]=> int(4) 
-// ["tag_name"]=> string(6) "小型" } 
-// } 
-// [3]=> { 
-// [0]=>  {
-//  ["agent_id"]=> int(3) 
-// ["tag_id"]=> int(4) 
-// ["tag_name"]=> string(6) "小型" 
-// } 
-// } 
-// }
+  // 掲載期間外
+  $stmt = $db->prepare('update agents set list_status=2 where started_at > :started_at or ended_at < :ended_at');
+  $stmt->bindValue(':started_at', $today, PDO::PARAM_STR);
+  $stmt->bindValue(':ended_at', $today, PDO::PARAM_STR);
+  $stmt->execute();
+  $success = $stmt->execute();
+  if (!$success) {
+    die($db->error);
+  }
+  // upadateここまで
 
 
-// ここまで
+  // 掲載エージェント
+  $stmt = $db->prepare('select * from agents where list_status=? order by id desc');
+  $stmt->execute([1]);
+  $listed_agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  // 非掲載エージェント
+  $stmt = $db->prepare('select * from agents where list_status !=? order by id desc');
+  $stmt->execute([1]);
+  $non_listed_agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  // タグ表示テスト
+
+  $stmt = $db->query('select agent_id, at.tag_id, tag_name from agents_tags at, filter_tags ft where at.tag_id = ft.tag_id');
+  $agents_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $at_list = [];
+  foreach ($agents_tags as $a) {
+    $at_list[(int)$a['agent_id']][] = $a;
+  }
+
+  // var_dump($at_list);
+  // $at_listの中身はこんな感じ 
+  //[1]=> { 
+  //   [0]=>  { 
+  //    ["agent_id"]=> int(1) 
+  //    ["tag_id"]=> int(1) 
+  //    ["tag_name"]=> string(9) "特化型" 
+  // }
+  //    [1]=>  { 
+  //    ["agent_id"]=> int(1)   
+  //    ["tag_id"]=> int(2)  
+  //    ["tag_name"]=> string(9) "総合型" 
+  // } 
+  // } 
+  //[2]=>  { 
+  //   [0]=>  { 
+  // ["agent_id"]=> int(2) 
+  // ["tag_id"]=> int(1) 
+  // ["tag_name"]=> string(9) "特化型" } 
+  //} 
+  //[16]=>  { 
+  // [0]=>  { 
+  // ["agent_id"]=> int(16) 
+  // ["tag_id"]=> int(4) 
+  // ["tag_name"]=> string(6) "小型" } 
+  // } 
+  // [3]=> { 
+  // [0]=>  {
+  //  ["agent_id"]=> int(3) 
+  // ["tag_id"]=> int(4) 
+  // ["tag_name"]=> string(6) "小型" 
+  // } 
+  // } 
+  // }
+
+
+  // ここまで
 
 
 
