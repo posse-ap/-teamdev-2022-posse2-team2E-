@@ -138,6 +138,8 @@ function set_valid_status($valid_status)
         return '無効化申請中';
     } elseif ($valid_status === 3) {
         return '無効化承認済み';
+    } elseif ($valid_status === 4) {
+        return '申請拒否';
     } else {
         return 'エラー';
     }
