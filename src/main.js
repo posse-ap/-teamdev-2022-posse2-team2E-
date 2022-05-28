@@ -362,8 +362,23 @@ $(function () {
             }
             data_check = 0;
         }
+feature/1
+    
+          if(data_check === conditions.length){
+            count++;
+            $(box[m]).addClass('js_selected');
+          }else{
+    
+          }
+          data_check = 0;
 
-        $('.js_numerator').text(count);//件数表示の分子をセット
+          
+    
+      }
+    
+    
+      $('.js_numerator').text(count);//件数表示の分子をセット
+
     }
 
     setConditions();
