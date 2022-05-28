@@ -366,6 +366,8 @@ $(function(){
     
           }
           data_check = 0;
+
+          
     
       }
     
