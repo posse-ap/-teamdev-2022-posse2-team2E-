@@ -18,9 +18,9 @@ try {
     // // 申し込み上限数到達(今月の申し込み数と比較)
     // // 全てのエージェントでforeach
     // // 全てのエージェント
-    // $stmt = $db->query('select id from agents');
-    // $stmt->execute();
-    // $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = $db->query('select id from agents');
+    $stmt->execute();
+    $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // // 今月の申し込み数
      foreach ($agents as $agent) {

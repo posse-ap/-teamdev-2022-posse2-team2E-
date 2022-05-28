@@ -105,7 +105,7 @@ $(function () {
     fixed.hide();
     $(window).scroll(function () {
         //1300pxスクロールしたらtopBtnをフェードイン表示させる 
-        if ($(this).scrollTop() > 1300) {
+        if ($(this).scrollTop() > 1600) {
             topBtn.fadeIn();
             fixed.fadeIn();
         } else {
@@ -362,23 +362,8 @@ $(function () {
             }
             data_check = 0;
         }
-feature/1
-    
-          if(data_check === conditions.length){
-            count++;
-            $(box[m]).addClass('js_selected');
-          }else{
-    
-          }
-          data_check = 0;
 
-          
-    
-      }
-    
-    
-      $('.js_numerator').text(count);//件数表示の分子をセット
-
+        $('.js_numerator').text(count);//件数表示の分子をセット
     }
 
     setConditions();
@@ -388,6 +373,7 @@ feature/1
         setConditions();
 
     });
+
 
     $(document).on('click', '.js_release', function () {
         $('.bl_selectBlock_check input').each(function () {
