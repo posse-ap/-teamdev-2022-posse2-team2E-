@@ -8,6 +8,12 @@ if (!isset($_SESSION["login"])) {
     exit();
 }
 
+if (isset($_GET['action']) && $_GET['action'] === 'sortsAdd' && isset($_SESSION['sort_id'])) {
+  $sort_id = $_SESSION['sort_id'];
+  unset($_SESSION['sort_id']);
+  var_dump($sort_id);
+}
+
 // 絞り込みの種類情報
 $stmt = $db->query('select * from filter_sorts;');
 $filter_sorts = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -39,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-  <header>
+  <!-- <header> -->
     <div class="header-inner">
       <h1 class="header-title">CRAFT管理者画面</h1>
       <nav class="header-nav">
@@ -111,14 +117,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endforeach; ?>
         <tr>
           <td>
+            <?php if(isset($sort_id)): echo $sort_id;?>
+            <input type="hidden" name="sort_id" value="<?=$sort_id?>" />
+          <?php else: ?>
             <input type="number" name="sort_id" value="" placeholder="絞り込み種類の番号"required/>
+            <?php endif; ?>
           </td>
           <td>
             <input type="text" name="tag_name" value="" placeholder="追加するタグを記入" required/>
           </td>
         </tr>
       </table>
-      <div><a href="tagsEdit.php">&laquo;&nbsp;タグ編集に戻る</a> | <input type="submit" value="追加する" /></div>
+      <div>
+        <?php if(!isset($sort_id)): ?><a href="tagsEdit.php">&laquo;&nbsp;タグ編集に戻る</a> | <?php endif; ?><input type="submit" value="追加する" /></div>
     </div>
     </form>
 
