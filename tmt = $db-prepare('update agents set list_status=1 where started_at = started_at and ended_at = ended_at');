@@ -1,0 +1,1207 @@
+[33mcommit 19aa11b6e94ea99e8c637ec52d4573af12739231[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/miyuki[m[33m, [m[1;31morigin/feature/miyuki[m[33m)[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sun May 29 10:00:15 2022 +0900
+
+    update反映されない
+
+[33mcommit 28c5588578920708c1a056eb70558e1566e3f50b[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sun May 29 08:31:37 2022 +0900
+
+    タグ不足エラー実装　（テストこれから）
+
+[33mcommit 39681da668c10e434eda248a063bb01552711ff1[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sun May 29 01:28:59 2022 +0900
+
+    必須化　編集画面　追加画面　完了
+
+[33mcommit 7b60ec9a9b1dacd5f150287c3f97f08e9d701708[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sun May 29 01:28:35 2022 +0900
+
+    必須化　編集画面　追加画面　完了
+
+[33mcommit b79c7950c7d0d801dc90b8dcdeec2a86394c2065[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sat May 28 20:09:17 2022 +0900
+
+    申請拒否　メール文まで完了
+
+[33mcommit c81afa172de32a6ff51f9e126a829c8e7251c4ca[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sat May 28 17:02:01 2022 +0900
+
+    問い合わせするエージェント　userCheck.phpに表示　index.phpの変更戻した
+
+[33mcommit b234d954436f9a9dddc2e1730cc1fdb39f5a1c24[m[33m ([m[1;31morigin/develop[m[33m)[m
+Merge: 2a716af 02d88d1
+Author: akira1515 <38104713+akira1515@users.noreply.github.com>
+Date:   Sat May 28 16:37:10 2022 +0900
+
+    Merge pull request #63 from posse-ap/feature/1
+    
+    確認画面の見た目、大体整えた。あとは美由紀
+
+[33mcommit 02d88d1fa5ed93313b5e132673f4980105bfbb41[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Sat May 28 16:36:17 2022 +0900
+
+    確認画面の見た目、大体整えた。あとは美由紀
+
+[33mcommit 2a716afa40c8ab47916d88ff366ab6795dbcbbbd[m
+Merge: 1c2142c f0e7267
+Author: 渡邊美由貴 <94722910+watanabe-miyuki@users.noreply.github.com>
+Date:   Sat May 28 16:34:10 2022 +0900
+
+    Merge pull request #62 from posse-ap/feature/miyuki
+    
+    Feature/miyuki
+
+[33mcommit f0e726729cffc948593455e92721e88c5d0bb105[m
+Merge: 2866864 6ed26d1
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sat May 28 16:32:52 2022 +0900
+
+    ユーザー画面　戻るってもチェックされる
+
+[33mcommit 1c2142cd50b383343c336a847a0ef387791a2bb3[m
+Merge: 6ed26d1 a1e6ba8
+Author: akira1515 <38104713+akira1515@users.noreply.github.com>
+Date:   Sat May 28 15:39:30 2022 +0900
+
+    Merge pull request #61 from posse-ap/feature/1
+    
+    クラフト修正、（ログアウト、左ヘッダー削除）
+
+[33mcommit a1e6ba894108b5be1d86b8e20f754d956e57f77a[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Sat May 28 15:38:59 2022 +0900
+
+    クラフト修正、（ログアウト、左ヘッダー削除）
+
+[33mcommit 2866864536bdce402e369c9e2f3ca2c73e45f803[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sat May 28 14:42:00 2022 +0900
+
+    無効申請拒否作成中
+
+[33mcommit 94501e4e5ca042dd9815fb47c73943c15528df2d[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sat May 28 14:40:00 2022 +0900
+
+    無効申請拒否作成中
+
+[33mcommit 6ed26d11d9da4dbbcc67f7517187c5624a079655[m
+Merge: 5be3c9e 8d00d59
+Author: akira1515 <38104713+akira1515@users.noreply.github.com>
+Date:   Sat May 28 13:49:47 2022 +0900
+
+    Merge pull request #60 from posse-ap/feature/1
+    
+    pullしたやつ修正
+
+[33mcommit 8d00d59d57608dae44eeb56a70e58ded91297748[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Sat May 28 13:48:36 2022 +0900
+
+    pullしたやつ修正
+
+[33mcommit 5be3c9e625f52a3ef106ba49db566fe77f42e416[m
+Merge: 02b867a a0651ef
+Author: akira1515 <38104713+akira1515@users.noreply.github.com>
+Date:   Sat May 28 13:33:32 2022 +0900
+
+    Merge pull request #59 from posse-ap/feature/1
+    
+    Feature/1
+
+[33mcommit a0651effdc90727848525532ff6e29a33cf46dc3[m
+Merge: 0d87325 02b867a
+Author: akira1515 <38104713+akira1515@users.noreply.github.com>
+Date:   Sat May 28 13:32:18 2022 +0900
+
+    Merge branch 'develop' into feature/1
+
+[33mcommit 0d87325a9ecc00349d22a5408d427d74ae6fda54[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Sat May 28 13:23:06 2022 +0900
+
+    管理者画面調整した(ヘッダー固定、ログアウトページ作成、40字以内)
+
+[33mcommit 580a06e4dbd97c8322676d1a7250be18f6aed9d0[m
+Merge: 9437aa8 02b867a
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sat May 28 11:33:07 2022 +0900
+
+    Merge branch 'develop' of https://github.com/posse-ap/teamdev-2022-posse2-team2E into feature/miyuki
+
+[33mcommit 9437aa8c3a3174a178005acbe7bd6f79c9175e9f[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sat May 28 11:30:10 2022 +0900
+
+    日付/追加
+
+[33mcommit 02b867ab93d71240ae24aebe76f2e140143c4f65[m
+Merge: e680e89 8d25de9
+Author: kashiken4869 <86884063+kashiken4869@users.noreply.github.com>
+Date:   Sat May 28 11:23:03 2022 +0900
+
+    Merge pull request #58 from posse-ap/feature/kashiken/1
+    
+    Feature/kashiken/1
+
+[33mcommit 8d25de9de26b75f134267f36e9712714256f5b74[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Sat May 28 11:22:10 2022 +0900
+
+    レスポンシブ 本格的に始動
+
+[33mcommit a4b3657c0b06e666317b27c5d8c6a06f2979b305[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Sat May 28 10:17:05 2022 +0900
+
+    岩村さん、絞り込みのボタン
+
+[33mcommit 17f89f150d5015da9a216ea8352452da29eba879[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Sat May 28 09:42:42 2022 +0900
+
+    to pull
+
+[33mcommit e680e89e1e6e3cfe26e9c4164aa17d2b9d584dd4[m
+Merge: d1b39cc 2495ab8
+Author: kashiken4869 <86884063+kashiken4869@users.noreply.github.com>
+Date:   Fri May 27 19:35:52 2022 +0900
+
+    Merge pull request #57 from posse-ap/feature/kashiken/1
+    
+    Feature/kashiken/1
+
+[33mcommit 2495ab84155d0abc17ea748338d63d472e296f8b[m
+Merge: f2fea4d d1b39cc
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Fri May 27 19:34:59 2022 +0900
+
+    レスポンシブ途中 サンクスページと問い合わせがめんはdone fixedのものの方針確定して今からトップページのレスポンシブ 本格的に開始
+
+[33mcommit f2fea4dc693e977847ac5a45f48c432ebfe06796[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Fri May 27 19:12:15 2022 +0900
+
+    レスポンシブ途中 サンクスページと問い合わせがめんはdone fixedのものの方針確定して今からトップページのレスポンシブ 本格的に開始
+
+[33mcommit d1b39cc0d12474e463a64eba75d11c9edfdd73d3[m
+Merge: 150d884 c105126
+Author: akira1515 <38104713+akira1515@users.noreply.github.com>
+Date:   Fri May 27 19:10:49 2022 +0900
+
+    Merge pull request #55 from posse-ap/feature/1
+    
+    Feature/1
+
+[33mcommit c105126d7bf87ea9c5dccfa31ab8fa0a805164ee[m
+Merge: 53f1a6b 150d884
+Author: akira1515 <38104713+akira1515@users.noreply.github.com>
+Date:   Fri May 27 19:10:44 2022 +0900
+
+    Merge branch 'develop' into feature/1
+
+[33mcommit 150d884eae063de6dac698b182179cb54ba1ef2c[m
+Merge: 2ef4dd9 eda2647
+Author: 渡邊美由貴 <94722910+watanabe-miyuki@users.noreply.github.com>
+Date:   Fri May 27 18:46:07 2022 +0900
+
+    Merge pull request #56 from posse-ap/feature/miyuki
+    
+    Feature/miyuki
+
+[33mcommit eda26478839297fbb24262bd309338c2edc0d902[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Fri May 27 18:44:55 2022 +0900
+
+    無効メール送信実装完了
+
+[33mcommit 613697275beb4f424bbd170e5975b9275caf830a[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Fri May 27 18:37:44 2022 +0900
+
+    無効メール送信実装完了
+
+[33mcommit 53f1a6bd71bf357b06c525c98c36c827cbead040[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Fri May 27 18:21:33 2022 +0900
+
+    絞り込み機能をくっつけた。かしけんにpullしてもらうため
+
+[33mcommit ce86fdc3e974612c3b92b264c11eaaee9d931b79[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Fri May 27 16:21:14 2022 +0900
+
+    絞り込み機能完成！！！
+
+[33mcommit 14769098478ef77a890d8c6cb45c1ce2d19e07a9[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Fri May 27 15:26:24 2022 +0900
+
+    無効申請メール下記中
+
+[33mcommit 2ef4dd9e736ccd30154ad6e016a7a672bd460792[m
+Merge: c23a878 7e7516a
+Author: 渡邊美由貴 <94722910+watanabe-miyuki@users.noreply.github.com>
+Date:   Fri May 27 15:12:24 2022 +0900
+
+    Merge pull request #54 from posse-ap/feature/miyuki
+    
+    Feature/miyuki
+
+[33mcommit 7e7516abd883cf650147eaa936070a429a167cd8[m
+Merge: 13ff365 c23a878
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Fri May 27 15:08:43 2022 +0900
+
+    メール送信成功
+
+[33mcommit c23a87823d439152efa5e1941cd8db24a2a988eb[m
+Merge: 1c4c8b4 96d1431
+Author: kashiken4869 <86884063+kashiken4869@users.noreply.github.com>
+Date:   Fri May 27 14:34:54 2022 +0900
+
+    Merge pull request #53 from posse-ap/feature/kashiken/1
+    
+    Feature/kashiken/1
+
+[33mcommit 96d14315edab0c7bb27d7ef86e8d7996a7cba783[m
+Merge: 13a9340 1c4c8b4
+Author: kashiken4869 <86884063+kashiken4869@users.noreply.github.com>
+Date:   Fri May 27 14:34:46 2022 +0900
+
+    Merge branch 'develop' into feature/kashiken/1
+
+[33mcommit 13a9340de68691660cac540cb6e88cd2d2709e94[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Fri May 27 14:32:10 2022 +0900
+
+    サンクスページとといあわせ画面のレスポンシブ 完了
+
+[33mcommit 13ff365bc40a77c9f3d9840fc976fd2d1e00a1b3[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Fri May 27 12:24:51 2022 +0900
+
+    エージェント企業　追加分（無効数,請求金額表）完了
+
+[33mcommit 1c4c8b4ce83bd2b12dbd2c63ac2331f53e830b24[m
+Merge: dfb363a b7e956f
+Author: 渡邊美由貴 <94722910+watanabe-miyuki@users.noreply.github.com>
+Date:   Fri May 27 09:55:54 2022 +0900
+
+    Merge pull request #52 from posse-ap/feature/miyuki
+    
+    Feature/miyuki
+
+[33mcommit b7e956fee4d8d5c864372f16848e5a678f0889f7[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Fri May 27 09:29:00 2022 +0900
+
+    mailtest.php 学生送信メール作成一旦完了
+
+[33mcommit c088c714c9927041dc04937b86f57ba0b2febe00[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Fri May 27 08:08:24 2022 +0900
+
+    mailtest.php にてエージェント企業へのメール送信内容記述済み
+
+[33mcommit e3656a038382724cfe4625ff429249cc1201d832[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Fri May 27 06:14:16 2022 +0900
+
+    ユーザー画面モーダル　フロント、バック共に調整完了
+
+[33mcommit 92a181130edaffad3398be784ce118143814de54[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Thu May 26 20:42:26 2022 +0900
+
+    学生問い合わせ→エージェント、学生確認メール送信成功　内容は未記入
+
+[33mcommit ea5840ffe218a98c6221c8f4855bdf6bf477ba4b[m[33m ([m[1;31morigin/feature/1[m[33m, [m[1;32mfeature/1[m[33m)[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Thu May 26 18:55:07 2022 +0900
+
+    岩村さんに絞り込み機能について質問
+
+[33mcommit d2fb815a344b0de577535e483b68c08cbde05511[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Thu May 26 18:34:22 2022 +0900
+
+    理者画面のヘッダー全て整理
+
+[33mcommit dfb363a83411cc5362e8c54c62d479233ea07d64[m
+Merge: 3223232 dbc3f6d
+Author: 渡邊美由貴 <94722910+watanabe-miyuki@users.noreply.github.com>
+Date:   Thu May 26 17:55:25 2022 +0900
+
+    Merge pull request #50 from posse-ap/feature/miyuki
+    
+    Feature/miyuki
+
+[33mcommit dbc3f6d9f3ec58ce176b989d6d49cb1d1365222f[m
+Merge: 8796562 3223232
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Thu May 26 17:53:53 2022 +0900
+
+    init.sqlからphpmyadminへ再開
+
+[33mcommit 87965628c21afe5618c71c70f62f95105cd2f114[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Thu May 26 17:47:39 2022 +0900
+
+    メールホグdb接続完了
+
+[33mcommit 32232322b4b63bd21561085ccc96cba134897cc8[m
+Merge: 6fac1b2 5ff501f
+Author: kashiken4869 <86884063+kashiken4869@users.noreply.github.com>
+Date:   Thu May 26 17:46:46 2022 +0900
+
+    Merge pull request #49 from posse-ap/feature/kashiken/1
+    
+    mailhog実装完了
+
+[33mcommit 5ff501f61983cc8f352c92806dc5868ffdc51dca[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Thu May 26 17:45:07 2022 +0900
+
+    phpのversion戻した mailhog実装完了 レスポンシブ入ります
+
+[33mcommit 0edb301e8dd882fa14be276bf9161a981c6ee77a[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Thu May 26 14:28:56 2022 +0900
+
+    エージェント画面のフロント整えた 管理者画面も同様に整えた phpのversionを変えた影響でエラー続出だったためいったんcommit
+
+[33mcommit c57fbe2ef34466faad6991c21ece0455074ac7a8[m
+Merge: a613e44 6fac1b2
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Wed May 25 23:12:24 2022 +0900
+
+    Merge branch 'develop' of github.com:posse-ap/teamdev-2022-posse2-team2E into feature/1
+
+[33mcommit 6fac1b288262ddd435b7a530f32c219c06399987[m
+Merge: cf1f615 acf391b
+Author: kashiken4869 <86884063+kashiken4869@users.noreply.github.com>
+Date:   Wed May 25 23:01:31 2022 +0900
+
+    Merge pull request #48 from posse-ap/feature/kashiken/1
+    
+    ユーザー画面トップページひとまず見た目完成 レスポンシブ 頑張る
+
+[33mcommit a613e44678f22779ee3060c6e6328a47f6932eae[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Wed May 25 23:00:28 2022 +0900
+
+    絞り込みをデータ化する前。かしけんの見た目を取り込むため
+
+[33mcommit acf391bc6d78af7205a4907884677f9aa1fa1ff9[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Wed May 25 22:59:21 2022 +0900
+
+    ユーザー画面トップページひとまず見た目完成 レスポンシブ 頑張る
+
+[33mcommit cf1f61501d28d671ee5b112bbe21833c0b76522d[m
+Merge: 53cc675 da2e7a8
+Author: kashiken4869 <86884063+kashiken4869@users.noreply.github.com>
+Date:   Wed May 25 15:19:54 2022 +0900
+
+    Merge pull request #47 from posse-ap/feature/kashiken/1
+    
+    Feature/kashiken/1
+    一時待避
+    豚、、、、覚えておきな
+
+[33mcommit da2e7a880fe1384778b4e196e8f040b8d72803f2[m
+Merge: 1492a81 53cc675
+Author: kashiken4869 <86884063+kashiken4869@users.noreply.github.com>
+Date:   Wed May 25 15:18:46 2022 +0900
+
+    Merge branch 'develop' into feature/kashiken/1
+
+[33mcommit 1492a81d604dec84e86ba6699714b9edbe359ea0[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Wed May 25 15:15:16 2022 +0900
+
+    これから見た目がっつりいじっていきます　pullするためにpushします
+
+[33mcommit 53cc675d45884381eefcf49c8378f259618dcf2b[m
+Merge: 91c7a70 43e17f3
+Author: 渡邊美由貴 <94722910+watanabe-miyuki@users.noreply.github.com>
+Date:   Wed May 25 13:34:04 2022 +0900
+
+    Merge pull request #46 from posse-ap/feature/miyuki
+    
+    Feature/miyuki
+
+[33mcommit 43e17f32627f600864d2d0f58eaa38ba96b5cc4c[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Wed May 25 13:26:50 2022 +0900
+
+    追加エージェントの写真アップロードの改良完了　追加画面のログイン入力手続き復元
+
+[33mcommit eb18b793dd387760218cc1ce904caa0bea8b41b3[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Wed May 25 12:43:01 2022 +0900
+
+    管理者画面　編集時に写真を都度アップロードしなくても良い改良完了　追加は未完了
+
+[33mcommit f4e6bae4358078d76727383e804ffcb01c501a59[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Wed May 25 12:42:35 2022 +0900
+
+    管理者画面　編集時に写真を都度アップロードしなくても良い改良完了　追加は未完了
+
+[33mcommit 91c7a70f4c0c0603dea4f0c42310ff306919380b[m
+Merge: 2cad5c9 0d8c20c
+Author: 渡邊美由貴 <94722910+watanabe-miyuki@users.noreply.github.com>
+Date:   Wed May 25 08:47:24 2022 +0900
+
+    Merge pull request #45 from posse-ap/feature/miyuki
+    
+    問い合わせ画面のミス修正
+
+[33mcommit 0d8c20c5f402c53d018aadda25aaf2a388502c04[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Wed May 25 08:45:02 2022 +0900
+
+    問い合わせ画面のミス修正
+
+[33mcommit 2cad5c91122927215edbef918389ddc3accb76e1[m
+Merge: 70f35b0 e642a99
+Author: 渡邊美由貴 <94722910+watanabe-miyuki@users.noreply.github.com>
+Date:   Wed May 25 08:39:23 2022 +0900
+
+    Merge pull request #44 from posse-ap/feature/miyuki
+    
+    Feature/miyuki
+
+[33mcommit e642a9950c6c82a4f3a07b5ec5082f070bdbbc3b[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Wed May 25 08:36:15 2022 +0900
+
+    管理者画面　ログイン情報切り分けて編集完了
+
+[33mcommit 664c231f83a1fcb17b427bcb6e3efd44c5964eea[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Wed May 25 08:35:51 2022 +0900
+
+    管理者画面　ログイン情報切り分けて編集完了
+
+[33mcommit 2fe21dde49ca75ad5b6080150a8b42010aa1fbfa[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Tue May 24 23:25:38 2022 +0900
+
+    管理者画面　編集エラー修正済み　ログイン編集切り分け途中
+
+[33mcommit 5e347492d179a77121476454a1abeca7174b9a25[m
+Merge: c1f55ed 70f35b0
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Tue May 24 22:43:26 2022 +0900
+
+    Merge branch 'develop' of https://github.com/posse-ap/teamdev-2022-posse2-team2E into feature/miyuki
+
+[33mcommit 70f35b0418adcdf6ff44223954783780d725a71e[m[33m ([m[1;32mdevelop[m[33m)[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Tue May 24 22:42:35 2022 +0900
+
+    エージェント編集画面タグ追加エラー　修正完了
+
+[33mcommit 323a9aefbd788bb2b3aaf743580a7befa8e9e470[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Tue May 24 22:41:57 2022 +0900
+
+    エージェント編集画面タグ追加エラー　修正完了
+
+[33mcommit c1f55ed7312bf638c35561634d7dc8a4c09f908a[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Tue May 24 19:53:26 2022 +0900
+
+    developに移る前
+
+[33mcommit 64b6baca79ca76eb869a3d335bd2f602d0dea203[m
+Merge: 0bb669e 79cb520
+Author: 渡邊美由貴 <94722910+watanabe-miyuki@users.noreply.github.com>
+Date:   Tue May 24 19:51:25 2022 +0900
+
+    Merge pull request #42 from posse-ap/feature/miyuki
+    
+    Feature/miyuki　コンフリクト解消
+
+[33mcommit 79cb520d94edfb396f043cd90b100ae76bc0afed[m
+Merge: a7367ec 0bb669e
+Author: 渡邊美由貴 <94722910+watanabe-miyuki@users.noreply.github.com>
+Date:   Tue May 24 19:51:00 2022 +0900
+
+    Merge branch 'develop' into feature/miyuki
+
+[33mcommit a7367ec092b7bddb97fb1c538a0cb9097b4d078b[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Tue May 24 19:28:10 2022 +0900
+
+    もう一度
+
+[33mcommit 181a5f51a359a30c0098aec265415308948e1ffe[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Tue May 24 19:24:25 2022 +0900
+
+    編集画面のエラーおそらく修正完了
+
+[33mcommit 6a93c50fef9740974ed00f0443e70d688e905b68[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Tue May 24 19:23:33 2022 +0900
+
+    豚と闘う前のcommit 絶対にはっ倒す 覚えてろ ユーザー画面の絞り込み部分の見た目修正
+
+[33mcommit 974f47f220ce6ae95a54c4f0d180c81a9a1d1fe3[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Tue May 24 16:01:30 2022 +0900
+
+    絞り込みのサンプル実装、うまくいかない
+
+[33mcommit 73a2050af75748fdfc4b75005a18ef2e0c3e8ae6[m
+Merge: 3b7dfcd 0bb669e
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Tue May 24 15:59:43 2022 +0900
+
+    Merge branch 'develop' of github.com:posse-ap/teamdev-2022-posse2-team2E into feature/1
+
+[33mcommit e88500ef6e8f45d12a51802b6f5fd459d4fd0db9[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Tue May 24 14:59:38 2022 +0900
+
+    重複の不具合解消　テストも軽くだがやった
+
+[33mcommit bbc0127996110b9cecee838e9fd9e059269ed31d[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Tue May 24 14:58:53 2022 +0900
+
+    重複の不具合解消　テストも軽くだがやった
+
+[33mcommit 3b7dfcd40c74d57a1700c673eeab203ebc8a7414[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Tue May 24 13:54:20 2022 +0900
+
+    かしけんとのコンフリクト解消するため
+
+[33mcommit a4e99ef304f9ba00c0f12325493ef7a3a238112b[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Tue May 24 12:20:20 2022 +0900
+
+    mailhogに苦戦中
+
+[33mcommit 17899ef08bd4ca022f52909763f974ffda009b8a[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Tue May 24 11:19:09 2022 +0900
+
+    かしけんが直したcssをもらい、絞り込み機能を始めるため
+
+[33mcommit 0bb669efb8a1345b2302c57852f76c980d978449[m
+Merge: 37e97b0 0a499fd
+Author: kashiken4869 <86884063+kashiken4869@users.noreply.github.com>
+Date:   Tue May 24 11:12:15 2022 +0900
+
+    Merge pull request #41 from posse-ap/feature/kashiken/1
+    
+    ユーザー画面見た目修正 ボタンの配置、右側のボックス内メインで訂正
+
+[33mcommit 0a499fd8163f8c54ee9cb308b2af720204dba2c7[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Tue May 24 11:11:20 2022 +0900
+
+    ユーザー画面見た目修正 ボタンの配置、右側のボックス内メインで訂正
+
+[33mcommit c3db9af64ff685712c9917c6a8ab76ba4d97a00e[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Tue May 24 09:17:45 2022 +0900
+
+    申し込み上限　新規追加画面から登録、一覧画面で判定　問い合わせ画面に表示完了　編集画面の実装、エージェント画面での実装は未完了
+
+[33mcommit 4b8696f8e111235488a0dd598ae9462a09c29510[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Tue May 24 09:13:51 2022 +0900
+
+    申し込み上限　新規追加画面から登録、一覧画面で判定　問い合わせ画面に表示完了　編集画面の実装、エージェント画面での実装は未完了
+
+[33mcommit 4777eebf572dcb2adcbe05f319f36bca7f10d23b[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Mon May 23 08:50:45 2022 +0900
+
+    管理者画面からの追加で掲載非掲載を期間から自動判定done
+
+[33mcommit 37e97b05e8bfd6a88c2ad4414bccde6ccd288c58[m
+Merge: 5b85b55 3df61fb
+Author: 渡邊美由貴 <94722910+watanabe-miyuki@users.noreply.github.com>
+Date:   Sun May 22 21:50:54 2022 +0900
+
+    Merge pull request #39 from posse-ap/feature/miyuki
+    
+    Feature/miyuki
+
+[33mcommit e197a526884c5d93ff64e42a9c670e246fbe62c6[m
+Merge: 3df61fb 5b85b55
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sun May 22 21:48:53 2022 +0900
+
+    Merge branch 'develop' of https://github.com/posse-ap/teamdev-2022-posse2-team2E into feature/miyuki
+
+[33mcommit 3df61fb44d6de4da20bf683cc9ec585fabaae8c9[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sun May 22 21:48:02 2022 +0900
+
+    管理者画面から、無効申請表示→承認→エージェント画面でも承認済みに反映成功
+
+[33mcommit 5b85b554259325985420388c2547dfd08b1d32c6[m
+Merge: ff7eb97 f48bc1b
+Author: kashiken4869 <86884063+kashiken4869@users.noreply.github.com>
+Date:   Sun May 22 18:12:51 2022 +0900
+
+    Merge pull request #38 from posse-ap/feature/kashiken/1
+    
+    テストフェーズ途中段階
+
+[33mcommit f48bc1befe73c19f9d4b4ee2122553dc862d4a86[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Sun May 22 18:12:08 2022 +0900
+
+    テストフェーズ途中段階
+
+[33mcommit ff7eb971f2458c135b8a9c8d00d88e5af0631360[m
+Merge: e3d0052 f008117
+Author: akira1515 <38104713+akira1515@users.noreply.github.com>
+Date:   Sun May 22 18:11:39 2022 +0900
+
+    Merge pull request #37 from posse-ap/feature/1
+    
+    Feature/1
+
+[33mcommit f0081173bfef6040f1b6887e440108f9e1b40e0d[m
+Merge: 0bad0c0 e3d0052
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Sun May 22 18:11:10 2022 +0900
+
+    コンフリクト解消
+
+[33mcommit 0bad0c0f8a394213c581f1ba1dfb9f021b8cb74a[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Sun May 22 18:00:20 2022 +0900
+
+    かしけんにcssを調整してもらうため
+
+[33mcommit 75579a2de4c1e61c24e5cf0205e27803a0970e72[m
+Merge: 8e17e76 86c5708
+Author: akira1515 <38104713+akira1515@users.noreply.github.com>
+Date:   Sun May 22 16:11:47 2022 +0900
+
+    Merge pull request #36 from posse-ap/feature/mentor-1
+    
+    カウントミスってたので修正
+
+[33mcommit 86c57089ce561d1100f3629b8920bb7d793a00e8[m
+Author: Jun Iwamura <soipon0@gmail.com>
+Date:   Sun May 22 16:03:03 2022 +0900
+
+    カウントミスってたので修正
+
+[33mcommit 8e17e7626779833fda178bd83d9bc8febcf76c69[m
+Merge: 85e556d 9fe0913
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Sun May 22 15:36:21 2022 +0900
+
+    Merge branch 'feature/1' of github.com:posse-ap/teamdev-2022-posse2-team2E into feature/1
+
+[33mcommit e3d0052958a6ceb753a337262e76b6fffd6499ff[m
+Merge: 1214f49 89cc6e3
+Author: kashiken4869 <86884063+kashiken4869@users.noreply.github.com>
+Date:   Sun May 22 15:30:33 2022 +0900
+
+    Merge pull request #35 from posse-ap/feature/kashiken/1
+    
+    管理者画面現段階テスト完了 不正アクセス対策全ページ実装 企業情報記入
+
+[33mcommit 89cc6e3be39c94242e895875c194e2d64dd83808[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Sun May 22 15:26:26 2022 +0900
+
+    管理者画面現段階テスト完了 不正アクセス対策全ページ実装 企業情報記入
+
+[33mcommit 85e556d1671315aa9201b24d6dd156cf3bad0eea[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Sun May 22 14:15:55 2022 +0900
+
+    to pull
+
+[33mcommit 9fe0913661033a2fd68a28670ea510e5fa5567b0[m
+Merge: 27f5865 2a438d0
+Author: akira1515 <38104713+akira1515@users.noreply.github.com>
+Date:   Sun May 22 14:10:11 2022 +0900
+
+    Merge pull request #34 from posse-ap/feature/1-mentor
+    
+    チェック中の項目を数える
+
+[33mcommit 2a438d084906d4e26b57013250e3b2182c1178ef[m
+Author: Jun Iwamura <soipon0@gmail.com>
+Date:   Sun May 22 13:31:34 2022 +0900
+
+    チェック中の項目を数える
+
+[33mcommit 4afc307eddd3ff94d847611cedc91edc5c8457ea[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sun May 22 12:48:08 2022 +0900
+
+    管理者画面　学生問い合わせ一覧表示成功
+
+[33mcommit 27f586586fc5345c4d4b789d3f85f4a94c1c9942[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Sun May 22 11:38:07 2022 +0900
+
+    岩村さんに見てもらうため
+
+[33mcommit 06a3dfb3691917536bef145c785bacf19a42f52d[m
+Merge: 5fbb107 1214f49
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sun May 22 10:56:30 2022 +0900
+
+    Merge branch 'develop' of https://github.com/posse-ap/teamdev-2022-posse2-team2E into feature/miyuki
+
+[33mcommit 5fbb1072d165dca6df09ddfda3d4c256af3dca0f[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sun May 22 10:56:01 2022 +0900
+
+    すこし書き加えあり
+
+[33mcommit 1214f49bc0f6c14b7e623322ef99746b8ac5e920[m
+Merge: ee15f85 7a0454b
+Author: kashiken4869 <86884063+kashiken4869@users.noreply.github.com>
+Date:   Sun May 22 10:45:40 2022 +0900
+
+    Merge pull request #32 from posse-ap/feature/kashiken/1
+    
+    管理者画面テストスタート 一度push　ヘッダーの変更、ログイン・ログアウト機能実装、不正アクセス対策途中までdone htmlファイル→…
+
+[33mcommit 7a0454b7d77f5acc3d3ffc27e7ae3f286d3f0845[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Sun May 22 10:44:03 2022 +0900
+
+    管理者画面テストスタート 一度push　ヘッダーの変更、ログイン・ログアウト機能実装、不正アクセス対策途中までdone htmlファイル→phpに変更　画像追加パス
+
+[33mcommit ee15f8582a91261293e0bac07cfd1ece95227eaa[m
+Merge: e7fb6ad b410d8d
+Author: 渡邊美由貴 <94722910+watanabe-miyuki@users.noreply.github.com>
+Date:   Sun May 22 10:24:44 2022 +0900
+
+    Merge pull request #31 from posse-ap/feature/miyuki
+    
+    Feature/miyuki
+
+[33mcommit b410d8d5498f21190cf304e8e548d63ab25c502d[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sun May 22 10:21:58 2022 +0900
+
+    エージェント画面　すべてを表示完了
+
+[33mcommit 0110a16fb3d660c59f59aff8bf46dd48eb2cbac4[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sun May 22 01:55:48 2022 +0900
+
+    ユーザー画面の通報機能 詳細の重複機能done 一覧画面の重複件数カウント未実装
+
+[33mcommit e7fb6ad4e271bbafeee773b17a5c667c710e34b0[m
+Merge: 44f3716 ab178e2
+Author: akira1515 <38104713+akira1515@users.noreply.github.com>
+Date:   Sat May 21 15:39:16 2022 +0900
+
+    Merge pull request #29 from posse-ap/feature/1
+    
+    Feature/1
+
+[33mcommit ab178e240aa3f8a790fff3bc96cbe3e406ffa38a[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Sat May 21 15:38:04 2022 +0900
+
+    問い合わせ作る前にpush
+
+[33mcommit 44f37163d9a029a20f2d34eb82bb089b0432a594[m
+Merge: dc869f9 3ffb99b
+Author: 渡邊美由貴 <94722910+watanabe-miyuki@users.noreply.github.com>
+Date:   Sat May 21 15:36:33 2022 +0900
+
+    Merge pull request #28 from posse-ap/feature/miyuki
+    
+    agent 無効申請機能デザイン以外ほぼ完了
+
+[33mcommit 3ffb99b10993763fa7f5154306bab27f9a131541[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sat May 21 15:29:34 2022 +0900
+
+    agent 無効申請機能デザイン以外ほぼ完了
+
+[33mcommit dc869f9b6fc33fb6fa7073ec3c92a90b1900f918[m
+Merge: d388c22 df4ab85
+Author: kashiken4869 <86884063+kashiken4869@users.noreply.github.com>
+Date:   Sat May 21 01:56:58 2022 +0900
+
+    Merge pull request #27 from posse-ap/feature/kashiken/1
+    
+    エージェント画面 現時点テスト完了 不正アクセス対策など
+
+[33mcommit df4ab8506e86104bd0a428c03186b646e86ed016[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Sat May 21 01:54:34 2022 +0900
+
+    エージェント画面 現時点テスト完了 不正アクセス
+
+[33mcommit d388c22082e5b8e9651e395e68fa29dac46a251d[m
+Merge: 69a23f8 bd2ac14
+Author: 渡邊美由貴 <94722910+watanabe-miyuki@users.noreply.github.com>
+Date:   Fri May 20 18:42:27 2022 +0900
+
+    Merge pull request #26 from posse-ap/feature/miyuki
+    
+    Feature/miyuki
+
+[33mcommit bd2ac143730067e119f517008e2bc8ed72bb6a60[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Fri May 20 18:40:12 2022 +0900
+
+    フォルダ分け完了
+
+[33mcommit e1b43062aaba52318ae466f30097b0ce65e16c49[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Fri May 20 07:09:00 2022 +0900
+
+    絞り込みの種類の消去とタグ消去を連動させた
+
+[33mcommit b54b58b6bf52c8482064b3b46832d565c38c7472[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Thu May 19 18:30:12 2022 +0900
+
+    ユーザー画面からの問い合わせ型は完了　メール送信機能まだ  フォルダはadmin/usercontact
+
+[33mcommit 587219f48bb0b345c7d05ec2db98c50b72b70048[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Wed May 18 23:11:00 2022 +0900
+
+    ユーザー画面からのstudents_contactsへの情報送信done  フォルダはadmin/usercontact
+
+[33mcommit 51d9b10a6e7fefc4176169f3bf796c30eaf2d1d8[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Wed May 18 14:02:59 2022 +0900
+
+    ユーザー画面からの学生情報挿入done フォルダはadmin/usercontact
+
+[33mcommit 69a23f805e841d1ab2ede3f65f7fadfe4d418034[m
+Merge: 413cc32 f06e1a1
+Author: 渡邊美由貴 <94722910+watanabe-miyuki@users.noreply.github.com>
+Date:   Tue May 17 15:06:54 2022 +0900
+
+    Merge pull request #16 from posse-ap/feature/miyuki
+    
+    タグ編集、追加、削除all done
+
+[33mcommit f06e1a175433c44526499a5529473a53c7893e84[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Tue May 17 15:02:59 2022 +0900
+
+    タグ編集、追加、削除all done.
+
+[33mcommit 413cc329af244c00af6a4952c2c4c1f9c8247cec[m
+Merge: 254e13d 46ed697
+Author: kashiken4869 <86884063+kashiken4869@users.noreply.github.com>
+Date:   Tue May 17 14:28:26 2022 +0900
+
+    Merge pull request #15 from posse-ap/feature/kashiken/1
+    
+    エージェントごとの学生情報抽出成功！！！頑張るぞーー〜
+
+[33mcommit 46ed6976e79a8c1ecb0aabb0f68e75bd7ef22980[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Tue May 17 13:54:42 2022 +0900
+
+    エージェントごとの学生情報抽出成功！！！頑張るぞーー〜
+
+[33mcommit 30f80d269b029aed238d93adcc1c6dab4248a36c[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Tue May 17 10:11:07 2022 +0900
+
+    絞り込みの種類の編集実装
+
+[33mcommit 254e13dd87dbf6fbdbf6ae56c024939e59b248f1[m
+Merge: af7b3fd 9e11373
+Author: kashiken4869 <86884063+kashiken4869@users.noreply.github.com>
+Date:   Mon May 16 22:27:47 2022 +0900
+
+    Merge pull request #14 from posse-ap/feature/kashiken/1
+    
+    とりあえずpush 情報抽出が相変わらずうまく行ってない
+
+[33mcommit 9e11373ea91cdae4f3c8aaec81568ad4432dfced[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Mon May 16 22:26:36 2022 +0900
+
+    とりあえずpush 情報抽出が相変わらずうまく行ってない
+
+[33mcommit af7b3fd047e0c1ff475b050c44c7a38bec9daff8[m
+Merge: e1517b6 cfb523d
+Author: 渡邊美由貴 <94722910+watanabe-miyuki@users.noreply.github.com>
+Date:   Sun May 15 23:54:51 2022 +0900
+
+    Merge pull request #13 from posse-ap/feature/miyuki
+    
+    Feature/miyuki
+
+[33mcommit cfb523d7998079afb931ed2f3eb99a93e748e0ca[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sun May 15 23:53:08 2022 +0900
+
+    insert_logo写真消去
+
+[33mcommit 18cb206b834f792b6c9a75a4b8e731070ca1e7ea[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sun May 15 23:30:03 2022 +0900
+
+    新規情報タグdb接続完了、新規追加画面実装完了
+
+[33mcommit 232f93ea9f1f7f3454a8a71d0d8e6cd6b6041ead[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sun May 15 16:27:00 2022 +0900
+
+    新規情報タグ以外ｄｂ挿入完了
+
+[33mcommit d8040ee0ba25e41813c7712066aafa285956d79b[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Sat May 14 19:41:47 2022 +0900
+
+    キープ機能のバックエンド完了！(タグの取得除いて)
+
+[33mcommit fe21a8b56fc2ba404c1fa183542d030e1998988f[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Sat May 14 17:11:04 2022 +0900
+
+    add file to .gitignore
+
+[33mcommit dd7c2e90b442543bb064325e10f302dffcb17a47[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Sat May 14 17:03:52 2022 +0900
+
+    キープ機能　jsとphp修正に入る前にpush
+
+[33mcommit 86f97981085599f57d60f2eb119fa0fa49ddee13[m
+Merge: d3e244d e1517b6
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Sat May 14 16:51:44 2022 +0900
+
+    Merge branch 'develop' of github.com:posse-ap/teamdev-2022-posse2-team2E into feature/1
+
+[33mcommit d3e244dd957bb03ce1f81d0261dc4bd32aaa79e9[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Sat May 14 15:11:52 2022 +0900
+
+    index.php更新
+
+[33mcommit 39114f51cd383610320f19e133d9b5594656fedf[m
+Merge: 58645b2 46084a6
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Sat May 14 14:35:49 2022 +0900
+
+    Merge branch 'develop' of github.com:posse-ap/teamdev-2022-posse2-team2E into feature/1
+
+[33mcommit e1517b6001a65343ac9869bb97bbb9f166998631[m
+Merge: 2664b7d d48ebe0
+Author: kashiken4869 <86884063+kashiken4869@users.noreply.github.com>
+Date:   Sat May 14 13:10:51 2022 +0900
+
+    Merge pull request #12 from posse-ap/feature/kashiken/1
+    
+    セッション接続成功 あとは企業ごとに学生情報をソートする　ログアウトも実装完了
+
+[33mcommit d48ebe0a4b6a8c7a0497671360bb34e36ef89d34[m
+Merge: 5a2f505 2664b7d
+Author: kashiken4869 <86884063+kashiken4869@users.noreply.github.com>
+Date:   Sat May 14 13:10:43 2022 +0900
+
+    Merge branch 'develop' into feature/kashiken/1
+
+[33mcommit 2664b7d3e80f71fb7f85e051bb85b8d31a1f4e9e[m
+Merge: 46084a6 2ca9b48
+Author: 渡邊美由貴 <94722910+watanabe-miyuki@users.noreply.github.com>
+Date:   Sat May 14 13:05:03 2022 +0900
+
+    Merge pull request #11 from posse-ap/feature/miyuki
+    
+    Feature/miyuki
+
+[33mcommit 2ca9b483e106f1fee671a6ee994dcef1d98eec06[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Sat May 14 13:02:55 2022 +0900
+
+    エージェント追加画面の空白でエラー文表示、掲載企業名、掲載状態部分完了
+
+[33mcommit 5a2f505b9a12149aabf00bc0cebbe93778d1f956[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Sat May 14 12:59:17 2022 +0900
+
+    セッション接続成功 あとは企業ごとに学生情報をソートする　ログアウトも実装完了
+
+[33mcommit 7ef5e293325dc882881d1ec13e02ccb198dc5704[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Fri May 13 19:55:06 2022 +0900
+
+    詳細画面タググルーピング解決、checkboxno
+
+[33mcommit 081f46112920f9a1edef8c1f8ce9dccae824f7d6[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Thu May 12 20:04:24 2022 +0900
+
+    一覧画面での掲載操作完了、追加画面のラジオボタン見た目追加
+
+[33mcommit f6ea946e844db18ffb37108d009839a1607610c6[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Wed May 11 22:34:57 2022 +0900
+
+    エージェント一覧画面データ取り出し完了、詳細画面タグ以外データ取り出し完了
+
+[33mcommit 58645b262f36438f02c7ec4347bf73338d310935[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Tue May 10 22:45:28 2022 +0900
+
+    一旦プッシュ（キープ機能大体完成）
+
+[33mcommit c25aeaaff1c483745616d20501ccdcf8c04bfee1[m
+Merge: 99e0685 46084a6
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Tue May 10 20:31:45 2022 +0900
+
+    Merge branch 'develop' of https://github.com/posse-ap/teamdev-2022-posse2-team2E into feature/miyuki
+
+[33mcommit 46084a667e19660b8a94c48c12f6f91e4ee98f5c[m
+Merge: 515a66a d85d194
+Author: kashiken4869 <86884063+kashiken4869@users.noreply.github.com>
+Date:   Tue May 10 20:31:14 2022 +0900
+
+    Merge pull request #9 from posse-ap/feature/kashiken/1
+    
+    phpmyadmin接続test
+
+[33mcommit d85d1943d8443197b058c47d23120491d91e9ab4[m[33m ([m[1;31morigin/feature/kashiken/1[m[33m, [m[1;32mfeature/kashiken/1[m[33m)[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Tue May 10 19:55:04 2022 +0900
+
+    phpmyadmin接続test
+
+[33mcommit 515a66a9331669812d78d3a663dd12c64e19d471[m
+Merge: 6135e57 b8779c0
+Author: kashiken4869 <86884063+kashiken4869@users.noreply.github.com>
+Date:   Tue May 10 15:14:11 2022 +0900
+
+    Merge pull request #8 from posse-ap/feature/kashiken/1
+    
+    Feature/kashiken/1
+
+[33mcommit b8779c017885903f9269a6651bddf8c0188d9ad8[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Tue May 10 15:10:17 2022 +0900
+
+    phpmyadmin連携完了
+
+[33mcommit c9b8abba93495f6e9086062ecf93c740f99beb5f[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Tue May 10 13:54:58 2022 +0900
+
+    ログイン画面実装完了。最初にアクセスした時点ではエラー分は出ないようにした。アカウントも複製作成できるように実装済。
+
+[33mcommit 99e06851c6af9cfc3b45ec4af326a060643c0c84[m
+Author: watanabe-miyuki <watanabemiyuki@keio.jp>
+Date:   Tue May 3 22:01:16 2022 +0900
+
+    admin一覧 エージェント追加画面模写完成
+
+[33mcommit 6135e57e40f827dfad2f4d4d489a9ff4ae355d32[m
+Merge: 14b3f60 70c193f
+Author: kashiken4869 <86884063+kashiken4869@users.noreply.github.com>
+Date:   Tue May 3 21:51:25 2022 +0900
+
+    Merge pull request #6 from posse-ap/feature/kashiken/1
+    
+    複垢でログイン可能になった
+
+[33mcommit 70c193fc01aa0da9b6b68fff8024f58b89e8c31e[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Tue May 3 21:48:18 2022 +0900
+
+    複垢でログイン可能になった
+
+[33mcommit 14b3f60607c64217936d8fe77b1f65d5482ff9a7[m
+Merge: e5770a8 f711f76
+Author: kashiken4869 <86884063+kashiken4869@users.noreply.github.com>
+Date:   Wed Apr 27 09:40:35 2022 +0900
+
+    Merge pull request #4 from posse-ap/feature/kashiken/1
+    
+    first commit エージェント画面作成中 モックアップ7割完成 エージェントフォルダ作成
+
+[33mcommit f711f768a249daa70532f64740bbb4021cbbbdec[m
+Author: kashiken4869 <kashiken4646@gmail.com>
+Date:   Wed Apr 27 09:39:26 2022 +0900
+
+    first commit エージェント画面作成中 モックアップ7割完成 エージェントフォルダ作成
+
+[33mcommit 392599d3818bcbd598d310e7c184871c2b8fe9e8[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Sun Apr 24 18:06:05 2022 +0900
+
+    トップページ　最低限の見た目完成
+
+[33mcommit e5770a8b917449f1156a6fe3b6cf2467f58a09e2[m
+Merge: 99ab993 58b287e
+Author: akira1515 <38104713+akira1515@users.noreply.github.com>
+Date:   Tue Apr 19 14:37:16 2022 +0900
+
+    Merge pull request #3 from posse-ap/feature/1
+    
+    Feature/1
+
+[33mcommit 58b287ec348521759ad872e9240d2bef8967662b[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Tue Apr 19 14:35:00 2022 +0900
+
+    userのresetcss配置
+
+[33mcommit 67b6ec6bcfb6c0ea852fc0d36232c893989d164c[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Tue Apr 19 14:31:53 2022 +0900
+
+    フォルダー生成完了！
+
+[33mcommit ae4a4c262f1b8999df4776a28e105c1044cd55fb[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Tue Apr 19 14:30:13 2022 +0900
+
+    ファルダー生成完了
+
+[33mcommit 99ab9938813139b594f8ef947e2461de5769e985[m
+Merge: 1e7345d 349e4d9
+Author: akira1515 <38104713+akira1515@users.noreply.github.com>
+Date:   Tue Apr 19 14:10:13 2022 +0900
+
+    Merge pull request #2 from posse-ap/feature/1
+    
+    必要な環境ファイルのセッティング完了
+
+[33mcommit 349e4d95561fc25978d02ec3cb8f63998e68683c[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Tue Apr 19 14:09:22 2022 +0900
+
+    必要な環境ファイルのセッティング完了
+
+[33mcommit 1e7345df525aef1a2149ade76dc0b76e8a0f4403[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: akira1515 <akira.kobayashi1515@gmail.com>
+Date:   Mon Apr 18 19:10:57 2022 +0900
+
+    first commit
