@@ -770,6 +770,11 @@ color: #fff !important;
     background-color: #fff !important;
 }
 
+.filter-cond{
+  overflow-y: scroll;
+}
+
+
 /* .filter-cond::before {
     content:"";
     margin-right: 150rem;
@@ -863,6 +868,7 @@ color: #fff !important;
   opacity: 1;
   transform: translate(0, 0);
 } */
+
 
 .each_filter_box {
     display: flex;
