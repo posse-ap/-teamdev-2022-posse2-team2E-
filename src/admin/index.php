@@ -103,8 +103,7 @@ try {
   $non_listed_agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
   // var_dump($non_listed_agents);
 
-  // タグ表示テスト
-
+  // タグ表示
   $stmt = $db->query('select agent_id, at.tag_id, tag_name from agents_tags at, filter_tags ft where at.tag_id = ft.tag_id');
   $agents_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
   $at_list = [];
@@ -149,6 +148,14 @@ try {
 
 
   // ここまで
+
+// タグ不足エラー表示
+$stmt = $db->query('select count(*) from agents where list_status = 4');
+$cnt_tag_lack = $stmt->fetchColumn();
+// var_dump($cnt_tag_lack);
+if($cnt_tag_lack > 0){
+  $tag_error = "lack";
+}
 
 
 
@@ -197,6 +204,9 @@ try {
     </div>
   </header>
   <main class="main">
+  <?php if (isset($tag_error) && $tag_error === 'lack') : ?>
+                <p class="tag_error">* タグの指定不足により、掲載停止されているエージェント企業があります。</br>　詳細画面から編集を行ってください。</p>
+  <?php endif; ?>
     <section class="agent-list">
       <h2 class="viewing_agent">掲載中の企業</h2>
       <table>
@@ -214,8 +224,6 @@ try {
             <td><?php echo date("Y/m/d", strtotime($listed_agent['started_at'])) . '~' . date("Y/m/d", strtotime($listed_agent['ended_at'])) ?></td>
             <td><a href="detail.php?id=<?php echo $listed_agent['id']; ?>">詳細</a></td>
             <td><a href="contact/contact.php?id=<?php echo $listed_agent['id']; ?>">問い合わせ一覧</a></td>
-
-            <!--  タグ表示テスト↓ -->
             <td>
               <?php foreach ($at_list as $agent_tags) : ?>
                 <?php if ($listed_agent['id'] === current($agent_tags)['agent_id']) : ?>
@@ -225,7 +233,6 @@ try {
           <?php endif; ?>
         <?php endforeach; ?>
         </td>
-        <!-- タグ表示テスト ↑-->
       <?php endforeach; ?>
           </tr>
       </table>

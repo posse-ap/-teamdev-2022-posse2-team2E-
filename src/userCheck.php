@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // students_contactsへ一斉送信
   $stmt = $db->query('select id from students where id = LAST_INSERT_ID()');
   $student_id = $stmt->fetch(PDO::FETCH_ASSOC);
-  $stmt = $db->prepare('insert into students_contacts (student_id, agent_id) VALUES (:student_id, :agent_id)');
+  $stmt = $db->prepare("insert into students_contacts (student_id, agent_id, reason) VALUES (:student_id, :agent_id, '')");
   foreach ($form['student_contacts'] as $student_contact) :
     $stmt->bindValue('student_id', $student_id['id'], PDO::PARAM_INT);
     $stmt->bindValue('agent_id', $student_contact, PDO::PARAM_INT);

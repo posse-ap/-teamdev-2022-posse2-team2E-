@@ -247,13 +247,13 @@ function set_valid_status($valid_status)
             <?php endif; ?>
             <?php if ($result['valid_status_id'] === 3) : ?>
                 <tr bgcolor="white">
-                    <th bgcolor="red">無効承認理由</th>
+                    <th bgcolor="#3897f1">無効承認理由</th>
                     <td><?php echo h($result['reason']) ?></td>
                 </tr>
         <?php endif; ?>
         <?php if ($result['valid_status_id'] === 4) : ?>
                 <tr bgcolor="white">
-                    <th bgcolor="red">無効申請拒否理由</th>
+                    <th bgcolor="#fff" style="color: #000;">無効申請拒否理由</th>
                     <td><?php echo h($result['reason']) ?></td>
                 </tr>
         <?php endif; ?>
