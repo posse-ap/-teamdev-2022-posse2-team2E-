@@ -150,7 +150,7 @@ foreach ($agents_tags as $a) {
             <li class="header-nav-item">エージェント追加</li>
           </a>
           <a href="./tags/tagsEdit.php">
-            <li class="header-nav-item">タグ一覧</li>
+            <li class="header-nav-item">タグ追加/編集</li>
           </a>
           <a href="./login/loginInfo.php">
             <li class="header-nav-item">ログイン情報</li>
@@ -199,6 +199,13 @@ foreach ($agents_tags as $a) {
     <section class="agent-not-listed">
       <div class="viewing_agent">掲載停止中の企業</div>
       <table>
+      <tr>
+          <th>エージェント名</th>
+          <th>掲載期間</th>
+          <th>ステータス</th>
+          <th colspan="2">操作</th>
+          <th>削除</th>
+        </tr>
         <?php foreach ($non_listed_agents as $non_listed_agent) :
         ?>
           <tr>

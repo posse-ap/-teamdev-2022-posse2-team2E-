@@ -333,7 +333,7 @@ foreach ($agents_tags as $a) {
             <td><?php echo h($form["memo"]); ?>
           </tr>
           <tr>
-            <th>問い合わせるエージェント企業の確認</th>
+            <th>問い合わせるエージェント企業</th>
             <td>
               <?php foreach ($s_agents as $s_agent) : ?>
                 ・<?= $s_agent ?></br>
@@ -343,7 +343,7 @@ foreach ($agents_tags as $a) {
         </table>
         <p class="btn">
         
-          <a class="back_btn2" href="entry.php?action=rewrite">&laquo;&nbsp;入力画面へ戻る</a> | <span><input type="submit" value="　 送信 　" /></span>
+          <a class="back_btn2" href="entry.php?action=rewrite">&laquo;&nbsp;入力画面へ戻る</a>  <span><input type="submit" value="　 送信 　" /></span>
         </p>
       </form>
     </div>

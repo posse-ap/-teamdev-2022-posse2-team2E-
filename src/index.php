@@ -154,7 +154,13 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
                         <?php foreach ($at_list as $agent_tags) : ?>
                             <?php if ($listed_agent['id'] === current($agent_tags)['agent_id']) : ?>
 
-                                <li class="agent_box js_target" data-filter-key="総合型" id="tohoku_<?php echo $listed_agent['id'] ?>" <?php foreach ($agent_tags as $agent_tag) : ?> data-<?= $agent_tag['sort_id']; ?>="<?= $agent_tag['tag_name'] ?>" <?php endforeach; ?>>
+                                    <li class="agent_box js_target" id="tohoku_<?php echo $listed_agent['id'] ?>" 
+                                    <?php foreach ($agent_tags as $agent_tag) : ?>
+                                        data-<?= $agent_tag['sort_id']; ?>="<?= $agent_tag['tag_name'] ?>"
+                                    <?php endforeach; ?>
+                                    >
+                                    
+
                                     <img class="agent_img" src="img/insert_logo/<?php echo $listed_agent['insert_logo'] ?>" alt="企業ロゴ">
                                     <div class="agent_article">
                                         <div class="agent_article_header">
@@ -212,8 +218,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
                                 <div class="each_filter_box js_conditions" data-type="<?= current($filter_sort)['id']; ?>">
                                     <?php foreach ($filter_sort as $filter_tag) : ?>
                                         <span class="w bl_selectBlock_check">
+                                        
                                             <input type="checkbox" name="agent_tags[]" class="checks" id="form" value="<?= $filter_tag['tag_name'] ?>" />
-                                            <label class="added-tag" for="form">
+                                            <label class="added-tag" >
                                                 <?= $filter_tag['tag_name']; ?>
                                             </label>
                                         </span>
