@@ -181,6 +181,14 @@ header a {
 }
 }
 
+@media only screen and (min-width: 600px){
+.btn {
+    width: 70px;
+    font-size: 14px;
+}
+}
+
+
 .menu2 {
     display: flex;
 }
@@ -1370,24 +1378,22 @@ color: #fff !important;
         justify-content: center;
     }
 
-    /* .agent_box {
-        width: 90%;
-        margin: 0 auto 40rem;
+}
+
+
+@media only screen and (max-width: 1000px) {
+
+ 
+        .filter_left_wrapper {
+        
+    width: 80%;
+    margin: 0 auto;
     }
 
-    .agent_article {
-        width: 100vw;
-    } */
+#filter_side {
+    width: 80%;
+}
 
-    /* .filter_left_wrapper {
-        width: 0;
-        padding: 0;
-    }
-
-    #filter_side {
-        width: 0;
-        padding: 0;
-    } */
 }
 
 .agent_article_header{
