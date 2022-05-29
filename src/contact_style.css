@@ -287,6 +287,7 @@ header a {
 .box_check {
   text-align: center;
   margin: 1em auto;
+  
 }
 .box_check label {
   display: inline-block;

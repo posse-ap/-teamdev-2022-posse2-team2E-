@@ -40,7 +40,7 @@ $agents_login = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <li class="header-nav-item">エージェント追加</li>
           </a>
           <a href="../tags/tagsEdit.php">
-            <li class="header-nav-item">タグ一覧</li>
+            <li class="header-nav-item">タグ編集</li>
           </a>
           <a href="../login/loginInfo.php">
             <li class="header-nav-item select">ログイン情報</li>

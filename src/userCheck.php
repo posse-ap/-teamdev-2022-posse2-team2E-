@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // students_contactsへ一斉送信
   $stmt = $db->query('select id from students where id = LAST_INSERT_ID()');
   $student_id = $stmt->fetch(PDO::FETCH_ASSOC);
-  $stmt = $db->prepare('insert into students_contacts (student_id, agent_id) VALUES (:student_id, :agent_id)');
+  $stmt = $db->prepare("insert into students_contacts (student_id, agent_id, reason) VALUES (:student_id, :agent_id, '')");
   foreach ($form['student_contacts'] as $student_contact) :
     $stmt->bindValue('student_id', $student_id['id'], PDO::PARAM_INT);
     $stmt->bindValue('agent_id', $student_contact, PDO::PARAM_INT);
@@ -135,7 +135,7 @@ endforeach;
   mb_language("Japanese");
 	mb_internal_encoding("UTF-8");
   $to = $form['email'];
-	$subject = '【Boozer株式会社】確認メール';
+	$subject = '【boozer株式会社】確認メール';
   $message = "
   ※このメールはシステムからの自動返信です
   
@@ -333,7 +333,7 @@ foreach ($agents_tags as $a) {
             <td><?php echo h($form["memo"]); ?>
           </tr>
           <tr>
-            <th>問い合わせるエージェント企業の確認</th>
+            <th>問い合わせるエージェント企業</th>
             <td>
               <?php foreach ($s_agents as $s_agent) : ?>
                 ・<?= $s_agent ?></br>
@@ -343,7 +343,7 @@ foreach ($agents_tags as $a) {
         </table>
         <p class="btn">
         
-          <a class="back_btn2" href="entry.php?action=rewrite">&laquo;&nbsp;入力画面へ戻る</a> | <span><input type="submit" value="　 送信 　" /></span>
+          <a class="back_btn2" href="entry.php?action=rewrite">&laquo;&nbsp;入力画面へ戻る</a>  <span><input type="submit" value="　 送信 　" /></span>
         </p>
       </form>
     </div>

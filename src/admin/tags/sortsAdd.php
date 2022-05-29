@@ -20,7 +20,7 @@ $stmt = $db->prepare('insert into filter_sorts (sort_name) VALUES (:sort_name)')
 $stmt->bindValue(':sort_name', $_POST['tag_name'], PDO::PARAM_STR);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $stmt->execute();
-  header('location: tagEditThanks.php');
+  header('location: tagsAdd.php');
 }
 ?>
 
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <li class="header-nav-item">エージェント追加</li>
           </a>
           <a href="../tags/tagsEdit.php">
-            <li class="header-nav-item select">タグ一覧</li>
+            <li class="header-nav-item select">タグ編集</li>
           </a>
           <a href="../login/loginInfo.php">
             <li class="header-nav-item">ログイン情報</li>
@@ -68,7 +68,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="agent-add-table">
 
         <table class="tags-add">
-          ※絞り込みの種類を追加した後、タグを追加してください。</br>（タグのない「絞り込みの種類」は、ユーザー画面に反映されません。）
+          <p>※絞り込みの種類追加の手順</br></br>
+          　１：絞り込みの種類を追加後、[続いて、タグ追加を行う]へ進んでください。</br></br>
+          　２：タグ追加後、各エージェントは「タグ不足」というステータスに変わります。</br></br>
+          　３：[エージェント一覧]→[(各エージェントの)詳細]→[編集]から、各エージェントに対し、追加した絞り込みの種類の「タグ」を必ず選んでください。</br>
+            </br></br>
+          　<span class="error">注意</span>：「タグ不足」の場合、掲載画面にエージェントは表示されません。
+          </p>
           <tr>
             <th>絞り込みの種類</th>
           </tr>
@@ -95,7 +101,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </td>
           </tr>
         </table>
-        <div><a href="tagsEdit.php">&laquo;&nbsp;タグ一覧に戻る</a> | <input type="submit" value="追加する" /></div>
+        <div><a href="tagsEdit.php">&laquo;&nbsp;タグ編集に戻る</a> | 
+        <input type="submit" value="続いて、タグ追加を行う" />
+        <!-- <a href="tagsAdd.php">続いて、タグ追加を行う</a> -->
+      </div>
       </div>
     </form>
   </main>

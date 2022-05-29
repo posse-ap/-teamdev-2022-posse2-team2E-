@@ -68,10 +68,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mb_internal_encoding("UTF-8");
         $to = $agent['to_send_email'];
         if(!empty(h($invalid_requests['invalid_request_memo']))){
-            $invalid_requests = "    お送りいただいた通報内容は以下です。
-            ━━━━━━□■□　通報内容　□■□━━━━━━
-            " . h($invalid_requests['invalid_request_memo']) . "
-            ━━━━━━━━━━━━━━━━━━━━━━━";
+            $invalid_requests = "お送りいただいた通報内容は以下です。
+    ━━━━━━□■□　通報内容　□■□━━━━━━
+    " . h($invalid_requests['invalid_request_memo']) . "
+    ━━━━━━━━━━━━━━━━━━━━━━━";
         }else{
             $invalid_requests = "";
         }
@@ -174,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ━━━━━━━━━━━━━━━━━━━━━━━
 
 
-    内容をお断り内容をご確認いただき、またなにかありましたら、craft@boozer.comにお問い合わせください。なお、営業時間は平日9時〜18時となっております。
+    お断りした理由をご確認いただき、なにかありましたら、craft@boozer.comにお問い合わせください。なお、営業時間は平日9時〜18時となっております。
     時間外のお問い合わせは翌営業日にご連絡差し上げます。
     
     ご理解・ご了承の程よろしくお願い致します。
@@ -265,13 +265,13 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>学生情報詳細</title>
-    <script src="agent_students_detail.js"></script>
-
 </head>
 <link rel="stylesheet" href="../css/reset.css" />
-<link rel="stylesheet" href="../css/style.css" />
+<!-- <link rel="stylesheet" href="../css/style.css" /> -->
 <link rel="stylesheet" href="../../agent/table.css">
 <link rel="stylesheet" href="../../agent/agent_students_detail.css">
+<link rel="stylesheet" href="../css/style.css" />
+
 
 
 <body>
@@ -288,7 +288,7 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <li class="header-nav-item">エージェント追加</li>
                     </a>
                     <a href="../tags/tagsEdit.php">
-                        <li class="header-nav-item">タグ一覧</li>
+                        <li class="header-nav-item">タグ編集</li>
                     </a>
                     <a href="../login/loginInfo.php">
                         <li class="header-nav-item">ログイン情報</li>
@@ -370,14 +370,14 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </tr>
         <?php endif; ?>
         <?php if ($result['valid_status_id'] === 3) : ?>
-                <tr bgcolor="white">
-                    <th class="notice">無効承認理由</th>
+                <tr>
+                    <th class="invalid">無効承認理由</th>
                     <td><?php echo h($result['reason']) ?></td>
                 </tr>
         <?php endif; ?>
         <?php if ($result['valid_status_id'] === 4) : ?>
-                <tr bgcolor="white">
-                    <th class="notice">無効申請拒否理由</th>
+                <tr>
+                    <th class="non_invalid" 	>無効申請拒否理由</th>
                     <td><?php echo h($result['reason']) ?></td>
                 </tr>
         <?php endif; ?>
@@ -385,16 +385,13 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php if ($result['valid_status_id'] === 1||$result['valid_status_id'] === 2) : ?>
         <form action="" method="post" enctype="multipart/form-data">
         <p class= "invalid_operation"><label>無効化処理：<br>
-            <textarea name="naiyou" cols="70" rows="5" required placeholder="処理理由を記入（エージェント企業へ自動送信されます。）"></textarea>
+            <textarea name="naiyou" cols="70" rows="5" required placeholder="処理理由を記入（ボタンを押すとエージェント企業へ自動送信されます。）"></textarea>
         </label></p>
-                <input type="submit" class="make_invalid" name="invalid" value="無効化">
+                <input type="submit" class="make_invalid invalid" name="invalid" value="承認">
             <?php if ($result['valid_status_id'] === 2) : ?>
-                <input type="submit" class="make_invalid" name="non_invalid" value="無効申請拒否">
+                <input type="submit" class="make_invalid non_invalid" name="non_invalid" value="拒否">
             <?php endif; ?>
         </form>
         <?php endif; ?>
-        <script src="agent_students_detail.js"></script>
     </main>
 </body>
-
-</html>

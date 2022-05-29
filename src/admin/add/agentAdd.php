@@ -11,6 +11,10 @@ if (!isset($_SESSION["login"])) {
 if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['form'])) {
   $form = $_SESSION['form'];
   $s_filename = $form['insert_logo'];
+}else{
+  $form = [
+    'agent_tags' => [],
+  ];
 }
 
 //タグ情報
@@ -21,6 +25,23 @@ $t_list = [];
 foreach ($filter_sorts_tags as $f) {
   $t_list[(int)$f['id']][] = $f;
 }
+// echo '<pre>';
+// var_dump($t_list);
+// echo '</pre>';
+// タグ選択必須化テスト
+// foreach($t_list as $tl){
+//   //   echo '<pre>';
+//   // var_dump($tl);
+//   //   echo '</pre>';
+//   foreach($tl as $t){
+//   echo '<pre>';
+//   var_dump($t['tag_id']);
+//   echo '</pre>';
+//   // }
+// }
+// echo '================';
+// }
+
 
 $error = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -52,7 +73,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   $form = filter_input_array(INPUT_POST, $args);
 
+
+
   // エラー判定
+    // タグ選択必須テスト
+  if (!$form['agent_tags']) {
+    $error['agent_tags'] = 'blank';
+}else{
+  foreach($form['agent_tags'] as $agent_tag){
+    $stmt = $db->prepare('select sort_id from filter_tags where tag_id=:tag_id');
+    $stmt->bindValue(':tag_id', $agent_tag, PDO::PARAM_STR);
+    $stmt->execute();
+    $tags[] = $stmt->fetch(PDO::FETCH_COLUMN);
+    }
+    // var_dump($tags);
+    foreach ($filter_sorts_tags as $f) {
+      // var_dump($f['id']);
+      if(!in_array($f['id'], $tags)) {
+        $error['agent_tags'] = 'blank';
+    }
+    }
+}
 
   if ($form['started_at'] > $form['ended_at']) {
     $error['period'] = 'reverse';
@@ -125,7 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <li class="header-nav-item select">エージェント追加</li>
           </a>
           <a href="../tags/tagsEdit.php">
-            <li class="header-nav-item">タグ一覧</li>
+            <li class="header-nav-item">タグ編集</li>
           </a>
           <a href="../login/loginInfo.php">
             <li class="header-nav-item">ログイン情報</li>
@@ -229,7 +270,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <tr>
             <td class="sub-th">オススメポイント<span class="error">*</span></td>
             <td>
-              <input class="recommend_under" type="text" name="insert_recommend_1" placeholder="40文字以内で入力してください" value="<?php echo h($form["insert_recommend_1"]); ?>" required /><input class="recommend_under" type="text" name="insert_recommend_2" placeholder="40文字以内で入力してください" value="<?php echo h($form["insert_recommend_2"]); ?>" required /><input class="recommend_under" type="text" name="insert_recommend_3" placeholder="40文字以内で入力してください" value="<?php echo h($form["insert_recommend_3"]); ?>" required />
+              <input class="recommend_under" maxlength="40" type="text" name="insert_recommend_1" placeholder="40文字以内で入力してください" value="<?php echo h($form["insert_recommend_1"]); ?>" required /><input class="recommend_under" maxlength="40" type="text" name="insert_recommend_2" placeholder="40文字以内で入力してください" value="<?php echo h($form["insert_recommend_2"]); ?>" required /><input class="recommend_under" maxlength="40" type="text" name="insert_recommend_3" placeholder="40文字以内で入力してください" value="<?php echo h($form["insert_recommend_3"]); ?>" required />
             </td>
           </tr>
           <tr>
@@ -240,7 +281,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <table class="tags-add">
           <tr>
             <td class="sub-th">絞り込みの種類</td>
-            <td class="sub-th">タグ</td>
+            <td class="sub-th">タグ<?php if (isset($error['agent_tags']) && $error['agent_tags'] === 'blank') : ?>
+                            <p class="error">* 各項目一つはチェックしてください</p>
+                        <?php endif; ?></td>
           </tr>
           <?php foreach ($t_list as $filter_sort) : ?>
             <tr>

@@ -30,6 +30,7 @@ services:
       MYSQL_USER: posse_user
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: password
+      TZ: Asia/Tokyo
     ports:
       - "3306:3306"
     volumes:
@@ -48,6 +49,8 @@ services:
   #     - MYSQL_USER=posse_user
   #     - MYSQL_PASSWORD=password
   #     - MYSQL_ROOT_PASSWORD=password
+
+
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -70,31 +73,3 @@ services:
       - 8024:8025
 
 
-  # phpmyadmin:
-  #   image: phpmyadmin/phpmyadmin
-  #   environment:
-  #     - PMA_ARBITRARY=1
-  #     - PMA_HOST=mysql #mysqlサービス名を指定
-  #     - PMA_USER=root
-  #     - PMA_PASSWORD=password
-  #   links:
-  #     - mysql
-  #   ports:
-  #     - 4040:80
-  #   volumes:
-  #     - ./phpmyadmin/sessions:/sessions
-
-#↓下記追記↓
-#メールサーバのコンテナ
-  # mail:
-  #   image: mailhog/mailhog
-  #   container_name: mailhog
-  #   ports:
-  #     - '8024:8024'
-  #     # - '1025:1025'
-  #   environment:
-  #     MH_STORAGE: maildir
-  #     MH_MAILDIR_PATH: /tmp
-  #     #↓追記する
-  #   volumes:
-  #     - maildir:/tmp

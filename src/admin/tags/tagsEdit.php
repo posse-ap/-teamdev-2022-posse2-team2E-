@@ -43,7 +43,7 @@ foreach ($filter_sorts_tags as $f) {
             <li class="header-nav-item">エージェント追加</li>
           </a>
           <a href="../tags/tagsEdit.php">
-            <li class="header-nav-item select">タグ一覧</li>
+            <li class="header-nav-item select">タグ編集</li>
           </a>
           <a href="../login/loginInfo.php">
             <li class="header-nav-item">ログイン情報</li>
@@ -59,6 +59,7 @@ foreach ($filter_sorts_tags as $f) {
   <h1 class="main-title">掲載中の絞り込み</h1>
     <div class="agent-add-table">
       <table class="tags-add">
+      <p><span class="error">絞り込みの種類、タグ両方が設定されていない場合、掲載されません。<br>片方しかなものは、[編集]から設定してください。</span></p>
         <tr>
           <td class="sub-th">絞り込みの種類</td>
           <td class="sub-th">タグ</td>
@@ -83,7 +84,7 @@ foreach ($filter_sorts_tags as $f) {
       <button onclick="location.href='tagsAdd.php'">タグ追加</button>
       <button onclick="location.href='tagsDelete.php'">選択して削除</button>
     </div>
-      <p>絞り込みの種類、タグ両方が設定されていなければ掲載されません。<br>片方しかなものは、編集画面で確認できます</p>
+      
   </main>
 </body>
 

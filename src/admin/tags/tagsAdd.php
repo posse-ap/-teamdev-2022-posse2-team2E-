@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <li class="header-nav-item">エージェント追加</li>
           </a>
           <a href="../tags/tagsEdit.php">
-            <li class="header-nav-item select">タグ一覧</li>
+            <li class="header-nav-item select">タグ編集</li>
           </a>
           <a href="../login/loginInfo.php">
             <li class="header-nav-item">ログイン情報</li>
@@ -71,6 +71,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       <table class="tags-add">
         <tr>
+        <p class="error">
+        * タグのない絞り込みの種類は、反映されないので、必ずタグをつけてください。</br>
+        </p>
           <th>絞り込みの種類</th>
         </tr>
         <tr>
@@ -108,14 +111,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endforeach; ?>
         <tr>
           <td>
-            <input type="number" name="sort_id" value="" placeholder="絞り込みの番号を記入"required/>
+            <input type="number" name="sort_id" value="" placeholder="絞り込み種類の番号"required/>
           </td>
           <td>
             <input type="text" name="tag_name" value="" placeholder="追加するタグを記入" required/>
           </td>
         </tr>
       </table>
-      <div><a href="tagsEdit.php">&laquo;&nbsp;タグ一覧に戻る</a> | <input type="submit" value="追加する" /></div>
+      <div><a href="tagsEdit.php">&laquo;&nbsp;タグ編集に戻る</a> | <input type="submit" value="追加する" /></div>
     </div>
     </form>
 

@@ -1,9 +1,4 @@
 <?php
-// if( ! function_exists('h') ) {
-//   function h($s) {
-//     echo htmlspecialchars($s, ENT_QUOTES, "UTF-8");
-//   }
-// }
 
 // $value = array();
 function h($value) {
@@ -18,6 +13,8 @@ function set_list_status($list_status)
     return '掲載期間外';
   } elseif ($list_status === 3) {
     return '申込上限到達';
+  } elseif ($list_status === 4) {
+    return 'タグ不足';
   } else {
     return 'エラー';
   }
@@ -36,12 +33,5 @@ try {
   echo '接続失敗: ' . $e->getMessage();
   exit();
 }
-// try {
-//   $db = new PDO($dsn, $user, $password);
-//   $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-// } catch (PDOException $e) {
-//   echo '接続失敗: ' . $e->getMessage();
-//   exit();
-// }
 
 ?>

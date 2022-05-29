@@ -130,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <li class="header-nav-item">エージェント追加</li>
           </a>
           <a href="../tags/tagsEdit.php">
-            <li class="header-nav-item select">タグ一覧</li>
+            <li class="header-nav-item select">タグ編集</li>
           </a>
           <a href="../login/loginInfo.php">
             <li class="header-nav-item">ログイン情報</li>
@@ -147,6 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <h1 class="main-title">絞り込み編集画面</h1>
     <form action="" method="post" enctype="multipart/form-data">
       <div class="agent-add-table">
+      <p class="error">* 番号は半角英数字で入力してください。</p>
         <table class="tags-add">
           <tr>
             <th>絞り込みの種類</th>
@@ -170,7 +171,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <?php endforeach; ?>
         </table>
         <table class="tags-add">
-        <p class="error">* 番号は半角英数字で入力してください。</p>
+        
+        <p class="error">
+        * 入力した番号にあう絞り込みの種類がなければ、ユーザー画面に表示されません。</br>
+        * 絞り込みの種類と番号が一致しないタグは手動で削除してください。
+        </p>
           <tr>
             <th>タグ</th>
             <!-- ここ整える -->
@@ -191,10 +196,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </tr>
           <?php endforeach; ?>
         </table>
-        <p class="error">
-        * 入力した番号にあう絞り込みの種類がなければ、ユーザー画面に表示されません。</br>
-        * 絞り込みの種類と番号が一致しないタグは手動で削除してください。
-      <div><a href="tagsEdit.php">&laquo;&nbsp;タグ一覧に戻る</a> | <input type="submit" value="編集を完了する" /></div>
+        
+      <div><a href="tagsEdit.php">&laquo;&nbsp;タグ編集に戻る</a> | <input type="submit" value="編集を完了する" /></div>
     </form>
   </main>
 </body>

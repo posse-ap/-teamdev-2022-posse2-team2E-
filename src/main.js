@@ -486,6 +486,68 @@ $(function () {
         condition[currentType] = [];
     }
 
+    // function setConditions() {//条件設定
+
+    //     count = 0;
+    //     box.removeClass('js_selected');
+
+    //     for (var i = 0; i < conditions.length; i++) {//data-typeごとの処理
+
+    //         currentType = conditions[i].getAttribute('data-type');
+    //         findConditions = conditions[i].querySelectorAll('input');
+
+    //         for (var n = 0; n < findConditions.length; n++) {//inputごとの処理
+    //             if (findConditions[n].checked){//現在選択中のインプットが選択されている場合
+    //                 condition[currentType][findConditions[n].value] = true;
+    //                 checkcount++
+    //             } else {
+    //                 condition[currentType][findConditions[n].value] = false;
+    //             }
+    //             if (findConditions.length === n+1){//ループが最後の場合
+    //                 if (checkcount === 0) {
+    //                     for (var t = 0; t < findConditions.length; t++) {
+    //                         condition[currentType][findConditions[t].value] = true;
+    //                     }
+    //                 }
+    //                 checkcount = 0;
+    //             }
+    //         }
+    //     }
+
+
+    //     for (var m = 0, len = box.length; m < len; ++m) {//最初に取得したターゲットの情報と、現在のinputの選択状態を比較して処理を行う
+
+    //         for (var i = 0; i < conditions.length; i++) {//ターゲットのdata-typeを参照し、メソッドとしてconditionに個別に代入する
+    //             currentType = conditions[i].getAttribute('data-type');
+    //             //現在のターゲットのtype情報をカンマ区切りで分割し、配列に代入
+    //             var currentBoxTypes = $(box[m]).data(currentType).split(',');
+
+    //             for (var j = 0; j < currentBoxTypes.length; j++) {
+    //                 if (condition[currentType][currentBoxTypes[j]]) {
+    //                     data_check++;//選択した条件のうちひとつでもマッチしてたらdata_checkを加算してループを抜ける
+    //                     break;
+    //                 } else {
+    //                 }
+    //             }
+    //         }
+
+    //         if (data_check === conditions.length) {
+    //             count++;
+    //             $(box[m]).addClass('js_selected');
+    //         } else {
+    //         }
+    //         data_check = 0;
+    //     }
+
+    //     $('.js_numerator').text(count);//件数表示の分子をセット
+    // }
+
+    // setConditions();
+
+    // $(document).on('click', 'input', function () {
+
+    //     setConditions();
+
     function setConditions() {//条件設定
 
         count = 0;
@@ -560,3 +622,10 @@ $(function () {
     });
 
 });
+
+const scrollBlue = function () {
+    window.scrollTo({
+        top: 1700,         
+        behavior: 'smooth'
+    });
+};

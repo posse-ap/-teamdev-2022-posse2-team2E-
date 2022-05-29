@@ -5,7 +5,6 @@ try {
     // 全てのエージェントの掲載ステータスをupdateする。
     date_default_timezone_set('Asia/Tokyo');
     $today = date("Y-m-d");
-
     // 掲載再開
     $stmt = $db->prepare('update agents set list_status=1 where started_at <= :started_at and ended_at >= :ended_at');
     $stmt->bindValue(':started_at', $today, PDO::PARAM_STR);
@@ -15,14 +14,14 @@ try {
         die($db->error);
     }
 
-    // // 申し込み上限数到達(今月の申し込み数と比較)
-    // // 全てのエージェントでforeach
-    // // 全てのエージェント
+    // 申し込み上限数到達(今月の申し込み数と比較)
+    // 全てのエージェントでforeach
+    // 全てのエージェント
     $stmt = $db->query('select id from agents');
     $stmt->execute();
     $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // // 今月の申し込み数
+    // 今月の申し込み数
     foreach ($agents as $agent) {
         $stmt = $db->prepare('SELECT * FROM students AS S, students_contacts AS SC, agents AS A WHERE S.id = SC.student_id AND SC.agent_id = A.id AND SC.agent_id = :agent_id AND DATE_FORMAT(S.created, "%Y-%m") = :form_month ');
         $stmt->bindValue(':form_month', Date('Y-m'), PDO::PARAM_STR);
@@ -38,6 +37,41 @@ try {
         if (!$success) {
             die($db->error);
         }
+
+        // タグ不足
+        $stmt = $db->prepare('select tag_id from agents_tags where agent_id=:id');
+        $stmt->bindValue(':id', (int)$agent['id'], PDO::PARAM_INT);
+        $stmt->execute();
+        $agent_tags = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        if (!$agent_tags) {
+            $tag_lack = $agent['id'];
+        } else {
+            foreach ($agent_tags as $agent_tag) {
+                $stmt = $db->prepare('select sort_id from filter_tags where tag_id=:tag_id');
+                $stmt->bindValue(':tag_id', $agent_tag, PDO::PARAM_STR);
+                $stmt->execute();
+                $tags[] = $stmt->fetch(PDO::FETCH_COLUMN);
+            }
+            //タグ情報
+            $stmt = $db->query('select fs.id, sort_name, tag_id, tag_name from filter_sorts fs inner join filter_tags ft on fs.id = ft.sort_id;
+');
+            $filter_sorts_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            // var_dump($tags);
+            foreach ($filter_sorts_tags as $f) {
+                // var_dump($f['id']);
+                if (!in_array($f['id'], $tags)) {
+                    $tag_lack = $agent['id'];
+                }
+            }
+        }
+        $stmt = $db->prepare('update agents set list_status=4 where id= :id');
+        if (isset($tag_lack)) {
+            $stmt->bindValue(':id', $tag_lack, PDO::PARAM_INT);
+            $success = $stmt->execute();
+            if (!$success) {
+                die($db->error);
+            }
+        }
     }
 
     // 掲載期間外
@@ -51,8 +85,6 @@ try {
     }
     // upadateここまで
 
-    // $stmt = $db->prepare('select * from agents where list_status=?');
-    // $stmt->execute([1]);
     $stmt = $db->query('select * from agents where list_status=1 ORDER BY id desc');
     $listed_agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -216,20 +248,35 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
         </div>
         <img src="agent_person.png" alt="" class="agent_person">
 
-
-
-
-
         <h3 class="agent_all_title">エージェント一覧</h3>
         <container class="filter" id="js-filter">
             <!-- 各エージェント -->
-            <ul class="filter-items">
+            <ul  class="filter-items">
                 <form action="entry.php" method="post" id="inquiry_submit">
                     <?php foreach ($listed_agents as $listed_agent) : ?>
                         <?php foreach ($at_list as $agent_tags) : ?>
                             <?php if ($listed_agent['id'] === current($agent_tags)['agent_id']) : ?>
 
-                                <li class="agent_box js_target" data-filter-key="総合型" id="tohoku_<?php echo $listed_agent['id'] ?>" <?php foreach ($agent_tags as $agent_tag) : ?> data-<?= $agent_tag['sort_id']; ?>="<?= $agent_tag['tag_name'] ?>" <?php endforeach; ?>>
+                                    <li class="agent_box js_target" id="tohoku_<?php echo $listed_agent['id'] ?>" 
+                                        <?php 
+                                        $tag_name = "";
+                                        foreach ($agent_tags as $index => $agent_tag) {
+                                            if ($tag_name == "") {
+                                                $tag_name = $agent_tag['tag_name'];
+                                            } else {
+                                                $tag_name .= ',' . $agent_tag['tag_name'];
+                                            }
+                                            if ($agent_tags[$index]['sort_id'] != $agent_tags[$index + 1]['sort_id']){
+                                            
+                                            echo "data-"  . $agent_tag['sort_id'] . "=" . "'" . $tag_name . "'";
+                                            $tag_name = "";
+                                            }
+                                        }
+                                        ?>
+                                        >
+
+                                    
+
                                     <img class="agent_img" src="img/insert_logo/<?php echo $listed_agent['insert_logo'] ?>" alt="企業ロゴ">
                                     <div class="agent_article">
                                         <div class="agent_article_header">
@@ -285,9 +332,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
                                 <div class="filter_sort_name"><?= current($filter_sort)['sort_name']; ?></div>
                                 <div class="each_filter_box js_conditions" data-type="<?= current($filter_sort)['id']; ?>">
                                     <?php foreach ($filter_sort as $filter_tag) : ?>
-                                        <span class="w bl_selectBlock_check">
-                                            <input type="checkbox" name="agent_tags[]" class="checks" id="form" value="<?= $filter_tag['tag_name'] ?>" />
-                                            <label class="added-tag">
+                                        <span class="w bl_selectBlock_check ">
+                                        <label class="added-tag " >
+                                            <input onclick="scrollBlue()" type="checkbox" name="agent_tags[]" class="checks" id="form" value="<?= $filter_tag['tag_name'] ?>" />
                                                 <?= $filter_tag['tag_name']; ?>
                                             </label>
                                         </span>
@@ -297,7 +344,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
                         </div>
                         <div class="filter_btn">
                             <div class="flex_btn">
-                                <div class="reset_btn  js_release" id="uncheck-btn" type="reset">リセット</div>
+                                <div onclick="scrollBlue()" class="reset_btn  js_release" id="uncheck-btn" type="reset">リセット</div>
                                 <!-- <button class="reset_btn" id="uncheck-btn" type="reset">リセット</button> -->
                                 <button class="reset_btn to_filter_btn" id="uncheck-btn" type="reset">絞りこむ</button>
                             </div>
@@ -387,7 +434,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
     </wrapper>
 
     <footer>
-        <div class="inquiry">
+        <div  class="inquiry">
             <p>
                 craft運営 boozer株式会社事務局
                 <br>TEL:080-3434-2435
