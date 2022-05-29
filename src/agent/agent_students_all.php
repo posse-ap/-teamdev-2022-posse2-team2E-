@@ -339,7 +339,7 @@ function set_valid_status($valid_status)
                     </tr>
                     <?php foreach ($result as $column) : ?>
                         <tr>
-                            <td><?php echo h($column['問い合わせ日時']); ?></td>
+                            <td><?php echo date("Y/m/d H:i:s", strtotime($column['問い合わせ日時'])); ?></td>
                             <td><?php echo h($column['氏名']); ?></td>
                             <td><?php echo h($column['大学']); ?></td>
                             <td><?php echo h($column['学科']); ?></td>

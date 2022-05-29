@@ -2,10 +2,10 @@
 require('../../db_connect.php');
 
 // //ログインされていない場合は強制的にログインページにリダイレクト
-// if (!isset($_SESSION["login"])) {
-//     header("Location: agent_login.php");
-//     exit();
-// }
+if (!isset($_SESSION["login"])) {
+    header("Location: agent_login.php");
+    exit();
+}
 $id = $_GET['id'];
 // var_dump($id);
 //エージェント情報

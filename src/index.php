@@ -85,8 +85,7 @@ try {
     }
     // upadateここまで
 
-    $stmt = $db->prepare('select * from agents where list_status=?');
-    $stmt->execute([1]);
+    $stmt = $db->query('select * from agents where list_status=1 ORDER BY id desc');
     $listed_agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo '接続失敗';
