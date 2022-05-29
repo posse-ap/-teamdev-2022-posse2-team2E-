@@ -265,8 +265,6 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>学生情報詳細</title>
-    <script src="agent_students_detail.js"></script>
-
 </head>
 <link rel="stylesheet" href="../css/reset.css" />
 <link rel="stylesheet" href="../css/style.css" />
@@ -370,14 +368,14 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </tr>
         <?php endif; ?>
         <?php if ($result['valid_status_id'] === 3) : ?>
-                <tr bgcolor="white">
-                    <th class="notice">無効承認理由</th>
+                <tr>
+                    <th class="invalid">無効承認理由</th>
                     <td><?php echo h($result['reason']) ?></td>
                 </tr>
         <?php endif; ?>
         <?php if ($result['valid_status_id'] === 4) : ?>
-                <tr bgcolor="white">
-                    <th class="notice">無効申請拒否理由</th>
+                <tr>
+                    <th class="non_invalid">無効申請拒否理由</th>
                     <td><?php echo h($result['reason']) ?></td>
                 </tr>
         <?php endif; ?>
@@ -387,14 +385,11 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <p class= "invalid_operation"><label>無効化処理：<br>
             <textarea name="naiyou" cols="70" rows="5" required placeholder="処理理由を記入（ボタンを押すとエージェント企業へ自動送信されます。）"></textarea>
         </label></p>
-                <input type="submit" class="make_invalid non_invalid" name="invalid" value="無効化">
+                <input type="submit" class="make_invalid invalid" name="invalid" value="承認">
             <?php if ($result['valid_status_id'] === 2) : ?>
-                <input type="submit" class="make_invalid non_invalid" name="non_invalid" value="無効申請拒否">
+                <input type="submit" class="make_invalid non_invalid" name="non_invalid" value="拒否">
             <?php endif; ?>
         </form>
         <?php endif; ?>
-        <script src="agent_students_detail.js"></script>
     </main>
 </body>
-
-</html>
