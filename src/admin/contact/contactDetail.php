@@ -53,20 +53,31 @@ $invalid_requests = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // 通報機能
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $naiyou = filter_input(INPUT_POST, 'naiyou', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
     // 無効化
-    if(isset($_POST['invalid'])){
-    // students_contacts.valid_status_idを　3へ
-    $stmt = $db->prepare('update students_contacts set valid_status_id=3 where id=:id');
-    $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
-    $stmt->execute();
+    if (isset($_POST['invalid'])) {
+        // students_contacts.valid_status_idを　3へ
+        $stmt = $db->prepare('update students_contacts set valid_status_id=3, reason= :reason where id=:id');
+        $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
+        $stmt->bindValue(':reason', $naiyou, PDO::PARAM_INT);
+        $stmt->execute();
 
-    //学生問い合わせ確認メール
-    mb_language("Japanese");
-    mb_internal_encoding("UTF-8");
-    $to = $agent['to_send_email'];
-    $subject = '【Boozer株式会社】無効申請承認のお知らせ';
-    $message =  "
+        //学生問い合わせ確認メール
+        mb_language("Japanese");
+        mb_internal_encoding("UTF-8");
+        $to = $agent['to_send_email'];
+        if(!empty(h($invalid_requests['invalid_request_memo']))){
+            $invalid_requests = "お送りいただいた通報内容は以下です。
+    ━━━━━━□■□　通報内容　□■□━━━━━━
+    " . h($invalid_requests['invalid_request_memo']) . "
+    ━━━━━━━━━━━━━━━━━━━━━━━";
+        }else{
+            $invalid_requests = "";
+        }
+        
+        $subject = '【Boozer株式会社】問い合わせ無効承認のお知らせ';
+        $message =  "
     ※このメールはシステムからの自動返信です
     
     " . $agent['client_name'] . "様
@@ -78,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ━━━━━━□■□　学生情報　□■□━━━━━━
     問い合わせID：" . h($id) . "
     氏名：" . h($result["name"]) . "
-    申込日時：" . h($result['created']) . "
+    申込日時：" . date("Y/m/d H:i:s", strtotime($result['created'])) . "
     電話番号：" . h($result["tel"]) . "
     Email：" . h($result["email"]) . "
     学校名(大学/大学院/専門学校/短大/高校等)：" . h($result["collage"]) . "
@@ -86,14 +97,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     卒業年度：" . h($result["class_of"]) . "年卒
     住所：" . h($result["address"]) . "
     備考欄：" . h($result["memo"]) . "
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    ━━━━━━━━━━━━━━━━━━━━━━━
 
-    お送りいただいた通報内容は以下です。
-    ━━━━━━□■□　通報内容　□■□━━━━━━
-    ".h($invalid_requests['invalid_request_memo'])."
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    無効承認理由は以下です。
+    ━━━━━━□■□　承認理由　□■□━━━━━━
+    " . h($naiyou) . "
+    ━━━━━━━━━━━━━━━━━━━━━━━
 
-
+    " . $invalid_requests . "
 
     また、なにかありましたら、craft@boozer.comにお問い合わせください。なお、営業時間は平日9時〜18時となっております。
     時間外のお問い合わせは翌営業日にご連絡差し上げます。
@@ -110,17 +121,81 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     電話番号：090-1000-2000
     営業時間：平日 9時～18時
     ———————————————————————";
-    $header = ['From' => 'craft@boozer.com', 'Content-Type' => 'text/plain; charset=UTF-8', 'Content-Transfer-Encoding' => '8bit'];
-    $result = mb_send_mail($to, $subject, $message, $header);
-    if (!$result) {
-        echo 'メールの送信に失敗しました';
+        $header = ['From' => 'craft@boozer.com', 'Content-Type' => 'text/plain; charset=UTF-8', 'Content-Transfer-Encoding' => '8bit'];
+        $result = mb_send_mail($to, $subject, $message, $header);
+        if (!$result) {
+            echo 'メールの送信に失敗しました';
+        }
+    
+
+    // 無効化拒否
+    }elseif (isset($_POST['non_invalid'])) {
+        // students_contacts.valid_status_idを　3へ
+        $stmt = $db->prepare('update students_contacts set valid_status_id=4, reason= :reason where id=:id');
+        $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
+        $stmt->bindValue(':reason', $naiyou, PDO::PARAM_INT);
+        $stmt->execute();
+
+        //学生問い合わせ確認メール
+        mb_language("Japanese");
+        mb_internal_encoding("UTF-8");
+        $to = $agent['to_send_email'];
+        $subject = '【Boozer株式会社】無効化お断りのお知らせ';
+        $message =  "
+    ※このメールはシステムからの自動返信です
+    
+    " . $agent['client_name'] . "様
+
+    お世話になっております。
+    Boozer株式会社でございます。
+    たいへん恐れ入りますが、貴社から頂いた無効化申請をお断りいたしました。理由は以下の通りです。
+    ━━━━━━□■□　拒否理由　□■□━━━━━━
+    " . h($naiyou) . "
+    ━━━━━━━━━━━━━━━━━━━━━━━
+
+    対象の学生は、こちらです。
+    
+    ━━━━━━□■□　学生情報　□■□━━━━━━
+    問い合わせID：" . h($id) . "
+    氏名：" . h($result["name"]) . "
+    申込日時：" . date("Y/m/d H:i:s", strtotime($result['created'])) . "
+    電話番号：" . h($result["tel"]) . "
+    Email：" . h($result["email"]) . "
+    学校名(大学/大学院/専門学校/短大/高校等)：" . h($result["collage"]) . "
+    学部/学科：" . h($result["department"]) . "
+    卒業年度：" . h($result["class_of"]) . "年卒
+    住所：" . h($result["address"]) . "
+    備考欄：" . h($result["memo"]) . "
+    ━━━━━━━━━━━━━━━━━━━━━━━
+
+    お送りいただいた通報内容は以下です。
+    ━━━━━━□■□　通報内容　□■□━━━━━━
+    " . h($invalid_requests['invalid_request_memo']) . "
+    ━━━━━━━━━━━━━━━━━━━━━━━
+
+
+    内容をお断り内容をご確認いただき、またなにかありましたら、craft@boozer.comにお問い合わせください。なお、営業時間は平日9時〜18時となっております。
+    時間外のお問い合わせは翌営業日にご連絡差し上げます。
+    
+    ご理解・ご了承の程よろしくお願い致します。
+    ———————————————————————
+    craft運営 boozer株式会社事務局
+    担当：山田　太郎
+    TEL:080-3434-2435
+    Email:craft@boozer.com
+    
+    【会社情報】
+    住所：〒111-1111　東京都港区5-6-7-8
+    電話番号：090-1000-2000
+    営業時間：平日 9時～18時
+    ———————————————————————";
+        $header = ['From' => 'craft@boozer.com', 'Content-Type' => 'text/plain; charset=UTF-8', 'Content-Transfer-Encoding' => '8bit'];
+        $result = mb_send_mail($to, $subject, $message, $header);
+        if (!$result) {
+            echo 'メールの送信に失敗しました';
+        }
     }
-
-    header("location: contactDetail.php?agent=$agent_id&id=$id");
-}
-
-// 無効化拒否
-
+        header("location: contactDetail.php?agent=$agent_id&id=$id");
 }
 
 
@@ -133,6 +208,8 @@ function set_valid_status($valid_status)
         return '無効化申請中';
     } elseif ($valid_status === 3) {
         return '無効化承認済み';
+    } elseif ($valid_status === 4) {
+        return '無効申請拒否';
     } else {
         return 'エラー';
     }
@@ -191,7 +268,6 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <script src="agent_students_detail.js"></script>
 
 </head>
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <link rel="stylesheet" href="../css/reset.css" />
 <link rel="stylesheet" href="../css/style.css" />
 <link rel="stylesheet" href="../../agent/table.css">
@@ -234,7 +310,7 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <table class="students_detail" border="1" width="90%">
             <tr bgcolor="white">
                 <th bgcolor="#4FA49A">申込日時</th>
-                <td><?php echo h($result['created']) ?></td>
+                <td><?php echo date("Y/m/d H:i:s", strtotime($result['created'])) ?></td>
             </tr>
             <tr bgcolor="white">
                 <th bgcolor="#4FA49A">氏名</th>
@@ -287,32 +363,36 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <th bgcolor="#4FA49A">問い合わせID</th>
                 <td><?php echo $id ?></td>
             </tr>
-        </table>
-
-        <?php if ($result['valid_status_id'] != 1) : ?>
-            <table>
+        <?php if (!empty(h($invalid_requests['invalid_request_memo']))) : ?>
                 <tr bgcolor="white">
                     <th class="notice">通報内容</th>
                     <td><?php echo h($invalid_requests['invalid_request_memo']) ?></td>
                 </tr>
-            </table>
         <?php endif; ?>
-        <?php if ($result['valid_status_id'] != 3) : ?>
-
-            <form action="" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="invalid">
-                <p><input type="submit" class="make_invalid" value="無効化"></p>
-            </form>
+        <?php if ($result['valid_status_id'] === 3) : ?>
+                <tr bgcolor="white">
+                    <th class="notice">無効承認理由</th>
+                    <td><?php echo h($result['reason']) ?></td>
+                </tr>
         <?php endif; ?>
-        <?php if ($result['valid_status_id'] === 2) : ?>
-
-            <form action="" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="non_invalid">
-                <p><input type="submit" class="make_invalid" value="無効申請拒否"></p>
-            </form>
+        <?php if ($result['valid_status_id'] === 4) : ?>
+                <tr bgcolor="white">
+                    <th class="notice">無効申請拒否理由</th>
+                    <td><?php echo h($result['reason']) ?></td>
+                </tr>
         <?php endif; ?>
-        </div>
-        </div>
+        </table>
+        <?php if ($result['valid_status_id'] === 1||$result['valid_status_id'] === 2) : ?>
+        <form action="" method="post" enctype="multipart/form-data">
+        <p class= "invalid_operation"><label>無効化処理：<br>
+            <textarea name="naiyou" cols="70" rows="5" required placeholder="処理理由を記入（ボタンを押すとエージェント企業へ自動送信されます。）"></textarea>
+        </label></p>
+                <input type="submit" class="make_invalid non_invalid" name="invalid" value="無効化">
+            <?php if ($result['valid_status_id'] === 2) : ?>
+                <input type="submit" class="make_invalid non_invalid" name="non_invalid" value="無効申請拒否">
+            <?php endif; ?>
+        </form>
+        <?php endif; ?>
         <script src="agent_students_detail.js"></script>
     </main>
 </body>

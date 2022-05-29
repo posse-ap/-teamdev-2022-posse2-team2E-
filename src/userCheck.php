@@ -135,7 +135,7 @@ endforeach;
   mb_language("Japanese");
 	mb_internal_encoding("UTF-8");
   $to = $form['email'];
-	$subject = '【Boozer株式会社】確認メール';
+	$subject = '【boozer株式会社】確認メール';
   $message = "
   ※このメールはシステムからの自動返信です
   

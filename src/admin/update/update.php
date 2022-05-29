@@ -15,7 +15,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
   $agent_tags = $agent['agent_tags'];
 } elseif (isset($agent)) { //POSTの中身
   $agent_tags = $agent['agent_tags'];
-} else {
+}else{
+  // $form = [
+  //   'agent_tags' => [],
+  // ];
   //エージェント情報
   $stmt = $db->prepare('select * from agents where id = :id');
   $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
@@ -31,7 +34,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
 $filename = $agent['insert_logo'];
 
 // echo '<pre>';
-// var_dump($agent_tags);
+// var_dump($agent);
 // echo '</pre>';
 // var_dump($agent['insert_logo']);
 
@@ -79,8 +82,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ),
   ); // タグについては配列？
   $agent = filter_input_array(INPUT_POST, $args);
+  // var_dump($agent);
+  // if (isset($agent)) { //POSTの中身
+    $agent_tags = $agent['agent_tags'];
+
 
   // エラー判定
+    // タグ選択必須テスト
+    if (!$agent['agent_tags']) {
+      $error['agent_tags'] = 'blank';
+  }else{
+    foreach($agent['agent_tags'] as $agent_tag){
+      $stmt = $db->prepare('select sort_id from filter_tags where tag_id=:tag_id');
+      $stmt->bindValue(':tag_id', $agent_tag, PDO::PARAM_STR);
+      $stmt->execute();
+      $tags[] = $stmt->fetch(PDO::FETCH_COLUMN);
+      }
+      // var_dump($tags);
+      foreach ($filter_sorts_tags as $f) {
+        // var_dump($f['id']);
+        if(!in_array($f['id'], $tags)) {
+          $error['agent_tags'] = 'blank';
+      }
+      }
+  }
+
   if ($agent['started_at'] > $agent['ended_at']) {
     $error['period'] = 'reverse';
   }
@@ -246,7 +272,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <table class="tags-add">
           <tr>
             <td class="sub-th">絞り込みの種類</td>
-            <td class="sub-th">タグ</td>
+            <td class="sub-th">タグ<?php if (isset($error['agent_tags']) && $error['agent_tags'] === 'blank') : ?>
+                            <p class="error">* 各項目一つはチェックしてください</p>
+                        <?php endif; ?></td>
           </tr>
           <?php foreach ($t_list as $filter_sort) : ?>
             <tr>

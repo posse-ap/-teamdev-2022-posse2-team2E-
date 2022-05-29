@@ -3,12 +3,12 @@ require($_SERVER['DOCUMENT_ROOT'] . "/db_connect.php");
 session_start();
 
 //ログインされていない場合は強制的にログインページにリダイレクト
-if (!isset($_SESSION["login"])) {
+if (!isset($_SESSION["login"]) || !isset($_SESSION['corporate_name'])) {
     header("Location: agent_login.php");
     exit();
 }
 
-// --------------------全てのエージェントの掲載ステータスをupdateする。
+// 全てのエージェントの掲載ステータスをupdateする。
 date_default_timezone_set('Asia/Tokyo');
 $today = date("Y-m-d");
 // 掲載再開
@@ -43,6 +43,41 @@ foreach ($agents as $agent) {
     if (!$success) {
         die($db->error);
     }
+
+    // タグ不足
+    $stmt = $db->prepare('select tag_id from agents_tags where agent_id=:id');
+    $stmt->bindValue(':id', (int)$agent['id'], PDO::PARAM_INT);
+    $stmt->execute();
+    $agent_tags = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    if (!$agent_tags) {
+        $tag_lack = $agent['id'];
+    } else {
+        foreach ($agent_tags as $agent_tag) {
+            $stmt = $db->prepare('select sort_id from filter_tags where tag_id=:tag_id');
+            $stmt->bindValue(':tag_id', $agent_tag, PDO::PARAM_STR);
+            $stmt->execute();
+            $tags[] = $stmt->fetch(PDO::FETCH_COLUMN);
+        }
+        //タグ情報
+        $stmt = $db->query('select fs.id, sort_name, tag_id, tag_name from filter_sorts fs inner join filter_tags ft on fs.id = ft.sort_id;
+');
+        $filter_sorts_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // var_dump($tags);
+        foreach ($filter_sorts_tags as $f) {
+            // var_dump($f['id']);
+            if (!in_array($f['id'], $tags)) {
+                $tag_lack = $agent['id'];
+            }
+        }
+    }
+    $stmt = $db->prepare('update agents set list_status=4 where id= :id');
+    if (isset($tag_lack)) {
+        $stmt->bindValue(':id', $tag_lack, PDO::PARAM_INT);
+        $success = $stmt->execute();
+        if (!$success) {
+            die($db->error);
+        }
+    }
 }
 
 // 掲載期間外
@@ -54,7 +89,7 @@ $success = $stmt->execute();
 if (!$success) {
     die($db->error);
 }
-// --------------------upadateここまで
+// upadateここまで
 
 $id = $_SESSION['id'];
 $message = $_SESSION['corporate_name'] . "様ようこそ";
@@ -229,6 +264,8 @@ function set_valid_status($valid_status)
         return '申請中';
     } elseif ($valid_status === 3) {
         return '承認済み';
+    } elseif ($valid_status === 4) {
+        return '申請拒否';
     } else {
         return 'エラー';
     }
@@ -264,10 +301,10 @@ function set_valid_status($valid_status)
         </nav>
     </header>
     <div class="all_wrapper">
-        
+
         <div class="right_wrapper">
             <h1 class="students_all_title">学生情報一覧
-            (<?php echo set_list_status($agent['list_status']); ?>)
+                (<?php echo set_list_status($agent['list_status']); ?>)
             </h1>
             <div class="sum_inquiry_wrapper">
                 <p class="sum_inquiry"><span>
@@ -278,7 +315,7 @@ function set_valid_status($valid_status)
                     </span>の問い合わせ件数: <span>
                         <?php echo $cnt ?>
                     </span>件　　　　無効: <span><?php echo $invalid_cnt ?></span> 件
-                　　　　請求金額: <span><?php echo $charge_cnt ?></span> 円</p>
+                    　　　　請求金額: <span><?php echo $charge_cnt ?></span> 円</p>
             </div>
             <form action="agent_students_all.php" method="POST">
                 <input type="month" name="month" value="<?php echo $form['month']; ?>">
@@ -312,10 +349,10 @@ function set_valid_status($valid_status)
                             </td>
                             <td><?php echo set_valid_status($column['無効判定']); ?></td>
                             <td>
-                            <?php foreach ($duplicate_ids[$column['問い合わせID']] as $d_id) : if ($d_id['id'] !=  $column['問い合わせID']) :
-                                    echo 'id' . $d_id['id'] . ' ';
-                                endif;
-                            endforeach ?>
+                                <?php foreach ($duplicate_ids[$column['問い合わせID']] as $d_id) : if ($d_id['id'] !=  $column['問い合わせID']) :
+                                        echo 'id' . $d_id['id'] . ' ';
+                                    endif;
+                                endforeach ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

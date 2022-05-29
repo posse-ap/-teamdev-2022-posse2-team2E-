@@ -2,7 +2,6 @@ header {
   width: 100%;
   background-color: #4FA49A;
   border-bottom: #fff 1px solid;
-  /* position: fixed;一時 */
   top: 0;
   position: fixed;
 }
@@ -171,7 +170,6 @@ input {
 .added-tag span {
   margin-left: 5px;
 }
-/*# sourceMappingURL=style.css.map */
 
 .done {
   margin-top: 70px;
@@ -216,7 +214,7 @@ input {
 }
 
  .make_invalid {
-    width: 30%;
+    width: 200px;
     height:70px;
     margin: 20px auto;
     font-size: 30px;
@@ -226,6 +224,19 @@ input {
     text-decoration: none;
     color: #fff;
     cursor :pointer;
+ }
+
+ .non_invalid{
+  background: #0d99ff;
+
+ }
+
+ .invalid_operation{
+   margin-top: 50px;
+ }
+
+ .invalid_operation label{
+   font-size: large;
  }
 
 .tag_edit_btns {
