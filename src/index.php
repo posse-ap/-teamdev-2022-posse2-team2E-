@@ -85,8 +85,7 @@ try {
     }
     // upadateここまで
 
-    $stmt = $db->prepare('select * from agents where list_status=?');
-    $stmt->execute([1]);
+    $stmt = $db->query('select * from agents where list_status=1 ORDER BY id desc');
     $listed_agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo '接続失敗';
@@ -180,6 +179,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
             </div>
         </div>
         <img src="agent_person.png" alt="" class="agent_person">
+
+        <h3 class="agent_all_title">エージェント一覧</h3>
+
         <container  class="filter" id="js-filter">
             
             <!-- 各エージェント -->
@@ -190,10 +192,22 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
                             <?php if ($listed_agent['id'] === current($agent_tags)['agent_id']) : ?>
 
                                     <li class="agent_box js_target" id="tohoku_<?php echo $listed_agent['id'] ?>" 
-                                    <?php foreach ($agent_tags as $agent_tag) : ?>
-                                        data-<?= $agent_tag['sort_id']; ?>="<?= $agent_tag['tag_name'] ?>"
-                                    <?php endforeach; ?>
-                                    >
+                                        <?php 
+                                        $tag_name = "";
+                                        foreach ($agent_tags as $index => $agent_tag) {
+                                            if ($tag_name == "") {
+                                                $tag_name = $agent_tag['tag_name'];
+                                            } else {
+                                                $tag_name .= ',' . $agent_tag['tag_name'];
+                                            }
+                                            if ($agent_tags[$index]['sort_id'] != $agent_tags[$index + 1]['sort_id']){
+                                            
+                                            echo "data-"  . $agent_tag['sort_id'] . "=" . "'" . $tag_name . "'";
+                                            $tag_name = "";
+                                            }
+                                        }
+                                        ?>
+                                        >
 
                                     
 

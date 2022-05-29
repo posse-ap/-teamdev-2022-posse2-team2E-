@@ -232,7 +232,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <?php endif; ?>
         </div>
         <div class="btn">
-        <!-- <button type="button" onclick="history.back()" class="back_btn">&laquo;&nbsp;キープ一覧に戻る</button> -->
+        <button type="button" onclick="history.back()" class="back_btn">&laquo;&nbsp;キープ一覧に戻る</button>
           <!-- <a href="index.php">&laquo;&nbsp;キープ画面へ戻る</a> | <span><input type="submit" value="　 確認 　" /></span> -->
           <!-- <button onclick="location.href='index.php'">&laquo;&nbsp;キープ画面へ戻る</button> | <span><input type="submit" value="確認" /></span> -->
           <!-- <button onclick="location.href='index.php'">キープ画面へ戻る</button>  <label for="check_form"><input type="submit" id="check_form" value="確認" /></label> -->
