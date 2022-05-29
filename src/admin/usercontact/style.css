@@ -176,6 +176,8 @@ i {
 .con_pri {
   max-width: 700px;
   margin: 0  auto;
+  overflow: scroll;
+
 }
 @media only screen and (max-width: 768px) {
   .con_pri {
@@ -192,6 +194,8 @@ i {
   box-sizing: border-box;
   margin-top: 20px;
   padding: 20px 55px;
+  /* overflow: scroll; */
+
 }
 @media only screen and (max-width: 768px) {
   .con_pri .box_pri {
