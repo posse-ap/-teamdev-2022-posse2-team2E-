@@ -3,7 +3,7 @@
 session_start();
 
 //ログインされていない場合は強制的にログインページにリダイレクト
-if (!isset($_SESSION["login"])) {
+if (!isset($_SESSION["login"]) || !isset($_SESSION['corporate_name'])) {
     header("Location: agent_login.php");
     exit();
 }
@@ -186,7 +186,7 @@ function set_valid_status($valid_status)
             <table class="students_detail" border="1" width="90%">
                 <tr bgcolor="white">
                     <th bgcolor="#4FA49A">申込日時</th>
-                    <td><?php echo h($result['created']) ?></td>
+                    <td><?php echo date("Y/m/d H:i:s", strtotime($result['created'])) ?></td>
                 </tr>
                 <tr bgcolor="white">
                     <th bgcolor="#4FA49A">氏名</th>
@@ -239,6 +239,24 @@ function set_valid_status($valid_status)
                     <th bgcolor="#4FA49A">問い合わせID</th>
                     <td><?php echo $id ?></td>
                 </tr>
+                <?php if (!empty(h($invalid_requests['invalid_request_memo']))) : ?>
+                    <tr bgcolor="white">
+                        <th bgcolor="red">通報内容</th>
+                        <td><?php echo h($invalid_requests['invalid_request_memo']) ?></td>
+                    </tr>
+            <?php endif; ?>
+            <?php if ($result['valid_status_id'] === 3) : ?>
+                <tr bgcolor="white">
+                    <th bgcolor="red">無効承認理由</th>
+                    <td><?php echo h($result['reason']) ?></td>
+                </tr>
+        <?php endif; ?>
+        <?php if ($result['valid_status_id'] === 4) : ?>
+                <tr bgcolor="white">
+                    <th bgcolor="red">無効申請拒否理由</th>
+                    <td><?php echo h($result['reason']) ?></td>
+                </tr>
+        <?php endif; ?>
             </table>
             <div class="mukou">
                 <a class="back_to_students" href="agent_students_all.php">学生情報一覧に戻る</a>
@@ -258,14 +276,6 @@ function set_valid_status($valid_status)
 
                     <p><input type="submit" class="report_btn" value="通報する"></p>
                 </form>
-            <?php endif; ?>
-            <?php if ($result['valid_status_id'] != 1) : ?>
-                <table>
-                    <tr bgcolor="white">
-                        <th bgcolor="red">通報内容</th>
-                        <td><?php echo h($invalid_requests['invalid_request_memo']) ?></td>
-                    </tr>
-                </table>
             <?php endif; ?>
         </div>
     </div>

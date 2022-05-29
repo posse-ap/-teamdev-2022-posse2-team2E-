@@ -214,7 +214,7 @@ input {
 }
 
  .make_invalid {
-    width: 30%;
+    width: 200px;
     height:70px;
     margin: 20px auto;
     font-size: 30px;
@@ -226,8 +226,17 @@ input {
     cursor :pointer;
  }
 
+ .non_invalid{
+  background: #0d99ff;
+
+ }
+
+ .invalid_operation{
+   margin-top: 50px;
+ }
+
  .invalid_operation label{
-   margin: auto;
+   font-size: large;
  }
 
 .tag_edit_btns {
