@@ -1,6 +1,54 @@
+// var navPos = jQuery( '#global-nav' ).offset().top; // グローバルメニューの位置
+// var navHeight = jQuery( '#global-nav' ).outerHeight(); // グローバルメニューの高さ
+// jQuery( window ).on( 'scroll', function() {
+// 	if ( jQuery( this ).scrollTop() > navPos ) {
+// 	// if ( 1911.34375 > navPos ) {
+// 	// if ( 1911.34375 < jQuery( this ).scrollTop() ) { // 1000px以上スクロールしたら
+// 		jQuery( 'body' ).css( 'padding-top', navHeight );
+// 		jQuery( '#global-nav' ).addClass( 'm_fixed' );
+// 	} else {
+// 		jQuery( 'body' ).css( 'padding-top', 0 );
+// 		jQuery( '#global-nav' ).removeClass( 'm_fixed' );
+// 	}
+// });
 
+$(function () {
+  $('.js-btn').on('click', function () {        // js-btnクラスをクリックすると、
+    $('.menu , .btn-line').toggleClass('open'); // メニューとバーガーの線にopenクラスをつけ外しする
+    $('.btn-line span').toggleClass('open'); // メニューとバーガーの線にopenクラスをつけ外しする
+  })
+});
 
+// console.log(navPos);
+// console.log(navHeight);
 
+// function switchByWidth(){
+//     if (window.matchMedia('(max-width: 1000px)').matches) {
+//     };
+// }
+
+// function disableScroll(event) {
+//   event.preventDefault();
+// }
+
+$(function(){
+　var state = false;
+　var pos;
+　$('#menu-btn-check').click(function(){
+　　if (state == false) {
+　　　pos = $(window).scrollTop();
+　　　$('body').addClass('fixed').css({'top': -pos});
+　　　state = true;
+　　} else {
+　　　$('body').removeClass('fixed').css({'top': 0});
+　　　window.scrollTo(0, pos);
+　　　state = false;
+　　}
+　});
+});
+
+// イベントと関数を紐付け
+// document.addEventListener('touchmove', disableScroll, { passive: false });
 // // 絞り込み
 // var widget = document.getElementById('js-filter');
 // var checkboxes = widget.querySelectorAll('.filter-cond input[type="checkbox"]');
@@ -144,29 +192,53 @@ $(function () {
     //.scroll_topを変数[topBtn]に入れる 
     var topBtn = $('#filter_side');
     var fixed = $('.filter_left_wrapper');
+    // var btn = $('.btn');
     //topBtnはhide()にして見えないようにする 
     topBtn.hide();
     fixed.hide();
+    // btn.hide();
     $(window).scroll(function () {
         //1700pxスクロールしたらtopBtnをフェードイン表示させる 
         if ($(this).scrollTop() > 1500) {
             topBtn.fadeIn();
             fixed.fadeIn();
+            // btn.fadeIn();
+
         } else {
             //もし上にスクロールして1700px未満になったらフェードアウトさせる 
             topBtn.fadeOut();
             fixed.fadeOut();
+            // btn.fadeOut();
+
         }
     });
 });
 
-if (window.matchMedia('(max-width: 767px)').matches) {
-    $(".filter_left_wrapper").addClass("none");
 
-} 
-else if (window.matchMedia('(min-width:768px)').matches) {
-    //PC処理
-}
+$(function () {
+    var btn = $('.btn');
+    btn.hide();
+    $(window).scroll(function () {
+        //1700pxスクロールしたらtopBtnをフェードイン表示させる 
+        if ($(this).scrollTop() > 1800) {
+            btn.fadeIn();
+        } else {
+            //もし上にスクロールして1700px未満になったらフェードアウトさせる 
+            btn.fadeOut();
+        }
+    });
+});
+
+// if (window.matchMedia('(max-width: 1000px)').matches) {
+//     $(".filter_left_wrapper").addClass("dis_none");
+//     $("#filter_side").addClass("dis_none");
+
+// } 
+// else if (window.matchMedia('(min-width:1001px)').matches) {
+//         $(".filter_left_wrapper").removeClass("dis_none");
+//         $("#filter_side").removeClass("dis_none");
+
+// }
 
 // $(function () {
 //         var topBtn = $('#filter_side');

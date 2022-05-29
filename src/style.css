@@ -7,6 +7,7 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
+    z-index: 2;
 }
 
 /* ヘッダー */
@@ -50,6 +51,210 @@ header a {
   font-size: 3vw;
 }
 }
+
+.btn {
+	/* ボタンの配置位置  */
+	position: fixed;
+	top: 16px;
+	right: 16px;
+	/* 最前面に */
+	z-index: 50000;
+	/* ボタンの大きさ  */
+	width: 120px;
+	height: 60px;
+    background-color: #4FA49A;
+    color: white;
+    border-radius: 20rem;
+    border-color: white;
+}
+/***** 真ん中のバーガー線 *****/
+.btn-line {
+	display: block;
+	/* バーガー線の位置基準として設定 */
+	position: relative;
+	/* 線の長さと高さ */
+	width: 100%;
+	height: 4px;
+    right: 10px;
+	/* バーガー線の色 */
+	background-color: transparent;
+	/* background-color: #d6d5d5; */
+	transition: .2s;
+}
+/***** 上下のバーガー線 *****/
+.btn-line::before , .btn-line::after {
+	content: "";
+	/* 基準線と同じ大きさと色 */
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: transparent;
+	/* transition: .5s; */
+}
+.btn-line::before {
+	/* 上の線の位置 */
+	transform: translateY(-100px);
+
+}
+.btn-line::after {
+	/* 下の線の位置 */
+	transform: translateY(100px);
+}
+
+.btn-line span {
+    position: absolute;
+    top: -9px;
+    right: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    }
+
+/***** メニューオープン時 *****/
+.btn-line.open {
+	/* 真ん中の線を透明に */
+	background-color: transparent;
+    content: "";
+    /* top: 16px; */
+    right: -40px;
+    width: 25px;
+}
+
+.btn-line span.open {
+    display: none;
+} 
+
+.btn-line.open::before , .btn-line.open::after {
+	content: "";
+	background-color: #fff;
+	transition: .2s;
+    height: 4px;
+    right: 0px;
+}
+.btn-line.open::before {
+	/* 上の線を傾ける */
+	transform: rotate(45deg);
+}
+.btn-line.open::after {
+	/* 上の線を傾ける */
+	transform: rotate(-45deg);
+    top: 0;
+    right: 0;
+}
+/**************** ここまで、ハンバーガーボタンのスタイリング ****************/
+/**************** 以下、メニューのスタイリング ****************/
+.menu {
+	/* メニューを縦に */
+	/* display: flex;
+	flex-direction: column; */
+	position: fixed;
+	/* メニューの位置マイナス指定で画面外に */
+	right: -100%;
+    top: 0;
+	width: 100%;
+	height: 100vh;
+	background-color: #4FA49A;
+	color: #efefef;
+	transition: .3s;
+}
+
+.menu2 {
+    display: flex;
+}
+
+.menu-list {
+	/* メニューテキスト位置をリスト内中心に */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+}
+.menu-list:hover {
+	background-color: rgba(255, 255, 255, .5);
+	color: #333;
+	cursor: pointer;
+	transition: .3s;
+}
+/***** メニューオープン時位置0にして画面内に *****/
+.menu.open {
+	/* position: absolute; */
+	right: 0;
+    top: 0;
+    z-index: 10000;
+}
+
+.to_left {
+    text-align: left;
+}
+
+/* 1000px以上はハンバーガーボタン非表示、ヘッダー固定 */
+@media screen and (min-width: 1000px) {
+	.btn {
+		display: none;
+	}
+}
+
+/**************** ここまで、メニューのスタイリング ****************/
+
+/* .global-list {
+	display: flex;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.global-item {
+	border-left: 1px solid #fff;
+	width: 20%;
+}
+
+.global-item:last-child {
+	border-right: 1px solid #fff;
+	margin-right: 0;
+}
+
+.global-item a {
+	background: #16244e;
+	color: #fff;
+	display: block;
+	line-height: 50px;
+	text-align: center;
+	text-decoration: none;
+} */
+
+/* 
+#menu-btn-check {
+display: none;
+}
+
+.menu-content {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 100%;
+    z-index: 80;
+    background-color: #3584bb;
+    transition: all .5s;
+}
+
+#menu-btn-check:checked ~ .menu-content {
+    left: 0;/*メニューを画面内へ*/
+/* } */
+
+
+/* .menu-content ul li a::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-top: solid 2px #ffffff;
+    border-right: solid 2px #ffffff;
+    transform: rotate(45deg);
+    position: absolute;
+    right: 11px;
+    top: 16px;
+} */
+
 
 .first_message{
     width: 100vw;
@@ -518,7 +723,7 @@ header a {
 [data-filter-view][data-filter-view~="総合型"] [data-filter-key="総合型"],
 [data-filter-view][data-filter-view~="大手志望"] [data-filter-key="大手志望"] {
     display: block;
-}
+}x
 
 container{
     /* margin-top: 50rem; */
@@ -544,12 +749,23 @@ container{
     height: 100vh;
 } */
 
+
 .agent_all_title {
-  font-size: 60rem;
-  font-weight: bold;
-  margin: 10rem 0 100rem;
+    color: rgb(102, 102, 102);
+    font-size: 50rem;
+    width: 400rem;
+    font-weight: bold;
+    margin: 20rem 20rem 0rem 6vw;
+    /* background: rgba(0, 0, 0, 0) linear-gradient(transparent 80%, #4FA49A 0%) repeat scroll 0 0; */
+    /* margin-left: 6vw; */
 }
 
+@media only screen and (max-width: 1000px) {
+    .agent_all_title {
+        text-align: center;
+        margin: 20rem auto 40rem;
+    }
+}
 .filter-items{
     /* width: 80%;
     display: flex;
@@ -616,7 +832,7 @@ container{
     justify-content: space-between;
     align-items: center;
     font-size: 25rem;
-    padding-top: 50rem;
+    padding-top: 20rem;
     }
 
 /* .filter_btn button{
@@ -624,6 +840,7 @@ container{
     height: 50rem;
     border-radius: 20rem;
 } */
+
 
 .reset_btn{
 
@@ -705,11 +922,12 @@ container{
 
 .none {
     /* display: none; */
-    /* opacity: 0.4; */
     opacity: 0;
-        /* -o-transition: all .8s ease-in-out;
-    -webkit-transition: all .8s ease-in-out;
-    transition: all .8s ease-in-out; */
+}
+
+.dis_none {
+    /* display: none; */
+    opacity: 0;
 }
 
 .trigger_keep_btn:hover {
@@ -828,7 +1046,7 @@ color: #fff !important;
     /* height: 100vh; */
     /* position: sticky; */
     top: 10px;
-    z-index: 1;
+    z-index: 70000;
     /* height: 600rem; */
     /* margin-top: 100rem; */
     /* border-radius: 20rem 20rem 0; */
@@ -887,7 +1105,7 @@ color: #fff !important;
     display: flex;
     align-items: center;
     margin: 5rem;
-    width: 120rem;
+    width: 110rem;
     padding: 0;
 }
 
@@ -965,7 +1183,7 @@ color: #fff !important;
 
     .agent_box {
         width: 58vw;
-        height: 400rem;
+        height: 350rem;
     }
 
     .agent_article {
@@ -981,8 +1199,37 @@ color: #fff !important;
     }
 }
 
-@media only screen and (max-width: 900px) {
-    .filter_items {
+@media only screen and (max-width: 1200px) {
+
+    .agent_box {
+        height: 400rem;
+    }
+}
+
+/* @media only screen and (max-width: 1000px) {
+
+    .filter_left_wrapper {
+        width: 0;
+        padding: 0;
+    }
+
+    #filter_side {
+        width: 0;
+        padding: 0;
+    }
+} */
+
+
+@media only screen and (max-width: 1200px) {
+    .container {
+        margin-top: 25rem;
+    }
+    }
+
+
+@media only screen and (max-width: 1000px) {
+
+    .filter-items {
         margin: 0;
     }
 
@@ -1021,11 +1268,7 @@ color: #fff !important;
 @media only screen and (max-width: 600px) {
     .agent_box {
         padding: 12rem;
-        height: 450rem;
-    }
-
-    .agent_article_footer {
-        flex-direction: column;
+        height: 420rem;
     }
 
     .agent_article_footer label {
@@ -1131,7 +1374,7 @@ color: #fff !important;
     padding: 0;
 }
 
-@media only screen and (max-width: 1100px) {
+@media only screen and (max-width: 1200px) {
     .recommend_points_box {
         height: 24rem;
     }
@@ -1719,12 +1962,6 @@ label input + span:before {
     }
 }
 
-@media only screen and (max-width: 1100px){
-    .js_target.js_selected {
-    display: flex;
-    flex-direction: column;
-    }
-}
 /* 
 @media only screen and (max-width: 900px){
 
@@ -1737,9 +1974,14 @@ label input + span:before {
 @media only screen and (max-width: 600px){
     
     .agent_img {
-        width: 80rem;
+        width: 100rem;
         height: 80rem;
         padding-left: 1vw;
+    }
+
+        .agent_all_title {
+        font-size: 7vw;
+        width: 350rem;
     }
 
     .for_keep_btn {
@@ -1750,6 +1992,7 @@ label input + span:before {
         width: 65px;
         height: 65px;
         border-radius: 50%;
+        box-shadow: 1px 0px 10px 0px rgb(0 0 0 / 60%);
     }
 
     label input + span:before {
@@ -1770,9 +2013,25 @@ label input + span:before {
     .span_published {
         width: 100%;
     }
+
+    .agent_article_footer {
+    margin: 20rem 10rem 0rem 10rem;
+    }
 }
 
 @media only screen and (max-width: 400px){
+
+        .agent_all_title {
+        font-size: 7vw;
+        width: 300rem;
+    }
+
+    .agent_img {
+        width: 100rem;
+        height: 60rem;
+        padding-left: 1vw;
+    }
+
     .for_keep_btn {
         font-size: 14px;
         width: 40px;
@@ -1782,6 +2041,12 @@ label input + span:before {
     .span_published {
         font-size: 14px;
     }
+
+        .agent_article_footer {
+    margin: 35rem 10rem 0rem 10rem;
+    }
+
+
 }
 
 
@@ -1847,6 +2112,15 @@ label input + span:before {
     cursor: pointer;
     
   }
+
+
+@media only screen and (max-width: 1100px){
+    .js_target.js_selected {
+    display: flex;
+    flex-direction: column;
+    }
+}
+
 
 .inquiry_done {
     width: 60%;
