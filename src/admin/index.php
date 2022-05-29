@@ -101,6 +101,7 @@ try {
   $stmt = $db->prepare('select * from agents where list_status !=? order by id desc');
   $stmt->execute([1]);
   $non_listed_agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  // var_dump($non_listed_agents);
 
   // タグ表示テスト
 
@@ -237,7 +238,7 @@ try {
           <tr>
             <td><?php echo $non_listed_agent['insert_company_name'] ?></td>
             <td><?php echo date("Y/m/d", strtotime($non_listed_agent['started_at'])) . '~' . date("Y/m/d", strtotime($non_listed_agent['ended_at'])) ?></td>
-            <td><?php echo set_list_status($non_listed_agent['list_status']); ?></td>
+            <td><?php echo ($non_listed_agent['list_status']); ?></td>
             <td><a href="detail.php?id=<?php echo $non_listed_agent['id']; ?>">詳細</a></td>
             <td><a href="contact/contact.php?id=<?php echo $non_listed_agent['id']; ?> ">問い合わせ一覧</a></td>
             <td><a href="delete.php?id=<?php echo $non_listed_agent['id']; ?>" onclick="return confirm('本当に削除しますか? 一度削除すると復元できません。')">削除</a></td>

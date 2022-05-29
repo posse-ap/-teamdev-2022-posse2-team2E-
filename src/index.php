@@ -3,41 +3,41 @@ require('db_connect.php');
 
 try {
     // 全てのエージェントの掲載ステータスをupdateする。
-    date_default_timezone_set('Asia/Tokyo');
-    $today = date("Y-m-d");
+    // date_default_timezone_set('Asia/Tokyo');
+    // $today = date("Y-m-d");
 
-    // 掲載再開
-    $stmt = $db->prepare('update agents set list_status=1 where started_at <= :started_at and ended_at >= :ended_at');
-    $stmt->bindValue(':started_at', $today, PDO::PARAM_STR);
-    $stmt->bindValue(':ended_at', $today, PDO::PARAM_STR);
-    $success = $stmt->execute();
-    if (!$success) {
-        die($db->error);
-    }
+    // // 掲載再開
+    // $stmt = $db->prepare('update agents set list_status=1 where started_at <= :started_at and ended_at >= :ended_at');
+    // $stmt->bindValue(':started_at', $today, PDO::PARAM_STR);
+    // $stmt->bindValue(':ended_at', $today, PDO::PARAM_STR);
+    // $success = $stmt->execute();
+    // if (!$success) {
+    //     die($db->error);
+    // }
 
     // // 申し込み上限数到達(今月の申し込み数と比較)
     // // 全てのエージェントでforeach
     // // 全てのエージェント
-    $stmt = $db->query('select id from agents');
-    $stmt->execute();
-    $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // $stmt = $db->query('select id from agents');
+    // $stmt->execute();
+    // $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // 今月の申し込み数
-    foreach ($agents as $agent) {
-        $stmt = $db->prepare('SELECT * FROM students AS S, students_contacts AS SC, agents AS A WHERE S.id = SC.student_id AND SC.agent_id = A.id AND SC.agent_id = :agent_id AND DATE_FORMAT(S.created, "%Y-%m") = :form_month ');
-        $stmt->bindValue(':form_month', Date('Y-m'), PDO::PARAM_STR);
-        $stmt->bindValue(':agent_id', $agent['id'], PDO::PARAM_INT);
-        $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $cnt = count($result);
-        // 比較
-        $stmt = $db->prepare('update agents set list_status=3 where id= :id and application_max <= :application');
-        $stmt->bindValue(':id', $agent['id'], PDO::PARAM_INT);
-        $stmt->bindValue(':application', $cnt, PDO::PARAM_INT);
-        $success = $stmt->execute();
-        if (!$success) {
-            die($db->error);
-        }
+    //     // 今月の申し込み数
+    // foreach ($agents as $agent) {
+    //     $stmt = $db->prepare('SELECT * FROM students AS S, students_contacts AS SC, agents AS A WHERE S.id = SC.student_id AND SC.agent_id = A.id AND SC.agent_id = :agent_id AND DATE_FORMAT(S.created, "%Y-%m") = :form_month ');
+    //     $stmt->bindValue(':form_month', Date('Y-m'), PDO::PARAM_STR);
+    //     $stmt->bindValue(':agent_id', $agent['id'], PDO::PARAM_INT);
+    //     $stmt->execute();
+    //     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    //     $cnt = count($result);
+    //     // 比較
+    //     $stmt = $db->prepare('update agents set list_status=3 where id= :id and application_max <= :application');
+    //     $stmt->bindValue(':id', $agent['id'], PDO::PARAM_INT);
+    //     $stmt->bindValue(':application', $cnt, PDO::PARAM_INT);
+    //     $success = $stmt->execute();
+    //     if (!$success) {
+    //         die($db->error);
+    //     }
 
     //     // タグ不足
     //     $stmt = $db->prepare('select tag_id from agents_tags where agent_id=:id');
@@ -69,18 +69,18 @@ try {
     //         die($db->error);
     //     }
     // }
-        // ここまで
-    }
+    //     // ここまで
+    // }
 
-    // 掲載期間外
-    $stmt = $db->prepare('update agents set list_status=2 where started_at > :started_at or ended_at < :ended_at');
-    $stmt->bindValue(':started_at', $today, PDO::PARAM_STR);
-    $stmt->bindValue(':ended_at', $today, PDO::PARAM_STR);
-    $success = $stmt->execute();
-    if (!$success) {
-        die($db->error);
-    }
-    // upadateここまで
+    // // 掲載期間外
+    // $stmt = $db->prepare('update agents set list_status=2 where started_at > :started_at or ended_at < :ended_at');
+    // $stmt->bindValue(':started_at', $today, PDO::PARAM_STR);
+    // $stmt->bindValue(':ended_at', $today, PDO::PARAM_STR);
+    // $success = $stmt->execute();
+    // if (!$success) {
+    //     die($db->error);
+    // }
+    // // upadateここまで
 
     $stmt = $db->prepare('select * from agents where list_status=?');
     $stmt->execute([1]);
