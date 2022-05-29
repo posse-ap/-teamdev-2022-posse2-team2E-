@@ -71,14 +71,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $invalid_requests = "";
         }
         
-        $subject = '【Boozer株式会社】問い合わせ無効承認のお知らせ';
+        $subject = '【boozer株式会社】問い合わせ無効承認のお知らせ';
         $message =  "
     ※このメールはシステムからの自動返信です
     
     " . $agent['client_name'] . "様
 
     お世話になっております。
-    Boozer株式会社でございます。
+    boozer株式会社でございます。
     以下の学生を請求対象からお外ししました。
     
     ━━━━━━□■□　学生情報　□■□━━━━━━
