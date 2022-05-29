@@ -23,36 +23,37 @@ try {
     $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // // 今月の申し込み数
-     foreach ($agents as $agent) {
-         $stmt = $db->prepare('SELECT * FROM students AS S, students_contacts AS SC, agents AS A WHERE S.id = SC.student_id AND SC.agent_id = A.id AND SC.agent_id = :agent_id AND DATE_FORMAT(S.created, "%Y-%m") = :form_month ');
-         $stmt->bindValue(':form_month', Date('Y-m'), PDO::PARAM_STR);
-         $stmt->bindValue(':agent_id', $agent['id'], PDO::PARAM_INT);
-         $stmt->execute();
-         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-         $cnt = count($result);
-         // 比較
-         $stmt = $db->prepare('update agents set list_status=3 where id= :id and application_max <= :application');
-         $stmt->bindValue(':id', $agent['id'], PDO::PARAM_INT);
-         $stmt->bindValue(':application', $cnt, PDO::PARAM_INT);
-         $success = $stmt->execute();
+    foreach ($agents as $agent) {
+        $stmt = $db->prepare('SELECT * FROM students AS S, students_contacts AS SC, agents AS A WHERE S.id = SC.student_id AND SC.agent_id = A.id AND SC.agent_id = :agent_id AND DATE_FORMAT(S.created, "%Y-%m") = :form_month ');
+        $stmt->bindValue(':form_month', Date('Y-m'), PDO::PARAM_STR);
+        $stmt->bindValue(':agent_id', $agent['id'], PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $cnt = count($result);
+        // 比較
+        $stmt = $db->prepare('update agents set list_status=3 where id= :id and application_max <= :application');
+        $stmt->bindValue(':id', $agent['id'], PDO::PARAM_INT);
+        $stmt->bindValue(':application', $cnt, PDO::PARAM_INT);
+        $success = $stmt->execute();
         if (!$success) {
             die($db->error);
         }
     }
 
-     // 掲載期間外
-     $stmt = $db->prepare('update agents set list_status=2 where started_at > :started_at or ended_at < :ended_at');
-     $stmt->bindValue(':started_at', $today, PDO::PARAM_STR);
-     $stmt->bindValue(':ended_at', $today, PDO::PARAM_STR);
-     $stmt->execute();
-     $success = $stmt->execute();
-     if (!$success) {
-         die($db->error);
-     }
-     // upadateここまで
+    // 掲載期間外
+    $stmt = $db->prepare('update agents set list_status=2 where started_at > :started_at or ended_at < :ended_at');
+    $stmt->bindValue(':started_at', $today, PDO::PARAM_STR);
+    $stmt->bindValue(':ended_at', $today, PDO::PARAM_STR);
+    $stmt->execute();
+    $success = $stmt->execute();
+    if (!$success) {
+        die($db->error);
+    }
+    // upadateここまで
 
-    $stmt = $db->prepare('select * from agents where list_status=?');
-    $stmt->execute([1]);
+    // $stmt = $db->prepare('select * from agents where list_status=?');
+    // $stmt->execute([1]);
+    $stmt = $db->query('select * from agents where list_status=1 ORDER BY id desc');
     $listed_agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo '接続失敗';
@@ -83,7 +84,7 @@ foreach ($agents_tags as $a) {
 if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['back_index'])) {
     $student_contacts = $_SESSION['back_index'];
     // var_dump($student_contacts);
-  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -103,15 +104,83 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
     <!-- ヘッダー -->
     <header>
         <img src="logo.png" alt="">
-        <nav>
+        <!-- <nav>
             <ul>
                 <li><a href="#">就活サイト</a></li>
                 <li><a href="#">就活支援サービス</a></li>
                 <li><a href="#">就活の教科書とは</a></li>
                 <li><a href="#">お問い合わせ</a></li>
             </ul>
+        </nav> -->
+        <button type="button" class="btn js-btn">
+            <span class="btn-line">
+                <span>絞り込む</span>
+            </span>
+        </button>
+        <nav>
+            <ul class="menu">
+                <div class="filter_left_wrapper2">
+                    <div class="filter-cond2" id="filter_side2">
+                        <div id="select">
+                            <p class="filter_num_all to_left">
+                                <span class="filter_num  js_numerator"></span>件／全<span class="el_searchResult js_denominator"></span>件
+                            </p>
+                            <div class="filter_box">
+                                <p class="filter_script">絞り込み条件</p>
+                                <?php foreach ($t_list as $filter_sort) : ?>
+                                    <div class="filter_sort_name"><?= current($filter_sort)['sort_name']; ?></div>
+                                    <div class="each_filter_box js_conditions" data-type="<?= current($filter_sort)['id']; ?>">
+                                        <?php foreach ($filter_sort as $filter_tag) : ?>
+                                            <span class="w bl_selectBlock_check">
+                                                <input type="checkbox" name="agent_tags[]" class="checks" id="form" value="<?= $filter_tag['tag_name'] ?>" />
+                                                <label class="added-tag">
+                                                    <?= $filter_tag['tag_name']; ?>
+                                                </label>
+                                            </span>
+                                        <?php endforeach; ?>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <div class="filter_btn">
+                                <div class="flex_btn">
+                                    <div class="reset_btn  js_release" id="uncheck-btn" type="reset">リセット</div>
+                                    <!-- <button class="reset_btn" id="uncheck-btn" type="reset">リセット</button> -->
+                                    <button class="reset_btn to_filter_btn" id="uncheck-btn" type="reset">絞りこむ</button>
+                                </div>
+                                <!-- <div class="all_btn" id="check-btn" type="button"></div> -->
+                                <!-- <button class="trigger_keep_btn"><label for="trigger_keep">キープ：<span id="counter_dis" ><div class="tohokuret">0</div></span>件<br>確認する</label></button> -->
+                                <button class="trigger_keep_btn btn_gray" id="trigger_keep_btn"><label for="trigger_keep"><span id="counter_dis">
+                                            <div class="tohokuret btn_gray" id="tohokuret">0</div>
+                                        </span>件キープ中<br>確認する</label></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <li><a href="#">就活サイト</a></li>
+                <li><a href="#">就活支援サービス</a></li>
+                <li><a href="#">就活の教科書とは</a></li>
+                <li><a href="#">お問い合わせ</a></li> -->
+            </ul>
+            <ul class="menu2">
+                <li><a href="#">就活サイト</a></li>
+                <li><a href="#">就活支援</a></li>
+                <li><a href="#">就活の教科書とは</a></li>
+                <li><a href="#">お問い合わせ</a></li>
+            </ul>
         </nav>
     </header>
+
+    <!-- <nav id="global-nav">
+        <div class="inner">
+            <ul class="global-list">
+                <li class="global-item"><a href="#section1">セクション１</a></li>
+                <li class="global-item"><a href="#section2">セクション２</a></li>
+                <li class="global-item"><a href="#section3">セクション３</a></li>
+                <li class="global-item"><a href="#section4">セクション４</a></li>
+                <li class="global-item"><a href="#section5">セクション５</a></li>
+            </ul>
+        </div>
+    </nav> -->
 
     <wrapper>
         <div class="first_message ">
@@ -146,6 +215,12 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
             </div>
         </div>
         <img src="agent_person.png" alt="" class="agent_person">
+
+
+
+
+
+        <h3 class="agent_all_title">エージェント一覧</h3>
         <container class="filter" id="js-filter">
             <!-- 各エージェント -->
             <ul class="filter-items">
