@@ -552,11 +552,8 @@ $(function () {
 });
 
 const scrollBlue = function () {
-    const blueLeft = document.getElementById("blue").getBoundingClientRect().left;
-    const blueTop = document.getElementById("blue").getBoundingClientRect().bottom;
     window.scrollTo({
-        left: blueLeft,
-        top: blueTop,
+        top: 1700,         
         behavior: 'smooth'
     });
 };

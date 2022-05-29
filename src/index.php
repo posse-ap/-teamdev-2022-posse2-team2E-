@@ -180,7 +180,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
             </div>
         </div>
         <img src="agent_person.png" alt="" class="agent_person">
-        <container class="filter" id="js-filter">
+        <container  class="filter" id="js-filter">
             
             <!-- 各エージェント -->
             <ul  class="filter-items">
@@ -266,7 +266,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
                         </div>
                         <div class="filter_btn">
                             <div class="flex_btn">
-                                <div class="reset_btn  js_release" id="uncheck-btn" type="reset">リセット</div>
+                                <div onclick="scrollBlue()" class="reset_btn  js_release" id="uncheck-btn" type="reset">リセット</div>
                                 <!-- <button class="reset_btn" id="uncheck-btn" type="reset">リセット</button> -->
                                 <button class="reset_btn to_filter_btn" id="uncheck-btn" type="reset">絞りこむ</button>
                             </div>
@@ -356,7 +356,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
     </wrapper>
 
     <footer>
-        <div class="inquiry">
+        <div  class="inquiry">
             <p>
                 craft運営 boozer株式会社事務局
                 <br>TEL:080-3434-2435
