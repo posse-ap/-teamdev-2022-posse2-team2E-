@@ -150,49 +150,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
             </span>
         </button>
         <nav>
-            <ul class="menu">
-                <div class="filter_left_wrapper2">
-                    <div class="filter-cond2" id="filter_side2">
-                        <div id="select">
-                            <p class="filter_num_all to_left">
-                                <span class="filter_num  js_numerator"></span>件／全<span class="el_searchResult js_denominator"></span>件
-                            </p>
-                            <div class="filter_box">
-                                <p class="filter_script">絞り込み条件</p>
-                                <?php foreach ($t_list as $filter_sort) : ?>
-                                    <div class="filter_sort_name"><?= current($filter_sort)['sort_name']; ?></div>
-                                    <div class="each_filter_box js_conditions" data-type="<?= current($filter_sort)['id']; ?>">
-                                        <?php foreach ($filter_sort as $filter_tag) : ?>
-                                            <span class="w bl_selectBlock_check">
-                                                <input type="checkbox" name="agent_tags[]" class="checks" id="form" value="<?= $filter_tag['tag_name'] ?>" />
-                                                <label class="added-tag">
-                                                    <?= $filter_tag['tag_name']; ?>
-                                                </label>
-                                            </span>
-                                        <?php endforeach; ?>
-                                    </div>
-                                <?php endforeach; ?>
-                            </div>
-                            <div class="filter_btn">
-                                <div class="flex_btn">
-                                    <div class="reset_btn  js_release" id="uncheck-btn" type="reset">リセット</div>
-                                    <!-- <button class="reset_btn" id="uncheck-btn" type="reset">リセット</button> -->
-                                    <button class="reset_btn to_filter_btn" id="uncheck-btn" type="reset">絞りこむ</button>
-                                </div>
-                                <!-- <div class="all_btn" id="check-btn" type="button"></div> -->
-                                <!-- <button class="trigger_keep_btn"><label for="trigger_keep">キープ：<span id="counter_dis" ><div class="tohokuret">0</div></span>件<br>確認する</label></button> -->
-                                <button class="trigger_keep_btn btn_gray" id="trigger_keep_btn"><label for="trigger_keep"><span id="counter_dis">
-                                            <div class="tohokuret btn_gray" id="tohokuret">0</div>
-                                        </span>件キープ中<br>確認する</label></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- <li><a href="#">就活サイト</a></li>
-                <li><a href="#">就活支援サービス</a></li>
-                <li><a href="#">就活の教科書とは</a></li>
-                <li><a href="#">お問い合わせ</a></li> -->
-            </ul>
+
             <ul class="menu2">
                 <li><a href="#">就活サイト</a></li>
                 <li><a href="#">就活支援</a></li>
@@ -251,31 +209,29 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
         <h3 class="agent_all_title">エージェント一覧</h3>
         <container class="filter" id="js-filter">
             <!-- 各エージェント -->
-            <ul  class="filter-items">
+            <ul class="filter-items">
                 <form action="entry.php" method="post" id="inquiry_submit">
                     <?php foreach ($listed_agents as $listed_agent) : ?>
                         <?php foreach ($at_list as $agent_tags) : ?>
                             <?php if ($listed_agent['id'] === current($agent_tags)['agent_id']) : ?>
 
-                                    <li class="agent_box js_target" id="tohoku_<?php echo $listed_agent['id'] ?>" 
-                                        <?php 
-                                        $tag_name = "";
-                                        foreach ($agent_tags as $index => $agent_tag) {
-                                            if ($tag_name == "") {
-                                                $tag_name = $agent_tag['tag_name'];
-                                            } else {
-                                                $tag_name .= ',' . $agent_tag['tag_name'];
-                                            }
-                                            if ($agent_tags[$index]['sort_id'] != $agent_tags[$index + 1]['sort_id']){
-                                            
-                                            echo "data-"  . $agent_tag['sort_id'] . "=" . "'" . $tag_name . "'";
-                                            $tag_name = "";
-                                            }
-                                        }
-                                        ?>
-                                        >
+                                <li class="agent_box js_target" id="tohoku_<?php echo $listed_agent['id'] ?>" <?php
+                                                                                                                $tag_name = "";
+                                                                                                                foreach ($agent_tags as $index => $agent_tag) {
+                                                                                                                    if ($tag_name == "") {
+                                                                                                                        $tag_name = $agent_tag['tag_name'];
+                                                                                                                    } else {
+                                                                                                                        $tag_name .= ',' . $agent_tag['tag_name'];
+                                                                                                                    }
+                                                                                                                    if ($agent_tags[$index]['sort_id'] != $agent_tags[$index + 1]['sort_id']) {
 
-                                    
+                                                                                                                        echo "data-"  . $agent_tag['sort_id'] . "=" . "'" . $tag_name . "'";
+                                                                                                                        $tag_name = "";
+                                                                                                                    }
+                                                                                                                }
+                                                                                                                ?>>
+
+
 
                                     <img class="agent_img" src="img/insert_logo/<?php echo $listed_agent['insert_logo'] ?>" alt="企業ロゴ">
                                     <div class="agent_article">
@@ -320,43 +276,53 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
             </ul>
 
             <!-- フィルター -->
-            <div class="filter_left_wrapper">
-                <div class="filter-cond" id="filter_side">
-                    <div id="select">
-                        <p class="filter_num_all">
-                            <span class="filter_num  js_numerator"></span>件／全<span class="el_searchResult js_denominator"></span>件
-                        </p>
-                        <div class="filter_box">
-                            <p class="filter_script">絞り込み条件</p>
-                            <?php foreach ($t_list as $filter_sort) : ?>
-                                <div class="filter_sort_name"><?= current($filter_sort)['sort_name']; ?></div>
-                                <div class="each_filter_box js_conditions" data-type="<?= current($filter_sort)['id']; ?>">
-                                    <?php foreach ($filter_sort as $filter_tag) : ?>
-                                        <span class="w bl_selectBlock_check ">
-                                        <label class="added-tag " >
-                                            <input onclick="scrollBlue()" type="checkbox" name="agent_tags[]" class="checks" id="form" value="<?= $filter_tag['tag_name'] ?>" />
-                                                <?= $filter_tag['tag_name']; ?>
-                                            </label>
-                                        </span>
+                <ul class="menu">
+                    <div class="filter_left_wrapper">
+                        <div class="filter-cond" id="filter_side">
+                            <div id="select">
+                                <p class="filter_num_all">
+                                    <span class="filter_num  js_numerator"></span>件／全<span class="el_searchResult js_denominator"></span>件
+                                </p>
+                                <div class="filter_box">
+                                    <p class="filter_script">絞り込み条件</p>
+                                    <?php foreach ($t_list as $filter_sort) : ?>
+                                        <div class="filter_sort_name"><?= current($filter_sort)['sort_name']; ?></div>
+                                        <div class="each_filter_box js_conditions" data-type="<?= current($filter_sort)['id']; ?>">
+                                            <?php foreach ($filter_sort as $filter_tag) : ?>
+                                                <span class="w bl_selectBlock_check ">
+                                                    <label class="added-tag ">
+                                                        <input onclick="scrollBlue()" type="checkbox" name="agent_tags[]" class="checks" id="form" value="<?= $filter_tag['tag_name'] ?>" />
+                                                        <?= $filter_tag['tag_name']; ?>
+                                                    </label>
+                                                </span>
+                                            <?php endforeach; ?>
+                                        </div>
                                     <?php endforeach; ?>
                                 </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <div class="filter_btn">
-                            <div class="flex_btn">
-                                <div onclick="scrollBlue()" class="reset_btn  js_release" id="uncheck-btn" type="reset">リセット</div>
-                                <!-- <button class="reset_btn" id="uncheck-btn" type="reset">リセット</button> -->
-                                <button class="reset_btn to_filter_btn" id="uncheck-btn" type="reset">絞りこむ</button>
+                                <div class="filter_btn">
+                                    <div class="flex_btn">
+                                        <div onclick="scrollBlue()" class="reset_btn  js_release" id="uncheck-btn" type="reset">リセット</div>
+                                    </div>
+                                    <button class="trigger_keep_btn btn_gray" id="trigger_keep_btn"><label for="trigger_keep"><span id="counter_dis">
+                                                <div class="tohokuret btn_gray" id="tohokuret">0</div>
+                                            </span>件キープ中<br>確認する</label></button>
+                                </div>
                             </div>
-                            <!-- <div class="all_btn" id="check-btn" type="button"></div> -->
-                            <!-- <button class="trigger_keep_btn"><label for="trigger_keep">キープ：<span id="counter_dis" ><div class="tohokuret">0</div></span>件<br>確認する</label></button> -->
-                            <button class="trigger_keep_btn btn_gray" id="trigger_keep_btn"><label for="trigger_keep"><span id="counter_dis">
-                                        <div class="tohokuret btn_gray" id="tohokuret">0</div>
-                                    </span>件キープ中<br>確認する</label></button>
                         </div>
+
                     </div>
-                </div>
+                </ul>
             </div>
+
+
+            <button class="trigger_keep_btn2 btn_gray" id="trigger_keep_btn">
+                <label for="trigger_keep">
+                    <span id="counter_dis" class="right_down_btn">
+                        <div class="tohokuret btn_gray" id="tohokuret">0</div>
+                    </span>件キープ中<br>確認する
+                </label>
+            </button>
+
 
             <!-- キープ一覧のモーダル -->
             <div class="modal_keep" id="modal_keep">
@@ -434,7 +400,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
     </wrapper>
 
     <footer>
-        <div  class="inquiry">
+        <div class="inquiry">
             <p>
                 craft運営 boozer株式会社事務局
                 <br>TEL:080-3434-2435
