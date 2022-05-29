@@ -130,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <li class="header-nav-item">エージェント追加</li>
           </a>
           <a href="../tags/tagsEdit.php">
-            <li class="header-nav-item select">タグ追加/編集</li>
+            <li class="header-nav-item select">タグ編集</li>
           </a>
           <a href="../login/loginInfo.php">
             <li class="header-nav-item">ログイン情報</li>
@@ -197,7 +197,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <?php endforeach; ?>
         </table>
         
-      <div><a href="tagsEdit.php">&laquo;&nbsp;タグ一覧に戻る</a> | <input type="submit" value="編集を完了する" /></div>
+      <div><a href="tagsEdit.php">&laquo;&nbsp;タグ編集に戻る</a> | <input type="submit" value="編集を完了する" /></div>
     </form>
   </main>
 </body>

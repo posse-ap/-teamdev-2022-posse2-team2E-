@@ -180,7 +180,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
             </div>
         </div>
         <img src="agent_person.png" alt="" class="agent_person">
-        <container class="filter" id="js-filter">
+        <container  class="filter" id="js-filter">
             
             <!-- 各エージェント -->
             <ul  class="filter-items">
@@ -194,6 +194,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
                                         data-<?= $agent_tag['sort_id']; ?>="<?= $agent_tag['tag_name'] ?>"
                                     <?php endforeach; ?>
                                     >
+
                                     
 
                                     <img class="agent_img" src="img/insert_logo/<?php echo $listed_agent['insert_logo'] ?>" alt="企業ロゴ">
@@ -251,12 +252,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
                                 <div class="filter_sort_name"><?= current($filter_sort)['sort_name']; ?></div>
                                 <div class="each_filter_box js_conditions" data-type="<?= current($filter_sort)['id']; ?>">
                                     <?php foreach ($filter_sort as $filter_tag) : ?>
-                                        <span class="w bl_selectBlock_check">
-
-                                        
+                                        <span class="w bl_selectBlock_check ">
+                                        <label class="added-tag " >
                                             <input onclick="scrollBlue()" type="checkbox" name="agent_tags[]" class="checks" id="form" value="<?= $filter_tag['tag_name'] ?>" />
-                                            <label class="added-tag" >
-
                                                 <?= $filter_tag['tag_name']; ?>
                                             </label>
                                         </span>
@@ -266,7 +264,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
                         </div>
                         <div class="filter_btn">
                             <div class="flex_btn">
-                                <div class="reset_btn  js_release" id="uncheck-btn" type="reset">リセット</div>
+                                <div onclick="scrollBlue()" class="reset_btn  js_release" id="uncheck-btn" type="reset">リセット</div>
                                 <!-- <button class="reset_btn" id="uncheck-btn" type="reset">リセット</button> -->
                                 <button class="reset_btn to_filter_btn" id="uncheck-btn" type="reset">絞りこむ</button>
                             </div>
@@ -356,7 +354,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
     </wrapper>
 
     <footer>
-        <div class="inquiry">
+        <div  class="inquiry">
             <p>
                 craft運営 boozer株式会社事務局
                 <br>TEL:080-3434-2435
