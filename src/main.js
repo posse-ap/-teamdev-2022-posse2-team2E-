@@ -96,6 +96,50 @@ $(window).scroll(function () {
     }
 });
 
+
+// function switchByWidth(){
+//     if (window.matchMedia('(max-width: 1000px)').matches) {
+        
+//     //.scroll_topを変数[topBtn]に入れる 
+//     var topBtn = $('#filter_side');
+//     var fixed = $('.filter_left_wrapper');
+//     //topBtnはhide()にして見えないようにする 
+//     topBtn.hide();
+//     fixed.hide();
+//     $(window).scroll(function () {
+//         //1300pxスクロールしたらtopBtnをフェードイン表示させる 
+//         if ($(this).scrollTop() > 600) {
+//             topBtn.fadeIn();
+//             fixed.fadeIn();
+//         } else {
+//             //もし上にスクロールして1300px未満になったらフェードアウトさせる 
+//             topBtn.fadeOut();
+//             fixed.fadeOut();
+//         }
+//     });
+//     } else if (window.matchMedia('(min-width:1001px)').matches) {
+        
+//     //.scroll_topを変数[topBtn]に入れる 
+//     var topBtn = $('#filter_side');
+//     var fixed = $('.filter_left_wrapper');
+//     //topBtnはhide()にして見えないようにする 
+//     topBtn.hide();
+//     fixed.hide();
+//     $(window).scroll(function () {
+//         //1300pxスクロールしたらtopBtnをフェードイン表示させる 
+//         if ($(this).scrollTop() > 1600) {
+//             topBtn.fadeIn();
+//             fixed.fadeIn();
+//         } else {
+//             //もし上にスクロールして1300px未満になったらフェードアウトさせる 
+//             topBtn.fadeOut();
+//             fixed.fadeOut();
+//         }
+//     });
+//     }
+// }
+
+
 $(function () {
     //.scroll_topを変数[topBtn]に入れる 
     var topBtn = $('#filter_side');
@@ -104,17 +148,25 @@ $(function () {
     topBtn.hide();
     fixed.hide();
     $(window).scroll(function () {
-        //1300pxスクロールしたらtopBtnをフェードイン表示させる 
-        if ($(this).scrollTop() > 1600) {
+        //1700pxスクロールしたらtopBtnをフェードイン表示させる 
+        if ($(this).scrollTop() > 1700) {
             topBtn.fadeIn();
             fixed.fadeIn();
         } else {
-            //もし上にスクロールして1300px未満になったらフェードアウトさせる 
+            //もし上にスクロールして1700px未満になったらフェードアウトさせる 
             topBtn.fadeOut();
             fixed.fadeOut();
         }
     });
 });
+
+if (window.matchMedia('(max-width: 767px)').matches) {
+    $(".filter_left_wrapper").addClass("none");
+
+} 
+else if (window.matchMedia('(min-width:768px)').matches) {
+    //PC処理
+}
 
 // $(function () {
 //         var topBtn = $('#filter_side');
@@ -184,8 +236,10 @@ $(function () {
 // なので以下の形で元々あるcheck関数に処理を追加してしまうのが良さそう、懸念:チェックされるたびにchangeのイベント登録しているからパフォーマンス悪くなるかも？
 // パフォーマンスとかは二の次なので一旦気にせず作成します
 
+
 function check(id) {
     let keep_agent_box = document.getElementById("keep_agent_box_" + id);
+        // let tohokuret = document.getElementById('tohokuret');
     // キープ押されたら表示
     // if (keep_agent_box.style.display = "block") {
     //     keep_agent_box.style.display = "none";
@@ -201,6 +255,7 @@ function check(id) {
     const checkBoxElements = document.getElementsByName('student_contacts[]');
 
     // チェックした項目のみを数える
+    // let count = tohokuret.innerHTML;
     let count = 0;
     checkBoxElements.forEach((element) => {
         // チェックされてたらカウント追加
@@ -274,6 +329,55 @@ function buttonDelete(id) {
     //     modal_keep.style.display= "block";
     // }
 }
+
+
+window.addEventListener("load", function() {
+// function check(id) {
+
+//     let keep_agent_box = document.getElementById("keep_agent_box_" + id);
+//         // let tohokuret = document.getElementById('tohokuret');
+//     // キープ押されたら表示
+//     // if (keep_agent_box.style.display = "block") {
+//     //     keep_agent_box.style.display = "none";
+//     // } else {
+//     //     keep_agent_box.style.display = "block";
+//     // }
+//     if (keep_agent_box.style.display = "none") {
+//         keep_agent_box.style.display = "flex";
+//     } else {
+//         keep_agent_box.style.display = "none";
+//     }
+// }
+   // 実行したい処理
+    let count = 0;
+    const checkBoxElements = document.getElementsByName('student_contacts[]');
+
+    checkBoxElements.forEach((element) => {
+        // チェックされてたらカウント追加
+        if (element.checked) {
+            count++;
+        }
+    });
+        $('div.tohokuret').text(count);
+
+
+    if (count == 0) {
+        $('.trigger_keep_btn').removeClass('btn_orange');
+        $('.trigger_keep_btn').addClass('btn_gray');
+        $('.tohokuret').addClass('btn_gray');
+        $('.tohokuret').removeClass('int_white');
+        $('.keep_inquiry_btn').addClass('btn_gray');
+
+    }
+    else {
+        $('.keep_inquiry_btn').removeClass('btn_gray');
+        $('.trigger_keep_btn').removeClass('btn_gray');
+        $('.trigger_keep_btn').addClass('btn_orange');
+        $('.tohokuret').removeClass('btn_gray');
+        $('.tohokuret').addClass('int_white');
+    }
+    });
+
 // let modal_keep = document.getElementById('modal_keep');
 // let count = tohokuret.innerHTML;
 // if (count !== 0){

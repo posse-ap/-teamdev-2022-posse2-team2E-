@@ -1,9 +1,16 @@
 <?php
 session_start();
-require('db_connect.php');
+require('../../db_connect.php');
+
+session_start();
+//ログインされていない場合は強制的にログインページにリダイレクト
+if (!isset($_SESSION["login"])) {
+    header("Location: ../login/login.php");
+    exit();
+}
 
 if (!isset($_POST['student_contacts']) && !isset($_SESSION['form'])) {
-  header('location: index.php');
+  header('location: cart.php');
   exit();
 } elseif (isset($_GET['action']) && $_GET['action'] === 'rewrite') {
   $form = $_SESSION['form'];
@@ -23,7 +30,6 @@ if (!isset($_POST['student_contacts']) && !isset($_SESSION['form'])) {
     // 'student_contacts' => $_POST['student_contacts'], //agent_idをinsertするときに使う？
   ];
 }
-
 // var_dump($form);
 
 $error = [];
@@ -96,30 +102,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>問い合わせフォーム</title>
-  <link rel="stylesheet" type="text/css" href="reset.css" />
-  <link rel="stylesheet" type="text/css" href="contact_style.css" />
-  <!-- <link rel="stylesheet" type="text/css" href="style.css" /> -->
+  <title>userEntry</title>
+  <link rel="stylesheet" href="./style.css" />
   <!-- <script src="./js/jquery-3.6.0.min.js"></script>
   <script src="./js/script.js" defer></script> -->
 </head>
 
 <body>
   <main>
-    <header>
-      <img src="logo.png" alt="">
-      <nav>
-        <ul>
-          <li><a href="#">就活サイト</a></li>
-          <li><a href="#">就活支援サービス</a></li>
-          <li><a href="#">就活の教科書とは</a></li>
-          <li><a href="#">お問い合わせ</a></li>
-        </ul>
-      </nav>
-    </header>
     <!-- フォーム -->
     <div class="box_con">
-    <h1 class="inquiry_form_title">問い合わせフォーム</h1>
       <form action="" method="post" enctype="multipart/form-data">
         <?php if (isset($student_contacts)) : foreach ($student_contacts as $student_contact) : ?>
             <input type="hidden" name="student_contacts[]" value="<?= $student_contact ?>">
@@ -128,32 +120,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <table class="formTable">
           <tr>
             <th>氏名<span>必須</span></th>
-            <td><input size="20" type="text" name="name" value="<?php echo h($form["name"]); ?>" placeholder="例) 山田太郎"/>フルネームで記載ください<?php if (isset($error['name']) && $error['name'] === 'blank') : ?><p class="error">* 氏名は必須項目です</p>
+            <td><input size="20" type="text" name="name" value="<?php echo h($form["name"]); ?>" />フルネームで記載ください<?php if (isset($error['name']) && $error['name'] === 'blank') : ?><p class="error">* 氏名は必須項目です</p>
             <?php endif; ?>
             </td>
           </tr>
           <tr>
             <th>電話番号（半角）<span>必須</span></th>
-            <td><input size="30" type="tel" name="tel" value="<?php echo h($form["tel"]); ?>" placeholder="例) 09011112222"/><?php if (isset($error['tel']) && $error['tel'] === 'blank') : ?>
+            <td><input size="30" type="tel" name="tel" value="<?php echo h($form["tel"]); ?>" /><?php if (isset($error['tel']) && $error['tel'] === 'blank') : ?>
                 <p class="error">* 電話番号は必須項目です</p>
               <?php endif; ?>
             </td>
           </tr>
           <tr>
             <th>Email（半角）<span>必須</span></th>
-            <td><input size="30" type="email" name="email" value="<?php echo h($form["email"]); ?>" placeholder="例) craft@boozer.com"/>連絡が必ずとれるEmailアドレスを記載ください。<?php if (isset($error['email']) && $error['email'] === 'blank') : ?><p class="error">* Emailアドレスは必須項目です</p>
+            <td><input size="30" type="email" name="email" value="<?php echo h($form["email"]); ?>" />連絡が必ずとれるEmailアドレスを記載ください。<?php if (isset($error['email']) && $error['email'] === 'blank') : ?><p class="error">* Emailアドレスは必須項目です</p>
             <?php endif; ?>
             </td>
           </tr>
           <th>学校名(大学/大学院/専門学校/短大/高校等) <span>必須</span></th>
-          <td><input size="30" type="text" name="collage" value="<?php echo h($form["collage"]); ?>" placeholder="例) クラフト大学"/><?php if (isset($error['collage']) && $error['collage'] === 'blank') : ?>
+          <td><input size="30" type="text" name="collage" value="<?php echo h($form["collage"]); ?>" /><?php if (isset($error['collage']) && $error['collage'] === 'blank') : ?>
               <p class="error">* 学校名は必須項目です</p>
             <?php endif; ?>
           </td>
           </tr>
           <tr>
             <th>学部/学科 <span>必須</span></th>
-            <td><input size="30" type="text" name="department" value="<?php echo h($form["department"]); ?>" placeholder="例) 経済学部経済学科"/>ない方はなしと記載ください<?php if (isset($error['department']) && $error['department'] === 'blank') : ?><p class="error">* 学部/学科は必須項目です</p>
+            <td><input size="30" type="text" name="department" value="<?php echo h($form["department"]); ?>" />ない方はなしと記載ください<?php if (isset($error['department']) && $error['department'] === 'blank') : ?><p class="error">* 学部/学科は必須項目です</p>
             <?php endif; ?>
             </td>
           </tr>
@@ -161,9 +153,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <th>卒業年度 <span>必須</span></th>
             <td><select value="" name="class_of">
                 <option hidden>選択してください</option>
-                <option value="24" <?php if ($form['class_of'] === "24") : ?>selected<?php endif; ?>>24年度卒</option>
-                <option value="25" <?php if ($form['class_of'] === "25") : ?>selected<?php endif; ?>>25年度卒</option>
-                <option value="26" <?php if ($form['class_of'] === "26") : ?>selected<?php endif; ?>>26年度卒</option>
+                <option value="24" <?php if ($form['class_of'] === "24") : ?>selected<?php endif;?>>24年度卒</option>
+                <option value="25" <?php if ($form['class_of'] === "25") : ?>selected<?php endif;?>>25年度卒</option>
+                <option value="26" <?php if ($form['class_of'] === "26") : ?>selected<?php endif;?>>26年度卒</option>
               </select>
               <?php if (isset($error['class_of']) && $error['class_of'] === 'blank') : ?><p class="error">* 卒業年度は必須項目です</p>
               <?php endif; ?>
@@ -171,7 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </tr>
           <tr>
             <th>住所 <span>必須</span></th>
-            <td><input size="30" type="text" name="address" value="<?php echo h($form["address"]); ?>" placeholder="例) 東京都港区南青山３丁目１５−９ MINOWA表参道 3階"/><?php if (isset($error['address']) && $error['address'] === 'blank') : ?>
+            <td><input size="30" type="text" name="address" value="<?php echo h($form["address"]); ?>" /><?php if (isset($error['address']) && $error['address'] === 'blank') : ?>
                 <p class="error">* 住所は必須項目です</p>
               <?php endif; ?>
             </td>
@@ -231,25 +223,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p>*ご同意いただけない場合は送信ができません。</p>
           <?php endif; ?>
         </div>
-        <div class="btn">
-        <!-- <button type="button" onclick="history.back()" class="back_btn">&laquo;&nbsp;キープ一覧に戻る</button> -->
-          <!-- <a href="index.php">&laquo;&nbsp;キープ画面へ戻る</a> | <span><input type="submit" value="　 確認 　" /></span> -->
-          <!-- <button onclick="location.href='index.php'">&laquo;&nbsp;キープ画面へ戻る</button> | <span><input type="submit" value="確認" /></span> -->
-          <!-- <button onclick="location.href='index.php'">キープ画面へ戻る</button>  <label for="check_form"><input type="submit" id="check_form" value="確認" /></label> -->
-          <!-- <a href="index.php">&laquo;&nbsp;戻る</a>   <label for="check_form"><input type="submit" id="check_form" value="確認" /></label> -->
-            <input type="submit" id="check_form" value="確認する" />
-        </div>
+        <p class="btn">
+          <a href="cart.php">&laquo;&nbsp;キープ画面へ戻る</a> | <span><input type="submit" value="　 確認 　" /></span>
+        </p>
       </form>
     </div>
-    <footer>
-      <div class="inquiry">
-        <p>
-          craft運営 boozer株式会社事務局
-          <br>TEL:080-3434-2435
-          <br>Email:craft@boozer.com
-        </p>
-      </div>
-    </footer>
     <!-- ここまで -->
   </main>
 </body>
