@@ -21,8 +21,6 @@ if (isset($_SESSION['form'])) {
   } elseif (strtotime($today) >= strtotime($started_at) && strtotime($ended_at) >= strtotime($today)) {
     $form['list_status'] = 1;
   }
-  // var_dump($form);
-  // var_dump('今日'.$today,'開始'.$started_at, '終了'.$ended_at,);
 } else {
   header('location: ../index.php');
 }
@@ -86,13 +84,6 @@ $t_list = [];
 foreach ($filter_sorts_tags as $f) {
   $t_list[(int)$f['id']][] = $f;
 }
-
-// エージェントタグ
-// $stmt = $db->prepare('select * from agents_tags where agent_id=:id');
-// $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
-// $stmt->execute();
-// $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
-// var_dump($agent_tags);
 
 ?>
 <!DOCTYPE html>

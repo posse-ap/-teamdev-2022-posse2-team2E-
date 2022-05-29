@@ -30,46 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   );
 
   $form = filter_input_array(INPUT_POST, $args);
-  // formの中身
-  // ["sorts_name"]=>
-  // array(3) {
-  //   [1]=>
-  //   array(2) {
-  //     ["id"]=>
-  //     string(1) "1"
-  //     ["name"]=>
-  //     string(9) "テスト"
-  //   }
-  //   [3]=>
-  //   array(2) {
-  //     ["id"]=>
-  //     string(1) "3"
-  //     ["name"]=>
-  //     string(45) "もう一個志望会社の規模（復元）"
-  //   }
-  //   [4]=>
-  //   array(2) {
-  //     ["id"]=>
-  //     string(1) "4"
-  //     ["name"]=>
-  //     string(15) "テストだよ"
-  //   }
-  // }
-
-
-
-// エラー判定,入力しないと自動的に0が割り当てられる。id=0はないからエラーなくても大丈夫だ。
-// foreach ($form['filter_tags'] as $tag) :
-//   if ($tag === '') {
-//     $error['selected_sorts_id'][] = 'blank';
-//   }
-// endforeach;
-
-// エラーがなければ送信
-// if (empty($error)) {
-
-  // update構文記入
-
   // 絞り込みの種類
   $stmt = $db->prepare('update filter_sorts set sort_name=:sort_name where id=:id');
   foreach ($form['filter_sorts'] as $sort) :

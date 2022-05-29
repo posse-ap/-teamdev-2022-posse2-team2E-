@@ -9,14 +9,11 @@ if (!isset($_SESSION["login"])) {
 }
 
 $id = $_GET['id'];
-// var_dump($id);
 if (isset($_SESSION['form'])) {
   $form = $_SESSION['form'];
-  // var_dump($form['agent_tags']);
   // 期間判定
   date_default_timezone_set('Asia/Tokyo');
   $today = date("Y-m-d"); //今日の日付
-  // echo date_default_timezone_get();
   $started_at = $form['started_at'];
   $ended_at = $form['ended_at'];
   if (strtotime($today) < strtotime($started_at) || strtotime($today) > strtotime($ended_at)){
@@ -29,15 +26,12 @@ if (isset($_SESSION['form'])) {
   header('location: ../../index.php');
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  // $login_pass = password_hash($form['login_pass'], PASSWORD_DEFAULT);
   $stmt = $db->prepare('update agents set corporate_name = :corporate_name, started_at = :started_at, ended_at = :ended_at, to_send_email = :to_send_email, application_max = :application_max, charge = :charge, client_name = :client_name, client_department = :client_department, client_email = :client_email, client_tel = :client_tel, insert_company_name = :insert_company_name, insert_logo = :insert_logo, insert_recommend_1 = :insert_recommend_1, insert_recommend_2 = :insert_recommend_2, insert_recommend_3 = :insert_recommend_3, insert_handled_number = :insert_handled_number, list_status = :list_status where id = :id');
   $stmt->bindValue('corporate_name', $form['corporate_name'], PDO::PARAM_STR);
   $started_at = new DateTime( $form['started_at']);
   $stmt->bindValue('started_at', $started_at->format('Y-m-d'), PDO::PARAM_STR);
   $ended_at = new DateTime( $form['ended_at']);
   $stmt->bindValue('ended_at', $ended_at->format('Y-m-d'), PDO::PARAM_STR);
-  // $stmt->bindValue('login_email', $form['login_email'], PDO::PARAM_STR);
-  // $stmt->bindValue('login_pass', $login_pass, PDO::PARAM_STR);
   $stmt->bindValue('to_send_email', $form['to_send_email'], PDO::PARAM_STR);
   $stmt->bindValue('application_max', $form['application_max'], PDO::PARAM_INT);
   $stmt->bindValue('charge', $form['charge'], PDO::PARAM_INT);
@@ -104,17 +98,6 @@ $stmt = $db->prepare('select * from agents_tags where agent_id=:id');
 $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
 $stmt->execute();
 $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
-// var_dump($agent_tags);
-// function set_list_status($list_status)
-// {
-//   if ($list_status === "1") {
-//     return '掲載';
-//   } elseif ($list_status === "2") {
-//     return '非掲載';
-//   } else {
-//     return 'エラー';
-//   }
-// }
 ?>
 <!DOCTYPE html>
 <html lang="ja">

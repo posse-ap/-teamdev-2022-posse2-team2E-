@@ -153,7 +153,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
             <!-- レスポンシブ用の絞り込み -->
             <ul class="menu">
                 <div class="filter_left_wrapper2">
-                    <div class="filter-cond2" >
+                    <div class="filter-cond2">
                         <div id="select">
                             <p class="filter_num_all to_left">
                                 <span class="filter_num  js_numerator"></span>件／全<span class="el_searchResult js_denominator"></span>件

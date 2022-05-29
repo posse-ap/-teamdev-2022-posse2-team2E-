@@ -111,44 +111,6 @@ try {
     $at_list[(int)$a['agent_id']][] = $a;
   }
 
-  // var_dump($at_list);
-  // $at_listの中身はこんな感じ 
-  //[1]=> { 
-  //   [0]=>  { 
-  //    ["agent_id"]=> int(1) 
-  //    ["tag_id"]=> int(1) 
-  //    ["tag_name"]=> string(9) "特化型" 
-  // }
-  //    [1]=>  { 
-  //    ["agent_id"]=> int(1)   
-  //    ["tag_id"]=> int(2)  
-  //    ["tag_name"]=> string(9) "総合型" 
-  // } 
-  // } 
-  //[2]=>  { 
-  //   [0]=>  { 
-  // ["agent_id"]=> int(2) 
-  // ["tag_id"]=> int(1) 
-  // ["tag_name"]=> string(9) "特化型" } 
-  //} 
-  //[16]=>  { 
-  // [0]=>  { 
-  // ["agent_id"]=> int(16) 
-  // ["tag_id"]=> int(4) 
-  // ["tag_name"]=> string(6) "小型" } 
-  // } 
-  // [3]=> { 
-  // [0]=>  {
-  //  ["agent_id"]=> int(3) 
-  // ["tag_id"]=> int(4) 
-  // ["tag_name"]=> string(6) "小型" 
-  // } 
-  // } 
-  // }
-
-
-  // ここまで
-
 // タグ不足エラー表示
 $stmt = $db->query('select count(*) from agents where list_status = 4');
 $cnt_tag_lack = $stmt->fetchColumn();
