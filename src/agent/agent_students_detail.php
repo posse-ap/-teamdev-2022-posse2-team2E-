@@ -20,7 +20,6 @@ $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
 $stmt->execute();
 //結果を取得
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
-// var_dump($result);
 
 if (!$result) {
     exit('データがありません。');
@@ -125,9 +124,6 @@ $stmt->bindValue(':agent_id', $_SESSION['id'], PDO::PARAM_INT);
 $stmt->execute();
 $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// echo "<pre>";
-// var_dump($duplicated_emails);
-// echo "</pre>";
 // 無効化申請中/無効化承認済みをタイトルに表示
 function set_valid_status($valid_status)
 {

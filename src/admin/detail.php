@@ -21,65 +21,15 @@ $stmt = $db->query('select fs.id, sort_name, tag_id, tag_name from filter_sorts 
 ');
 $filter_sorts_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $t_list = [];
-// 絞り込みの種類毎に配列に突っ込む [idが1 => [], idが2 => []];
-// $t_list[XX][] = AAA; のやっていることは キーがXXの中身にAAAを追加するって感じです
-// var_dump($t_list[XX]); ｰ> [1,2]だとすると
-// $t_list[XX][] = AAA; は var_dump($t_list[XX])の結果が[1,2,AAA]になります
 foreach ($filter_sorts_tags as $f) {
   $t_list[(int)$f['id']][] = $f;
 }
-//  $t_list[1][] = $f
-
-
-// $t_listの中身はこんな感じ
-// [
-//   [1] => [
-//     [0] => [
-//       ["id"]=> 1,
-//       ["sort_name"]=> "エージェントのタイプ",
-//       ["tag_id"]=> 1,
-//       ["tag_name"]=> "特化型",
-//     ],
-//     [1] => [
-//       ["id"]=> 1,
-//       ["sort_name"]=> "エージェントのタイプ",
-//       ["tag_id"]=> 2,
-//       ["tag_name"]=> "総合型",
-//     ],
-//   ],
-//   [2]=> [
-//     [0] => [
-//       ["id"]=> 2,
-//       ["sort_name"]=> "志望会社",
-//       ["tag_id"]=> 3,
-//       ["tag_name"]=> "大手志望",
-//     ],
-//     [1] => [
-//       ["id"]=> 2,
-//       ["sort_name"]=> "志望会社",
-//       ["tag_id"]=> 4,
-//       ["tag_name"]=> "ベンチャー志望",
-//     ],
-//   ],
-// ]
 
 // エージェントタグ
 $stmt = $db->prepare('select * from agents_tags where agent_id=:id');
 $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
 $stmt->execute();
 $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
-// var_dump($agent_tags);
-
-// function set_list_status($list_status)
-// {
-//   if ($list_status === 1) {
-//     return '掲載中';
-//   } elseif ($list_status === 2) {
-//     return '掲載停止中';
-//   } else {
-//     return 'エラー';
-//   }
-// }
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -226,11 +176,8 @@ $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </tr>
         <?php foreach ($t_list as $filter_sort) : ?>
           <tr>
-            <!-- 絞り込みの種類は必ず -->
-            <!-- currentは配列の要素を1つ抽出してくるメソッド, filter_sort_tags[0]['sort_name'] と同じです -->
             <td><?= current($filter_sort)['sort_name']; ?></td>
             <td>
-              <!-- オプションの分だけここのforeachを追加してあげればOK -->
               <?php foreach ($filter_sort as $filter_tag) : ?>
                 <label class="added-tag">
 
@@ -244,7 +191,6 @@ $agent_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php endforeach; ?>
       </table>
     </div>
-    <!-- <button><a href="./update/update.php?id=<?= $id ?>">編集</a></button> -->
   </main>
 </body>
 

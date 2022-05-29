@@ -10,16 +10,6 @@ function display() {
     form.setAttribute("style", "display:inline");
   }
 }
-// var display = function() {
-//     var form = document.getElementById(view);
-//     //取得した情報からスタイルについての状態のみをstateに代入
-//     state=form.style.display;
-//     //非表示中のときの処理
-//     if(state=="none"){
-//          //スタイルを表示(inline)に切り替え
-//          form.setAttribute("style","display:inline");
-//     }
-// };
 
 $(".mukou_to_form").on("click", function () {
   $(".mukou_to_form").addClass("usukusuru");

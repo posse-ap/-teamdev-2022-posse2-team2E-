@@ -16,11 +16,6 @@ $agent_id = $_GET['agent'];
 if (empty($id) || empty($agent_id)) {
     exit('IDが不正です。');
 }
-// agent_id 取得
-// $stmt = $db->prepare('SELECT agent_id FROM students_contacts where id = :id');
-// $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
-// $stmt->execute();
-// $agent_id = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
 $stmt = $db->prepare('SELECT * FROM students AS S INNER JOIN students_contacts AS SC ON S.id = SC.student_id where SC.id = :id');

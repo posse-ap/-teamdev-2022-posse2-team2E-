@@ -16,9 +16,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
 } elseif (isset($agent)) { //POSTの中身
   $agent_tags = $agent['agent_tags'];
 }else{
-  // $form = [
-  //   'agent_tags' => [],
-  // ];
   //エージェント情報
   $stmt = $db->prepare('select * from agents where id = :id');
   $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
@@ -33,11 +30,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
 // 写真変更ないときは既存のものをセッションに渡す
 $filename = $agent['insert_logo'];
 
-// echo '<pre>';
-// var_dump($agent);
-// echo '</pre>';
-// var_dump($agent['insert_logo']);
-
 
 
 //タグ情報
@@ -48,9 +40,7 @@ $t_list = [];
 foreach ($filter_sorts_tags as $f) {
   $t_list[(int)$f['id']][] = $f;
 }
-// echo '<pre>';
-// var_dump($t_list);
-// echo '</pre>';
+
 
 $error = [];
 
@@ -59,8 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     'corporate_name' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'started_at' => FILTER_SANITIZE_NUMBER_INT,
     'ended_at' => FILTER_SANITIZE_NUMBER_INT,
-    // 'login_email' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-    // 'login_pass' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'to_send_email' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'application_max' => FILTER_SANITIZE_NUMBER_INT,
     'charge' => FILTER_SANITIZE_NUMBER_INT,
@@ -69,21 +57,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     'client_email' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'client_tel' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'insert_company_name' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-    // 'insert_logo' => '',写真は別で
     'insert_recommend_1' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'insert_recommend_2' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'insert_recommend_3' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'insert_handled_number' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-    // 'insert_detail' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-    // 'list_status' => FILTER_SANITIZE_NUMBER_INT,
     'agent_tags' => array(
       'filter' => FILTER_SANITIZE_NUMBER_INT,
       'flags'     => FILTER_REQUIRE_ARRAY,
     ),
   ); // タグについては配列？
   $agent = filter_input_array(INPUT_POST, $args);
-  // var_dump($agent);
-  // if (isset($agent)) { //POSTの中身
     $agent_tags = $agent['agent_tags'];
 
 
@@ -98,9 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $stmt->execute();
       $tags[] = $stmt->fetch(PDO::FETCH_COLUMN);
       }
-      // var_dump($tags);
       foreach ($filter_sorts_tags as $f) {
-        // var_dump($f['id']);
         if(!in_array($f['id'], $tags)) {
           $error['agent_tags'] = 'blank';
       }
@@ -132,7 +113,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $_SESSION['form']['insert_logo'] = $filename;
     } else {
       $_SESSION['form']['insert_logo'] = $filename;
-      // var_dump($agent['insert_logo']);
     }
     header("location: updateCheck.php?id=$id");
     exit();
