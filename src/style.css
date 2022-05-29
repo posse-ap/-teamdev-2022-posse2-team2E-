@@ -521,7 +521,8 @@ header a {
 }
 
 container{
-    margin-top: 50rem;
+    /* margin-top: 50rem; */
+    margin: 50rem 0 100rem;
     display: flex;
     justify-content: space-between;
     /* justify-content: center; */
@@ -533,7 +534,7 @@ container{
     flex-direction: row;
     padding: 10rem 0;
     /* margin: 0rem auto 100rem; */
-    margin-bottom: 100rem;    
+    margin-bottom: 150rem;    
     width: 90%;
 }
 
@@ -542,6 +543,12 @@ container{
     display: flex;
     height: 100vh;
 } */
+
+.agent_all_title {
+  font-size: 60rem;
+  font-weight: bold;
+  margin: 10rem 0 100rem;
+}
 
 .filter-items{
     /* width: 80%;

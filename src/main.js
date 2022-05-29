@@ -149,7 +149,7 @@ $(function () {
     fixed.hide();
     $(window).scroll(function () {
         //1700pxスクロールしたらtopBtnをフェードイン表示させる 
-        if ($(this).scrollTop() > 1700) {
+        if ($(this).scrollTop() > 1500) {
             topBtn.fadeIn();
             fixed.fadeIn();
         } else {

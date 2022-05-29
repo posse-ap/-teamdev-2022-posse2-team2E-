@@ -205,7 +205,10 @@ if($cnt_tag_lack > 0){
   </header>
   <main class="main">
   <?php if (isset($tag_error) && $tag_error === 'lack') : ?>
-                <p class="tag_error">* タグの指定不足により、掲載停止されているエージェント企業があります。</br>　詳細画面から編集を行ってください。</p>
+                <p class="tag_error">* タグの指定不足により、掲載停止されているエージェント企業があります。</br>　
+                <!-- 詳細画面から編集を行ってください。 -->
+              解決方法：掲載停止中の企業から[詳細]→[編集]→不足のタグを追加する。
+              </p>
   <?php endif; ?>
     <section class="agent-list">
       <h2 class="viewing_agent">掲載中の企業</h2>
