@@ -15,9 +15,18 @@
 $(function () {
   $('.js-btn').on('click', function () {        // js-btnクラスをクリックすると、
     $('.menu , .btn-line').toggleClass('open'); // メニューとバーガーの線にopenクラスをつけ外しする
+    $('.filter-cond').toggleClass('opa_it');
     $('.btn-line span').toggleClass('open'); // メニューとバーガーの線にopenクラスをつけ外しする
   })
 });
+
+
+// $(function () {
+//   $('.btn').on('click', function () {        // js-btnクラスをクリックすると、
+//     $('.menu , .btn-line').toggleClass('open'); // メニューとバーガーの線にopenクラスをつけ外しする
+//     $('.btn-line span').toggleClass('open'); // メニューとバーガーの線にopenクラスをつけ外しする
+//   })
+// });
 
 // console.log(navPos);
 // console.log(navHeight);
@@ -91,177 +100,106 @@ const uncheckBtn = document.getElementById("uncheck-btn");
 //チェックボックスを取得する
 const el = document.getElementsByClassName("checks");
 
-// //全てのチェックボックスにチェックを付ける
-// const checkAll = () => {
-//     for (let i = 0; i < el.length; i++) {
-//         el[i].checked = true;
-//     }
-// };
-
-// //全てのチェックボックスのチェックを外す
-// const uncheckAll = () => {
-//     for (let i = 0; i < el.length; i++) {
-//         el[i].checked = false;
-//     }
-// };
-
-// //全選択ボタンをクリックした時「checkAll」を実行
-// checkBtn.addEventListener("click", checkAll, false);
-// //全解除ボタンをクリックした時「uncheckAll」を実行
-// uncheckBtn.addEventListener("click", uncheckAll, false);
-
-
-// // 途中から右側固定
-// var nav_pos = $("#keep_btn").offset().top;
-// var nav_height = $("#keep_btn").outerHeight();
-// $(window).scroll(function () {
-//     if ($(this).scrollTop() > nav_pos) {
-//         $("filter").css("padding-top", nav_height);
-//         $("#keep_btn").addClass("fixed");
-//     } else {
-//         $("filter").css("padding-top", 0);
-//         $("#keep_btn").removeClass("fixed");
-//     }
-// });
-
-// 途中から右固定
-var nav_pos = $("#filter_side").offset().top;
-var nav_height = $("#filter_side").outerHeight();
-$(window).scroll(function () {
-    // if ($(this).scrollTop() > nav_pos -90) {
-    if ($(this).scrollTop() > nav_pos - 150) {
-        $("filter").css("padding-top", nav_height);
-        // $("#filter_side").addClass("fixed");
-        $(".filter_left_wrapper").addClass("white");
-        $(".filter_left_wrapper").removeClass("none");
-
-    } else {
-        $("filter").css("padding-top", 0);
-        // $("#filter_side").removeClass("fixed");
-        $(".filter_left_wrapper").addClass("none");
-        // $(".filter_left_wrapper").removeClass("white");
-
-    }
-});
-
-
-// function switchByWidth(){
-//     if (window.matchMedia('(max-width: 1000px)').matches) {
-        
-//     //.scroll_topを変数[topBtn]に入れる 
-//     var topBtn = $('#filter_side');
-//     var fixed = $('.filter_left_wrapper');
-//     //topBtnはhide()にして見えないようにする 
-//     topBtn.hide();
-//     fixed.hide();
-//     $(window).scroll(function () {
-//         //1300pxスクロールしたらtopBtnをフェードイン表示させる 
-//         if ($(this).scrollTop() > 600) {
-//             topBtn.fadeIn();
-//             fixed.fadeIn();
-//         } else {
-//             //もし上にスクロールして1300px未満になったらフェードアウトさせる 
-//             topBtn.fadeOut();
-//             fixed.fadeOut();
-//         }
-//     });
-//     } else if (window.matchMedia('(min-width:1001px)').matches) {
-        
-//     //.scroll_topを変数[topBtn]に入れる 
-//     var topBtn = $('#filter_side');
-//     var fixed = $('.filter_left_wrapper');
-//     //topBtnはhide()にして見えないようにする 
-//     topBtn.hide();
-//     fixed.hide();
-//     $(window).scroll(function () {
-//         //1300pxスクロールしたらtopBtnをフェードイン表示させる 
-//         if ($(this).scrollTop() > 1600) {
-//             topBtn.fadeIn();
-//             fixed.fadeIn();
-//         } else {
-//             //もし上にスクロールして1300px未満になったらフェードアウトさせる 
-//             topBtn.fadeOut();
-//             fixed.fadeOut();
-//         }
-//     });
-//     }
-// }
-
-
-$(function () {
-    //.scroll_topを変数[topBtn]に入れる 
-    var topBtn = $('#filter_side');
-    var fixed = $('.filter_left_wrapper');
-    // var btn = $('.btn');
-    //topBtnはhide()にして見えないようにする 
-    topBtn.hide();
-    fixed.hide();
-    // btn.hide();
-    $(window).scroll(function () {
-        //1700pxスクロールしたらtopBtnをフェードイン表示させる 
-        if ($(this).scrollTop() > 1500) {
-            topBtn.fadeIn();
-            fixed.fadeIn();
-            // btn.fadeIn();
-
-        } else {
-            //もし上にスクロールして1700px未満になったらフェードアウトさせる 
-            topBtn.fadeOut();
-            fixed.fadeOut();
-            // btn.fadeOut();
-
-        }
-    });
-});
-
-
 $(function () {
     var btn = $('.btn');
+    var btn2 = $('.trigger_keep_btn2');
     btn.hide();
+    btn2.hide();
     $(window).scroll(function () {
         //1700pxスクロールしたらtopBtnをフェードイン表示させる 
-        if ($(this).scrollTop() > 1800) {
+        if ($(this).scrollTop() > 1600) {
             btn.fadeIn();
+            btn2.fadeIn();
         } else {
             //もし上にスクロールして1700px未満になったらフェードアウトさせる 
             btn.fadeOut();
+            btn2.fadeOut();
         }
     });
 });
 
-// if (window.matchMedia('(max-width: 1000px)').matches) {
-//     $(".filter_left_wrapper").addClass("dis_none");
-//     $("#filter_side").addClass("dis_none");
 
-// } 
-// else if (window.matchMedia('(min-width:1001px)').matches) {
-//         $(".filter_left_wrapper").removeClass("dis_none");
-//         $("#filter_side").removeClass("dis_none");
+// $(window).on('load',function () {
 
-// }
+// $(window).resize(function(){
+//     //windowの幅をxに代入
+//     var x = $(window).width();
+//     //windowの分岐幅をyに代入
+//     var y = 1000;
+//     if (x <= y) {
 
-// $(function () {
-//         var topBtn = $('#filter_side');
-//         topBtn.hide();
-//     $(window).scroll(function () {
-//         var imgPos = $(this).offset().top;
-//         var scroll = $(window).scrollTop();
-//         var windowHeight = $(window).height();
-//         // if (scroll > imgPos - windowHeight + 300) {
-//               if (scroll > imgPos - windowHeight + windowHeight/5){
-//             topBtn.fadeIn();
-//             // $(this).addClass("fade-in");
-//             // $("#filter_side").addClass("fixed");
-//             // $(".filter_left_wrapper").addClass("white");
-//             // $(".filter_left_wrapper").removeClass("none");
-//         } else {
-//             topBtn.fadeOut();
-//             // $(this).removeClass("fade-in");
-//             // $("#filter_side").removeClass("fixed");
-//             // $(".filter_left_wrapper").removeClass("white");
-//         }
-//     });
+//         $(".dis_none").addClass("baibai");
+//         // $(".dis_none").removeClass("dis_fixed");
+//         // $(".filter-cond").removeClass("dis_fixed");
+//         $(".btn").removeClass("baibai");
+//         $(".trigger_keep_btn2").removeClass("baibai");
+
+//         // $('#colorBox').addClass('redbox').removeClass('bluebox');
+//         // $('#imageBox').addClass('morning-b').removeClass('morning-a');
+//     }else{
+        
+//         $(".dis_none").removeClass("baibai");
+//         // $(".filter-cond").addClass("dis_fixed");
+//         $(".btn").addClass("baibai");
+//         $(".trigger_keep_btn2").addClass("baibai");
+
+//     };
 // });
+// });
+
+
+// $(window).scroll(function () {
+
+// $(window).resize(function(){
+//     //windowの幅をxに代入
+//     var x = $(window).width();
+//     //windowの分岐幅をyに代入
+//     var y = 1000;
+//     if (x <= y) {
+//     //   if($(window).scrollTop() > 1700) {
+
+//     $('.filter-cond').addClass('dis_fixed');
+
+      
+//     }else {
+//         $('.filter-cond').removeClass('dis_fixed');
+
+//     }
+
+//     });
+// // });
+
+
+
+
+// $(window).scroll(function () {
+//   if($(window).scrollTop() > 1500) {
+//     // $('.dis_none').addClass('dis_fixed');
+//     $('.filter-cond').addClass('dis_fixed');
+//   } else {
+//     // $('.dis_none').removeClass('dis_fixed');
+//     $('.filter-cond').removeClass('dis_fixed');
+//   }
+// });
+
+
+// $(window).scroll(function () {
+//   if($(window).scrollTop() > 1500) {
+//     // $('.dis_none').addClass('dis_fixed');
+//     $('.btn').removeClass('baibai');
+//     $('.trigger_keep_btn2').removeClass('baibai');
+//   } else {
+//     // $('.dis_none').removeClass('dis_fixed');
+//     // $('.filter-cond').removeClass('dis_fixed');
+//         $('.btn').addClass('baibai');
+//     $('.trigger_keep_btn2').addClass('baibai');
+//   }
+// });
+
+// ロードとリサイズの両方で同じ処理を付与する
+// window.onload = switchByWidth;
+// window.onresize = switchByWidth;
+
 
 
 // jQuery(function ($) {
@@ -348,6 +286,8 @@ function check(id) {
     if (count == 0) {
         $('.trigger_keep_btn').removeClass('btn_orange');
         $('.trigger_keep_btn').addClass('btn_gray');
+        $('.trigger_keep_btn2').removeClass('btn_orange');
+        $('.trigger_keep_btn2').addClass('btn_gray');
         $('.tohokuret').addClass('btn_gray');
         $('.tohokuret').removeClass('int_white');
         $('.keep_inquiry_btn').addClass('btn_gray');
@@ -357,6 +297,8 @@ function check(id) {
         $('.keep_inquiry_btn').removeClass('btn_gray');
         $('.trigger_keep_btn').removeClass('btn_gray');
         $('.trigger_keep_btn').addClass('btn_orange');
+        $('.trigger_keep_btn2').removeClass('btn_gray');
+        $('.trigger_keep_btn2').addClass('btn_orange');
         $('.tohokuret').removeClass('btn_gray');
         $('.tohokuret').addClass('int_white');
     }
@@ -369,6 +311,7 @@ function buttonDelete(id) {
     let keep_agent_box = document.getElementById("keep_agent_box_" + id);
     let tohokuret = document.getElementById('tohokuret');
     let trigger_keep_btn = document.getElementById('trigger_keep_btn');
+    let trigger_keep_btn2 = document.getElementById('trigger_keep_btn2');
     let tohokuret2 = document.getElementById('tohokuret2');
     let keep_inquiry_btn = document.getElementById('keep_inquiry_btn');
     // let modal_keep = document.getElementById('modal_keep');
@@ -392,6 +335,7 @@ function buttonDelete(id) {
         // modal_keep.classList.add('none');
         keep_inquiry_btn.classList.add('btn_gray');
         trigger_keep_btn.classList.add('btn_gray');
+        trigger_keep_btn2.classList.add('btn_gray');
 
     } else {
         keep_inquiry_btn.classList.remove('btn_gray');
@@ -436,6 +380,8 @@ window.addEventListener("load", function() {
     if (count == 0) {
         $('.trigger_keep_btn').removeClass('btn_orange');
         $('.trigger_keep_btn').addClass('btn_gray');
+        $('.trigger_keep_btn2').removeClass('btn_orange');
+        $('.trigger_keep_btn2').addClass('btn_gray');
         $('.tohokuret').addClass('btn_gray');
         $('.tohokuret').removeClass('int_white');
         $('.keep_inquiry_btn').addClass('btn_gray');
@@ -445,6 +391,8 @@ window.addEventListener("load", function() {
         $('.keep_inquiry_btn').removeClass('btn_gray');
         $('.trigger_keep_btn').removeClass('btn_gray');
         $('.trigger_keep_btn').addClass('btn_orange');
+        $('.trigger_keep_btn2').removeClass('btn_gray');
+        $('.trigger_keep_btn2').addClass('btn_orange');
         $('.tohokuret').removeClass('btn_gray');
         $('.tohokuret').addClass('int_white');
     }
