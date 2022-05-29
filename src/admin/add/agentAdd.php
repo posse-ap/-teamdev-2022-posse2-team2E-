@@ -166,7 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <li class="header-nav-item select">エージェント追加</li>
           </a>
           <a href="../tags/tagsEdit.php">
-            <li class="header-nav-item">タグ一覧</li>
+            <li class="header-nav-item">タグ追加/編集</li>
           </a>
           <a href="../login/loginInfo.php">
             <li class="header-nav-item">ログイン情報</li>
@@ -270,7 +270,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <tr>
             <td class="sub-th">オススメポイント<span class="error">*</span></td>
             <td>
-              <input class="recommend_under" type="text" name="insert_recommend_1" placeholder="40文字以内で入力してください" value="<?php echo h($form["insert_recommend_1"]); ?>" required /><input class="recommend_under" type="text" name="insert_recommend_2" placeholder="40文字以内で入力してください" value="<?php echo h($form["insert_recommend_2"]); ?>" required /><input class="recommend_under" type="text" name="insert_recommend_3" placeholder="40文字以内で入力してください" value="<?php echo h($form["insert_recommend_3"]); ?>" required />
+              <input class="recommend_under" maxlength="40" type="text" name="insert_recommend_1" placeholder="40文字以内で入力してください" value="<?php echo h($form["insert_recommend_1"]); ?>" required /><input class="recommend_under" maxlength="40" type="text" name="insert_recommend_2" placeholder="40文字以内で入力してください" value="<?php echo h($form["insert_recommend_2"]); ?>" required /><input class="recommend_under" maxlength="40" type="text" name="insert_recommend_3" placeholder="40文字以内で入力してください" value="<?php echo h($form["insert_recommend_3"]); ?>" required />
             </td>
           </tr>
           <tr>

@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <li class="header-nav-item">エージェント追加</li>
           </a>
           <a href="../tags/tagsEdit.php">
-            <li class="header-nav-item select">タグ一覧</li>
+            <li class="header-nav-item select">タグ追加/編集</li>
           </a>
           <a href="../login/loginInfo.php">
             <li class="header-nav-item">ログイン情報</li>
@@ -68,7 +68,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="agent-add-table">
 
         <table class="tags-add">
-          ※絞り込みの種類を追加した後、タグを追加してください。</br>（タグのない「絞り込みの種類」は、ユーザー画面に反映されません。）
+          <p>※絞り込みの種類を追加した後、タグ追加を行ってください。</br>
+          　タグ追加後、[エージェント一覧]→[(各エージェントの)詳細]→[編集]から、追加した絞り込みの種類の「タグ」を必ず選んでください。</br>
+            　(掲載中の全てのエージェントに対して行ってください)</br></br>
+          　<span class="error">注意</span>：追加した絞り込みの種類の「タグ」が選択されていない場合、掲載画面にエージェントは表示されません。
+          </p>
           <tr>
             <th>絞り込みの種類</th>
           </tr>

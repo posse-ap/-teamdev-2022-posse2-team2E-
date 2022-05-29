@@ -511,8 +511,6 @@ header a {
     width: 100rem;
     }
 }
-
-
 /* 絞り込み */
 [data-filter-view]:not([data-filter-view=""]) [data-filter-key] {
     display: none;
