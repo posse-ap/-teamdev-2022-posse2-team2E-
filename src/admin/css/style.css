@@ -65,7 +65,7 @@ table th {
 }
 
 .notice {
-  background-color: red;
+  background-color: #ef454a;
 }
 
 table th:nth-child(1),
@@ -148,7 +148,7 @@ input {
   width: 30%;
 }
 .agent-add-table .required {
-  background-color: #bb1850;
+  background-color: #ef454a;
   color: #fff;
   font-size: 90%;
   padding: 2px;
@@ -156,8 +156,14 @@ input {
 }
 .agent-add-table .error {
   font-size: 90%;
-  color: #bb1850;
+  color: #ef454a;
 }
+.tag_error {
+  font-size: 150%;
+  font-weight: bold;
+  color: #ef454a;
+}
+
 
 .added-tag {
   display: block;
@@ -231,7 +237,7 @@ input {
 .non_invalid {
   background: #fff;
   border: 3px solid #000;
-  color: #000;
+  color: #000 !important;
 }
 
 .invalid_operation {

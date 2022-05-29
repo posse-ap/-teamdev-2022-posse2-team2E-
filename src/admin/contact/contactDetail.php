@@ -174,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ━━━━━━━━━━━━━━━━━━━━━━━
 
 
-    内容をお断り内容をご確認いただき、またなにかありましたら、craft@boozer.comにお問い合わせください。なお、営業時間は平日9時〜18時となっております。
+    お断りした理由をご確認いただき、なにかありましたら、craft@boozer.comにお問い合わせください。なお、営業時間は平日9時〜18時となっております。
     時間外のお問い合わせは翌営業日にご連絡差し上げます。
     
     ご理解・ご了承の程よろしくお願い致します。
@@ -267,9 +267,11 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>学生情報詳細</title>
 </head>
 <link rel="stylesheet" href="../css/reset.css" />
-<link rel="stylesheet" href="../css/style.css" />
+<!-- <link rel="stylesheet" href="../css/style.css" /> -->
 <link rel="stylesheet" href="../../agent/table.css">
 <link rel="stylesheet" href="../../agent/agent_students_detail.css">
+<link rel="stylesheet" href="../css/style.css" />
+
 
 
 <body>
@@ -375,7 +377,7 @@ $duplicated_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php endif; ?>
         <?php if ($result['valid_status_id'] === 4) : ?>
                 <tr>
-                    <th class="non_invalid">無効申請拒否理由</th>
+                    <th class="non_invalid" 	>無効申請拒否理由</th>
                     <td><?php echo h($result['reason']) ?></td>
                 </tr>
         <?php endif; ?>
