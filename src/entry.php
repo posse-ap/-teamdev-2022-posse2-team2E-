@@ -11,7 +11,7 @@ if (!isset($_POST['student_contacts']) && !isset($_SESSION['form'])) {
   // rewriteのときcontactNULL修正
 } else {
   $student_contacts = $_POST['student_contacts'];
-  $form = [ //エラーで使うものだけで良いかも
+  $form = [
     'name' => '',
     'collage' => '',
     'department' => '',
@@ -232,7 +232,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <?php endif; ?>
         </div>
         <div class="btn">
-        <button type="button" onclick="history.back()" class="back_btn">&laquo;&nbsp;キープ一覧に戻る</button>
+        <button type="button"  onclick="location.href='index.php'" class="back_btn">&laquo;&nbsp;サイトに戻る</button>
           <!-- <a href="index.php">&laquo;&nbsp;キープ画面へ戻る</a> | <span><input type="submit" value="　 確認 　" /></span> -->
           <!-- <button onclick="location.href='index.php'">&laquo;&nbsp;キープ画面へ戻る</button> | <span><input type="submit" value="確認" /></span> -->
           <!-- <button onclick="location.href='index.php'">キープ画面へ戻る</button>  <label for="check_form"><input type="submit" id="check_form" value="確認" /></label> -->
