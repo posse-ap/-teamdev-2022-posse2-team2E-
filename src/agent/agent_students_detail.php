@@ -1,7 +1,6 @@
-<?php require($_SERVER['DOCUMENT_ROOT'] . "/db_connect.php");
-
+<?php
 session_start();
-
+require($_SERVER['DOCUMENT_ROOT'] . "/db_connect.php");
 //ログインされていない場合は強制的にログインページにリダイレクト
 if (!isset($_SESSION["login"]) || !isset($_SESSION['corporate_name'])) {
     header("Location: agent_login.php");
@@ -55,11 +54,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     mb_language("Japanese");
     mb_internal_encoding("UTF-8");
     $to = 'craft@boozer.com';
-    $subject = '無効申請メール';
+    $subject = '【'.$agent['insert_company_name'].'】様 無効申請メール';
     $message =  "
     ※このメールはシステムからの自動返信です
     
-    ".$agent['insert_company_name']."から無効申請メールが送信されました。
+    ".$agent['insert_company_name']."様から無効申請メールが送信されました。
         
     ━━━━━━□■□　通報内容　□■□━━━━━━
     ".h($naiyou)."

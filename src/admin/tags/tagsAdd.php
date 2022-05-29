@@ -11,7 +11,6 @@ if (!isset($_SESSION["login"])) {
 if (isset($_GET['action']) && $_GET['action'] === 'sortsAdd' && isset($_SESSION['sort_id'])) {
   $sort_id = $_SESSION['sort_id'];
   unset($_SESSION['sort_id']);
-  var_dump($sort_id);
 }
 
 // 絞り込みの種類情報
@@ -45,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-  <!-- <header> -->
+  <header>
     <div class="header-inner">
       <h1 class="header-title">CRAFT管理者画面</h1>
       <nav class="header-nav">

@@ -2,12 +2,6 @@
 session_start();
 require('db_connect.php');
 
-// //ログインされていない場合は強制的にログインページにリダイレクト
-// if (!isset($_SESSION["login"])) {
-//     header("Location: ../login/login.php");
-//     exit();
-// }
-
 
 if (isset($_SESSION['form']) && isset($_SESSION['form']['student_contacts'])) {
   $form = $_SESSION['form'];
@@ -150,9 +144,9 @@ endforeach;
   
   ご理解・ご了承の程よろしくお願い致します。
   
-  ━━━ お問い合わせしたエージェント企業━━━━━━━━━━━━━━━━━━━━━━━━━
+  ━━━ お問い合わせしたエージェント企業━━━━
   ".$s_message."
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   
   ご不明な点やご質問がございましたら、
   お気軽にお問い合わせくださいませ。

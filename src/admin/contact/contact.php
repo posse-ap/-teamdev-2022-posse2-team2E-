@@ -1,11 +1,13 @@
 <?php
+session_start();
 require('../../db_connect.php');
 
 // //ログインされていない場合は強制的にログインページにリダイレクト
 if (!isset($_SESSION["login"])) {
-    header("Location: agent_login.php");
+    header("Location: ../login/login.php");
     exit();
 }
+
 $id = $_GET['id'];
 // var_dump($id);
 //エージェント情報
