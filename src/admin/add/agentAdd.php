@@ -231,7 +231,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <tr>
             <td class="sub-th">オススメポイント<span class="error">*</span></td>
             <td>
-              <input class="recommend_under" type="text" name="insert_recommend_1" placeholder="40文字以内で入力してください" value="<?php echo h($form["insert_recommend_1"]); ?>" required /><input class="recommend_under" type="text" name="insert_recommend_2" placeholder="40文字以内で入力してください" value="<?php echo h($form["insert_recommend_2"]); ?>" required /><input class="recommend_under" type="text" name="insert_recommend_3" placeholder="40文字以内で入力してください" value="<?php echo h($form["insert_recommend_3"]); ?>" required />
+              <input class="recommend_under" maxlength="40" type="text" name="insert_recommend_1" placeholder="40文字以内で入力してください" value="<?php echo h($form["insert_recommend_1"]); ?>" required /><input class="recommend_under" maxlength="40" type="text" name="insert_recommend_2" placeholder="40文字以内で入力してください" value="<?php echo h($form["insert_recommend_2"]); ?>" required /><input class="recommend_under" maxlength="40" type="text" name="insert_recommend_3" placeholder="40文字以内で入力してください" value="<?php echo h($form["insert_recommend_3"]); ?>" required />
             </td>
           </tr>
           <tr>

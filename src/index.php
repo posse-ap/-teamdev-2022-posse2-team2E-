@@ -147,8 +147,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
         </div>
         <img src="agent_person.png" alt="" class="agent_person">
         <container class="filter" id="js-filter">
+            
             <!-- 各エージェント -->
-            <ul class="filter-items">
+            <ul  class="filter-items">
                 <form action="entry.php" method="post" id="inquiry_submit">
                     <?php foreach ($listed_agents as $listed_agent) : ?>
                         <?php foreach ($at_list as $agent_tags) : ?>
@@ -219,7 +220,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
                                     <?php foreach ($filter_sort as $filter_tag) : ?>
                                         <span class="w bl_selectBlock_check">
                                         
-                                            <input type="checkbox" name="agent_tags[]" class="checks" id="form" value="<?= $filter_tag['tag_name'] ?>" />
+                                            <input onclick="scrollBlue()" type="checkbox" name="agent_tags[]" class="checks" id="form" value="<?= $filter_tag['tag_name'] ?>" />
                                             <label class="added-tag" >
                                                 <?= $filter_tag['tag_name']; ?>
                                             </label>
