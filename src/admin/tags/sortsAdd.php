@@ -20,8 +20,13 @@ $stmt = $db->prepare('insert into filter_sorts (sort_name) VALUES (:sort_name)')
 $stmt->bindValue(':sort_name', $_POST['tag_name'], PDO::PARAM_STR);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $stmt->execute();
-  header('location: tagsAdd.php');
+  $stmt = $db->query('select id from filter_sorts where id = LAST_INSERT_ID()');
+  $sort_id = $stmt->fetch(PDO::FETCH_COLUMN);
+  $_SESSION['sort_id'] = $sort_id;
+  header('location: tagsAdd.php?action=sortsAdd');
 }
+
+
 ?>
 
 <!DOCTYPE html>

@@ -1,11 +1,12 @@
-<?php require($_SERVER['DOCUMENT_ROOT'] . "/db_connect.php");
+<?php 
+require($_SERVER['DOCUMENT_ROOT'] . "/db_connect.php");
 session_start();
 
 // ログイン済みかを確認
-// if (isset($_SESSION['login'])) {
-//     header('Location: agent_students_all.php'); // ログインしていればagent_students_all.phpへリダイレクトする
-//     exit; // 処理終了
-// }
+if (isset($_SESSION['login'])) {
+    header('Location: agent_students_all.php'); // ログインしていればagent_students_all.phpへリダイレクトする
+    exit; // 処理終了
+}
 
 if (isset($_POST["submit"])) {
     try {
@@ -24,25 +25,7 @@ if (isset($_POST["submit"])) {
             header('Location: agent_students_all.php');
         } else {
             $msg = 'メールアドレスもしくはパスワードが間違っています。';
-            echo "<pre>";
-            var_dump($result['corporate_name']);
-            echo "</pre>";
 
-            // echo "<pre>";
-            // var_dump($_POST['pass']);
-            // echo "</pre>";
-
-            // echo "<pre>";
-            // var_dump($result['login_pass']);
-            // echo "</pre>";
-
-            // echo "<pre>";
-            // var_dump($_POST['email']);
-            // echo "</pre>";
-
-            // echo "<pre>";
-            // var_dump($result['login_email']);
-            // echo "</pre>";
         }
     } catch (PDOException $e) {
         echo "もう一回";

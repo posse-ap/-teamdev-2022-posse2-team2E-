@@ -1,12 +1,12 @@
 <?php
-require('../../db_connect.php');
 session_start();
+require('../../db_connect.php');
 
-// //ログインされていない場合は強制的にログインページにリダイレクト
-// if (!isset($_SESSION["login"])) {
-//     header("Location: agent_login.php");
-//     exit();
-// }
+//ログインされていない場合は強制的にログインページにリダイレクト
+if (!isset($_SESSION["login"])) {
+  header("Location: ../login/login.php");
+  exit();
+}
 
 // 問い合わせid (!=student_id)
 $id = $_GET['id'];
@@ -140,14 +140,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mb_language("Japanese");
         mb_internal_encoding("UTF-8");
         $to = $agent['to_send_email'];
-        $subject = '【Boozer株式会社】無効化お断りのお知らせ';
+        $subject = '【boozer株式会社】無効化お断りのお知らせ';
         $message =  "
     ※このメールはシステムからの自動返信です
     
     " . $agent['client_name'] . "様
 
     お世話になっております。
-    Boozer株式会社でございます。
+    boozer株式会社でございます。
     たいへん恐れ入りますが、貴社から頂いた無効化申請をお断りいたしました。理由は以下の通りです。
     ━━━━━━□■□　拒否理由　□■□━━━━━━
     " . h($naiyou) . "
