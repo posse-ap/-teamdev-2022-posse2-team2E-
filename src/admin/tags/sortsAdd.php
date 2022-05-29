@@ -20,8 +20,13 @@ $stmt = $db->prepare('insert into filter_sorts (sort_name) VALUES (:sort_name)')
 $stmt->bindValue(':sort_name', $_POST['tag_name'], PDO::PARAM_STR);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $stmt->execute();
-  header('location: tagsAdd.php');
+  $stmt = $db->query('select id from filter_sorts where id = LAST_INSERT_ID()');
+  $sort_id = $stmt->fetch(PDO::FETCH_COLUMN);
+  $_SESSION['sort_id'] = $sort_id;
+  header('location: tagsAdd.php?action=sortsAdd');
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -71,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <p>※絞り込みの種類追加の手順</br></br>
           　１：絞り込みの種類を追加後、[続いて、タグ追加を行う]へ進んでください。</br></br>
           　２：タグ追加後、各エージェントは「タグ不足」というステータスに変わります。</br></br>
-          　３：[エージェント一覧]→[(各エージェントの)詳細]→[編集]から、各エージェントに対し、追加した絞り込みの種類の「タグ」を必ず選んでください。</br>
+          　３：[エージェント一覧]→[(各エージェントの)詳細]→[編集]から、追加した絞り込みの種類の「タグ」を必ず選んでください。</br>
             </br></br>
           　<span class="error">注意</span>：「タグ不足」の場合、掲載画面にエージェントは表示されません。
           </p>

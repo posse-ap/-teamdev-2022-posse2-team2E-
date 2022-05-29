@@ -1,4 +1,5 @@
-<?php require($_SERVER['DOCUMENT_ROOT'] . "/db_connect.php");
+<?php 
+require($_SERVER['DOCUMENT_ROOT'] . "/db_connect.php");
 session_start();
 
 // ログイン済みかを確認

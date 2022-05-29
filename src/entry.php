@@ -2,6 +2,12 @@
 session_start();
 require('db_connect.php');
 
+//ログインされていない場合は強制的にログインページにリダイレクト
+if (!isset($_SESSION["login"])) {
+    header("Location: index.php");
+    exit();
+}
+
 if (!isset($_POST['student_contacts']) && !isset($_SESSION['form'])) {
   header('location: index.php');
   exit();
@@ -11,7 +17,7 @@ if (!isset($_POST['student_contacts']) && !isset($_SESSION['form'])) {
   // rewriteのときcontactNULL修正
 } else {
   $student_contacts = $_POST['student_contacts'];
-  $form = [ //エラーで使うものだけで良いかも
+  $form = [
     'name' => '',
     'collage' => '',
     'department' => '',
@@ -20,7 +26,6 @@ if (!isset($_POST['student_contacts']) && !isset($_SESSION['form'])) {
     'tel' => '',
     'address' => '',
     'acceptance' => '', //プライバシーポリシー
-    // 'student_contacts' => $_POST['student_contacts'], //agent_idをinsertするときに使う？
   ];
 }
 
@@ -45,11 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   );
 
   $form = filter_input_array(INPUT_POST, $args);
-  // $form['student_contacts'] = $_SESSION['student_contacts'];
-  // var_dump($form);
-  // unset($_SESSION['student_contacts']);
-  // var_dump($form['student_contacts']);
-  // var_dump($student_contacts);
 
 
   // エラー判定
@@ -81,7 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // エラーがなければ送信
   if (empty($error)) {
     $_SESSION['form'] = $form;
-    // $_SESSION['form']['student_contacts'] = $_SESSION['student_contacts'];
     header('location: userCheck.php');
     exit();
   }
@@ -99,9 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>問い合わせフォーム</title>
   <link rel="stylesheet" type="text/css" href="reset.css" />
   <link rel="stylesheet" type="text/css" href="contact_style.css" />
-  <!-- <link rel="stylesheet" type="text/css" href="style.css" /> -->
-  <!-- <script src="./js/jquery-3.6.0.min.js"></script>
-  <script src="./js/script.js" defer></script> -->
 </head>
 
 <body>
@@ -232,11 +228,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <?php endif; ?>
         </div>
         <div class="btn">
-        <button type="button" onclick="history.back()" class="back_btn">&laquo;&nbsp;キープ一覧に戻る</button>
-          <!-- <a href="index.php">&laquo;&nbsp;キープ画面へ戻る</a> | <span><input type="submit" value="　 確認 　" /></span> -->
-          <!-- <button onclick="location.href='index.php'">&laquo;&nbsp;キープ画面へ戻る</button> | <span><input type="submit" value="確認" /></span> -->
-          <!-- <button onclick="location.href='index.php'">キープ画面へ戻る</button>  <label for="check_form"><input type="submit" id="check_form" value="確認" /></label> -->
-          <!-- <a href="index.php">&laquo;&nbsp;戻る</a>   <label for="check_form"><input type="submit" id="check_form" value="確認" /></label> -->
+        <button type="button"  onclick="location.href='index.php'" class="back_btn">&laquo;&nbsp;サイトに戻る</button>
             <input type="submit" id="check_form" value="確認する" />
         </div>
       </form>

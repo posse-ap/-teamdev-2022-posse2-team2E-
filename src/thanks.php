@@ -3,11 +3,11 @@
 session_start();
 require('db_connect.php');
 
-// //ログインされていない場合は強制的にログインページにリダイレクト
-// if (!isset($_SESSION["login"])) {
-//     header("Location: ../login/login.php");
-//     exit();
-// }
+//ログインされていない場合は強制的にログインページにリダイレクト
+if (!isset($_SESSION["login"])) {
+    header("Location: index.php");
+    exit();
+}
 
 ?>
 
@@ -39,7 +39,7 @@ require('db_connect.php');
   <div class="inquiry_done">
   <!-- <img src="logo.png" alt=""> -->
     <h1 class="green_line">問い合わせ完了</h1>
-    <p>お問い合わせありがとうございます。エージェント企業の担当者の方からのご連絡をお待ちください。</p>
+    <p>お問い合わせありがとうございます。</br>エージェント企業の担当者の方からのご連絡をお待ちください。</p>
     <p>システムによる自動返信にて、受付完了メールを送信しております。</p>
     <p>メールが届かない場合は、お手数ですが弊社までご一報ください。</p>
     <a href="index.php"> トップページに戻る </a>

@@ -2,12 +2,6 @@
 session_start();
 require('db_connect.php');
 
-// //ログインされていない場合は強制的にログインページにリダイレクト
-// if (!isset($_SESSION["login"])) {
-//     header("Location: ../login/login.php");
-//     exit();
-// }
-
 
 if (isset($_SESSION['form']) && isset($_SESSION['form']['student_contacts'])) {
   $form = $_SESSION['form'];
@@ -84,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   ".$agent['client_name']."様
   
   お世話になっております。
-  Boozer株式会社でございます。
+  boozer株式会社でございます。
   
   以下の内容で弊社サイトからお問い合わせがありました。
   いたずらメールとご判断されましたら、お手数ですが管理サイトから通報をお願いします。確認次第、請求対象からお外しします。
@@ -135,13 +129,14 @@ endforeach;
   mb_language("Japanese");
 	mb_internal_encoding("UTF-8");
   $to = $form['email'];
-	$subject = '【boozer株式会社】確認メール';
+	$subject = '【boozer株式会社】問い合わせ確認メール';
   $message = "
   ※このメールはシステムからの自動返信です
   
   ".h($form["name"])."様
-  
-  エージェント企業への問い合わせが完了しました。この度はCRAFTをお使いいただきありがとうございました。
+
+  この度はCRAFTをお使いいただきありがとうございました。
+  エージェント企業への問い合わせが完了しました。
   
   
   お問い合わせいただいたエージェント企業から、近日中にご連絡がありますので、今しばらくお待ちくださいませ。しばらくたっても連絡が来ない場合はお手数ですが、craft@boozer.comにお問い合わせください。なお、営業時間は平日9時〜18時となっております。
@@ -149,9 +144,9 @@ endforeach;
   
   ご理解・ご了承の程よろしくお願い致します。
   
-  ━━━ お問い合わせしたエージェント企業━━━━━━━━━━━━━━━━━━━━━━━━━
+  ━━━ お問い合わせしたエージェント企業━━━━
   ".$s_message."
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   
   ご不明な点やご質問がございましたら、
   お気軽にお問い合わせくださいませ。
@@ -341,7 +336,7 @@ foreach ($agents_tags as $a) {
 
           </tr>
         </table>
-        <p class="btn">
+        <p class="to_btn">
         
           <a class="back_btn2" href="entry.php?action=rewrite">&laquo;&nbsp;入力画面へ戻る</a>  <span><input type="submit" value="　 送信 　" /></span>
         </p>

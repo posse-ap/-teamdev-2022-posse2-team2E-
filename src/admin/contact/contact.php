@@ -1,11 +1,13 @@
 <?php
+session_start();
 require('../../db_connect.php');
 
 // //ログインされていない場合は強制的にログインページにリダイレクト
-// if (!isset($_SESSION["login"])) {
-//     header("Location: agent_login.php");
-//     exit();
-// }
+if (!isset($_SESSION["login"])) {
+    header("Location: ../login/login.php");
+    exit();
+}
+
 $id = $_GET['id'];
 // var_dump($id);
 //エージェント情報
@@ -34,10 +36,6 @@ try {
     } else {
         $month = Date('n');
     }
-    // var_dump($month);
-    // echo "<pre>";
-    // var_dump($result);
-    // echo "</pre>";
     // 全ての問い合わせ
     $stmt = $db->prepare('SELECT
 S.created AS 問い合わせ日時, 
@@ -158,17 +156,10 @@ SC.valid_status_id = :invalid_status_id');
         $invalid_cnt = count($invalid); //請求件数
         $charge_cnt = ($cnt - $invalid_cnt) * $agent['charge']; //請求金
     endif;
-    // echo "<pre>";
-    // var_dump($cnt);
-    // echo "</pre>";
 } catch (PDOException $e) {
     print('Error:' . $e->getMessage());
     die();
 }
-
-// if (empty($id)) {
-//     exit('IDが不正です。');
-// }
 
 // 無効化申請中/無効化承認済みをタイトルに表示
 function set_valid_status($valid_status)
@@ -232,13 +223,7 @@ function set_valid_status($valid_status)
         </div>
     </header>
 
-    <!-- <div class="back">
-        <a href="../index.php">&laquo;&nbsp;エージェント一覧に戻る</a>
-    </div> -->
     <main class="main contact_mg">
-
-        <!-- <div class="all_wrapper">
-        <div class="right_wrapper"> -->
         <h1 class="students_all_title"><?php echo h($agent['insert_company_name']); ?>　
             (<?php echo set_list_status($agent['list_status']); ?>)
         </h1>

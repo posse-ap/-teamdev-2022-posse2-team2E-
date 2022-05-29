@@ -1,9 +1,10 @@
 <?php
-require('../../db_connect.php');
 session_start();
+require('../../db_connect.php');
+
 //ログインされていない場合は強制的にログインページにリダイレクト
 if (!isset($_SESSION["login"])) {
-  header("Location: login.php");
+  header("Location: ../login/login.php");
   exit();
 }
 
@@ -66,7 +67,7 @@ $agents_login = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </tr>
         <tr>
           <td>
-            Boozer
+            boozer
           </td>
           <td>
             <!-- email -->

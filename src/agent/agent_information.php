@@ -1,4 +1,5 @@
-<?php require($_SERVER['DOCUMENT_ROOT'] . "/db_connect.php");
+<?php 
+require($_SERVER['DOCUMENT_ROOT'] . "/db_connect.php");
 session_start();
 
 //ログインされていない場合は強制的にログインページにリダイレクト
@@ -87,11 +88,11 @@ try {
                     </tr>
                     <tr>
                         <th>掲載開始日時</th>
-                        <td><?php echo ($result['started_at']); ?></td>
+                        <td><?php echo date("Y/m/d", strtotime($result['started_at'])); ?></td>
                     </tr>
                     <tr>
                         <th>掲載終了日時</th>
-                        <td><?php echo ($result['ended_at']); ?></td>
+                        <td><?php echo date("Y/m/d", strtotime($result['ended_at'])); ?></td>
                     </tr>
                     <tr>
                         <th>ログイン用メールアドレス</th>

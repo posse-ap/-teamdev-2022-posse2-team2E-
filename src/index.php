@@ -150,7 +150,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
             </span>
         </button>
         <nav>
-
             <ul class="menu2">
                 <li><a href="#">就活サイト</a></li>
                 <li><a href="#">就活支援</a></li>

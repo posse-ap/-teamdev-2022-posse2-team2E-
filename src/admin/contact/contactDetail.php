@@ -1,12 +1,12 @@
 <?php
-require('../../db_connect.php');
 session_start();
+require('../../db_connect.php');
 
-// //ログインされていない場合は強制的にログインページにリダイレクト
-// if (!isset($_SESSION["login"])) {
-//     header("Location: agent_login.php");
-//     exit();
-// }
+//ログインされていない場合は強制的にログインページにリダイレクト
+if (!isset($_SESSION["login"])) {
+  header("Location: ../login/login.php");
+  exit();
+}
 
 // 問い合わせid (!=student_id)
 $id = $_GET['id'];
@@ -16,11 +16,6 @@ $agent_id = $_GET['agent'];
 if (empty($id) || empty($agent_id)) {
     exit('IDが不正です。');
 }
-// agent_id 取得
-// $stmt = $db->prepare('SELECT agent_id FROM students_contacts where id = :id');
-// $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);
-// $stmt->execute();
-// $agent_id = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
 $stmt = $db->prepare('SELECT * FROM students AS S INNER JOIN students_contacts AS SC ON S.id = SC.student_id where SC.id = :id');
@@ -76,14 +71,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $invalid_requests = "";
         }
         
-        $subject = '【Boozer株式会社】問い合わせ無効承認のお知らせ';
+        $subject = '【boozer株式会社】問い合わせ無効承認のお知らせ';
         $message =  "
     ※このメールはシステムからの自動返信です
     
     " . $agent['client_name'] . "様
 
     お世話になっております。
-    Boozer株式会社でございます。
+    boozer株式会社でございます。
     以下の学生を請求対象からお外ししました。
     
     ━━━━━━□■□　学生情報　□■□━━━━━━
@@ -140,14 +135,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mb_language("Japanese");
         mb_internal_encoding("UTF-8");
         $to = $agent['to_send_email'];
-        $subject = '【Boozer株式会社】無効化お断りのお知らせ';
+        $subject = '【boozer株式会社】無効化お断りのお知らせ';
         $message =  "
     ※このメールはシステムからの自動返信です
     
     " . $agent['client_name'] . "様
 
     お世話になっております。
-    Boozer株式会社でございます。
+    boozer株式会社でございます。
     たいへん恐れ入りますが、貴社から頂いた無効化申請をお断りいたしました。理由は以下の通りです。
     ━━━━━━□■□　拒否理由　□■□━━━━━━
     " . h($naiyou) . "

@@ -62,9 +62,7 @@ foreach ($agents as $agent) {
         $stmt = $db->query('select fs.id, sort_name, tag_id, tag_name from filter_sorts fs inner join filter_tags ft on fs.id = ft.sort_id;
 ');
         $filter_sorts_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        // var_dump($tags);
         foreach ($filter_sorts_tags as $f) {
-            // var_dump($f['id']);
             if (!in_array($f['id'], $tags)) {
                 $tag_lack = $agent['id'];
             }
@@ -117,10 +115,6 @@ try {
     } else {
         $month = Date('n');
     }
-    // var_dump($month);
-    // echo "<pre>";
-    // var_dump($result);
-    // echo "</pre>";
     // 全ての問い合わせ
     $stmt = $db->prepare('SELECT
 S.created AS 問い合わせ日時, 
@@ -239,9 +233,6 @@ DATE_FORMAT(S.created, "%Y-%m") = :form_month
         $invalid_cnt = count($invalid); //請求件数
         $charge_cnt = ($cnt - $invalid_cnt) * $agent['charge']; //請求金
     endif;
-    // echo "<pre>";
-    // var_dump($cnt);
-    // echo "</pre>";
 } catch (PDOException $e) {
     print('Error:' . $e->getMessage());
     die();
@@ -250,11 +241,6 @@ DATE_FORMAT(S.created, "%Y-%m") = :form_month
 if (empty($id)) {
     exit('IDが不正です。');
 }
-
-// echo "<pre>";
-// var_dump($duplicate_cnt);
-// echo "</pre>";
-
 // 無効化申請中/無効化承認済みをタイトルに表示
 function set_valid_status($valid_status)
 {
@@ -339,7 +325,7 @@ function set_valid_status($valid_status)
                     </tr>
                     <?php foreach ($result as $column) : ?>
                         <tr>
-                            <td><?php echo h($column['問い合わせ日時']); ?></td>
+                            <td><?php echo date("Y/m/d H:i:s", strtotime($column['問い合わせ日時'])); ?></td>
                             <td><?php echo h($column['氏名']); ?></td>
                             <td><?php echo h($column['大学']); ?></td>
                             <td><?php echo h($column['学科']); ?></td>

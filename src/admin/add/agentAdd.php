@@ -25,23 +25,6 @@ $t_list = [];
 foreach ($filter_sorts_tags as $f) {
   $t_list[(int)$f['id']][] = $f;
 }
-// echo '<pre>';
-// var_dump($t_list);
-// echo '</pre>';
-// タグ選択必須化テスト
-// foreach($t_list as $tl){
-//   //   echo '<pre>';
-//   // var_dump($tl);
-//   //   echo '</pre>';
-//   foreach($tl as $t){
-//   echo '<pre>';
-//   var_dump($t['tag_id']);
-//   echo '</pre>';
-//   // }
-// }
-// echo '================';
-// }
-
 
 $error = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -59,12 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     'client_email' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'client_tel' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'insert_company_name' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-    // 'insert_logo' => '',写真は別で
     'insert_recommend_1' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'insert_recommend_2' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'insert_recommend_3' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'insert_handled_number' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-    // 'list_status' => FILTER_SANITIZE_NUMBER_INT,
     'agent_tags' => array(
       'filter' => FILTER_SANITIZE_NUMBER_INT,
       'flags'     => FILTER_REQUIRE_ARRAY,
@@ -86,9 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute();
     $tags[] = $stmt->fetch(PDO::FETCH_COLUMN);
     }
-    // var_dump($tags);
     foreach ($filter_sorts_tags as $f) {
-      // var_dump($f['id']);
       if(!in_array($f['id'], $tags)) {
         $error['agent_tags'] = 'blank';
     }
