@@ -67,7 +67,7 @@ $agents_login = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </tr>
         <tr>
           <td>
-            Boozer
+            boozer
           </td>
           <td>
             <!-- email -->
