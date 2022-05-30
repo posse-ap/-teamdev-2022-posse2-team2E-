@@ -4,10 +4,10 @@ session_start();
 require('db_connect.php');
 
 //ログインされていない場合は強制的にログインページにリダイレクト
-if (!isset($_SESSION["login"])) {
-    header("Location: index.php");
-    exit();
-}
+// if (!isset($_SESSION['form'])) {
+//     header("Location: index.php");
+//     exit();
+// }
 
 ?>
 
