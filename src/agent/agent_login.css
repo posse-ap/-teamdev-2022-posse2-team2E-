@@ -10,6 +10,10 @@
     border-radius: 5px;
 }
 
+.for_admin_login {
+    margin-top: 200px;
+}
+
 .agent_login_title {
     margin: 5px auto 20px;
     color: #4FA49A;

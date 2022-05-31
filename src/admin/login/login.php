@@ -52,7 +52,7 @@ if (isset($_POST["submit"])) {
     </h1>
     <p class="agent_login">CRAFT管理者ログイン画面</p>
     </header>
-    <div class="agent_login_info">
+    <div class="agent_login_info for_admin_login">
         <h2 class="agent_login_title">CRAFT管理者ログイン画面</h2>
         <form action="" method="post">
         <?php if (isset($msg)) : ?>
