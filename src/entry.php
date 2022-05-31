@@ -2,12 +2,6 @@
 session_start();
 require('db_connect.php');
 
-// ログインされていない場合は強制的にログインページにリダイレクト
-// if (!isset($_SESSION["form"])) {
-//     header("Location: index.php");
-//     exit();
-// }
-
 if (!isset($_POST['student_contacts']) && !isset($_SESSION['form'])) {
   header('location: index.php');
   exit();
@@ -28,8 +22,6 @@ if (!isset($_POST['student_contacts']) && !isset($_SESSION['form'])) {
     'acceptance' => '', //プライバシーポリシー
   ];
 }
-
-// var_dump($form);
 
 $error = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

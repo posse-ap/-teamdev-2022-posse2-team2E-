@@ -136,14 +136,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
     <!-- ヘッダー -->
     <header>
         <img src="logo.png" alt="">
-        <!-- <nav>
-            <ul>
-                <li><a href="#">就活サイト</a></li>
-                <li><a href="#">就活支援サービス</a></li>
-                <li><a href="#">就活の教科書とは</a></li>
-                <li><a href="#">お問い合わせ</a></li>
-            </ul>
-        </nav> -->
         <button type="button" class="btn js-btn">
             <span class="btn-line">
                 <span>絞り込む</span>
@@ -314,10 +306,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
             </div>
 
 
-            <button class="trigger_keep_btn2 btn_gray" id="trigger_keep_btn">
+            <button class="trigger_keep_btn2 btn_gray" id="trigger_keep_btn2">
                 <label for="trigger_keep">
                     <span id="counter_dis" class="right_down_btn">
-                        <div class="tohokuret btn_gray" id="tohokuret">0</div>
+                        <div class="tohokuret btn_gray" id="tohokuret3">0</div>
                     </span>件キープ中<br>確認する
                 </label>
             </button>
