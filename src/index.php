@@ -16,7 +16,6 @@ try {
 
     // 申し込み上限数到達(今月の申し込み数と比較)
     // 全てのエージェントでforeach
-    // 全てのエージェント
     $stmt = $db->query('select id from agents');
     $stmt->execute();
     $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -150,18 +149,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['
             </ul>
         </nav>
     </header>
-
-    <!-- <nav id="global-nav">
-        <div class="inner">
-            <ul class="global-list">
-                <li class="global-item"><a href="#section1">セクション１</a></li>
-                <li class="global-item"><a href="#section2">セクション２</a></li>
-                <li class="global-item"><a href="#section3">セクション３</a></li>
-                <li class="global-item"><a href="#section4">セクション４</a></li>
-                <li class="global-item"><a href="#section5">セクション５</a></li>
-            </ul>
-        </div>
-    </nav> -->
 
     <wrapper>
         <div class="first_message ">

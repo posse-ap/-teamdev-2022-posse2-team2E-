@@ -7,19 +7,19 @@ $(function () {
 });
 
 $(function(){
-　var state = false;
-　var pos;
-　$('#menu-btn-check').click(function(){
-　　if (state == false) {
-　　　pos = $(window).scrollTop();
-　　　$('body').addClass('fixed').css({'top': -pos});
-　　　state = true;
-　　} else {
-　　　$('body').removeClass('fixed').css({'top': 0});
-　　　window.scrollTo(0, pos);
-　　　state = false;
-　　}
-　});
+var state = false;
+var pos;
+$('#menu-btn-check').click(function(){
+    if (state == false) {
+        pos = $(window).scrollTop();
+        $('body').addClass('fixed').css({'top': -pos});
+        state = true;
+    } else {
+        $('body').removeClass('fixed').css({'top': 0});
+        window.scrollTo(0, pos);
+        state = false;
+    }
+});
 });
 
 // スクロールしたらアニメーション
@@ -31,7 +31,6 @@ $(function(){
             var windowHeight = $(window).height();
             if (scroll > elementTop - windowHeight + 100) {
                 $(this).addClass('scrollin');
-
             }
         });
     });
@@ -63,141 +62,8 @@ $(function () {
 });
 
 
-// $(window).on('load',function () {
-
-// $(window).resize(function(){
-//     //windowの幅をxに代入
-//     var x = $(window).width();
-//     //windowの分岐幅をyに代入
-//     var y = 1000;
-//     if (x <= y) {
-
-//         $(".dis_none").addClass("baibai");
-//         // $(".dis_none").removeClass("dis_fixed");
-//         // $(".filter-cond").removeClass("dis_fixed");
-//         $(".btn").removeClass("baibai");
-//         $(".trigger_keep_btn2").removeClass("baibai");
-
-//         // $('#colorBox').addClass('redbox').removeClass('bluebox');
-//         // $('#imageBox').addClass('morning-b').removeClass('morning-a');
-//     }else{
-        
-//         $(".dis_none").removeClass("baibai");
-//         // $(".filter-cond").addClass("dis_fixed");
-//         $(".btn").addClass("baibai");
-//         $(".trigger_keep_btn2").addClass("baibai");
-
-//     };
-// });
-// });
-
-
-// $(window).scroll(function () {
-
-// $(window).resize(function(){
-//     //windowの幅をxに代入
-//     var x = $(window).width();
-//     //windowの分岐幅をyに代入
-//     var y = 1000;
-//     if (x <= y) {
-//     //   if($(window).scrollTop() > 1700) {
-
-//     $('.filter-cond').addClass('dis_fixed');
-//     }else {
-//         $('.filter-cond').removeClass('dis_fixed');
-
-//     }
-
-//     });
-// // });
-
-
-
-
-// $(window).scroll(function () {
-//   if($(window).scrollTop() > 1500) {
-//     // $('.dis_none').addClass('dis_fixed');
-//     $('.filter-cond').addClass('dis_fixed');
-//   } else {
-//     // $('.dis_none').removeClass('dis_fixed');
-//     $('.filter-cond').removeClass('dis_fixed');
-//   }
-// });
-
-
-// $(window).scroll(function () {
-//   if($(window).scrollTop() > 1500) {
-//     // $('.dis_none').addClass('dis_fixed');
-//     $('.btn').removeClass('baibai');
-//     $('.trigger_keep_btn2').removeClass('baibai');
-//   } else {
-//     // $('.dis_none').removeClass('dis_fixed');
-//     // $('.filter-cond').removeClass('dis_fixed');
-//         $('.btn').addClass('baibai');
-//     $('.trigger_keep_btn2').addClass('baibai');
-//   }
-// });
-
-// ロードとリサイズの両方で同じ処理を付与する
-// window.onload = switchByWidth;
-// window.onresize = switchByWidth;
-
-
-
-// jQuery(function ($) {
-//   var fadeIn = $('.fade-in');
-//   $(window).on('scroll', function () {
-//     $(fadeIn).each(function () {
-//       var offset = $(this).offset().top;
-//       var scroll = $(window).scrollTop(); 
-//       var windowHeight = $(window).height();
-//       if (scroll > offset - windowHeight + 100) {
-//         $(this).addClass("scroll-in");
-//       }
-//     });
-//   });
-// });
-
-
-// // キープ一覧にあるエージェントを最初は非表示
-// const keepAgentElements = document.querySelectorAll('.keep_agent_box');
-
-// for (let i = 1; i < keepAgentElements.length ; i++) {
-//     let keep_agent_box = document.getElementById("keep_agent_box_" + i);
-//     keep_agent_box.style.display = "none";
-// }
-
-// キープ一覧にあるエージェントを最初は非表示
-//     const keepBoxElements =document.querySelectorAll(".keep_agent_box")
-//     for (let i = 1; i <= keepBoxElements.length; i++) {
-//     let keep_agent_box = document.getElementById("keep_agent_box_" + i);
-//     keep_agent_box.style.display = 'none';
-// }
-
-// 岩村さん、ここお願いします！
-// function check(id) {
-// $(function () {
-//     $('input:checkbox').change(function() {
-//         var cnt = $('#tohoku input:checkbox:checked').length;
-//         $('div.tohokuret').text('選択：' + cnt + '個');
-//     }).trigger('change');
-// });
-// }
-
-// $(function() {}) の書き方はHTMLを全部読み込んでから中の処理を実行してねって書き方なので引数を取らない?と思います
-// なので以下の形で元々あるcheck関数に処理を追加してしまうのが良さそう、懸念:チェックされるたびにchangeのイベント登録しているからパフォーマンス悪くなるかも？
-// パフォーマンスとかは二の次なので一旦気にせず作成します
-
-
 function check(id) {
     let keep_agent_box = document.getElementById("keep_agent_box_" + id);
-        // let tohokuret = document.getElementById('tohokuret');
-    // キープ押されたら表示
-    // if (keep_agent_box.style.display = "block") {
-    //     keep_agent_box.style.display = "none";
-    // } else {
-    //     keep_agent_box.style.display = "block";
-    // }
     if (keep_agent_box.style.display = "none") {
         keep_agent_box.style.display = "flex";
     } else {
@@ -205,9 +71,7 @@ function check(id) {
     }
     // キープのcheckboxを全取得 (idは重複しない性質のため、class名等で取得したいですがnameが今回識別しやすそうだったのでnameで)
     const checkBoxElements = document.getElementsByName('student_contacts[]');
-
     // チェックした項目のみを数える
-    // let count = tohokuret.innerHTML;
     let count = 0;
     checkBoxElements.forEach((element) => {
         // チェックされてたらカウント追加
@@ -216,14 +80,6 @@ function check(id) {
         }
     });
     $('div.tohokuret').text(count);
-
-    // let modal_keep = document.getElementById('modal_keep');
-    // if (count !== 0){
-    //     modal_keep.classList.remove('none');
-    // } 
-    // else {
-    //     modal_keep.style.display= "block";
-    // }
 
     if (count == 0) {
         $('.trigger_keep_btn').removeClass('btn_orange');
@@ -257,54 +113,27 @@ function buttonDelete(id) {
     let tohokuret2 = document.getElementById('tohokuret2');
     let tohokuret3 = document.getElementById('tohokuret3');
     let keep_inquiry_btn = document.getElementById('keep_inquiry_btn');
-    // let modal_keep = document.getElementById('modal_keep');
-    // let count_dis = document.getElementById('count_dis');
     keep_agent_box.style.display = "none";
     keep.checked = false;
 
-
     let count = tohokuret.innerHTML;
-    // console.log(count);
     count--;
     tohokuret.innerHTML = count;
     tohokuret2.innerHTML = count;
     tohokuret3.innerHTML = count;
 
     if (count === 0) {
-        // modal_keep.style.display= "none";
-        // modal_keep.classList.add('none');
         keep_inquiry_btn.classList.add('btn_gray');
         trigger_keep_btn.classList.add('btn_gray');
         trigger_keep_btn2.classList.add('btn_gray');
 
     } else {
         keep_inquiry_btn.classList.remove('btn_gray');
-
     }
-    // if (count !== 0){
-    //     modal_keep.style.display= "block";
-    // }
 }
 
 
 window.addEventListener("load", function() {
-// function check(id) {
-
-//     let keep_agent_box = document.getElementById("keep_agent_box_" + id);
-//         // let tohokuret = document.getElementById('tohokuret');
-//     // キープ押されたら表示
-//     // if (keep_agent_box.style.display = "block") {
-//     //     keep_agent_box.style.display = "none";
-//     // } else {
-//     //     keep_agent_box.style.display = "block";
-//     // }
-//     if (keep_agent_box.style.display = "none") {
-//         keep_agent_box.style.display = "flex";
-//     } else {
-//         keep_agent_box.style.display = "none";
-//     }
-// }
-   // 実行したい処理
     let count = 0;
     const checkBoxElements = document.getElementsByName('student_contacts[]');
 
@@ -338,23 +167,6 @@ window.addEventListener("load", function() {
     }
     });
 
-// let modal_keep = document.getElementById('modal_keep');
-// let count = tohokuret.innerHTML;
-// if (count !== 0){
-//     modal_keep.style.display= "block";
-// }
-
-
-// // キープの数をカウント
-// let state = { count: 0 };
-// let btn = document.getElementById('keep_btn');
-// btn.addEventListener('click', () => {
-//     let keep_counter = document.getElementById('keep_counter');
-//     keep_counter.innerHTML = ++state.count;
-//     return;
-// });
-
-
 // 絞り込み機能
 
 $(function () {
@@ -374,67 +186,6 @@ $(function () {
         condition[currentType] = [];
     }
 
-    // function setConditions() {//条件設定
-
-    //     count = 0;
-    //     box.removeClass('js_selected');
-
-    //     for (var i = 0; i < conditions.length; i++) {//data-typeごとの処理
-
-    //         currentType = conditions[i].getAttribute('data-type');
-    //         findConditions = conditions[i].querySelectorAll('input');
-
-    //         for (var n = 0; n < findConditions.length; n++) {//inputごとの処理
-    //             if (findConditions[n].checked){//現在選択中のインプットが選択されている場合
-    //                 condition[currentType][findConditions[n].value] = true;
-    //                 checkcount++
-    //             } else {
-    //                 condition[currentType][findConditions[n].value] = false;
-    //             }
-    //             if (findConditions.length === n+1){//ループが最後の場合
-    //                 if (checkcount === 0) {
-    //                     for (var t = 0; t < findConditions.length; t++) {
-    //                         condition[currentType][findConditions[t].value] = true;
-    //                     }
-    //                 }
-    //                 checkcount = 0;
-    //             }
-    //         }
-    //     }
-
-
-    //     for (var m = 0, len = box.length; m < len; ++m) {//最初に取得したターゲットの情報と、現在のinputの選択状態を比較して処理を行う
-
-    //         for (var i = 0; i < conditions.length; i++) {//ターゲットのdata-typeを参照し、メソッドとしてconditionに個別に代入する
-    //             currentType = conditions[i].getAttribute('data-type');
-    //             //現在のターゲットのtype情報をカンマ区切りで分割し、配列に代入
-    //             var currentBoxTypes = $(box[m]).data(currentType).split(',');
-
-    //             for (var j = 0; j < currentBoxTypes.length; j++) {
-    //                 if (condition[currentType][currentBoxTypes[j]]) {
-    //                     data_check++;//選択した条件のうちひとつでもマッチしてたらdata_checkを加算してループを抜ける
-    //                     break;
-    //                 } else {
-    //                 }
-    //             }
-    //         }
-
-    //         if (data_check === conditions.length) {
-    //             count++;
-    //             $(box[m]).addClass('js_selected');
-    //         } else {
-    //         }
-    //         data_check = 0;
-    //     }
-
-    //     $('.js_numerator').text(count);//件数表示の分子をセット
-    // }
-
-    // setConditions();
-
-    // $(document).on('click', 'input', function () {
-
-    //     setConditions();
 
     function setConditions() {//条件設定
 
