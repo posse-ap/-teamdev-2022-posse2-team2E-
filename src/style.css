@@ -418,11 +418,6 @@ display: none;
     justify-content: center;
     display:table;
     margin: 60rem auto 20rem;
-/* 
-    margin-left: 120rem;
-    opacity : 0;
-    transform : translate(-60px, 0px);
-    transition:all 1.0s; */
 }
 
 .process p{
@@ -484,7 +479,7 @@ display: none;
     
     .process {
     opacity: 0;
-    transform: translate(-60px, 0px);
+    transform: translate(0px, -100px);
     transition: all 1.0s;
     font-weight: bold;
     height: 500rem;
