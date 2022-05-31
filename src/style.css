@@ -1447,6 +1447,12 @@ color: #fff !important;
 }
 }
 
+@media only screen and (max-width: 500px){
+#select {
+    width: 90%;
+}
+}
+
 
 @media (min-width: 1001px) and (max-width: 1300px) {
 .btn {

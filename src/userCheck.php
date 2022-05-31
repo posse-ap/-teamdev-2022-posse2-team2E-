@@ -5,22 +5,18 @@ require('db_connect.php');
 
 if (isset($_SESSION['form']) && isset($_SESSION['form']['student_contacts'])) {
   $form = $_SESSION['form'];
-  // var_dump($form);
 } else {
-  // var_dump($_SESSION['form']);//rewriteのときcontactNULL
-  // header('location: index.php');
-  // exit();
+  header('location: index.php');
+  exit();
 }
 
 // agent確認用
 $stmt = $db->prepare('select insert_company_name from agents where id = :id');
-// var_dump($form['student_contacts']);
 foreach ($form['student_contacts'] as $student_contact) :
   $stmt->bindValue('id', (int)$student_contact, PDO::PARAM_INT);
   $stmt->execute();
   $s_agents[] = $stmt->fetch(PDO::FETCH_COLUMN);
 endforeach;
-// var_dump($s_agents);
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

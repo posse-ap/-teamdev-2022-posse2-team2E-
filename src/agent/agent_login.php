@@ -2,11 +2,11 @@
 require($_SERVER['DOCUMENT_ROOT'] . "/db_connect.php");
 session_start();
 
-// ログイン済みかを確認
-if (isset($_SESSION['login'])) {
-    header('Location: agent_students_all.php'); // ログインしていればagent_students_all.phpへリダイレクトする
-    exit; // 処理終了
-}
+// // ログイン済みかを確認
+// if (isset($_SESSION['login'])) {
+//     header('Location: agent_students_all.php'); // ログインしていればagent_students_all.phpへリダイレクトする
+//     exit; // 処理終了
+// }
 
 if (isset($_POST["submit"])) {
     try {

@@ -1,17 +1,3 @@
-// var navPos = jQuery( '#global-nav' ).offset().top; // グローバルメニューの位置
-// var navHeight = jQuery( '#global-nav' ).outerHeight(); // グローバルメニューの高さ
-// jQuery( window ).on( 'scroll', function() {
-// 	if ( jQuery( this ).scrollTop() > navPos ) {
-// 	// if ( 1911.34375 > navPos ) {
-// 	// if ( 1911.34375 < jQuery( this ).scrollTop() ) { // 1000px以上スクロールしたら
-// 		jQuery( 'body' ).css( 'padding-top', navHeight );
-// 		jQuery( '#global-nav' ).addClass( 'm_fixed' );
-// 	} else {
-// 		jQuery( 'body' ).css( 'padding-top', 0 );
-// 		jQuery( '#global-nav' ).removeClass( 'm_fixed' );
-// 	}
-// });
-
 $(function () {
   $('.js-btn').on('click', function () {        // js-btnクラスをクリックすると、
     $('.menu , .btn-line').toggleClass('open'); // メニューとバーガーの線にopenクラスをつけ外しする
@@ -19,26 +5,6 @@ $(function () {
     $('.btn-line span').toggleClass('open'); // メニューとバーガーの線にopenクラスをつけ外しする
   })
 });
-
-
-// $(function () {
-//   $('.btn').on('click', function () {        // js-btnクラスをクリックすると、
-//     $('.menu , .btn-line').toggleClass('open'); // メニューとバーガーの線にopenクラスをつけ外しする
-//     $('.btn-line span').toggleClass('open'); // メニューとバーガーの線にopenクラスをつけ外しする
-//   })
-// });
-
-// console.log(navPos);
-// console.log(navHeight);
-
-// function switchByWidth(){
-//     if (window.matchMedia('(max-width: 1000px)').matches) {
-//     };
-// }
-
-// function disableScroll(event) {
-//   event.preventDefault();
-// }
 
 $(function(){
 　var state = false;
@@ -55,28 +21,6 @@ $(function(){
 　　}
 　});
 });
-
-// イベントと関数を紐付け
-// document.addEventListener('touchmove', disableScroll, { passive: false });
-// // 絞り込み
-// var widget = document.getElementById('js-filter');
-// var checkboxes = widget.querySelectorAll('.filter-cond input[type="checkbox"]');
-// var checkedList = [];
-// var filter = function () {
-//     checkedList = [];
-
-//     Array.prototype.forEach.call(checkboxes, function (input) {
-//         if (input.checked) {
-//             checkedList.push(input.value);
-//         }
-//     });
-
-//     widget.setAttribute('data-filter-view', checkedList.join(' '));
-// };
-
-// Array.prototype.forEach.call(checkboxes, function (checkbox) {
-//     checkbox.addEventListener('change', filter);
-// });
 
 // スクロールしたらアニメーション
 $(function(){
@@ -159,8 +103,6 @@ $(function () {
 //     //   if($(window).scrollTop() > 1700) {
 
 //     $('.filter-cond').addClass('dis_fixed');
-
-      
 //     }else {
 //         $('.filter-cond').removeClass('dis_fixed');
 
@@ -313,6 +255,7 @@ function buttonDelete(id) {
     let trigger_keep_btn = document.getElementById('trigger_keep_btn');
     let trigger_keep_btn2 = document.getElementById('trigger_keep_btn2');
     let tohokuret2 = document.getElementById('tohokuret2');
+    let tohokuret3 = document.getElementById('tohokuret3');
     let keep_inquiry_btn = document.getElementById('keep_inquiry_btn');
     // let modal_keep = document.getElementById('modal_keep');
     // let count_dis = document.getElementById('count_dis');
@@ -320,15 +263,12 @@ function buttonDelete(id) {
     keep.checked = false;
 
 
-    // countをなんかしらで定義して、134行目から1引く、ってやりたい
-    // できたああああああああ
-    // let count = keep_agent_box.length;
-
     let count = tohokuret.innerHTML;
     // console.log(count);
     count--;
     tohokuret.innerHTML = count;
     tohokuret2.innerHTML = count;
+    tohokuret3.innerHTML = count;
 
     if (count === 0) {
         // modal_keep.style.display= "none";
@@ -377,7 +317,7 @@ window.addEventListener("load", function() {
         $('div.tohokuret').text(count);
 
 
-    if (count == 0) {
+    if (count === 0) {
         $('.trigger_keep_btn').removeClass('btn_orange');
         $('.trigger_keep_btn').addClass('btn_gray');
         $('.trigger_keep_btn2').removeClass('btn_orange');
